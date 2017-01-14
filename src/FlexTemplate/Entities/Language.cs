@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.Entities
+﻿using System.Collections.Generic;
+
+namespace FlexTemplate.Entities
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -17,5 +19,9 @@
         /// </summary>
         [MaxLength(2)]
         public string ShortName { get; set; }
+        /// <summary>
+        /// Локализируемые строки
+        /// </summary>
+        public virtual List<LocalizableString> LocalizableStrings { get; set; } 
     }
 }

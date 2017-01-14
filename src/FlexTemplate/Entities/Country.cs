@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.Entities
+﻿using System.Collections.Generic;
+
+namespace FlexTemplate.Entities
 {
     /// <summary>
     /// Страна
@@ -9,5 +11,9 @@
         /// Название страны
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Города
+        /// </summary>
+        public virtual List<City> Cities { get; set; } 
     }
 }

@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170110192114_Initial")]
+    [Migration("20170114210441_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,9 +22,12 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.ToTable("Categories");
                 });
@@ -123,6 +126,8 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Name");
+
                     b.Property<int>("PlaceId");
 
                     b.HasKey("Id");
@@ -211,9 +216,12 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Name");
 
                     b.ToTable("UserRoles");
                 });
@@ -221,7 +229,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.City", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("Cities")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -229,7 +237,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.LocalizableString", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Language", "Language")
-                        .WithMany()
+                        .WithMany("LocalizableStrings")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -245,7 +253,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.PlaceAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany()
+                        .WithMany("PlaceAliases")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -253,12 +261,12 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.PlaceCategory", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("PlaceCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany()
+                        .WithMany("PlaceCategories")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -271,7 +279,7 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany()
+                        .WithMany("PlacePhotos")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -279,7 +287,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.Street", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.City", "City")
-                        .WithMany()
+                        .WithMany("Streets")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -287,7 +295,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.User", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.UserRole", "UserRole")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

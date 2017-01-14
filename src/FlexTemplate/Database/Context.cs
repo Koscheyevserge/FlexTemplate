@@ -25,7 +25,14 @@ namespace FlexTemplate.Database
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
+            
+        }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRole>().HasAlternateKey(userRole => userRole.Name);
+            modelBuilder.Entity<Category>().HasAlternateKey(category => category.Name);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

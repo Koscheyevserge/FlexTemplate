@@ -1,8 +1,7 @@
-﻿namespace FlexTemplate.Entities
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
 
+namespace FlexTemplate.Entities
+{
     /// <summary>
     /// Город
     /// </summary>
@@ -21,5 +20,9 @@
         /// Страна, в которой находится город
         /// </summary>
         public virtual Country Country { get; set; }
+        /// <summary>
+        /// Улицы
+        /// </summary>
+        public virtual List<Street> Streets { get; set; } 
     }
 }

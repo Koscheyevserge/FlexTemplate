@@ -16,5 +16,9 @@
         /// Заведение
         /// </summary>
         public virtual Place Place { get; set; }
+        /// <summary>
+        /// Альтернативное название
+        /// </summary>
+        public string Name { get; set; }
     }
 }

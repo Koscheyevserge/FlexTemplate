@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.Entities
+﻿using System.Collections.Generic;
+
+namespace FlexTemplate.Entities
 {
     /// <summary>
     /// Категория
@@ -9,5 +11,9 @@
         /// Название категории
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Категория заведения
+        /// </summary>
+        public virtual List<PlaceCategory> PlaceCategories { get; set; } 
     }
 }

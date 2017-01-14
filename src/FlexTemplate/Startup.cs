@@ -50,8 +50,7 @@ namespace FlexTemplate
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            ContextProvider.Initialize(app.ApplicationServices);
+            ContextProvider.Initialize(app.ApplicationServices, Configuration);
         }
     }
 }
