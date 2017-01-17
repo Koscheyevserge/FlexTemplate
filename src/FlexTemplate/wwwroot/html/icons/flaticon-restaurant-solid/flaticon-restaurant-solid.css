@@ -1,0 +1,61 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 02/09/2016 09:43
+  	*/
+
+@font-face {
+  font-family: "Flaticon Restaurant Solid";
+  src: url("Flaticon-restaurant-solid.eot");
+  src: url("Flaticon-restaurant-solid.eot?#iefix") format("embedded-opentype"),
+       url("Flaticon-restaurant-solid.woff") format("woff"),
+       url("Flaticon-restaurant-solid.ttf") format("truetype"),
+       url("Flaticon-restaurant-solid.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon Restaurant Solid";
+    src: url("Flaticon-restaurant-solid.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-restaurant-solid-"]:before, [class*=" flaticon-restaurant-solid-"]:before,
+[class^="flaticon-restaurant-solid-"]:after, [class*=" flaticon-restaurant-solid-"]:after {   
+  font-family: Flaticon Restaurant Solid;
+  font-weight: normal;
+  font-style: normal;
+	margin-left: 0;
+}
+
+.flaticon-restaurant-solid-bar:before { content: "\f100"; }
+.flaticon-restaurant-solid-bill:before { content: "\f101"; }
+.flaticon-restaurant-solid-cookbook:before { content: "\f102"; }
+.flaticon-restaurant-solid-cooker:before { content: "\f103"; }
+.flaticon-restaurant-solid-cooker-1:before { content: "\f104"; }
+.flaticon-restaurant-solid-cutlery:before { content: "\f105"; }
+.flaticon-restaurant-solid-daily-specials:before { content: "\f106"; }
+.flaticon-restaurant-solid-dinner:before { content: "\f107"; }
+.flaticon-restaurant-solid-fish:before { content: "\f108"; }
+.flaticon-restaurant-solid-grill:before { content: "\f109"; }
+.flaticon-restaurant-solid-hot-drink:before { content: "\f10a"; }
+.flaticon-restaurant-solid-ice-cream:before { content: "\f10b"; }
+.flaticon-restaurant-solid-meat:before { content: "\f10c"; }
+.flaticon-restaurant-solid-menu:before { content: "\f10d"; }
+.flaticon-restaurant-solid-open:before { content: "\f10e"; }
+.flaticon-restaurant-solid-padnote:before { content: "\f10f"; }
+.flaticon-restaurant-solid-pasta:before { content: "\f110"; }
+.flaticon-restaurant-solid-placeholder:before { content: "\f111"; }
+.flaticon-restaurant-solid-pot:before { content: "\f112"; }
+.flaticon-restaurant-solid-restaurant:before { content: "\f113"; }
+.flaticon-restaurant-solid-restaurant-1:before { content: "\f114"; }
+.flaticon-restaurant-solid-salver:before { content: "\f115"; }
+.flaticon-restaurant-solid-soup:before { content: "\f116"; }
+.flaticon-restaurant-solid-spicy:before { content: "\f117"; }
+.flaticon-restaurant-solid-sushi:before { content: "\f118"; }
+.flaticon-restaurant-solid-table:before { content: "\f119"; }
+.flaticon-restaurant-solid-take-away:before { content: "\f11a"; }
+.flaticon-restaurant-solid-vegetarian:before { content: "\f11b"; }
+.flaticon-restaurant-solid-waiter:before { content: "\f11c"; }
+.flaticon-restaurant-solid-wifi:before { content: "\f11d"; }
