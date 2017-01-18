@@ -18,8 +18,6 @@ namespace FlexTemplate.Database
                 {
                     return;
                 }
-                var placeWithCategory =
-                    context.Places.Include(place => place.PlaceCategories).ThenInclude(pc => pc.Category).ToList();
             }
         }
     }
