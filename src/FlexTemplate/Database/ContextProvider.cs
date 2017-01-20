@@ -16,7 +16,7 @@ namespace FlexTemplate.Database
             {
                 if (context == null)
                 {
-                    if (!context.Users.Any())
+                    if (!context.Users.Any() && !context.Languages.Any() && !context.UserRoles.Any() && !context.Countries.Any() && !context.Cities.Any() && !context.Streets.Any() && !context.Categories.Any() && !context.Places.Any() && !context.PlaceCategories.Any() && !context.PlaceAliases.Any())
                     {
 
                         Language ukrainian = new Language { Id = 1, Name = "Українська", ShortName = "UA" };
