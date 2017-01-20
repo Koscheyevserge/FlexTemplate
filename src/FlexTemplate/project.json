@@ -9,7 +9,8 @@
     "AutoMapper": "5.2.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0"
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.EntityFrameworkCore": "1.0.1"
   },
 
   "tools": {

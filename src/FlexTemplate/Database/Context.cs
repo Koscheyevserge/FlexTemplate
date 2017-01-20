@@ -22,6 +22,7 @@ namespace FlexTemplate.Database
         public DbSet<PlacePhoto> PlacePhotos { get; set; }
         public DbSet<Street> Streets { get; set; }
         public DbSet<UserRole> UserRoles { get; set; } 
+        public DbSet<UserKey> UserKeys { get; set; } 
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
