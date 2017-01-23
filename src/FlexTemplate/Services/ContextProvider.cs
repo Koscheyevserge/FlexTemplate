@@ -40,7 +40,7 @@ namespace FlexTemplate.Database
                         Place DrimTown = new Place { Street = ObolonProsp};
                         Place Kriivka = new Place { Street = PloshaRinok};
 
-                        PlaceAlias DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown};
+                        PlaceAlias DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown, Language = english};
 
                         PlaceCategory DrimTownTRC = new PlaceCategory {Place = DrimTown, Category = TRC };
                         PlaceCategory KriivkaRestaurant = new PlaceCategory { Place = Kriivka, Category = Restaurant };
