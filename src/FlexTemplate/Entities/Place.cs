@@ -2,9 +2,6 @@
 
 namespace FlexTemplate.Entities
 {
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     /// <summary>
     /// Заведение
     /// </summary>
@@ -23,7 +20,7 @@ namespace FlexTemplate.Entities
         /// </summary>
         public virtual List<PlaceCategory> PlaceCategories { get; set; }
         /// <summary>
-        /// Альтернативное название заведения
+        /// Алиасы
         /// </summary>
         public virtual List<PlaceAlias> PlaceAliases { get; set; } 
         /// <summary>

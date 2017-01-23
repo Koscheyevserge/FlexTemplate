@@ -15,5 +15,9 @@ namespace FlexTemplate.Entities
         /// Города
         /// </summary>
         public virtual List<City> Cities { get; set; } 
+        /// <summary>
+        /// Алиасы
+        /// </summary>
+        public virtual List<CountryAlias> CountryAliases { get; set; } 
     }
 }

@@ -1,18 +1,17 @@
-﻿namespace FlexTemplate.Entities
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace FlexTemplate.Entities
+{
     /// <summary>
     /// Локализируемые строки
     /// </summary>
-    public class LocalizableString : BaseEntity
+    public abstract class BaseAlias : BaseEntity
     {
         /// <summary>
         /// Текст локализируемой строки
         /// </summary>
         public string Text { get; set; }
-
         /// <summary>
         /// Идентификатор языка локализируемой строки
         /// </summary>

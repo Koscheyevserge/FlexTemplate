@@ -11,7 +11,6 @@ namespace FlexTemplate.Entities
         /// Название города
         /// </summary>
         public string Name { get; set; }
-
         /// <summary>
         /// Идентификатор страны, в которой находится город
         /// </summary>
@@ -24,5 +23,9 @@ namespace FlexTemplate.Entities
         /// Улицы
         /// </summary>
         public virtual List<Street> Streets { get; set; } 
+        /// <summary>
+        /// Алиасы
+        /// </summary>
+        public virtual List<CityAlias> CityAliases { get; set; } 
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace FlexTemplate.Entities
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace FlexTemplate.Entities
+{
     /// <summary>
     /// Пользователь
     /// </summary>

@@ -1,11 +1,11 @@
-﻿namespace FlexTemplate.Entities
-{
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
+namespace FlexTemplate.Entities
+{
     /// <summary>
     /// Базовый класс для сущностей
     /// </summary>
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         /// <summary>
         /// Первичный ключ

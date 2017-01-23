@@ -6,7 +6,7 @@
     /// <summary>
     /// Альтернативные названия заведения
     /// </summary>
-    public class PlaceAlias : BaseEntity
+    public class PlaceAlias : BaseAlias
     {
         /// <summary>
         /// Идентификатор заведения
@@ -16,9 +16,5 @@
         /// Заведение
         /// </summary>
         public virtual Place Place { get; set; }
-        /// <summary>
-        /// Альтернативное название
-        /// </summary>
-        public string Name { get; set; }
     }
 }

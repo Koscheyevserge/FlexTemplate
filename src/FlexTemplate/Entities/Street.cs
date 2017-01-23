@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.Entities
+﻿using System.Collections.Generic;
+
+namespace FlexTemplate.Entities
 {
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +14,10 @@
         /// Название улицы
         /// </summary>
         public string Name { get; set; }
-
+        /// <summary>
+        /// Алиасы
+        /// </summary>
+        public virtual List<StreetAlias> StreetAliases { get; set; } 
         /// <summary>
         /// Идентификатор города
         /// </summary>

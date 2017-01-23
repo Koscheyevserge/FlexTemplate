@@ -5,7 +5,7 @@
     /// <summary>
     /// Фотографии заведения
     /// </summary>
-    public class PlacePhoto : BaseEntity
+    public class PlacePhoto : BasePhoto
     {
         /// <summary>
         /// Идентификатор заведения
@@ -15,14 +15,5 @@
         /// Заведение
         /// </summary>
         public virtual Place Place { get; set; }
-
-        /// <summary>
-        /// Идентификатор фотографии
-        /// </summary>
-        public int FileId { get; set; }
-        /// <summary>
-        /// Фотография
-        /// </summary>
-        public virtual File File { get; set; }
     }
 }

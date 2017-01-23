@@ -14,36 +14,38 @@ namespace FlexTemplate.Database
         {
             using (var context = serviceProvider.GetService(typeof (Context)) as Context)
             {
-                if (context == null)
+                if (context != null)
                 {
                     if (!context.Users.Any() && !context.Languages.Any() && !context.UserRoles.Any() && !context.Countries.Any() && !context.Cities.Any() && !context.Streets.Any() && !context.Categories.Any() && !context.Places.Any() && !context.PlaceCategories.Any() && !context.PlaceAliases.Any())
                     {
 
-                        Language ukrainian = new Language { Id = 1, Name = "Українська", ShortName = "UA" };
-                        Language english = new Language { Id = 2, Name = "Англійська", ShortName = "EN" };
+                        Language ukrainian = new Language { Name = "Українська", ShortName = "UA" };
+                        Language english = new Language { Name = "Англійська", ShortName = "EN" };
 
-                        UserRole administrator = new UserRole { Id = 1, Name = "Адміністратор" };
+                        UserRole administrator = new UserRole { Name = "Адміністратор" };
 
-                        User admin = new User { Id = 1, Name = "Адміністратор", Surname = "Адмін", Login = "Master", EncryptedPassword = "12345", UserRole = administrator };
+                        User admin = new User { Name = "Адміністратор", Surname = "Адмін", Login = "Master", EncryptedPassword = "12345", UserRole = administrator };
 
-                        Country Ukraine = new Country { Id = 1, Name = "Україна" };
+                        Country Ukraine = new Country { Name = "Україна" };
 
-                        City Kiev = new City { Id = 1, Name = "Київ", CountryId = 1, Country = Ukraine };
-                        City Lviv = new City { Id = 2, Name = "Львів", CountryId = 1, Country = Ukraine };
+                        City Kiev = new City { Name = "Київ", Country = Ukraine };
+                        City Lviv = new City { Name = "Львів", Country = Ukraine };
 
-                        Street ObolonProsp = new Street {Id = 1, Name = "Оболонський проспект", CityId = 1, City = Kiev };
-                        Street PloshaRinok = new Street { Id = 2, Name = "Площа ринок", CityId = 2, City = Lviv };
+                        Street ObolonProsp = new Street { Name = "Оболонський проспект", City = Kiev };
+                        Street PloshaRinok = new Street { Name = "Площа ринок", City = Lviv };
 
-                        Category TRC = new Category { Id = 1, Name = "ТРЦ"};
-                        Category Restaurant = new Category { Id = 2, Name = "Ресторан" };
+                        Category TRC = new Category { Name = "ТРЦ"};
+                        Category Restaurant = new Category { Name = "Ресторан" };
                         
-                        Place DrimTown = new Place { Id = 1, StreetId = 1, Street = ObolonProsp};
-                        Place Kriivka = new Place { Id = 2, StreetId = 2, Street = PloshaRinok};
+                        Place DrimTown = new Place { Street = ObolonProsp};
+                        Place Kriivka = new Place { Street = PloshaRinok};
 
-                        PlaceAlias DrimTownAlias = new PlaceAlias { Id = 1, Name = "Dream Town", Place = DrimTown, PlaceId = 1 };
+                        PlaceAlias DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown};
 
-                        PlaceCategory DrimTownTRC = new PlaceCategory {Id = 1, PlaceId = 1, Place = DrimTown, CategoryId = 1, Category = TRC };
-                        PlaceCategory KriivkaRestaurant = new PlaceCategory { Id = 2, PlaceId = 2, Place = Kriivka, CategoryId = 2, Category = Restaurant };
+                        PlaceCategory DrimTownTRC = new PlaceCategory {Place = DrimTown, Category = TRC };
+                        PlaceCategory KriivkaRestaurant = new PlaceCategory { Place = Kriivka, Category = Restaurant };
+
+                        context.ChangeTracker.AutoDetectChangesEnabled = false;
 
                         context.Languages.Add(ukrainian);
                         context.Languages.Add(english);
@@ -71,11 +73,11 @@ namespace FlexTemplate.Database
                         context.PlaceCategories.Add(DrimTownTRC);
                         context.PlaceCategories.Add(KriivkaRestaurant);
 
+                        context.ChangeTracker.DetectChanges();
+
                         context.SaveChanges();
                     }
-                    
                 }
-                
             }
         }
     }

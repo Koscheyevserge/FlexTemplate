@@ -15,5 +15,9 @@ namespace FlexTemplate.Entities
         /// Категория заведения
         /// </summary>
         public virtual List<PlaceCategory> PlaceCategories { get; set; } 
+        /// <summary>
+        /// Алиасы
+        /// </summary>
+        public virtual List<CategoryAlias> CategoryAliases { get; set; } 
     }
 }

@@ -19,9 +19,5 @@ namespace FlexTemplate.Entities
         /// </summary>
         [MaxLength(2)]
         public string ShortName { get; set; }
-        /// <summary>
-        /// Локализируемые строки
-        /// </summary>
-        public virtual List<LocalizableString> LocalizableStrings { get; set; } 
     }
 }

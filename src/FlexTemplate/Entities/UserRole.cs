@@ -12,6 +12,10 @@ namespace FlexTemplate.Entities
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// Алиасы
+        /// </summary>
+        public virtual List<UserRoleAlias> Aliases { get; set; } 
+        /// <summary>
         /// Пользователи с этой ролью
         /// </summary>
         public virtual List<User> Users { get; set; } 

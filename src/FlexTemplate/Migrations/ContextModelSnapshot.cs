@@ -31,6 +31,26 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("CategoryAliases");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -47,6 +67,26 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Cities");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.CityAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CityId");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("CityAliases");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -59,20 +99,24 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.File", b =>
+            modelBuilder.Entity("FlexTemplate.Entities.CountryAlias", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Directory");
+                    b.Property<int>("CountryId");
 
-                    b.Property<string>("Name");
+                    b.Property<int>("LanguageId");
 
-                    b.Property<string>("Path");
+                    b.Property<string>("Text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.HasIndex("CountryId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("CountryAliases");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Language", b =>
@@ -90,12 +134,26 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.LocalizableString", b =>
+            modelBuilder.Entity("FlexTemplate.Entities.Page", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pages");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PageLocalizableString", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("LanguageId");
+
+                    b.Property<int>("PageId");
 
                     b.Property<string>("Text");
 
@@ -103,7 +161,29 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("LocalizableStrings");
+                    b.HasIndex("PageId");
+
+                    b.ToTable("PageLocalizableStrings");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PagePhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EntityId");
+
+                    b.Property<string>("EntityName");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PageId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PageId");
+
+                    b.ToTable("PagePhotos");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>
@@ -125,11 +205,15 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<int>("LanguageId");
 
                     b.Property<int>("PlaceId");
 
+                    b.Property<string>("Text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("PlaceId");
 
@@ -159,13 +243,15 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FileId");
+                    b.Property<string>("EntityId");
+
+                    b.Property<string>("EntityName");
+
+                    b.Property<string>("Name");
 
                     b.Property<int>("PlaceId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FileId");
 
                     b.HasIndex("PlaceId");
 
@@ -186,6 +272,26 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Streets");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.StreetAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int>("StreetId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("StreetId");
+
+                    b.ToTable("StreetAliases");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.User", b =>
@@ -210,6 +316,22 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.UserKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Key");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserKeys");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -225,6 +347,39 @@ namespace FlexTemplate.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.UserRoleAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<int>("UserRoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("UserRoleId");
+
+                    b.ToTable("UserRoleAliases");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Category", "Category")
+                        .WithMany("CategoryAliases")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.City", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Country", "Country")
@@ -233,11 +388,50 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.LocalizableString", b =>
+            modelBuilder.Entity("FlexTemplate.Entities.CityAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.City", "City")
+                        .WithMany("CityAliases")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.CountryAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Country", "Country")
+                        .WithMany("CountryAliases")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PageLocalizableString", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Language", "Language")
-                        .WithMany("LocalizableStrings")
+                        .WithMany()
                         .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Page", "Page")
+                        .WithMany("LocalizableStrings")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PagePhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Page", "Page")
+                        .WithMany("Photos")
+                        .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -251,6 +445,11 @@ namespace FlexTemplate.Migrations
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceAlias", b =>
                 {
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
                         .WithMany("PlaceAliases")
                         .HasForeignKey("PlaceId")
@@ -272,11 +471,6 @@ namespace FlexTemplate.Migrations
 
             modelBuilder.Entity("FlexTemplate.Entities.PlacePhoto", b =>
                 {
-                    b.HasOne("FlexTemplate.Entities.File", "File")
-                        .WithMany()
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
                         .WithMany("PlacePhotos")
                         .HasForeignKey("PlaceId")
@@ -291,10 +485,44 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.StreetAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Street", "Street")
+                        .WithMany("StreetAliases")
+                        .HasForeignKey("StreetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.User", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.UserRole", "UserRole")
                         .WithMany("Users")
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.UserKey", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.UserRoleAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.UserRole", "UserRole")
+                        .WithMany("Aliases")
                         .HasForeignKey("UserRoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
