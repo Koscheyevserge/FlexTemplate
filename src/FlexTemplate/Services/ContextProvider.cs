@@ -20,7 +20,7 @@ namespace FlexTemplate.Database
                     {
 
                         Language ukrainian = new Language { Name = "Українська", ShortName = "UA" };
-                        Language english = new Language { Name = "Англійська", ShortName = "EN" };
+                        Language english = new Language { Name = "English", ShortName = "EN" };
 
                         UserRole administrator = new UserRole { Name = "Адміністратор" };
 
