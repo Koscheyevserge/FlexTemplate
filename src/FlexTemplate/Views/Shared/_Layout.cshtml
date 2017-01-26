@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using System.ComponentModel
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -44,7 +45,7 @@
 <body class="full-width-container transparent-header">
     <div id="introLoader" class="introLoading"></div>
 
-    @await Component.InvokeAsync("HeaderViewComponent")
+    @await Component.InvokeAsync("Header")
 
     <!-- start Container Wrapper -->
     <div class="container-wrapper">

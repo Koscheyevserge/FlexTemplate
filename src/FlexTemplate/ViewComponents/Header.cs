@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.ViewComponents
 {
-    public class HeaderViewComponent : ViewComponent
+    public class Header : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
