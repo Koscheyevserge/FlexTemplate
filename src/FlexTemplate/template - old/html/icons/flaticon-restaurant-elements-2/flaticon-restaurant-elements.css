@@ -1,0 +1,131 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 04/07/2016 14:10
+  	*/
+
+@font-face {
+  font-family: "Flaticon Restaurant Elements";
+  src: url("Flaticon-restaurant-elements.eot");
+  src: url("Flaticon-restaurant-elements.eot?#iefix") format("embedded-opentype"),
+       url("Flaticon-restaurant-elements.woff") format("woff"),
+       url("Flaticon-restaurant-elements.ttf") format("truetype"),
+       url("Flaticon-restaurant-elements.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon Restaurant Elements";
+    src: url("Flaticon-restaurant-elements.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-restaurant-elements-"]:before, [class*=" flaticon-restaurant-elements-"]:before,
+[class^="flaticon-restaurant-elements-"]:after, [class*=" flaticon-restaurant-elements-"]:after {   
+  font-family: Flaticon Restaurant Elements;
+	font-weight: normal;
+  font-style: normal;
+	margin-left: 0;
+}
+
+.flaticon-restaurant-elements-apron:before { content: "\f100"; }
+.flaticon-restaurant-elements-bar:before { content: "\f101"; }
+.flaticon-restaurant-elements-barbecue:before { content: "\f102"; }
+.flaticon-restaurant-elements-barman:before { content: "\f103"; }
+.flaticon-restaurant-elements-beer:before { content: "\f104"; }
+.flaticon-restaurant-elements-bell:before { content: "\f105"; }
+.flaticon-restaurant-elements-board:before { content: "\f106"; }
+.flaticon-restaurant-elements-breakfast:before { content: "\f107"; }
+.flaticon-restaurant-elements-brochette:before { content: "\f108"; }
+.flaticon-restaurant-elements-browser:before { content: "\f109"; }
+.flaticon-restaurant-elements-cake:before { content: "\f10a"; }
+.flaticon-restaurant-elements-cake-1:before { content: "\f10b"; }
+.flaticon-restaurant-elements-candles:before { content: "\f10c"; }
+.flaticon-restaurant-elements-carrot:before { content: "\f10d"; }
+.flaticon-restaurant-elements-champagne:before { content: "\f10e"; }
+.flaticon-restaurant-elements-chef-hat:before { content: "\f10f"; }
+.flaticon-restaurant-elements-chicken:before { content: "\f110"; }
+.flaticon-restaurant-elements-clipboard:before { content: "\f111"; }
+.flaticon-restaurant-elements-closed:before { content: "\f112"; }
+.flaticon-restaurant-elements-cocktail:before { content: "\f113"; }
+.flaticon-restaurant-elements-coffee:before { content: "\f114"; }
+.flaticon-restaurant-elements-coffee-cup:before { content: "\f115"; }
+.flaticon-restaurant-elements-coffee-maker:before { content: "\f116"; }
+.flaticon-restaurant-elements-cookbook:before { content: "\f117"; }
+.flaticon-restaurant-elements-cooker:before { content: "\f118"; }
+.flaticon-restaurant-elements-corkscrew:before { content: "\f119"; }
+.flaticon-restaurant-elements-credit-card:before { content: "\f11a"; }
+.flaticon-restaurant-elements-croissant:before { content: "\f11b"; }
+.flaticon-restaurant-elements-cupcake:before { content: "\f11c"; }
+.flaticon-restaurant-elements-cutlery:before { content: "\f11d"; }
+.flaticon-restaurant-elements-cutlery-1:before { content: "\f11e"; }
+.flaticon-restaurant-elements-daily-specials-board:before { content: "\f11f"; }
+.flaticon-restaurant-elements-delivery:before { content: "\f120"; }
+.flaticon-restaurant-elements-dinner:before { content: "\f121"; }
+.flaticon-restaurant-elements-dinner-1:before { content: "\f122"; }
+.flaticon-restaurant-elements-discount:before { content: "\f123"; }
+.flaticon-restaurant-elements-dish:before { content: "\f124"; }
+.flaticon-restaurant-elements-dishes:before { content: "\f125"; }
+.flaticon-restaurant-elements-fast-food:before { content: "\f126"; }
+.flaticon-restaurant-elements-fish:before { content: "\f127"; }
+.flaticon-restaurant-elements-flower:before { content: "\f128"; }
+.flaticon-restaurant-elements-fork:before { content: "\f129"; }
+.flaticon-restaurant-elements-fruit:before { content: "\f12a"; }
+.flaticon-restaurant-elements-hamburger:before { content: "\f12b"; }
+.flaticon-restaurant-elements-hot-pepper:before { content: "\f12c"; }
+.flaticon-restaurant-elements-ice-cream:before { content: "\f12d"; }
+.flaticon-restaurant-elements-invoice:before { content: "\f12e"; }
+.flaticon-restaurant-elements-ketchup:before { content: "\f12f"; }
+.flaticon-restaurant-elements-knife:before { content: "\f130"; }
+.flaticon-restaurant-elements-ladle:before { content: "\f131"; }
+.flaticon-restaurant-elements-libra:before { content: "\f132"; }
+.flaticon-restaurant-elements-lobster:before { content: "\f133"; }
+.flaticon-restaurant-elements-menu:before { content: "\f134"; }
+.flaticon-restaurant-elements-menu-1:before { content: "\f135"; }
+.flaticon-restaurant-elements-microwave-oven:before { content: "\f136"; }
+.flaticon-restaurant-elements-mill:before { content: "\f137"; }
+.flaticon-restaurant-elements-mixer:before { content: "\f138"; }
+.flaticon-restaurant-elements-no-smoking:before { content: "\f139"; }
+.flaticon-restaurant-elements-noodles:before { content: "\f13a"; }
+.flaticon-restaurant-elements-open:before { content: "\f13b"; }
+.flaticon-restaurant-elements-padnote:before { content: "\f13c"; }
+.flaticon-restaurant-elements-pasta:before { content: "\f13d"; }
+.flaticon-restaurant-elements-pizza:before { content: "\f13e"; }
+.flaticon-restaurant-elements-placeholder:before { content: "\f13f"; }
+.flaticon-restaurant-elements-point-of-service:before { content: "\f140"; }
+.flaticon-restaurant-elements-pot:before { content: "\f141"; }
+.flaticon-restaurant-elements-refrigerator:before { content: "\f142"; }
+.flaticon-restaurant-elements-reserved:before { content: "\f143"; }
+.flaticon-restaurant-elements-restaurant:before { content: "\f144"; }
+.flaticon-restaurant-elements-restaurant-card:before { content: "\f145"; }
+.flaticon-restaurant-elements-rolling-pin:before { content: "\f146"; }
+.flaticon-restaurant-elements-salmon:before { content: "\f147"; }
+.flaticon-restaurant-elements-salt-and-pepper:before { content: "\f148"; }
+.flaticon-restaurant-elements-salver:before { content: "\f149"; }
+.flaticon-restaurant-elements-sausages:before { content: "\f14a"; }
+.flaticon-restaurant-elements-sausages-1:before { content: "\f14b"; }
+.flaticon-restaurant-elements-scooter:before { content: "\f14c"; }
+.flaticon-restaurant-elements-shaker:before { content: "\f14d"; }
+.flaticon-restaurant-elements-shrimp:before { content: "\f14e"; }
+.flaticon-restaurant-elements-signboard:before { content: "\f14f"; }
+.flaticon-restaurant-elements-smartphone:before { content: "\f150"; }
+.flaticon-restaurant-elements-soup:before { content: "\f151"; }
+.flaticon-restaurant-elements-spatula:before { content: "\f152"; }
+.flaticon-restaurant-elements-spatula-1:before { content: "\f153"; }
+.flaticon-restaurant-elements-spicy-food:before { content: "\f154"; }
+.flaticon-restaurant-elements-steak:before { content: "\f155"; }
+.flaticon-restaurant-elements-sushi:before { content: "\f156"; }
+.flaticon-restaurant-elements-take-away:before { content: "\f157"; }
+.flaticon-restaurant-elements-tea:before { content: "\f158"; }
+.flaticon-restaurant-elements-terrace:before { content: "\f159"; }
+.flaticon-restaurant-elements-toast:before { content: "\f15a"; }
+.flaticon-restaurant-elements-tree:before { content: "\f15b"; }
+.flaticon-restaurant-elements-vegan:before { content: "\f15c"; }
+.flaticon-restaurant-elements-vegetarian-food:before { content: "\f15d"; }
+.flaticon-restaurant-elements-waiter:before { content: "\f15e"; }
+.flaticon-restaurant-elements-wallet:before { content: "\f15f"; }
+.flaticon-restaurant-elements-wc:before { content: "\f160"; }
+.flaticon-restaurant-elements-wifi:before { content: "\f161"; }
+.flaticon-restaurant-elements-wine:before { content: "\f162"; }
+.flaticon-restaurant-elements-wine-menu:before { content: "\f163"; }
