@@ -13,14 +13,22 @@ namespace FlexTemplate.Database
         public class Seed
         {
             public List<Language> Languages { get; set; }
+            public List<UserRole> UserRoles { get; set; }
+            public List<User> Users { get; set; }
+            public List<Country> Countries { get; set; }
+            public List<City> Cities { get; set; }
+            public List<Street> Streets { get; set; }
+            public List<Category> Categories { get; set; }
+            public List<Place> Places { get; set; }
+            public List<PlaceAlias> PlaceAliases { get; set; }
+            public List<PlaceCategory> PlaceCategories { get; set; }
 
             private Language GetLanguage(IConfigurationRoot configuration, int arrayIndex)
             {
                 try
                 {
                     var result = new Language();
-                    int id;
-                    result.Id = int.TryParse(configuration[$"Seed:Languages:{arrayIndex}:Id"], out id) ? id : 0;
+                    
                     result.Name = configuration[$"Seed:Languages:{arrayIndex}:Name"];
                     result.ShortName = configuration[$"Seed:Languages:{arrayIndex}:ShortName"];
                     return result;
@@ -32,6 +40,176 @@ namespace FlexTemplate.Database
                 
             }
 
+            private UserRole GetUserRole(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new UserRole();
+                   
+                    result.Name = configuration[$"Seed:UserRoles:{arrayIndex}:Name"];
+                    
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private User GetUser(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new User();
+                    
+                    result.Name = configuration[$"Seed:Users:{arrayIndex}:Name"];
+                    result.Surname = configuration[$"Seed:Users:{arrayIndex}:Surname"];
+                    result.Login = configuration[$"Seed:Users:{arrayIndex}:Login"];
+                    result.EncryptedPassword = configuration[$"Seed:Users:{arrayIndex}:EncryptedPassword"];
+                    int userRoleId;
+                    result.UserRoleId = int.TryParse(configuration[$"Seed:Users:{arrayIndex}:UserRoleId"], out userRoleId) ? userRoleId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private Country GetCountry(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new Country();
+                    
+                    result.Name = configuration[$"Seed:Countries:{arrayIndex}:Name"];
+                    
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private City GetCity(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new City();
+                   
+                    result.Name = configuration[$"Seed:Cities:{arrayIndex}:Name"];
+                    int countryId;
+                    result.CountryId = int.TryParse(configuration[$"Seed:Cities:{arrayIndex}:CountryId"], out countryId) ? countryId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private Street GetStreet(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new Street();
+                   
+                    result.Name = configuration[$"Seed:Streets:{arrayIndex}:Name"];
+                    int cityId;
+                    result.CityId = int.TryParse(configuration[$"Seed:Streets:{arrayIndex}:CityId"], out cityId) ? cityId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private Category GetCategory(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new Category();
+                   
+                    result.Name = configuration[$"Seed:Categories:{arrayIndex}:Name"];
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private Place GetPlace(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new Place();
+                    
+                    int streetId;
+                    result.StreetId = int.TryParse(configuration[$"Seed:Places:{arrayIndex}:StreetId"], out streetId) ? streetId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private PlaceAlias GetPlaceAlias(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new PlaceAlias();
+                  
+                    result.Text = configuration[$"Seed:PlaceAliases:{arrayIndex}:Text"];
+                    int placeId;
+                    result.PlaceId = int.TryParse(configuration[$"Seed:PlaceAliases:{arrayIndex}:PlaceId"], out placeId) ? placeId : 0;
+                    int languageId;
+                    result.LanguageId = int.TryParse(configuration[$"Seed:PlaceAliases:{arrayIndex}:LanguageId"], out languageId) ? languageId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
+            private PlaceCategory GetPlaceCategory(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new PlaceCategory();
+                    
+                    int placeId;
+                    result.PlaceId = int.TryParse(configuration[$"Seed:PlaceCategories:{arrayIndex}:PlaceId"], out placeId) ? placeId : 0;
+                    int categoryId;
+                    result.CategoryId = int.TryParse(configuration[$"Seed:PlaceCategories:{arrayIndex}:LanguageId"], out categoryId) ? categoryId : 0;
+
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+
+            }
+
             public Seed(IConfigurationRoot configuration)
             {
                 Languages = new List<Language>();
@@ -39,75 +217,78 @@ namespace FlexTemplate.Database
                 { 
                     Languages.Add(GetLanguage(configuration, i));
                 }
+
+                UserRoles = new List<UserRole>();
+                for (var i = 0; configuration[$"Seed:UserRoles:{i}:Id"] != null; i++)
+                {
+                    UserRoles.Add(GetUserRole(configuration, i));
+                }
+
+                Users = new List<User>();
+                for (var i = 0; configuration[$"Seed:Users:{i}:Id"] != null; i++)
+                {
+                    Users.Add(GetUser(configuration, i));
+                }
+                Countries = new List<Country>();
+                for (var i = 0; configuration[$"Seed:Countries:{i}:Id"] != null; i++)
+                {
+                    Countries.Add(GetCountry(configuration, i));
+                }
+                Cities = new List<City>();
+                for (var i = 0; configuration[$"Seed:Cities:{i}:Id"] != null; i++)
+                {
+                    Cities.Add(GetCity(configuration, i));
+                }
+                Streets = new List<Street>();
+                for (var i = 0; configuration[$"Seed:Streets:{i}:Id"] != null; i++)
+                {
+                    Streets.Add(GetStreet(configuration, i));
+                }
+                Categories = new List<Category>();
+                for (var i = 0; configuration[$"Seed:Categories:{i}:Id"] != null; i++)
+                {
+                    Categories.Add(GetCategory(configuration, i));
+                }
+                Places = new List<Place>();
+                for (var i = 0; configuration[$"Seed:Places:{i}:Id"] != null; i++)
+                {
+                    Places.Add(GetPlace(configuration, i));
+                }
+                PlaceAliases = new List<PlaceAlias>();
+                for (var i = 0; configuration[$"Seed:PlaceAliases:{i}:Id"] != null; i++)
+                {
+                    PlaceAliases.Add(GetPlaceAlias(configuration, i));
+                }
+                PlaceCategories = new List<PlaceCategory>();
+                for (var i = 0; configuration[$"Seed:PlaceCategories:{i}:Id"] != null; i++)
+                {
+                    PlaceCategories.Add(GetPlaceCategory(configuration, i));
+                }
             }
         }
         public static void Initialize(IServiceProvider serviceProvider, IConfigurationRoot configuration)
         {
-            var seed = new Seed(configuration);
+           
             using (var context = serviceProvider.GetService(typeof (Context)) as Context)
             {
-                if (context != null)
+                if (context != null && context.HasNoRows() == true)
                 {
-                    if (!context.Users.Any() && !context.Languages.Any() && !context.UserRoles.Any() && !context.Countries.Any() && !context.Cities.Any() && !context.Streets.Any() && !context.Categories.Any() && !context.Places.Any() && !context.PlaceCategories.Any() && !context.PlaceAliases.Any())
-                    {
-                        var ukrainian = new Language { Name = "Українська", ShortName = "UA" };
-                        var english = new Language { Name = "English", ShortName = "EN" };
+                    var seed = new Seed(configuration);
 
-                        var administrator = new UserRole { Name = "Адміністратор" };
+                    context.Languages.AddRange(seed.Languages);
+                    context.Users.AddRange(seed.Users);
+                    context.UserRoles.AddRange(seed.UserRoles);
 
-                        var admin = new User { Name = "Адміністратор", Surname = "Адмін", Login = "Master", EncryptedPassword = "12345", UserRole = administrator };
+                    context.Countries.AddRange(seed.Countries);
+                    context.Cities.AddRange(seed.Cities);
+                    context.Streets.AddRange(seed.Streets);
+                    context.Categories.AddRange(seed.Categories);
+                    context.Places.AddRange(seed.Places);
+                    context.PlaceAliases.AddRange(seed.PlaceAliases);
+                    context.PlaceCategories.AddRange(seed.PlaceCategories);
 
-                        var Ukraine = new Country { Name = "Україна" };
+                    context.SaveChanges();
 
-                        var Kiev = new City { Name = "Київ", Country = Ukraine };
-                        var Lviv = new City { Name = "Львів", Country = Ukraine };
-
-                        var ObolonProsp = new Street { Name = "Оболонський проспект", City = Kiev };
-                        var PloshaRinok = new Street { Name = "Площа ринок", City = Lviv };
-
-                        var TRC = new Category { Name = "ТРЦ"};
-                        var Restaurant = new Category { Name = "Ресторан" };
-
-                        var DrimTown = new Place { Street = ObolonProsp};
-                        var Kriivka = new Place { Street = PloshaRinok};
-
-                        var DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown, Language = english};
-
-                        var DrimTownTRC = new PlaceCategory {Place = DrimTown, Category = TRC };
-                        var KriivkaRestaurant = new PlaceCategory { Place = Kriivka, Category = Restaurant };
-
-                        context.ChangeTracker.AutoDetectChangesEnabled = false;
-
-                        context.Languages.Add(ukrainian);
-                        context.Languages.Add(english);
-
-                        context.UserRoles.Add(administrator);
-
-                        context.Users.Add(admin);
-
-                        context.Countries.Add(Ukraine);
-
-                        context.Cities.Add(Kiev);
-                        context.Cities.Add(Lviv);
-
-                        context.Streets.Add(ObolonProsp);
-                        context.Streets.Add(PloshaRinok);
-
-                        context.Categories.Add(TRC);
-                        context.Categories.Add(Restaurant);
-
-                        context.Places.Add(DrimTown);
-                        context.Places.Add(Kriivka);
-
-                        context.PlaceAliases.Add(DrimTownAlias);
-
-                        context.PlaceCategories.Add(DrimTownTRC);
-                        context.PlaceCategories.Add(KriivkaRestaurant);
-
-                        context.ChangeTracker.DetectChanges();
-
-                        context.SaveChanges();
-                    }
                 }
             }
         }

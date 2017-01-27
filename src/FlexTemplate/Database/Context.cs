@@ -41,5 +41,18 @@ namespace FlexTemplate.Database
             modelBuilder.Entity<Category>().HasAlternateKey(category => category.Name);
             base.OnModelCreating(modelBuilder);
         }
+
+        
+
+
+        public bool HasNoRows()
+        {
+            if (!Users.Any() && !Languages.Any() && !UserRoles.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any())
+            {
+                return true;
+            }
+            else
+                return false; 
+        }
     }
 }
