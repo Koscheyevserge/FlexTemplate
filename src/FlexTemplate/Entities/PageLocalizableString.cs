@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 namespace FlexTemplate.Entities
 {
     /// <summary>
-    /// Локализируемые строки страницы
+    /// Локализируемая строка страницы
     /// </summary>
     public class PageLocalizableString : BaseAlias
     {
+        /// <summary>
+        /// Идентификатор элемента на странице, текст которого хранит локализируемая строка
+        /// </summary>
+        public string PageElementId { get; set; }
         /// <summary>
         /// Идентификатор страницы
         /// </summary>

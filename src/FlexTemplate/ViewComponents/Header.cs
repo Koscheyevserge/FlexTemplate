@@ -10,7 +10,7 @@ namespace FlexTemplate.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            return await Task.Run(() => View()); 
         }
     }
 }

@@ -13,4 +13,9 @@ namespace FlexTemplate.Controllers
             return View();
         }
     }
+
+    public class HomeIndexViewModel
+    {
+
+    }
 }
