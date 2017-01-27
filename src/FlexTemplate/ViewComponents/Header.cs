@@ -8,9 +8,9 @@ namespace FlexTemplate.ViewComponents
 {
     public class Header : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
-            return await Task.Run(() => View()); 
+            return View(); 
         }
     }
 }

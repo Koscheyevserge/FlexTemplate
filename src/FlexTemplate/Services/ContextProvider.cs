@@ -10,40 +10,71 @@ namespace FlexTemplate.Database
 {
     public static class ContextProvider
     {
+        public class Seed
+        {
+            public List<Language> Languages { get; set; }
+
+            private Language GetLanguage(IConfigurationRoot configuration, int arrayIndex)
+            {
+                try
+                {
+                    var result = new Language();
+                    int id;
+                    result.Id = int.TryParse(configuration[$"Seed:Languages:{arrayIndex}:Id"], out id) ? id : 0;
+                    result.Name = configuration[$"Seed:Languages:{arrayIndex}:Name"];
+                    result.ShortName = configuration[$"Seed:Languages:{arrayIndex}:ShortName"];
+                    return result;
+                }
+                catch
+                {
+                    return null;
+                }
+                
+            }
+
+            public Seed(IConfigurationRoot configuration)
+            {
+                Languages = new List<Language>();
+                for(var i = 0; configuration[$"Seed:Languages:{i}:Id"] != null; i++)
+                { 
+                    Languages.Add(GetLanguage(configuration, i));
+                }
+            }
+        }
         public static void Initialize(IServiceProvider serviceProvider, IConfigurationRoot configuration)
         {
+            var seed = new Seed(configuration);
             using (var context = serviceProvider.GetService(typeof (Context)) as Context)
             {
                 if (context != null)
                 {
                     if (!context.Users.Any() && !context.Languages.Any() && !context.UserRoles.Any() && !context.Countries.Any() && !context.Cities.Any() && !context.Streets.Any() && !context.Categories.Any() && !context.Places.Any() && !context.PlaceCategories.Any() && !context.PlaceAliases.Any())
                     {
+                        var ukrainian = new Language { Name = "Українська", ShortName = "UA" };
+                        var english = new Language { Name = "English", ShortName = "EN" };
 
-                        Language ukrainian = new Language { Name = "Українська", ShortName = "UA" };
-                        Language english = new Language { Name = "English", ShortName = "EN" };
+                        var administrator = new UserRole { Name = "Адміністратор" };
 
-                        UserRole administrator = new UserRole { Name = "Адміністратор" };
+                        var admin = new User { Name = "Адміністратор", Surname = "Адмін", Login = "Master", EncryptedPassword = "12345", UserRole = administrator };
 
-                        User admin = new User { Name = "Адміністратор", Surname = "Адмін", Login = "Master", EncryptedPassword = "12345", UserRole = administrator };
+                        var Ukraine = new Country { Name = "Україна" };
 
-                        Country Ukraine = new Country { Name = "Україна" };
+                        var Kiev = new City { Name = "Київ", Country = Ukraine };
+                        var Lviv = new City { Name = "Львів", Country = Ukraine };
 
-                        City Kiev = new City { Name = "Київ", Country = Ukraine };
-                        City Lviv = new City { Name = "Львів", Country = Ukraine };
+                        var ObolonProsp = new Street { Name = "Оболонський проспект", City = Kiev };
+                        var PloshaRinok = new Street { Name = "Площа ринок", City = Lviv };
 
-                        Street ObolonProsp = new Street { Name = "Оболонський проспект", City = Kiev };
-                        Street PloshaRinok = new Street { Name = "Площа ринок", City = Lviv };
+                        var TRC = new Category { Name = "ТРЦ"};
+                        var Restaurant = new Category { Name = "Ресторан" };
 
-                        Category TRC = new Category { Name = "ТРЦ"};
-                        Category Restaurant = new Category { Name = "Ресторан" };
-                        
-                        Place DrimTown = new Place { Street = ObolonProsp};
-                        Place Kriivka = new Place { Street = PloshaRinok};
+                        var DrimTown = new Place { Street = ObolonProsp};
+                        var Kriivka = new Place { Street = PloshaRinok};
 
-                        PlaceAlias DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown, Language = english};
+                        var DrimTownAlias = new PlaceAlias {Text = "Dream Town", Place = DrimTown, Language = english};
 
-                        PlaceCategory DrimTownTRC = new PlaceCategory {Place = DrimTown, Category = TRC };
-                        PlaceCategory KriivkaRestaurant = new PlaceCategory { Place = Kriivka, Category = Restaurant };
+                        var DrimTownTRC = new PlaceCategory {Place = DrimTown, Category = TRC };
+                        var KriivkaRestaurant = new PlaceCategory { Place = Kriivka, Category = Restaurant };
 
                         context.ChangeTracker.AutoDetectChangesEnabled = false;
 

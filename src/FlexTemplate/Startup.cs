@@ -21,6 +21,7 @@ namespace FlexTemplate
             .SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            .AddJsonFile("defaultEntities.json", optional: true, reloadOnChange: true)
             .AddEnvironmentVariables();
             Configuration = builder.Build();
         }

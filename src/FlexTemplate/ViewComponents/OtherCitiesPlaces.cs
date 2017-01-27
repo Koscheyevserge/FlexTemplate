@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.ViewComponents
 {
-    public class Footer : ViewComponent
+    public class OtherCitiesPlaces : ViewComponent
     {
         public IViewComponentResult Invoke()
         {

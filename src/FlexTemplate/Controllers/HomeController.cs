@@ -10,6 +10,8 @@ namespace FlexTemplate.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "TestTitle";
+            ViewData["BodyClasses"] = "full-width-container transparent-header";
             return View();
         }
     }
