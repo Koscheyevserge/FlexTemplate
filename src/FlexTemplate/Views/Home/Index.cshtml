@@ -1,119 +1,42 @@
 ﻿@using System.ComponentModel
+
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
-    @await Component.InvokeAsync("Search")
+  @await Component.InvokeAsync("Search")
 
-    @await Component.InvokeAsync("OtherCitiesPlaces")
+  @await Component.InvokeAsync("OtherCitiesPlaces")
 
-    @await Component.InvokeAsync("ThisCityPlaces")
+  @await Component.InvokeAsync("ThisCityPlaces")
 
-    <section>
+  @await Component.InvokeAsyns("Capabilities")
 
-        <div class="container">
-
-            <div class="GridLex-gap-30 GridLex-gap-20-mdd">
-
-                <div class="GridLex-grid-noGutter-equalHeight">
-
-                    <div class="GridLex-col-3_sm-3_xs-6_xss-12">
-
-                        <div class="featured-icon">
-                            <div class="icon text-primary">
-                                <i class="ti-location-pin"></i>
-                            </div>
-                            <h5>find what you want</h5>
-                            Choose from over 10,000+ restaurants, with reliable reviews
-                        </div>
-
-                    </div>
-
-                    <div class="GridLex-col-3_sm-3_xs-6_xss-12">
-
-                        <div class="featured-icon">
-                            <div class="icon text-primary">
-                                <i class="ti-timer"></i>
-                            </div>
-                            <h5>the restaurant is full?</h5>
-                            Book online for free, you don't need to call the restaurant
-                        </div>
-
-                    </div>
-
-                    <div class="GridLex-col-3_sm-3_xs-6_xss-12">
-
-                        <div class="featured-icon">
-                            <div class="icon text-primary">
-                                <i class="ti-comments-smiley"></i>
-                            </div>
-                            <h5>ask for the bill with a smile</h5>
-                            Enjoy up to 50% off the bill in participating restaurants
-                        </div>
-
-                    </div>
-
-                    <div class="GridLex-col-3_sm-3_xs-6_xss-12">
-
-
-                        <div class="featured-icon">
-                            <div class="icon text-primary">
-                                <i class="ti-tag"></i>
-                            </div>
-                            <h5>thefork picks up the tab</h5>
-                            Earn Yums for each booking, and get a loyalty discount
-                        </div>
-
-                    </div>
-
-                </div>
-
+  <section class="bg-white">
+    <div class="container">
+      <div class="GridLex-gap-30 GridLex-gap-20-mdd">
+        <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
+          <div class="GridLex-col-6_sm-6_xs-12_xss-12">
+            <div class="featured-image" style="background-image:url('~/html/images/featured-image/01.jpg');">
+              <div class="content">
+                <a href="#" class="block">
+                  <h3 class="text-primary font300 mb-10">Browse our Restaurant Blog</h3> Explore news, reviews & recommendations!
+                </a>
+              </div>
             </div>
-
-        </div>
-
-    </section>
-
-    <section class="bg-white">
-
-        <div class="container">
-
-            <div class="GridLex-gap-30 GridLex-gap-20-mdd">
-
-                <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
-
-                    <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                        <div class="featured-image" style="background-image:url('~/html/images/featured-image/01.jpg');">
-                            <div class="content">
-                                <a href="#" class="block">
-                                    <h3 class="text-primary font300 mb-10">Browse our Restaurant Blog</h3>
-                                    Explore news, reviews & recommendations!
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="GridLex-col-6_sm-6_xs-12_xss-12">
-
-                        <div class="featured-image" style="background-image:url('~/html/images/featured-image/02.jpg');">
-                            <div class="content">
-                                <a href="#" class="block">
-                                    <h3 class="text-primary font300 mb-10">For Restaurant Owners</h3>
-                                    Join our vibrant restaurant marketplace!
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
+          </div>
+          <div class="GridLex-col-6_sm-6_xs-12_xss-12">
+            <div class="featured-image" style="background-image:url('~/html/images/featured-image/02.jpg');">
+              <div class="content">
+                <a href="#" class="block">
+                  <h3 class="text-primary font300 mb-10">For Restaurant Owners</h3> Join our vibrant restaurant marketplace!
+                </a>
+              </div>
             </div>
-
+          </div>
         </div>
-
-    </section>
-
+      </div>
+    </div>
+  </section>
 </div>
+
 <!-- end Main Wrapper -->
