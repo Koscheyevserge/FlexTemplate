@@ -14,6 +14,13 @@ namespace FlexTemplate.Controllers
             ViewData["BodyClasses"] = "full-width-container transparent-header";
             return View();
         }
+
+        public IActionResult Error()
+        {
+            ViewData["Title"] = "Oops!";
+            ViewData["BodyClasses"] = "full-width-container";
+            return View();
+        }
     }
 
     public class HomeIndexViewModel
