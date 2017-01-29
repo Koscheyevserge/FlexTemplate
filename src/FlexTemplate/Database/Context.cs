@@ -47,12 +47,7 @@ namespace FlexTemplate.Database
 
         public bool HasNoRows()
         {
-            if (!Users.Any() && !Languages.Any() && !UserRoles.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any())
-            {
-                return true;
-            }
-            else
-                return false; 
+            return !Users.Any() && !Languages.Any() && !UserRoles.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any();
         }
     }
 }
