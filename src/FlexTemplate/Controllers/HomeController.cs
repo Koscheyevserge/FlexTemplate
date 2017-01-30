@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlexTemplate.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.Controllers
@@ -12,7 +13,8 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "TestTitle";
             ViewData["BodyClasses"] = "full-width-container transparent-header";
-            return View();
+            var model = new HomeIndexViewModel();
+            return View(model);
         }
 
         public IActionResult Error()
@@ -21,10 +23,5 @@ namespace FlexTemplate.Controllers
             ViewData["BodyClasses"] = "full-width-container";
             return View();
         }
-    }
-
-    public class HomeIndexViewModel
-    {
-
     }
 }

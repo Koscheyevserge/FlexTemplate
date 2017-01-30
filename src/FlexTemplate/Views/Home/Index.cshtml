@@ -1,11 +1,11 @@
 ﻿@using System.ComponentModel
-
+@model FlexTemplate.ViewModels.HomeIndexViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
   @await Component.InvokeAsync("Search")
 
-  @await Component.InvokeAsync("OtherCitiesPlaces")
+  @await Component.InvokeAsync("OtherCitiesPlaces", new { model = Model.OtherCitiesPlacesViewModel})
 
   @await Component.InvokeAsync("ThisCityPlaces")
 

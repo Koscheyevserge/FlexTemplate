@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.ViewComponents
 {
-    public class OtherCitiesPlaces : ViewComponent
+    public class OtherCityPlaces : ViewComponent
     {
-        public IViewComponentResult Invoke(OtherCitiesPlacesViewModel model)
+        public IViewComponentResult Invoke(OtherCityPlacesViewModel model)
         {
             return View(model);
         }
