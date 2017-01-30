@@ -14,5 +14,11 @@ namespace FlexTemplate.ViewModels
         /// Модель, что передается в компонент OtherCitiesPlaces
         /// </summary>
         public OtherCitiesPlacesViewModel OtherCitiesPlacesViewModel { get; set; }
+        public SearchViewModel SearchViewModel { get; set; }
+
+        public HomeIndexViewModel()
+        {
+            SearchViewModel = new SearchViewModel();
+        }
     }
 }
