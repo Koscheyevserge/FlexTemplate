@@ -16,42 +16,70 @@ namespace FlexTemplate.ViewModels
     {
        
      
-      public virtual List<ThisCityPlaceViewModel> ThisCityPlaceViewModels { get; set; }
+      public List<ThisCityPlaceViewModel> ThisCityPlaceViewModels { get; set; }
       public ThisCityPlacesViewModel()
         {
             ThisCityPlaceViewModels = new List<ThisCityPlaceViewModel>
             {
                 new ThisCityPlaceViewModel
                 {
-                    Name = "The Smoking Pug",
-                    Address = "88 Thanon Surawong, Si Phraya, Bang Pak",
-                    Stars = 3.5F,
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
                     ReviewsCount = 27,
                     PhotoPath = "~/images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Le Normandie",
-                    Address = "48, Oriental Ave, Bang Rak",
-                    Stars = 3.0F,
-                    ReviewsCount = 32,
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
                     PhotoPath = "~/images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "J'AIME by Jean-Michel Lorain",
-                    Address = "105 Soi Sathon 1, Thung Maha Mek, Sathon",
-                    Stars = 4.5F,
-                    ReviewsCount = 43,
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
                     PhotoPath = "~/images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "DID - Dine in the Dark",
-                    Address = "250 Sukhumvit Rd, Bangkok",
-                    Stars = 4.0F,
-                    ReviewsCount = 65,
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
                     PhotoPath = "~/images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
                 },
             };
         }

@@ -1,8 +1,8 @@
 ﻿@model FlexTemplate.ViewModels.ThisCityPlacesViewModel
-<section class="c-this-city-places bg-white">
-    <div class="container">
-        @if (Model != null)
-        {
+@if (Model != null)
+{
+    <section class="c-this-city-places bg-white">
+        <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <div class="section-title-02">
@@ -16,15 +16,14 @@
                     <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
                         @foreach (var vm in Model.ThisCityPlaceViewModels)
                         {
-                            @await Component.InvokeAsync("ThisCityPlace", new { model = vm });
+                            @await Component.InvokeAsync("ThisCityPlace", new {model = vm});
                         }
-
                     </div>
                     <div class="text-center">
                         <a href="#" class="btn btn-primary">More Restaurants</a>
                     </div>
-                 </div>
-             </div>
-         }
-     </div>
-</section>
+                </div>
+            </div>
+        </div>
+    </section>
+}

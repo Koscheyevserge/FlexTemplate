@@ -23,7 +23,7 @@ namespace FlexTemplate.ViewModels
         /// <summary>
         /// Оценка
         /// </summary>
-        public float Stars { get; set; }
+        public double Stars { get; set; }
         /// <summary>
         /// Количество отзывов
         /// </summary>
@@ -31,6 +31,6 @@ namespace FlexTemplate.ViewModels
         /// <summary>
         /// Коллекция моделей, что передаются в компонент ThisCityPlace
         /// </summary>
-        public virtual List<ThisCityPlaceViewModel> Categories { get; set; }      
+        public List<string> Categories { get; set; }      
     }
 }
