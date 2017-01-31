@@ -19,6 +19,7 @@ namespace FlexTemplate.ViewModels
         public HomeIndexViewModel()
         {
             SearchViewModel = new SearchViewModel();
+            OtherCitiesPlacesViewModel = new OtherCitiesPlacesViewModel();
         }
     }
 }

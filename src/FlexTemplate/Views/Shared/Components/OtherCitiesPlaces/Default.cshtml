@@ -1,71 +1,26 @@
 ﻿@model FlexTemplate.ViewModels.OtherCitiesPlacesViewModel
 <section class="c-other-cities-places">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="section-title-02">
-          <h3><span>Your Nearest Destinations</span></h3>
-          <p>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>
-        </div>
-      </div>
+    <div class="container">
+        @if (Model != null)
+        {
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="section-title-02">
+                        <h3><span>Your Nearest Destinations</span></h3>
+                        <p>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="destination-grid-wrapper-02">
+                <div class="GridLex-gap-30 GridLex-gap-20-mdd GridLex-gap-10-xs">
+                    <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
+                        @foreach (var vm in Model.OtherCityPlacesViewModels)
+                        {
+                            @await Component.InvokeAsync("OtherCityPlaces", new {model = vm});
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
-    <div class="destination-grid-wrapper-02">
-      <div class="GridLex-gap-30 GridLex-gap-20-mdd GridLex-gap-10-xs">
-        <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
-          <div class="GridLex-col-3_sm-6_xs-6_xss-12">
-            <div class="destination-grid-item-02">
-              <a href="#">
-                <div class="image">
-                  <img src="~/images/hot-item/01.jpg" alt="Hot Item">
-                </div>
-                <div class="content">
-                  <h4><span>Bangkok</span></h4>
-                  <span>435 restaurants</span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="GridLex-col-3_sm-6_xs-6_xss-12">
-            <div class="destination-grid-item-02">
-              <a href="#">
-                <div class="image">
-                  <img src="~/images/hot-item/02.jpg" alt="Hot Item">
-                </div>
-                <div class="content">
-                  <h4><span>Kuala Lumpur</span></h4>
-                  <span>188 restaurants</span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="GridLex-col-3_sm-6_xs-6_xss-12">
-            <div class="destination-grid-item-02">
-              <a href="#">
-                <div class="image">
-                  <img src="~/images/hot-item/03.jpg" alt="Hot Item">
-                </div>
-                <div class="content">
-                  <h4><span>Pattaya</span></h4>
-                  <span>125 restaurants</span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="GridLex-col-3_sm-6_xs-6_xss-12">
-            <div class="destination-grid-item-02">
-              <a href="#">
-                <div class="image">
-                  <img src="~/images/hot-item/04.jpg" alt="Hot Item">
-                </div>
-                <div class="content">
-                  <h4><span>Penang</span></h4>
-                  <span>89 restaurants</span>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
