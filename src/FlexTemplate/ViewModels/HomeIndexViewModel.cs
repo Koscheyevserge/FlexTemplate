@@ -15,11 +15,13 @@ namespace FlexTemplate.ViewModels
         /// </summary>
         public OtherCitiesPlacesViewModel OtherCitiesPlacesViewModel { get; set; }
         public SearchViewModel SearchViewModel { get; set; }
+        public ThisCityPlaceViewModel ThisCityPlaceViewModel { get; set; }
 
         public HomeIndexViewModel()
         {
             SearchViewModel = new SearchViewModel();
             OtherCitiesPlacesViewModel = new OtherCitiesPlacesViewModel();
+            ThisCityPlaceViewModel = new ThisCityPlaceViewModel();
         }
     }
 }

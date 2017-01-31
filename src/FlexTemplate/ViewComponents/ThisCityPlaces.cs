@@ -8,9 +8,9 @@ namespace FlexTemplate.ViewComponents
 {
     public class ThisCityPlaces : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(ThisCityPlaces model)
         {
-            return View();
+            return View(model);
         }
     }
 }
