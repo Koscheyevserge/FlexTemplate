@@ -15,8 +15,8 @@ namespace FlexTemplate.ViewModels
     public class ThisCityPlacesViewModel : EditableViewModel
     {
        
-      [MaxLength(4)]
-      public List<ThisCityPlaceViewModel> ThisCityPlaceViewModels { get; set; }
+     
+      public virtual List<ThisCityPlaceViewModel> ThisCityPlaceViewModels { get; set; }
       public ThisCityPlacesViewModel()
         {
             ThisCityPlaceViewModels = new List<ThisCityPlaceViewModel>
@@ -55,8 +55,6 @@ namespace FlexTemplate.ViewModels
                 },
             };
         }
-
-
 
     }
 }

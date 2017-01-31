@@ -1,0 +1,33 @@
+﻿@model FlexTemplate.ViewModels.ThisCityPlaceViewModel
+@if (Model != null)
+{
+          
+                    <div class="GridLex-col-3_sm-4_xs-6_xss-12">
+                        <div class="restaurant-grid-item">
+                            <a href="#">
+                                <div class="image">
+                                    <img src=@Model.PhotoPath alt="Image" />
+                                </div>
+                                <div class="content">
+                                    <h5>@Model.Name</h5>
+                                    <p class="location"><i class="fa fa-map-marker"></i>@Model.Address</p>
+                                    <div class="rating-wrapper">
+                                        <div class="rating-item">
+                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@Model.Stars" />
+                                        </div>
+                                        <span class="texting">@Model.ReviewsCount</span>
+                                    </div>
+                                  
+                                    <p class="cuisine">Cuisine:
+                                    @foreach (var categories in @Model.Categories)
+                                    {
+                                        <span>@categories</span>
+                                    }
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+             
+}
+       
