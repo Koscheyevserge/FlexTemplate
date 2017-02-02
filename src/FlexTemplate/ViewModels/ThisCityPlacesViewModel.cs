@@ -27,7 +27,7 @@ namespace FlexTemplate.ViewModels
                     Address = "Оболонский проспект",
                     Stars = 3.5,
                     ReviewsCount = 27,
-                    PhotoPath = "~/images/hot-item/01.jpg",
+                    PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
                         "ТРЦ",
@@ -42,7 +42,7 @@ namespace FlexTemplate.ViewModels
                     Address = "Оболонский проспект",
                     Stars = 3.5,
                     ReviewsCount = 27,
-                    PhotoPath = "~/images/hot-item/01.jpg",
+                    PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
                         "ТРЦ",
@@ -57,7 +57,7 @@ namespace FlexTemplate.ViewModels
                     Address = "Оболонский проспект",
                     Stars = 3.5,
                     ReviewsCount = 27,
-                    PhotoPath = "~/images/hot-item/01.jpg",
+                    PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
                         "ТРЦ",
@@ -72,7 +72,7 @@ namespace FlexTemplate.ViewModels
                     Address = "Оболонский проспект",
                     Stars = 3.5,
                     ReviewsCount = 27,
-                    PhotoPath = "~/images/hot-item/01.jpg",
+                    PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
                         "ТРЦ",
@@ -81,6 +81,66 @@ namespace FlexTemplate.ViewModels
                         "Рестораны"
                     }
                 },
+                                new ThisCityPlaceViewModel
+                {
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
+                    PhotoPath = "images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
+                },
+                new ThisCityPlaceViewModel
+                {
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
+                    PhotoPath = "images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
+                },
+                new ThisCityPlaceViewModel
+                {
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
+                    PhotoPath = "images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
+                },
+                new ThisCityPlaceViewModel
+                {
+                    Name = "Дрим Таун",
+                    Address = "Оболонский проспект",
+                    Stars = 3.5,
+                    ReviewsCount = 27,
+                    PhotoPath = "images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "ТРЦ",
+                        "Кинотеатр",
+                        "Каток",
+                        "Рестораны"
+                    }
+                }
             };
         }
 

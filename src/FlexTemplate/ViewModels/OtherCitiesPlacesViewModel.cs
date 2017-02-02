@@ -26,28 +26,28 @@ namespace FlexTemplate.ViewModels
                     CityName = "Киев",
                     PlacesCount = 121,
                     PlaceDescriptor = "заведений",
-                    PhotoPath = "~/images/hot-item/01.jpg"
+                    PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
                     CityName = "Львов",
                     PlacesCount = 198,
                     PlaceDescriptor = "заведений",
-                    PhotoPath = "~/images/hot-item/01.jpg"
+                    PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
                     CityName = "Днепр",
                     PlacesCount = 89,
                     PlaceDescriptor = "заведений",
-                    PhotoPath = "~/images/hot-item/01.jpg"
+                    PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
                     CityName = "Одесса",
                     PlacesCount = 13,
                     PlaceDescriptor = "заведений",
-                    PhotoPath = "~/images/hot-item/01.jpg"
+                    PhotoPath = "images/hot-item/01.jpg"
                 }
             };
         }

@@ -12,7 +12,7 @@ namespace FlexTemplate.ViewModels
 
       	public SearchViewModel()
       	{
-      		PhotoPath = "~/images/hero-header/01.jpg";
+      		PhotoPath = "images/hero-header/01.jpg";
       	    CategoriesNames = new List<string>
       	    {
       	        "Кофейни",
