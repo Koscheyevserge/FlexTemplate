@@ -8,6 +8,10 @@ namespace FlexTemplate.Entities
     public class Place : BaseEntity
     {
         /// <summary>
+        /// Название заведения
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// Идентификатор улицы, на которой расположено заведение
         /// </summary>
         public int StreetId { get; set; }
