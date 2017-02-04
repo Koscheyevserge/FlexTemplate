@@ -23,122 +23,100 @@ namespace FlexTemplate.ViewModels
             {
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "Фламінго",
+                    Address = "Вул. Симоненка 1",
+                    Stars = 3,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Українська",
+                        "Грузинська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "Пузата хата",
+                    Address = "Оболонський проспект",
+                    Stars = 4,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Українська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "Мафія",
+                    Address = "Площа Ринок",
+                    Stars = 3,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Японська",
+                        "Італійська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "М’ясо",
+                    Address = "Вул. Шота Руставелі",
+                    Stars = 5,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
-                    }
-                },
-                                new ThisCityPlaceViewModel
-                {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
-                    ReviewsCount = 27,
-                    PhotoPath = "images/hot-item/01.jpg",
-                    Categories = new List<string>
-                    {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Американська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "Кафе Мазох",
+                    Address = "Катедральна площа",
+                    Stars = 4,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Українська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "Криївка",
+                    Address = "Вул. Незалежності",
+                    Stars = 5,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Українська"
                     }
                 },
                 new ThisCityPlaceViewModel
                 {
-                    Name = "Дрим Таун",
-                    Address = "Оболонский проспект",
-                    Stars = 3.5,
+                    Name = "La petite",
+                    Address = "Проспект Сім’ї Соснових",
+                    Stars = 5,
                     ReviewsCount = 27,
                     PhotoPath = "images/hot-item/01.jpg",
                     Categories = new List<string>
                     {
-                        "ТРЦ",
-                        "Кинотеатр",
-                        "Каток",
-                        "Рестораны"
+                        "Французька"
+                    }
+                },
+                new ThisCityPlaceViewModel
+                {
+                    Name = "Pizza+",
+                    Address = "Вул. Військова",
+                    Stars = 5,
+                    ReviewsCount = 27,
+                    PhotoPath = "images/hot-item/01.jpg",
+                    Categories = new List<string>
+                    {
+                        "Італійська"
                     }
                 }
             };

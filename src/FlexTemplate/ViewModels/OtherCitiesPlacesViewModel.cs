@@ -23,30 +23,30 @@ namespace FlexTemplate.ViewModels
             {
                 new OtherCityPlacesViewModel
                 {
-                    CityName = "Киев",
+                    CityName = "Київ",
                     PlacesCount = 121,
-                    PlaceDescriptor = "заведений",
+                    PlaceDescriptor = "ресторан",
                     PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
-                    CityName = "Львов",
+                    CityName = "Львів",
                     PlacesCount = 198,
-                    PlaceDescriptor = "заведений",
+                    PlaceDescriptor = "ресторанів",
                     PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
-                    CityName = "Днепр",
+                    CityName = "Дніпро",
                     PlacesCount = 89,
-                    PlaceDescriptor = "заведений",
+                    PlaceDescriptor = "ресторанів",
                     PhotoPath = "images/hot-item/01.jpg"
                 },
                 new OtherCityPlacesViewModel
                 {
-                    CityName = "Одесса",
+                    CityName = "Одеса",
                     PlacesCount = 13,
-                    PlaceDescriptor = "заведений",
+                    PlaceDescriptor = "ресторанів",
                     PhotoPath = "images/hot-item/01.jpg"
                 }
             };

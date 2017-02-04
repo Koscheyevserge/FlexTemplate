@@ -15,9 +15,12 @@ namespace FlexTemplate.ViewModels
       		PhotoPath = "images/hero-header/01.jpg";
       	    CategoriesNames = new List<string>
       	    {
-      	        "Кофейни",
-      	        "Пиццерии",
-      	        "Кафе"
+      	        "Італійська кухня",
+      	        "Українська кухня",
+      	        "Грузинська кухня",
+                "Французька кухня",
+                "Американська кухня",
+                "Японська кухня"
       	    };
       	}
     }
