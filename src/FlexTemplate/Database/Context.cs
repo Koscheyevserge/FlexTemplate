@@ -35,6 +35,7 @@ namespace FlexTemplate.Database
             
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserRole>().HasAlternateKey(userRole => userRole.Name);

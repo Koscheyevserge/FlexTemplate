@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FlexTemplate.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace FlexTemplate.Controllers
 {
     public class HomeController : Controller
@@ -30,3 +31,4 @@ namespace FlexTemplate.Controllers
         }
     }
 }
+
