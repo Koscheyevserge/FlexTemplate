@@ -23,5 +23,10 @@ namespace FlexTemplate.Controllers
             ViewData["BodyClasses"] = "full-width-container";
             return View();
         }
+
+        public IActionResult Users()
+        {
+            return View();
+        }
     }
 }
