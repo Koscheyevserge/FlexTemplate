@@ -11,43 +11,40 @@ namespace FlexTemplate.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly Context db;
+
+        public AdminController(Context context)
+        {
+            db = context;
+        }
 
         #region UserRoles
 
         [HttpGet]
-        public IActionResult UserRoles(int id)
+        public IActionResult UserRoles()
         {
-            using (var context = new Context(UserRoles))
-            {
-                var model = context.UserRoles.FirstOrDefault(userRoles => userRoles.Id == id);
-                return View(model);
-            }
+            var model = db.UserRoles.Take(10);
+            return View(model);
         }
         #endregion
 
         #region Users
 
         [HttpGet]
-        public IActionResult Users(int id)
+        public IActionResult Users()
         {
-            using (var context = new Context(Users))
-            {
-                var model = context.Users.FirstOrDefault(user => user.Id == id);
-                return View(model);
-            }
+            var model = db.Users.Take(10);
+            return View(model);
         }
         #endregion
 
         #region Categories
 
         [HttpGet]
-        public IActionResult Categories(int id)
+        public IActionResult Categories()
         {
-            using (var context = new Context(Categories))
-            {
-                var model = context.Categories.FirstOrDefault(categories => categories.Id == id);
-                return View(model);
-            }
+            var model = db.Categories.Take(10);
+            return View(model);
         }
         #endregion
     }
