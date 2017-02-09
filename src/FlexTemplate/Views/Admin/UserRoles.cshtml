@@ -1,2 +1,13 @@
 ﻿@model IEnumerable<FlexTemplate.Entities.UserRole>
-@Model.First().Name
+
+
+<div class="c-user-roles container admin">
+	<h2>Роль користувача <span>@Model.First().Name</span></h2>
+	<div class="alias">
+    @{
+      if (Model != null)
+      {
+      }
+    }
+	</div>
+</div>

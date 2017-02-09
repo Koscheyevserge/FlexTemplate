@@ -42,3 +42,7 @@ Created:        24/10/2016
 	min-width: 100px;
 	min-height: 40px;
 }
+
+.admin h2 span {
+  color: #3277C0;
+}
