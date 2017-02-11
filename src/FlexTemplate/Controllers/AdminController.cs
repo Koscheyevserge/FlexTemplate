@@ -23,7 +23,7 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult UserRoles()
         {
-            var model = db.UserRoles.Take(10);
+            var model = db.UserRoles.Take(10).Include(ur => ur.Aliases);
             return View(model);
         }
         #endregion
@@ -43,17 +43,9 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult Categories()
         {
-            var model = db.Categories.Take(10);
+            var model = db.Categories.Take(10).Include(ur => ur.Aliases);
             return View(model);
         }
         #endregion
     }
 }
-
-
-
-
-
-
-
-

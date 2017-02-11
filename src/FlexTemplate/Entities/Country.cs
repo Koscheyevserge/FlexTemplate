@@ -18,6 +18,6 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<CountryAlias> CountryAliases { get; set; } 
+        public virtual List<CountryAlias> Aliases { get; set; } 
     }
 }

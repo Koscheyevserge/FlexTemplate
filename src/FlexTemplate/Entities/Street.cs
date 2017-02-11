@@ -17,7 +17,7 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<StreetAlias> StreetAliases { get; set; } 
+        public virtual List<StreetAlias> Aliases { get; set; } 
         /// <summary>
         /// Идентификатор города
         /// </summary>

@@ -17,11 +17,11 @@ namespace FlexTemplate.Database
                 if (context == null || !context.HasNoRows()) return;
 
                 context.ChangeTracker.AutoDetectChangesEnabled = false;
-                context.Add(new Language
+                var english = new Language
                 {
                     Name = "English",
                     ShortName = "EN"
-                });
+                };
                 var ukrainian = new Language
                 {
                     Name = "Українська",
@@ -37,6 +37,12 @@ namespace FlexTemplate.Database
                     Language = ukrainian,
                     Text = "Адміністратор"
                 });
+                context.Add(new UserRoleAlias
+                {
+                    UserRole = supervisor,
+                    Language = english,
+                    Text = "Supervisor"
+                });
                 var guest = new UserRole
                 {
                     Name = "Guest"
@@ -46,6 +52,12 @@ namespace FlexTemplate.Database
                     UserRole = guest,
                     Language = ukrainian,
                     Text = "Гість"
+                });
+                context.Add(new UserRoleAlias
+                {
+                    UserRole = guest,
+                    Language = english,
+                    Text = "Guest"
                 });
                 context.Add(new User
                 {
@@ -162,7 +174,7 @@ namespace FlexTemplate.Database
                                 Category = category3
                             }
                         },
-                        PlaceAliases = new List<PlaceAlias>
+                        Aliases = new List<PlaceAlias>
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Іль моліно"}
                         }
@@ -186,7 +198,7 @@ namespace FlexTemplate.Database
                                 Category = category1
                             }
                         },
-                        PlaceAliases = new List<PlaceAlias>
+                        Aliases = new List<PlaceAlias>
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Банка"}
                         }
@@ -202,7 +214,7 @@ namespace FlexTemplate.Database
                                 Category = category4
                             }
                         },
-                        PlaceAliases = new List<PlaceAlias>
+                        Aliases = new List<PlaceAlias>
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Боржомі"}
                         }

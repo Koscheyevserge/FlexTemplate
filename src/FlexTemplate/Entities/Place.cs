@@ -26,10 +26,10 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<PlaceAlias> PlaceAliases { get; set; } 
+        public virtual List<PlaceAlias> Aliases { get; set; } 
         /// <summary>
         /// Фотография заведения
         /// </summary>
-        public virtual List<PlacePhoto> PlacePhotos { get; set; } 
+        public virtual List<PlacePhoto> Photos { get; set; } 
     }
 }

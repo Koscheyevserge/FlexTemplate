@@ -26,6 +26,6 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<CityAlias> CityAliases { get; set; } 
+        public virtual List<CityAlias> Aliases { get; set; } 
     }
 }
