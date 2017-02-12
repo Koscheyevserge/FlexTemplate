@@ -47,5 +47,38 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
         #endregion
+
+        #region UserRole
+
+        [HttpGet]
+        public IActionResult UserRole(int id)
+        {
+           
+                var model = db.UserRoles.FirstOrDefault(userRoles => userRoles.Id == id);
+                return View(model);
+            
+        }
+        #endregion
+
+
+        #region User
+
+        [HttpGet]
+        public IActionResult User(int id)
+        {
+            var model = db.Users.FirstOrDefault(user => user.Id == id);
+            return View(model);
+        }
+        #endregion
+
+        #region Category
+
+        [HttpGet]
+        public IActionResult Category(int id)
+        {
+            var model = db.Categories.FirstOrDefault(category => category.Id == id);
+            return View(model);
+        }
+        #endregion
     }
 }
