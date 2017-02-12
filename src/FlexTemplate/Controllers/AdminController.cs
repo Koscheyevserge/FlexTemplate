@@ -50,18 +50,6 @@ namespace FlexTemplate.Controllers
         }
         #endregion
 
-        #region Categories
-
-        [HttpGet]
-        [Route("/Admin/Categories/{page}")]
-        public IActionResult Categories(int page)
-        {
-            page--;
-            var model = db.Categories.Skip(10 * page).Take(10).AsNoTracking();
-            return View(model);
-        }
-        #endregion
-
         #region UserRole
 
         [HttpGet]
@@ -100,7 +88,7 @@ namespace FlexTemplate.Controllers
         #region Category
 
         [HttpGet]
-        [Route("/Admin/{id}")]
+        [Route("/Admin/Category/{id}")]
         public IActionResult Category(int id)
         {
             var model = GetCategory(id);
@@ -108,10 +96,19 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpGet]
+        [Route("/Admin/Categories/{page}")]
+        public IActionResult Categories(int page)
+        {
+            page--;
+            var model = db.Categories.Skip(10 * page).Take(10).AsNoTracking();
+            return View(model);
+        }
+
+        [HttpGet]
         [Route("api/category/{id}")]
         public Category GetCategory(int id)
         {
-            return db.Categories.FirstOrDefault(i => i.Id == id);
+            return db.Categories.Include(i => i.Aliases).AsNoTracking().FirstOrDefault(i => i.Id == id);
         }
 
         [HttpPost]
@@ -145,8 +142,8 @@ namespace FlexTemplate.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("api/category/delete")]
+        [HttpGet]
+        [Route("api/category/delete/{id}")]
         public AjaxResponse DeleteCategory(int id)
         {
             try
@@ -175,7 +172,7 @@ namespace FlexTemplate.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("api/category/update")]
         public AjaxResponse UpdateCategory([FromBody]Category item)
         {
