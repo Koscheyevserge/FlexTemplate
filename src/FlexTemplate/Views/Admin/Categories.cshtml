@@ -9,9 +9,24 @@
 	    @foreach (var alias in @Model.First().Aliases)
 	    {
 	    	<input type="text" id="Text" value="@alias.Text">
-	    	@alias.Language.ShortName
+	    	<select class="custom-select" id="alias.Id">
+          @{
+            if (Model != null)
+            {
+              @foreach (var language in alias.Languages)
+              {
+                <option value="@language.Id" @if (language.Id === alias.LanguageId) { selected }>@language</option>
+              }
+            }
+          }
+        </select>
 	    }
+	    <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
 		</div>
+		<div class="category">
+			
+		</div>
+    <button class="btn btn-primary btn-form admin-buttom">Save</button>
 	  }
 	}
 </div>
