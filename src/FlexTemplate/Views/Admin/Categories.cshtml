@@ -1,8 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<FlexTemplate.Entities.Category>
+
 <div class="c-categories container admin">
-	
+	@{
+	  if (Model != null)
+	  {
+		<h2>Категорія <span>@Model.First().Name</span></h2>
+		<div class="alias">
+	    @foreach (var alias in @Model.First().Aliases)
+	    {
+	    	<input type="text" id="Text" value="@alias.Text">
+	    	@alias.Language.ShortName
+	    }
+		</div>
+	  }
+	}
 </div>

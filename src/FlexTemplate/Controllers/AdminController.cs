@@ -100,7 +100,7 @@ namespace FlexTemplate.Controllers
         public IActionResult Categories(int page)
         {
             page--;
-            var model = db.Categories.Skip(10 * page).Take(10).AsNoTracking();
+            var model = db.Categories.Include(i => i.Aliases).ThenInclude(a => a.Language).Skip(10 * page).Take(10).AsNoTracking();
             return View(model);
         }
 
@@ -140,6 +140,14 @@ namespace FlexTemplate.Controllers
                     Successed = false
                 };
             }
+        }
+
+        [HttpGet]
+        [Route("/api/languages")]
+        public IEnumerable<Language> GetAllLanguages()
+        {
+            var model = db.Languages.AsNoTracking().AsEnumerable();
+            return model;
         }
 
         [HttpGet]
