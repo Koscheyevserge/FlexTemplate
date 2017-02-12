@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexTemplate.Database;
+using FlexTemplate.Entities;
+using FlexTemplate.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +22,9 @@ namespace FlexTemplate
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(env.ContentRootPath)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-            .AddJsonFile("defaultEntities.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.json", true, true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+            .AddJsonFile("defaultEntities.json", true, true)
             .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -32,6 +35,16 @@ namespace FlexTemplate
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<Context>(options => options.UseSqlServer(connection));
+            services.AddIdentity<User, IdentityRole>(o => {
+                    o.Password.RequireDigit = false;
+                    o.Password.RequireLowercase = false;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequireNonAlphanumeric = false;
+                    o.Password.RequiredLength = 6;
+                })
+                .AddEntityFrameworkStores<Context>()
+                .AddDefaultTokenProviders();
+            services.AddTransient<ContextProvider>();
             services.AddMvc();
         }
 
@@ -48,14 +61,10 @@ namespace FlexTemplate
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseMiddleware<ContextProvider>();
             app.UseStaticFiles();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-            ContextProvider.Initialize(app.ApplicationServices, Configuration);
+            app.UseIdentity();
+            app.UseMvc(routes => routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"));
         }
     }
 }

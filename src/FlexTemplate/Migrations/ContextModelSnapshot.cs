@@ -300,81 +300,168 @@ namespace FlexTemplate.Migrations
 
             modelBuilder.Entity("FlexTemplate.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("Id");
 
-                    b.Property<string>("EncryptedPassword");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Login");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
                     b.Property<string>("Surname");
 
-                    b.Property<int>("UserRoleId");
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasAnnotation("MaxLength", 256);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserRoleId");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.UserKey", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
+                {
+                    b.Property<string>("Id");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasAnnotation("MaxLength", 256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("Key");
+                    b.Property<string>("ClaimType");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserKeys");
+                    b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasAlternateKey("Name");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.UserRoleAlias", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("UserId");
 
-                    b.Property<int>("LanguageId");
+                    b.Property<string>("RoleId");
 
-                    b.Property<string>("Text");
+                    b.HasKey("UserId", "RoleId");
 
-                    b.Property<int>("UserRoleId");
+                    b.HasIndex("RoleId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("UserId");
 
-                    b.HasIndex("LanguageId");
+                    b.ToTable("AspNetUserRoles");
+                });
 
-                    b.HasIndex("UserRoleId");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
 
-                    b.ToTable("UserRoleAliases");
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Category", "Category")
-                        .WithMany("CategoryAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -395,7 +482,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.CityAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.City", "City")
-                        .WithMany("CityAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -408,7 +495,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.CountryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Country", "Country")
-                        .WithMany("CountryAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -455,7 +542,7 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany("PlaceAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -476,7 +563,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.PlacePhoto", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany("PlacePhotos")
+                        .WithMany("Photos")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -497,37 +584,45 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.Entities.Street", "Street")
-                        .WithMany("StreetAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("StreetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("FlexTemplate.Entities.UserRole", "UserRole")
-                        .WithMany("Users")
-                        .HasForeignKey("UserRoleId")
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.UserKey", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("FlexTemplate.Entities.User", "User")
-                        .WithMany()
+                    b.HasOne("FlexTemplate.Entities.User")
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.UserRoleAlias", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("FlexTemplate.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
+                    b.HasOne("FlexTemplate.Entities.User")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("FlexTemplate.Entities.UserRole", "UserRole")
-                        .WithMany("Aliases")
-                        .HasForeignKey("UserRoleId")
+                    b.HasOne("FlexTemplate.Entities.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
         }

@@ -23,7 +23,7 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult UserRoles()
         {
-            var model = db.UserRoles.Take(10).Include(ur => ur.Aliases);
+            var model = db.UserRoles.Take(10);
             return View(model);
         }
         #endregion
@@ -53,10 +53,8 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult UserRole(int id)
         {
-           
-                var model = db.UserRoles.FirstOrDefault(userRoles => userRoles.Id == id);
-                return View(model);
-            
+            var model = db.UserRoles.FirstOrDefault();
+            return View(model);
         }
         #endregion
 
@@ -64,9 +62,9 @@ namespace FlexTemplate.Controllers
         #region User
 
         [HttpGet]
-        public IActionResult User(int id)
+        public new IActionResult User(int id)
         {
-            var model = db.Users.FirstOrDefault(user => user.Id == id);
+            var model = db.Users.FirstOrDefault();
             return View(model);
         }
         #endregion
@@ -76,7 +74,7 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult Category(int id)
         {
-            var model = db.Categories.FirstOrDefault(category => category.Id == id);
+            var model = db.Categories.FirstOrDefault();
             return View(model);
         }
         #endregion

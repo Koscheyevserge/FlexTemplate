@@ -12,7 +12,7 @@ namespace FlexTemplate.Services
     /// <summary>
     /// Класс для работы с куки
     /// </summary>
-    public static class CookieProvider
+    /*public static class CookieProvider
     {
         /// <summary>
         /// Записывает UserKey в куки пользователя
@@ -61,5 +61,5 @@ namespace FlexTemplate.Services
         {
             httpContext.Response.Cookies.Delete(Constants.USER_KEY_COOKIE_NAME);
         }
-    }
+    }*/
 }
