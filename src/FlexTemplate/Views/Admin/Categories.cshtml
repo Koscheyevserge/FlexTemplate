@@ -3,20 +3,24 @@
 <div class="c-categories container admin">
 	  @if (Model != null)
 	  {
-		<h2>Категорія <span>@Model.First().Name</span></h2>
-		<div class="alias">
-	        @foreach (var alias in Model.First().Aliases)
-	        {
-                <div>
-	                <p>@alias.Text</p>
-                    <p>@alias.Language.ShortName</p>
-                </div>
-            }
-	        <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
-		</div>
-		<div class="category">
-			
-		</div>
-        <button class="btn btn-primary btn-form admin-buttom">Save</button>
+          @foreach (var category in Model)
+          {
+               <h2>Категорія <span>@category.Name</span></h2>
+               <div class="alias">
+                   @foreach (var alias in category.Aliases)
+                   {
+                       <div>
+                           <p>@alias.Text</p>
+                           <p>@alias.Language.ShortName</p>
+                       </div>
+                   }
+                   <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
+                   <button class="btn btn-primary btn-form admin-buttom">Delete alias</button>
+               </div>
+               <div class="category">
+
+               </div>
+          }
+	      <button class="btn btn-primary btn-form admin-buttom">Save</button>
 	  }
 </div>
