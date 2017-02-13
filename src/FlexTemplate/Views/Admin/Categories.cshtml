@@ -1,32 +1,22 @@
 ﻿@model IEnumerable<FlexTemplate.Entities.Category>
 
 <div class="c-categories container admin">
-	@{
-	  if (Model != null)
+	  @if (Model != null)
 	  {
 		<h2>Категорія <span>@Model.First().Name</span></h2>
 		<div class="alias">
-	    @foreach (var alias in @Model.First().Aliases)
-	    {
-	    	<input type="text" id="Text" value="@alias.Text">
-	    	<select class="custom-select" id="alias.Id">
-          @{
-            if (Model != null)
-            {
-              @foreach (var language in alias.Languages)
-              {
-                <option value="@language.Id" @if (language.Id === alias.LanguageId) { selected }>@language</option>
-              }
+	        @foreach (var alias in Model.First().Aliases)
+	        {
+                <div>
+	                <p>@alias.Text</p>
+                    <p>@alias.Language.ShortName</p>
+                </div>
             }
-          }
-        </select>
-	    }
-	    <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
+	        <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
 		</div>
 		<div class="category">
 			
 		</div>
-    <button class="btn btn-primary btn-form admin-buttom">Save</button>
+        <button class="btn btn-primary btn-form admin-buttom">Save</button>
 	  }
-	}
 </div>
