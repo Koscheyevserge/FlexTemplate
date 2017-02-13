@@ -43,6 +43,55 @@ Created:        24/10/2016
 	min-height: 40px;
 }
 
-.admin h2 span {
+
+/* admin */
+
+.admin {
+  margin-bottom: 80px;
+}
+
+.admin h3 {
+  display: inline-block;
+}
+
+.admin h3 input {
+  display: inline-block;
+  width: 300px;
   color: #3277C0;
+  vertical-align: middle;
+}
+
+.admin .buttons {
+  margin-top: 15px;
+  display: block;
+}
+
+.admin .alias {
+  margin-top: 10px;
+}
+
+.admin .admin-button-remove-category {
+  display: inline-block;
+  margin: -12px 0 0 20px;
+  vertical-align: middle;
+}
+
+.admin .buttons .admin-button {
+  margin-right: 10px;
+}
+
+.admin-button-add-category {
+  margin-top: 40px;
+}
+
+.admin .category {
+  margin-top: 40px;
+}
+
+.admin .fancy-select,
+.admin .alias input {
+  margin-right: 10px;
+  width: 200px;
+  display: inline-block;
+  vertical-align: middle;
 }

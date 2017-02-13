@@ -1,16 +1,17 @@
 "use strict"
 
+/* api */
+
+const GET_LANGUAGES = "http://localhost:5000/api/languages";
+
 /* Get languages */
 
-function getLanguages() {
-	let languages;
-	$.ajax({
-	  url: "/api/languages",
-	  context: document.body,
-	  success: function(){
-	    languages = this;
-	  }
+function getLanguages(result) {
+	$.ajax(GET_LANGUAGES, {
+    success: result,
+    error: function(error) {
+      console.log('error ' + error);
+    }
 	});
-	return languages; 
 }   
     

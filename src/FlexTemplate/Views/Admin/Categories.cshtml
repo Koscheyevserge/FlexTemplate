@@ -1,26 +1,46 @@
 ﻿@model IEnumerable<FlexTemplate.Entities.Category>
 
 <div class="c-categories container admin">
-	  @if (Model != null)
-	  {
-          @foreach (var category in Model)
-          {
-               <h2>Категорія <span>@category.Name</span></h2>
-               <div class="alias">
-                   @foreach (var alias in category.Aliases)
-                   {
-                       <div>
-                           <p>@alias.Text</p>
-                           <p>@alias.Language.ShortName</p>
-                       </div>
-                   }
-                   <button class="btn btn-primary btn-form admin-buttom">Add alias</button>
-                   <button class="btn btn-primary btn-form admin-buttom">Delete alias</button>
-               </div>
-               <div class="category">
-
-               </div>
-          }
-	      <button class="btn btn-primary btn-form admin-buttom">Save</button>
-	  }
+  @if (Model != null)
+  {
+  	<div class="categories">
+    @foreach (var category in Model)
+    {
+    	<div class="category" id="@category.Id">
+				<h3>Категорія <input id="categoryName" class="form-control" type="text" value="@category.Name"></h3>
+				<button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button>
+				<div class="aliases">
+				 	@foreach (var alias in category.Aliases)
+				 	{
+				 		<div class="alias" id="@alias.Id">
+					    <input class="form-control" type="text" value="@alias.Text">
+					    <select class="custom-select">
+					    	<option>@alias.Language.ShortName</option>
+					    </select>
+					 		<button class="btn btn-primary btn-form admin-button-alias-remove">Remove alias</button>
+				 		</div>
+				 	}
+					<div class="buttons">
+						<button class="btn btn-primary btn-form admin-button-add-alias">Add alias</button>
+	    			<button class="btn btn-primary btn-form admin-button-save">Save</button>
+					</div>
+				</div>
+      </div>
+    }
+    </div>
+		<button class="btn btn-primary btn-form admin-button admin-button-add-category">Add category</button>
+  }
 </div>
+
+<script>
+	// window.onload = function() {
+	// 	$.ajax(GET_LANGUAGES, {
+ //    	success: function() {
+ //    		$()
+ //    	},
+	//     error: function(error) {
+	//       console.log('error ' + error);
+	//     }
+	// 	});
+	// };
+</script>
