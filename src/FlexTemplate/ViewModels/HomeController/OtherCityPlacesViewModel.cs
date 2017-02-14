@@ -26,5 +26,7 @@ namespace FlexTemplate.ViewModels
         /// Приставка к количеству заведений, например 432 ресторана/заведения/places и тд.
         /// </summary>
         public string PlaceDescriptor { get; set; }
+
+        
     }
 }
