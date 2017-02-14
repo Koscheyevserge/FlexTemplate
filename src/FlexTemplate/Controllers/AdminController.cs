@@ -157,10 +157,19 @@ namespace FlexTemplate.Controllers
             {
                 if (id != 0)
                 {
-                    db.Categories.FirstOrDefault(i => i.Id == id);
+                    var entity = db.Categories.FirstOrDefault(i => i.Id == id);
+                    if (entity != null)
+                    {
+                        db.Categories.Remove(entity);
+                        db.SaveChanges();
+                        return new AjaxResponse
+                        {
+                            Successed = true
+                        };
+                    }
                     return new AjaxResponse
                     {
-                        Successed = true
+                        Successed = false, ErrorMessages = new List<string> {"Такой сущности не существует"}
                     };
                 }
                 return new AjaxResponse

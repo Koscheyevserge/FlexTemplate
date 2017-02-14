@@ -63,7 +63,6 @@ namespace FlexTemplate
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseMiddleware<ContextProvider>();
-            app.UseMiddleware<CookieProvider>();
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(routes => routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"));

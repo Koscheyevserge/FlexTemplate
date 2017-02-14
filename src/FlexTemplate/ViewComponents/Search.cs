@@ -14,12 +14,10 @@ namespace FlexTemplate.ViewComponents
     public class Search : ViewComponent
     {
         private readonly Context _context;
-        private UserManager<User> _userManager;
 
-        public Search(Context context, UserManager<User> userManager)
+        public Search(Context context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public IViewComponentResult Invoke()
