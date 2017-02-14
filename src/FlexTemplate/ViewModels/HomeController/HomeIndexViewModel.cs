@@ -10,13 +10,6 @@ namespace FlexTemplate.ViewModels
     /// </summary>
     public class HomeIndexViewModel
     {
-        public OtherCitiesPlacesViewModel OtherCitiesPlacesViewModel { get; set; }
-        public ThisCityPlacesViewModel ThisCityPlacesViewModel { get; set; }
-
-        public HomeIndexViewModel()
-        {
-            OtherCitiesPlacesViewModel = new OtherCitiesPlacesViewModel();
-            ThisCityPlacesViewModel = new ThisCityPlacesViewModel();
-        }
+        
     }
 }

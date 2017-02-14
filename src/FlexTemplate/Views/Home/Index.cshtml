@@ -5,9 +5,9 @@
 
   @await Component.InvokeAsync("Search")
 
-  @await Component.InvokeAsync("OtherCitiesPlaces", new { model = Model.OtherCitiesPlacesViewModel})
+  @await Component.InvokeAsync("OtherCitiesPlaces")
 
-  @await Component.InvokeAsync("ThisCityPlaces", new { model = Model.ThisCityPlacesViewModel})
+  @await Component.InvokeAsync("ThisCityPlaces")
 
   @await Component.InvokeAsync("Capabilities")
 
