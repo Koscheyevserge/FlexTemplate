@@ -44,7 +44,8 @@ namespace FlexTemplate
                 })
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();
-            services.AddTransient<ContextProvider>();
+            services.AddScoped<ContextProvider>();
+            services.AddScoped<ContextProvider>();
             services.AddMvc();
         }
 
@@ -62,6 +63,7 @@ namespace FlexTemplate
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseMiddleware<ContextProvider>();
+            app.UseMiddleware<CookieProvider>();
             app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(routes => routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"));

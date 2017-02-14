@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FlexTemplate.Database;
 using FlexTemplate.Entities;
 using FlexTemplate.ViewComponents;
+using FlexTemplate.ViewModels.AdminController;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -29,11 +30,10 @@ namespace FlexTemplate.Controllers
         #region UserRoles
 
         [HttpGet]
-        [Route("/Admin/UserRoles/{page}")]
-        public IActionResult UserRoles(int page)
+        public IActionResult UserRoles(int id)
         {
-            page--;
-            var model = db.Roles.Skip(10 * page).Take(10).AsNoTracking();
+            id--;
+            var model = db.Roles.Skip(10 * id).Take(10).AsNoTracking();
             return View(model);
         }
         #endregion
@@ -63,14 +63,6 @@ namespace FlexTemplate.Controllers
 
         #region User
 
-        [HttpGet]
-        [Route("/Admin/User/{id}")]
-        public new IActionResult User(string id)
-        {
-            var model = db.Users.FirstOrDefault(i => i.Id == id);
-            return View(model);
-        }
-
         [HttpPost]
         [Route("api/user/create")]
         public async Task<AjaxResponse> CreateUser([FromBody]User item)
@@ -88,7 +80,6 @@ namespace FlexTemplate.Controllers
         #region Category
 
         [HttpGet]
-        [Route("/Admin/Category/{id}")]
         public IActionResult Category(int id)
         {
             var model = GetCategory(id);
@@ -96,11 +87,19 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpGet]
-        [Route("/Admin/Categories/{page}")]
-        public IActionResult Categories(int page)
+        public IActionResult Categories(int id)
         {
-            page--;
-            var model = db.Categories.Include(i => i.Aliases).ThenInclude(a => a.Language).Skip(10 * page).Take(10).AsNoTracking();
+            id--;
+            var model = new AdminCategoriesViewModel
+            {
+                Categories =
+                    db.Categories.Include(i => i.Aliases)
+                        .ThenInclude(a => a.Language)
+                        .Skip(10*id)
+                        .Take(10)
+                        .AsEnumerable(),
+                Languages = GetAllLanguages()
+            };
             return View(model);
         }
 

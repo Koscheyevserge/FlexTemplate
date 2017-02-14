@@ -32,6 +32,11 @@ namespace FlexTemplate.Services
 
         private async Task Initialize(HttpContext httpContext)
         {
+            var ukrainian = new Language
+            {
+                Name = "Українська",
+                ShortName = "UA"
+            };
             if (context == null || !context.HasNoRows())
             {
                 await _next.Invoke(httpContext);
@@ -54,11 +59,6 @@ namespace FlexTemplate.Services
             {
                 Name = "Guest"
             });
-            var ukrainian = new Language
-            {
-                Name = "Українська",
-                ShortName = "UA"
-            };
             var ukraine = new Country
             {
                 Name = "Ukraine"

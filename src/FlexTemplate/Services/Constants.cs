@@ -11,9 +11,9 @@ namespace FlexTemplate.Services
     public static class Constants
     {
         /// <summary>
-        /// Название ключа куки в которой хранится UserKey
+        /// Название ключа куки в которой хранится выбраный язык пользователя
         /// </summary>
-        public const string USER_KEY_COOKIE_NAME = "user_key";
+        public const string LANGUAGE_COOKIE_NAME = "LANGUAGE_COOKIE";
         /// <summary>
         /// Продолжительность жизни куки (20 минут)
         /// </summary>

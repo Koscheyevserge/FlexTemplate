@@ -1,4 +1,6 @@
 ﻿@model FlexTemplate.ViewModels.SearchViewModel
+@if (Model != null)
+{
 <!-- start hero-header -->
 <div class="c-search hero alt-height" style="background-image:url('@Model.PhotoPath');">
   <div class="container">
@@ -11,28 +13,12 @@
         </div>
         <div class="form-group">
           <select class="custom-select" id="cuisine-type">
-          @{
-            if (Model != null)
-            {
-              for (int i = 0; i < Model.CategoriesNames.Count; i++)
+              @for (int i = 0; i < Model.CategoriesNames.Count; i++)
               {
                 <option value="@i">@Model.CategoriesNames[i]</option>
               }
-            }
-          }
           </select>
         </div>
-        <!--<div class="form-group">
-          <select class="custom-select" id="no-of-people">
-            <option value="0">Number Of People</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-          </select>
-        </div>-->
         <button class="btn btn-primary btn-form">Знайти</button>
       </form>
       <div class="clear"></div>
@@ -41,3 +27,4 @@
   </div>
 </div>
 <!-- end hero-header -->
+}
