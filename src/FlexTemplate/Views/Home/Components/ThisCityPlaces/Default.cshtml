@@ -14,9 +14,9 @@
             <div class="restaurant-grid-wrapper mb-30">
                 <div class="GridLex-gap-30 GridLex-gap-20-mdd">
                     <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
-                        @foreach (var vm in Model.ThisCityPlaceViewModels)
+                        @foreach (var placeId in Model.ThisCityPlaceIds)
                         {
-                            @await Component.InvokeAsync("ThisCityPlace", new {model = vm});
+                            @await Component.InvokeAsync("ThisCityPlace", new {id = placeId});
                         }
                     </div>
                     <div class="text-center">

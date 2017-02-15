@@ -22,7 +22,8 @@ namespace FlexTemplate.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var model = new ThisCityPlacesViewModel { };
+            var ids = _context.Places.Take(8).Select(p => p.Id).ToList();
+            var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids};
             return View(model);
         }
     }

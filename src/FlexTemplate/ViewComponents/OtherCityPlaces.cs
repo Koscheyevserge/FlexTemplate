@@ -8,6 +8,7 @@ using FlexTemplate.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlexTemplate.ViewComponents
 {
@@ -22,11 +23,11 @@ namespace FlexTemplate.ViewComponents
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(int id)
         {
             var photoPath = "images/othercityplaces/01.jpg";
-            var cityName = "Київ";
-            var placesCount = 20;
+            var cityName = _context.Cities.Where(city => city.Id == id).FirstOrDefault().Name;
+            var placesCount = _context.Places.Include(place => place.Street).Where(place => place.Street.CityId == id).Count();
             var placeDescription = "заведений";
             
             var model = new OtherCityPlacesViewModel { PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };

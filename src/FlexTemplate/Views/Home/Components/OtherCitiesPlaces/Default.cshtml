@@ -16,9 +16,9 @@
       <div class="destination-grid-wrapper-02">
         <div class="GridLex-gap-30 GridLex-gap-20-mdd GridLex-gap-10-xs">
             <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
-              @foreach (var vm in Model.OtherCityPlacesViewModels)
+              @foreach (var cityId in Model.OtherCitiesPlacesIds)
               {
-                  @await Component.InvokeAsync("OtherCityPlaces", new {model = vm});
+                  @await Component.InvokeAsync("OtherCityPlaces", new {id = cityId});
               }
             </div>
         </div>
