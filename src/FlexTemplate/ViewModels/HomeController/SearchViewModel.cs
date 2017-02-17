@@ -9,5 +9,6 @@ namespace FlexTemplate.ViewModels
     {
         public string PhotoPath { get; set; }
         public List<string> CategoriesNames { get; set; }
+        public Dictionary<string, string> Strings { get; set; }
     }
 }

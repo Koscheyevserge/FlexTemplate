@@ -8,12 +8,8 @@ namespace FlexTemplate.Entities
     /// <summary>
     /// Локализируемая строка страницы
     /// </summary>
-    public class PageLocalizableString : BaseAlias
+    public class PageLocalizableString : BaseLocalizableString
     {
-        /// <summary>
-        /// Идентификатор элемента на странице, текст которого хранит локализируемая строка
-        /// </summary>
-        public string PageElementId { get; set; }
         /// <summary>
         /// Идентификатор страницы
         /// </summary>

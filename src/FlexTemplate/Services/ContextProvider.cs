@@ -32,16 +32,16 @@ namespace FlexTemplate.Services
 
         private async Task Initialize(HttpContext httpContext)
         {
-            var ukrainian = new Language
-            {
-                Name = "Українська",
-                ShortName = "UA"
-            };
             if (context == null || !context.HasNoRows())
             {
                 await _next.Invoke(httpContext);
                 return;
             }
+            var ukrainian = new Language
+            {
+                Name = "Українська",
+                ShortName = "UA"
+            };
             var supervisorAddResult = await roleManager.CreateAsync(new IdentityRole
             {
                 Name = "Supervisor"
@@ -160,7 +160,6 @@ namespace FlexTemplate.Services
             context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська кухня" });
             var category5 = new Category { Name = "Japanese cuisine" };
             context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська кухня" });
-
             context.AddRange(
                 new Place
                 {
@@ -240,84 +239,80 @@ namespace FlexTemplate.Services
                         new PlaceAlias {Language = ukrainian, Text = "Боржомі"}
                     }
                 },
-
-                 new Place
-                 {
-                     Name = "Rojo Ojo",
-                     Street = kievStreet1,
-                     PlaceCategories = new List<PlaceCategory>
+                new Place
+                {
+                    Name = "Rojo Ojo",
+                    Street = kievStreet1,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category1
                         },
-                         new PlaceCategory
+                        new PlaceCategory
                         {
                             Category = category3
                         }
                     },
-                     Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Ройо Ойо"}
                     }
-                 },
-
-                  new Place
-                  {
-                      Name = "KFC",
-                      Street = kievStreet1,
-                      PlaceCategories = new List<PlaceCategory>
-                    {
-                        new PlaceCategory
-                        {
-                            Category = category4
-                        }
-                       
-                    },
-                      Aliases = new List<PlaceAlias>
-                    {
-                        new PlaceAlias {Language = ukrainian, Text = "КФс"}
-                    }
-                  },
-
-                   new Place
+                },
+                new Place
+                {
+                   Name = "KFC",
+                   Street = kievStreet1,
+                   PlaceCategories = new List<PlaceCategory>
                    {
-                       Name = "Сушия",
-                       Street = kievStreet1,
-                       PlaceCategories = new List<PlaceCategory>
+                       new PlaceCategory
+                       {
+                           Category = category4
+                       }
+                      
+                   },
+                   Aliases = new List<PlaceAlias>
+                   {
+                       new PlaceAlias {Language = ukrainian, Text = "КФс"}
+                   }
+                },
+                new Place
+                {
+                    Name = "Сушия",
+                    Street = kievStreet1,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category5
                         }
                     },
-                       Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Суші Я"}
                     }
-                   },
-
-                    new Place
-                    {
-                        Name = "Царьград",
-                        Street = kievStreet2,
-                        PlaceCategories = new List<PlaceCategory>
+                },
+                new Place
+                {
+                    Name = "Царьград",
+                    Street = kievStreet2,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category1
                         }
                     },
-                        Aliases = new List<PlaceAlias>
-                        {
-                            new PlaceAlias {Language = ukrainian, Text = "Цаград"}
-                        }
-                    },
-                     new Place
-                     {
-                         Name = "Buddha-bar",
-                         Street = kievStreet2,
-                         PlaceCategories = new List<PlaceCategory>
+                    Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "Цаград"}
+                    }
+                },
+                new Place
+                {
+                    Name = "Buddha-bar",
+                    Street = kievStreet2,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
@@ -328,82 +323,139 @@ namespace FlexTemplate.Services
                             Category = category4
                         }
                     },
-                         Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Будка бар"}
                     }
-                     },
-                      new Place
-                      {
-                          Name = "MAFIA",
-                          Street = kievStreet2,
-                          PlaceCategories = new List<PlaceCategory>
+                },
+                new Place
+                {
+                    Name = "MAFIA",
+                    Street = kievStreet2,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category2
                         }
                     },
-                          Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "МАФІЯ"}
                     }
-                      },
-                       new Place
-                       {
-                           Name = "Хінкалі",
-                           Street = kievStreet4,
-                           PlaceCategories = new List<PlaceCategory>
+                },
+                new Place
+                {
+                    Name = "Хінкалі",
+                    Street = kievStreet4,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category3
                         }
-                    },
-                          
-                       },
-                        new Place
-                        {
-                            Name = "BEEF",
-                            Street = kievStreet4,
-                            PlaceCategories = new List<PlaceCategory>
+                    }
+                },
+                new Place
+                {
+                    Name = "BEEF",
+                    Street = kievStreet4,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category4
                         }
                     },
-                            Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Біф"}
                     }
-                        },
-                         new Place
-                         {
-                             Name = "Нобу",
-                             Street = kievStreet4,
-                             PlaceCategories = new List<PlaceCategory>
+                },
+                new Place
+                {
+                    Name = "Нобу",
+                    Street = kievStreet4,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category1
                         }
                     }
-                            
-                         },
-
-                          new Place
-                          {
-                              Name = "Кафе Кентавр",
-                              Street = lvivStreet1,
-                              PlaceCategories = new List<PlaceCategory>
+                },
+                new Place
+                {
+                    Name = "Кафе Кентавр",
+                    Street = lvivStreet1,
+                    PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
                         {
                             Category = category1
                         }
                     }
-                          });
+                }
+            );
+            var index = new Page
+            {
+                Name = "Index",
+                BodyClasses = "full-width-container transparent-header",
+                Title = "Index"
+            };
+            context.Containers.AddRange(
+                new List<Container>
+                {
+                    new Container
+                    {
+                        Name = "Search",
+                        TemplateName = "Default",
+                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 1 } },
+                        LocalizableStrings = new List<ContainerLocalizableString>
+                        {
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Знайдіть найкращі ресторани за привабливою ціною!", Tag = "TitleFirstLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Більш ніж 5000 ресторанів по всій Україні", Tag = "SubtitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Знайти", Tag = "FindButtonCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Або погляньте на інші 128 ресторанів вашого міста", Tag = "EndLabelCaption"}
+                        }
+                    },
+                    new Container
+                    {
+                        Name = "OtherCitiesPlaces",
+                        TemplateName = "Default",
+                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 2 } },
+                        LocalizableStrings = new List<ContainerLocalizableString>
+                        {
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Інші популярні міста", Tag = "TitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.", Tag = "SubtitleLabelCaption"}
+                        }
+                    },
+                    new Container
+                    {
+                        Name = "ThisCityPlaces",
+                        TemplateName = "Default",
+                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 3 } },
+                        LocalizableStrings = new List<ContainerLocalizableString>
+                        {
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Ресторани у твоєму місті", Tag = "TitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Найкращі ресторани міста на будь-який смак", Tag = "SubtitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Більше ресторанів", Tag = "MorePlacesButtonCaption"}
+                        }
+                    },
+                    new Container
+                    {
+                        Name = "Capabilities",
+                        TemplateName = "Default",
+                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 4 } }
+                    },
+                    new Container
+                    {
+                        Name = "Suggestions",
+                        TemplateName = "Default",
+                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 5 } }
+                    }
+                }
+            );
             context.SaveChanges();
             await _next.Invoke(httpContext);
         }

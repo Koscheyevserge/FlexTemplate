@@ -16,5 +16,6 @@ namespace FlexTemplate.ViewModels
         /// </summary>
         [MaxLength(4)]
         public List<int> OtherCitiesPlacesIds { get; set; }
+        public Dictionary<string,string> Strings { get; set; } 
     }
 }

@@ -26,6 +26,9 @@ namespace FlexTemplate.Database
         public DbSet<Page> Pages { get; set; }
         public DbSet<PageLocalizableString> PageLocalizableStrings { get; set; }
         public DbSet<PagePhoto> PagePhotos { get; set; }
+        public DbSet<Container> Containers { get; set; }
+        public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; } 
+        public DbSet<PageContainer> PageContainers { get; set; } 
 
         public Context(DbContextOptions<Context> options) : base(options)
         {

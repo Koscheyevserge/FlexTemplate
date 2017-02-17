@@ -30,6 +30,10 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Фотография заведения
         /// </summary>
-        public virtual List<PlacePhoto> Photos { get; set; } 
+        public virtual List<PlacePhoto> Photos { get; set; }
+        /// <summary>
+        /// Номер дома
+        /// </summary>
+        public string HouseText { get; set; }
     }
 }
