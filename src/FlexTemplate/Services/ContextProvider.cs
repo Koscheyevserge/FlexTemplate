@@ -91,23 +91,48 @@ namespace FlexTemplate.Services
                 Language = ukrainian,
                 Text = "Львів"
             });
-            var iF = new City
+           
+            var harkov = new City
             {
-                Name = "Ivano-Frankivsk",
+                Name = "Harkov",
                 Country = ukraine
             };
             context.Add(new CityAlias
             {
-                City = iF,
+                City = harkov,
                 Language = ukrainian,
-                Text = "Івано-Франківськ"
+                Text = "Харків"
+            });
+
+            var odessa = new City
+            {
+                Name = "Odessa",
+                Country = ukraine
+            };
+            context.Add(new CityAlias
+            {
+                City = odessa,
+                Language = ukrainian,
+                Text = "Одеса"
+            });
+
+            var dnepr = new City
+            {
+                Name = "Dnepr",
+                Country = ukraine
+            };
+            context.Add(new CityAlias
+            {
+                City = dnepr,
+                Language = ukrainian,
+                Text = "Дніпро"
             });
             var kievStreet1 = new Street { Name = "Obolonsky avenue", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet1, Language = ukrainian, Text = "Оболонський проспект" });
             var kievStreet2 = new Street { Name = "Khreschatyk avenue", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet2, Language = ukrainian, Text = "Вулиця Хрещатик" });
             var kievStreet3 = new Street { Name = "Antonovycha street", City = kiev };
-            context.Add(new StreetAlias { Street = kievStreet3, Language = ukrainian, Text = "Вулиця Антовича" });
+            context.Add(new StreetAlias { Street = kievStreet3, Language = ukrainian, Text = "Вулиця Антоновича" });
             var kievStreet4 = new Street { Name = "Shota Rustaveli street", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet4, Language = ukrainian, Text = "Вулиця Шота Руставелі" });
             var lvivStreet1 = new Street { Name = "Rynok square", City = lviv };
@@ -117,12 +142,12 @@ namespace FlexTemplate.Services
             var lvivStreet3 = new Street { Name = "Operniy square", City = lviv };
             context.Add(new StreetAlias { Street = lvivStreet3, Language = ukrainian, Text = "Оперна площа" });
 
-            var ifStreet1 = new Street { Name = "Symonenka street", City = iF };
-            context.Add(new StreetAlias { Street = ifStreet1, Language = ukrainian, Text = "Вулиця Симоненка" });
-            var ifStreet2 = new Street { Name = "Nezalezhnosty street", City = iF };
-            context.Add(new StreetAlias { Street = ifStreet2, Language = ukrainian, Text = "Вулиця Незалежності" });
-            var ifStreet3 = new Street { Name = "Chornovola street", City = iF };
-            context.Add(new StreetAlias { Street = ifStreet3, Language = ukrainian, Text = "Вулиця Чорновола" });
+            var harkovStreet1 = new Street { Name = "Pavlova street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet1, Language = ukrainian, Text = "Вулиця Павлова" });
+            var harkovStreet2 = new Street { Name = "Sumskaya street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet2, Language = ukrainian, Text = "Вулиця Сумська" });
+            var harkovStreet3 = new Street { Name = "Gogolya street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet3, Language = ukrainian, Text = "Вулиця Гоголя" });
 
 
             var category1 = new Category { Name = "Ukrainian cuisine" };
@@ -133,6 +158,8 @@ namespace FlexTemplate.Services
             context.Add(new CategoryAlias { Category = category3, Language = ukrainian, Text = "Грузинська кухня" });
             var category4 = new Category { Name = "American cuisine" };
             context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська кухня" });
+            var category5 = new Category { Name = "Japanese cuisine" };
+            context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська кухня" });
 
             context.AddRange(
                 new Place
@@ -212,7 +239,171 @@ namespace FlexTemplate.Services
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Боржомі"}
                     }
-                });
+                },
+
+                 new Place
+                 {
+                     Name = "Rojo Ojo",
+                     Street = kievStreet1,
+                     PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        },
+                         new PlaceCategory
+                        {
+                            Category = category3
+                        }
+                    },
+                     Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "Ройо Ойо"}
+                    }
+                 },
+
+                  new Place
+                  {
+                      Name = "KFC",
+                      Street = kievStreet1,
+                      PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category4
+                        }
+                       
+                    },
+                      Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "КФс"}
+                    }
+                  },
+
+                   new Place
+                   {
+                       Name = "Сушия",
+                       Street = kievStreet1,
+                       PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category5
+                        }
+                    },
+                       Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "Суші Я"}
+                    }
+                   },
+
+                    new Place
+                    {
+                        Name = "Царьград",
+                        Street = kievStreet2,
+                        PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                        Aliases = new List<PlaceAlias>
+                        {
+                            new PlaceAlias {Language = ukrainian, Text = "Цаград"}
+                        }
+                    },
+                     new Place
+                     {
+                         Name = "Buddha-bar",
+                         Street = kievStreet2,
+                         PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        },
+                         new PlaceCategory
+                        {
+                            Category = category4
+                        }
+                    },
+                         Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "Будка бар"}
+                    }
+                     },
+                      new Place
+                      {
+                          Name = "MAFIA",
+                          Street = kievStreet2,
+                          PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category2
+                        }
+                    },
+                          Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "МАФІЯ"}
+                    }
+                      },
+                       new Place
+                       {
+                           Name = "Хінкалі",
+                           Street = kievStreet4,
+                           PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category3
+                        }
+                    },
+                          
+                       },
+                        new Place
+                        {
+                            Name = "BEEF",
+                            Street = kievStreet4,
+                            PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category4
+                        }
+                    },
+                            Aliases = new List<PlaceAlias>
+                    {
+                        new PlaceAlias {Language = ukrainian, Text = "Біф"}
+                    }
+                        },
+                         new Place
+                         {
+                             Name = "Нобу",
+                             Street = kievStreet4,
+                             PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    }
+                            
+                         },
+
+                          new Place
+                          {
+                              Name = "Кафе Кентавр",
+                              Street = lvivStreet1,
+                              PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    }
+                          });
             context.SaveChanges();
             await _next.Invoke(httpContext);
         }
