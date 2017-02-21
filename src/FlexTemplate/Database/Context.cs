@@ -28,7 +28,8 @@ namespace FlexTemplate.Database
         public DbSet<PagePhoto> PagePhotos { get; set; }
         public DbSet<Container> Containers { get; set; }
         public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; } 
-        public DbSet<PageContainer> PageContainers { get; set; } 
+        public DbSet<PageContainer> PageContainers { get; set; }
+        public DbSet<PlaceReview> PlaceReviews { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -43,7 +44,7 @@ namespace FlexTemplate.Database
 
         public bool HasNoRows()
         {
-            return !Languages.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any();
+            return !Languages.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any() && !PlaceReviews.Any();
         }
     }
 }
