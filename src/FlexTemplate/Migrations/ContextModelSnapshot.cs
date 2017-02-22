@@ -324,6 +324,30 @@ namespace FlexTemplate.Migrations
                     b.ToTable("PlacePhotos");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("PlaceId");
+
+                    b.Property<int>("Star");
+
+                    b.Property<string>("Text");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("PlaceReviews");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.Street", b =>
                 {
                     b.Property<int>("Id")
@@ -654,6 +678,18 @@ namespace FlexTemplate.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Place", "Place")
+                        .WithMany("Reviews")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Street", b =>

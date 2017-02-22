@@ -569,6 +569,35 @@ namespace FlexTemplate.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PlaceReviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PlaceId = table.Column<int>(nullable: false),
+                    Star = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaceReviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaceReviews_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlaceReviews_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CategoryAliases_CategoryId",
                 table: "CategoryAliases",
@@ -670,6 +699,16 @@ namespace FlexTemplate.Migrations
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlaceReviews_PlaceId",
+                table: "PlaceReviews",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlaceReviews_UserId1",
+                table: "PlaceReviews",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Streets_CityId",
                 table: "Streets",
                 column: "CityId");
@@ -757,6 +796,9 @@ namespace FlexTemplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlacePhotos");
+
+            migrationBuilder.DropTable(
+                name: "PlaceReviews");
 
             migrationBuilder.DropTable(
                 name: "StreetAliases");
