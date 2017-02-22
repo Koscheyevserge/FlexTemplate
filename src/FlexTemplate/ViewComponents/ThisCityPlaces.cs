@@ -7,6 +7,7 @@ using FlexTemplate.Database;
 using FlexTemplate.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FlexTemplate.ViewComponents
@@ -23,8 +24,12 @@ namespace FlexTemplate.ViewComponents
         public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Places.Take(8).Select(p => p.Id).ToList();
-            var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids};
-            return View(string.IsNullOrEmpty(template) ? "Default" : template, model);
+            template = string.IsNullOrEmpty(template) ? "Default" : template;
+            var strings = _context.Containers.Include(c => c.LocalizableStrings)
+                .FirstOrDefault(c => c.Name == GetType().Name && c.TemplateName == template)
+                .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
+            var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids, Strings = strings};
+            return View(template, model);
         }
     }
 }
