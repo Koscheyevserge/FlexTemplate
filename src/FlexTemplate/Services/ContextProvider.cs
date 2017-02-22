@@ -46,9 +46,10 @@ namespace FlexTemplate.Services
             {
                 Name = "Supervisor"
             });
+            var supervisor = new User { UserName = "Supervisor" };
             if (supervisorAddResult.Succeeded)
             {
-                var supervisor = new User {UserName = "Supervisor"};
+             
                 var result = await userManager.CreateAsync(supervisor, "Supervisor123");
                 if (result.Succeeded)
                 {
@@ -168,6 +169,10 @@ namespace FlexTemplate.Services
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory {Category = category1}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                         new PlaceReview {Text = "Спасибо за хороший вечер. Зашли случайно. Согрели, накормили. И цена приемлимая. Будем если в этом районе обязательно зайдем еще раз)", Star = 4, User = supervisor } 
                     }
                 },
                 new Place
@@ -192,11 +197,16 @@ namespace FlexTemplate.Services
                         new PlaceCategory
                         {
                             Category = category3
-                        }
+                        },
+
                     },
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Іль моліно"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                         new PlaceReview {Text = "Решили отметить день рождения с молодым человеком в данном ресторане. Я забронировала столик за неделю, при этом указав, что у спутника праздник. Поздравления с днем рождения устраивают многие заведения, начиная от простых кафе и заканчивая ресторанами класса люкс", Star = 5, User = supervisor }
                     }
                 },
                 new Place
@@ -221,6 +231,10 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Банка"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                         new PlaceReview {Text = "В январе с друзьями посетили этот ресторан. В Трипе по отзывам искали лучшее место. Придя в 'Банку' несколько не разочаровались.", Star = 4, User = supervisor }
                     }
                 },
                 new Place
@@ -237,6 +251,10 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Боржомі"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                         new PlaceReview {Text = "Вкусно, красиво и спокойно. Мясо действительно очень вкусное и хорошо приготовлено. Рекомендую. Цены конечно высокие, но и ресторан не для каждого дня.", Star = 5, User = supervisor }
                     }
                 },
                 new Place
@@ -257,6 +275,10 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Ройо Ойо"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                         new PlaceReview {Text = "Обслуживание по форме предупредительное, при этом очень неторопливое. Если пришли на обед, имейте в виду, что вряд ли за час управитесь....", Star = 3, User = supervisor }
                     }
                 },
                 new Place

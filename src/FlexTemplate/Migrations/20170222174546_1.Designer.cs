@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170222165701_1")]
+    [Migration("20170222174546_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
