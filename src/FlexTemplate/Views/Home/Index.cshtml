@@ -2,17 +2,10 @@
 @model FlexTemplate.ViewModels.HomeIndexViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
-
-  @await Component.InvokeAsync("Search")
-
-  @await Component.InvokeAsync("OtherCitiesPlaces")
-
-  @await Component.InvokeAsync("ThisCityPlaces")
-
-  @await Component.InvokeAsync("Capabilities")
-
-  @await Component.InvokeAsync("Suggestions")
-
+  @foreach(var container in Model.Containers)
+  {
+    @await Component.InvokeAsync(container.Key, container.Value)
+  }
 </div>
 
 <!-- end Main Wrapper -->

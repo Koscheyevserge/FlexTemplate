@@ -8,9 +8,9 @@ namespace FlexTemplate.ViewComponents
 {
     public class Capabilities : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string template)
         {
-            return View();
+            return View(string.IsNullOrEmpty(template) ? "Default" : template);
         }
     }
 }

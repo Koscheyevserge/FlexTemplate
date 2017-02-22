@@ -197,8 +197,7 @@ namespace FlexTemplate.Services
                         new PlaceCategory
                         {
                             Category = category3
-                        },
-
+                        }
                     },
                     Aliases = new List<PlaceAlias>
                     {

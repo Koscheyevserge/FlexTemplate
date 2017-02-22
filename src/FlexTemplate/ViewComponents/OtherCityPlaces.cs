@@ -26,10 +26,10 @@ namespace FlexTemplate.ViewComponents
         public IViewComponentResult Invoke(int id)
         {
             var photoPath = "images/othercityplaces/01.jpg";
-            var cityName = _context.Cities.Where(city => city.Id == id).FirstOrDefault().Name;
-            var placesCount = _context.Places.Include(place => place.Street).Where(place => place.Street.CityId == id).Count();
+            var city = _context.Cities.FirstOrDefault(c => c.Id == id);
+            var cityName = city != null ? city.Name : string.Empty;
+            var placesCount = _context.Places.Include(place => place.Street).Count(place => place.Street.CityId == id);
             var placeDescription = "заведений";
-            
             var model = new OtherCityPlacesViewModel { PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };
             return View(model);
         }

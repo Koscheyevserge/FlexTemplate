@@ -20,12 +20,12 @@ namespace FlexTemplate.ViewComponents
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string template)
         {
             var categoryNames = _context.Categories.Select(c => c.Name).ToList();
             var photoPath = "images/hero-header/01.jpg";
             var model = new SearchViewModel { CategoriesNames = categoryNames, PhotoPath = photoPath };
-            return View(model);
+            return View(string.IsNullOrEmpty(template) ? "Default" : template, model);
         }
     }
 }

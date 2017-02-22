@@ -20,11 +20,11 @@ namespace FlexTemplate.ViewComponents
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Cities.Take(4).Select(city => city.Id).ToList();
             var model = new OtherCitiesPlacesViewModel { OtherCitiesPlacesIds = ids};
-            return View(model);
+            return View(string.IsNullOrEmpty(template) ? "Default" : template, model);
         }
     }
 }
