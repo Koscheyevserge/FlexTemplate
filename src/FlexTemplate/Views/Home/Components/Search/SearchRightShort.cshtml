@@ -1,0 +1,46 @@
+﻿@model FlexTemplate.ViewModels.SearchViewModel
+@if (Model != null)
+{
+    <div class="home-search-form-2">
+        <div class="home-search-form-2-inner">
+            <h4 class="text-uppercase text-primary text-center">Find your table</h4>
+            <form class="clearfix">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Де б ви хотіли поїсти?">
+                        </div>
+                    </div>
+                    <div class="col-xss-12 col-xs-6 col-sm-12">
+                        <div class="form-group">
+                            <select class="custom-select" id="cuisine-type">
+                                @for (int i = 0; i < Model.CategoriesNames.Count; i++)
+                                {
+                                    <option value="@i">@Model.CategoriesNames[i]</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xss-12 col-xs-6 col-sm-12">
+                        <div class="form-group">
+                            <select class="custom-select" id="no-of-people">
+                                <option value="0">Кількість людей</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12">
+                        <button class="btn btn-primary btn-block" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
+                    </div>
+                </div>
+            </form>
+            <div class="clear"></div>
+            <p class="around-you"><a href="#">Або погляньте на інші 128 ресторанів вашого міста</a></p>
+        </div>
+    </div>
+}
