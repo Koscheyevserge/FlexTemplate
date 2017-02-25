@@ -41,7 +41,10 @@ namespace FlexTemplate
                     o.Password.RequireUppercase = false;
                     o.Password.RequireNonAlphanumeric = false;
                     o.Password.RequiredLength = 6;
-                })
+                    o.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+                    o.Cookies.ApplicationCookie.LoginPath = "/Account/LogIn";
+                    o.Cookies.ApplicationCookie.LogoutPath = "/Account/LogOff";
+            })
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();
             services.AddScoped<ContextProvider>();

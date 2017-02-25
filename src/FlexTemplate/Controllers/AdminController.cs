@@ -9,22 +9,26 @@ using FlexTemplate.Database;
 using FlexTemplate.Entities;
 using FlexTemplate.ViewComponents;
 using FlexTemplate.ViewModels.AdminController;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FlexTemplate.Controllers
 {
+    [Authorize(Roles = "Supervisor")]
     public class AdminController : Controller
     {
         private readonly Context db;
         private readonly UserManager<User> um;
-        private readonly RoleManager<IdentityRole> rm; 
+        private readonly RoleManager<IdentityRole> rm;
+        private readonly SignInManager<User> sm; 
 
-        public AdminController(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
             db = context;
             rm = roleManager;
             um = userManager;
+            sm = signInManager;
         }
 
         #region UserRoles
@@ -185,7 +189,6 @@ namespace FlexTemplate.Controllers
                     Successed = false
                 };
             }
-
         }
 
         [HttpPost]

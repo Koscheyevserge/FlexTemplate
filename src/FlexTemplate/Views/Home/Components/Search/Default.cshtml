@@ -5,7 +5,7 @@
 <div class="c-search hero alt-height" style="background-image:url('@Model.PhotoPath');">
   <div class="container">
     <h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
-    <p tag="EndLabelCaption">@Model.Strings["EndLabelCaption"]</p>
+    <p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
     <div class="home-search-form">
       <form>
         <div class="form-group location-form">
@@ -22,7 +22,7 @@
         <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
       </form>
       <div class="clear"></div>
-      <p class="around-you"><a href="#">Або погляньте на інші 128 ресторанів вашого міста</a></p>
+      <p class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
     </div>
   </div>
 </div>

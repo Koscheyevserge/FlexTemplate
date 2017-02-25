@@ -1,0 +1,12 @@
+﻿@model FlexTemplate.ViewModels.LoginViewModel
+
+<h2>Вход в приложение</h2>
+@using (Html.BeginForm("Login", "Home", FormMethod.Post))
+{
+    <div>
+        @Html.EditorForModel()
+    </div>
+    <div>
+        <input type="submit" value="Войти"/>
+    </div>
+}
