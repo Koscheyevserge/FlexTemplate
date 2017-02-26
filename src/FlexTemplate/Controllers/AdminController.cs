@@ -80,6 +80,14 @@ namespace FlexTemplate.Controllers
 
         #endregion
 
+        [HttpGet]
+        [Route("/api/languages")]
+        public IEnumerable<Language> GetAllLanguages()
+        {
+            var model = db.Languages.AsNoTracking().AsEnumerable();
+            return model;
+        }
+
         #region Category
 
         [HttpGet]
