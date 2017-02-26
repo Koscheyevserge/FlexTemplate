@@ -120,6 +120,7 @@ namespace FlexTemplate.Controllers
             try
             {
                 item.Id = 0;
+                item.Aliases = null;
                 db.Categories.Add(item);
                 db.SaveChanges();
                 if (item.Id != 0)
@@ -142,14 +143,6 @@ namespace FlexTemplate.Controllers
                     Successed = false
                 };
             }
-        }
-
-        [HttpGet]
-        [Route("/api/languages")]
-        public IEnumerable<Language> GetAllLanguages()
-        {
-            var model = db.Languages.AsNoTracking().AsEnumerable();
-            return model;
         }
 
         [HttpGet]
@@ -198,8 +191,108 @@ namespace FlexTemplate.Controllers
             {
                 if (item.Id != 0)
                 {
-                    item.Id = 0;
+                    item.Aliases = null;
                     db.Categories.Update(item);
+                    db.SaveChanges();
+                    return new AjaxResponse
+                    {
+                        Successed = true
+                    };
+                }
+                return new AjaxResponse
+                {
+                    Successed = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/categoryalias/create")]
+        public AjaxResponse CreateCategoryAlias([FromBody]CategoryAlias item)
+        {
+            try
+            {
+                item.Id = 0;
+                db.CategoryAliases.Add(item);
+                db.SaveChanges();
+                if (item.Id != 0)
+                {
+                    return new AjaxResponse
+                    {
+                        Successed = true
+                    };
+                }
+                return new AjaxResponse
+                {
+                    Successed = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+
+        [HttpGet]
+        [Route("api/categoryalias/delete/{id}")]
+        public AjaxResponse DeleteCategoryAlias(int id)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    var entity = db.CategoryAliases.FirstOrDefault(i => i.Id == id);
+                    if (entity != null)
+                    {
+                        db.CategoryAliases.Remove(entity);
+                        db.SaveChanges();
+                        return new AjaxResponse
+                        {
+                            Successed = true
+                        };
+                    }
+                    return new AjaxResponse
+                    {
+                        Successed = false,
+                        ErrorMessages = new List<string> { "Такой сущности не существует" }
+                    };
+                }
+                return new AjaxResponse
+                {
+                    Successed = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/categoryalias/update")]
+        public AjaxResponse UpdateCategoryAlias([FromBody]CategoryAlias item)
+        {
+            try
+            {
+                if (item.Id != 0)
+                {
+                    db.CategoryAliases.Update(item);
                     db.SaveChanges();
                     return new AjaxResponse
                     {
