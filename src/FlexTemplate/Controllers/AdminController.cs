@@ -137,9 +137,10 @@ namespace FlexTemplate.Controllers
                 db.SaveChanges();
                 if (item.Id != 0)
                 {
-                    return new AjaxResponse
+                    return new AjaxCreateResponse
                     {
-                        Successed = true
+                        Successed = true,
+                        Id = item.Id
                     };
                 }
                 return new AjaxResponse
@@ -237,9 +238,10 @@ namespace FlexTemplate.Controllers
                 db.SaveChanges();
                 if (item.Id != 0)
                 {
-                    return new AjaxResponse
+                    return new AjaxCreateResponse
                     {
-                        Successed = true
+                        Successed = true,
+                        Id = item.Id
                     };
                 }
                 return new AjaxResponse
