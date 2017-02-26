@@ -4,7 +4,7 @@
 <div class="main-wrapper scrollspy-container">
   @foreach(var container in Model.Containers)
   {
-    @await Component.InvokeAsync(container.Key, container.Value)
+    @await Component.InvokeAsync(container.Key, new { template = container.Value})}
   }
 </div>
 

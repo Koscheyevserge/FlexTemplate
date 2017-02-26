@@ -93,6 +93,8 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult Category(int id)
         {
+            ViewData["Title"] = "Category";
+            ViewData["BodyClasses"] = string.Empty;
             var model = GetCategory(id);
             return View(model);
         }
@@ -100,6 +102,8 @@ namespace FlexTemplate.Controllers
         [HttpGet]
         public IActionResult Categories(int id)
         {
+            ViewData["Title"] = "Category";
+            ViewData["BodyClasses"] = string.Empty;
             id--;
             var model = new AdminCategoriesViewModel
             {

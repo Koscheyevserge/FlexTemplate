@@ -1,10 +1,10 @@
-﻿@model IEnumerable<FlexTemplate.Entities.Category>
+﻿@model FlexTemplate.ViewModels.AdminController.AdminCategoriesViewModel
 
 <div class="c-categories container admin">
   @if (Model != null)
   {
   	<div class="categories">
-    @foreach (var category in Model)
+    @foreach (var category in Model.Categories)
     {
     	<div class="category" id="@category.Id">
 				<h3>Категорія <input id="categoryName" class="form-control" type="text" value="@category.Name"></h3>

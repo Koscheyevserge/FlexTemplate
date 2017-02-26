@@ -32,7 +32,7 @@ namespace FlexTemplate.Controllers
                 .FirstOrDefault();
             ViewData["Title"] = page.Title;
             ViewData["BodyClasses"] = page.BodyClasses;
-            var containers = page.PageContainers.OrderBy(pc => pc.Position).ToDictionary(pc => pc.Container.Name, pc => pc.Container.TemplateName);
+            var containers = page.PageContainers.OrderBy(pc => pc.Position).Select(pc => new KeyValuePair<string, string>(pc.Container.Name, pc.Container.TemplateName));
             var strings = page.LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
             var model = new HomeIndexViewModel
             {

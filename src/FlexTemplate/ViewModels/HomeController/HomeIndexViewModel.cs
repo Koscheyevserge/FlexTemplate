@@ -18,6 +18,6 @@ namespace FlexTemplate.ViewModels
         /// <summary>
         /// Словарь контейнеров. Формат "название контейнера": "название шаблона"
         /// </summary>
-        public Dictionary<string, string> Containers { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> Containers { get; set; }
     }
 }
