@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace FlexTemplate.Controllers
 {
-    [Authorize(Roles = "Supervisor")]
     public class AdminController : Controller
     {
         private readonly Context db;
