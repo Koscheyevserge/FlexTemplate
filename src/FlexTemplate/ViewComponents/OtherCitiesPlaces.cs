@@ -24,12 +24,11 @@ namespace FlexTemplate.ViewComponents
         public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Cities.Take(4).Select(city => city.Id).ToList();
-            template = string.IsNullOrEmpty(template) ? "Default" : template;
-            var strings = _context.Containers.Include(c => c.LocalizableStrings)
-                .FirstOrDefault(c => c.Name == GetType().Name && c.TemplateName == template)
+            var strings = _context.Containers.Include(c => c.LocalizableStrings).Include(c => c.ContainerTemplates)
+                .FirstOrDefault(c => c.Name == GetType().Name)
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
             var model = new OtherCitiesPlacesViewModel { OtherCitiesPlacesIds = ids, Strings = strings };
-            return View(string.IsNullOrEmpty(template) ? "Default" : template, model);
+            return View(template, model);
         }
     }
 }

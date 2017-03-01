@@ -12,16 +12,12 @@ namespace FlexTemplate.Entities
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Имя шаблона компонента (например "Default")
-        /// </summary>
-        public string TemplateName { get; set; }
-        /// <summary>
         /// Локализируемые строки
         /// </summary>
         public virtual List<ContainerLocalizableString> LocalizableStrings { get; set; }
         /// <summary>
-        /// Развязочная таблица компонентов на странице
+        /// Шаблоны компонента
         /// </summary>
-        public virtual List<PageContainer> PageContainers { get; set; }
+        public virtual List<ContainerTemplate> ContainerTemplates { get; set; } 
     }
 }

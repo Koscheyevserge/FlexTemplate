@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170222174546_1")]
+    [Migration("20170301193631_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -95,8 +95,6 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("TemplateName");
-
                     b.HasKey("Id");
 
                     b.ToTable("Containers");
@@ -122,6 +120,22 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("ContainerLocalizableStrings");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContainerId");
+
+                    b.Property<string>("TemplateName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.ToTable("ContainerTemplate");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Country", b =>
@@ -187,12 +201,12 @@ namespace FlexTemplate.Migrations
                     b.ToTable("Pages");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.PageContainer", b =>
+            modelBuilder.Entity("FlexTemplate.Entities.PageContainerTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ContainerId");
+                    b.Property<int>("ContainerTemplateId");
 
                     b.Property<int>("PageId");
 
@@ -200,11 +214,11 @@ namespace FlexTemplate.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContainerId");
+                    b.HasIndex("ContainerTemplateId");
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("PageContainers");
+                    b.ToTable("PageContainerTemplate");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PageLocalizableString", b =>
@@ -592,6 +606,14 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Container", "Container")
+                        .WithMany("ContainerTemplates")
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.CountryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Country", "Country")
@@ -605,15 +627,15 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.PageContainer", b =>
+            modelBuilder.Entity("FlexTemplate.Entities.PageContainerTemplate", b =>
                 {
-                    b.HasOne("FlexTemplate.Entities.Container", "Container")
-                        .WithMany("PageContainers")
-                        .HasForeignKey("ContainerId")
+                    b.HasOne("FlexTemplate.Entities.ContainerTemplate", "ContainerTemplate")
+                        .WithMany("PageContainerTemplates")
+                        .HasForeignKey("ContainerTemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.Entities.Page", "Page")
-                        .WithMany("PageContainers")
+                        .WithMany("PageContainerTemplates")
                         .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

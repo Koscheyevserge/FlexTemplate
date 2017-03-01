@@ -33,6 +33,6 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Развязочная таблица компонентов на странице
         /// </summary>
-        public virtual List<PageContainer> PageContainers { get; set; } 
+        public virtual List<PageContainerTemplate> PageContainerTemplates { get; set; } 
     }
 }

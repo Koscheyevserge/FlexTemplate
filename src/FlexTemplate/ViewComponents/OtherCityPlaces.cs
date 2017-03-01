@@ -14,8 +14,6 @@ namespace FlexTemplate.ViewComponents
 {
     public class OtherCityPlaces : ViewComponent
     {
-
-
         private readonly Context _context;
 
         public OtherCityPlaces(Context context)
@@ -33,7 +31,5 @@ namespace FlexTemplate.ViewComponents
             var model = new OtherCityPlacesViewModel { PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };
             return View(model);
         }
-
-
     }
 }

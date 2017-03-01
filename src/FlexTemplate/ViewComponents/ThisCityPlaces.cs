@@ -24,9 +24,8 @@ namespace FlexTemplate.ViewComponents
         public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Places.Take(8).Select(p => p.Id).ToList();
-            template = string.IsNullOrEmpty(template) ? "Default" : template;
             var strings = _context.Containers.Include(c => c.LocalizableStrings)
-                .FirstOrDefault(c => c.Name == GetType().Name && c.TemplateName == template)
+                .FirstOrDefault(c => c.Name == GetType().Name)
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
             var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids, Strings = strings};
             return View(template, model);

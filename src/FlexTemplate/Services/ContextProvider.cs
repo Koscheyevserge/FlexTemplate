@@ -424,14 +424,40 @@ namespace FlexTemplate.Services
                 BodyClasses = "full-width-container transparent-header",
                 Title = "Index"
             };
-            context.Containers.AddRange(
+            context.Containers.AddRange
+            ( 
                 new List<Container>
                 {
                     new Container
                     {
                         Name = "Search",
-                        TemplateName = "Default",
-                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 1 } },
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate {TemplateName = "CenterShort", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 1} } },
+                            new ContainerTemplate {TemplateName = "CenterWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 2} } },
+                            new ContainerTemplate {TemplateName = "LeftShort", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 3} } },
+                            new ContainerTemplate {TemplateName = "LeftShortAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 4} } },
+                            new ContainerTemplate {TemplateName = "LeftShortVideo", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 5} } },
+                            new ContainerTemplate {TemplateName = "LeftWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 6} } },
+                            new ContainerTemplate {TemplateName = "LeftWideAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 7} } }
+                        },
+                        LocalizableStrings = new List<ContainerLocalizableString>
+                        {
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Знайдіть найкращі ресторани за привабливою ціною!", Tag = "TitleFirstLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Більш ніж 5000 ресторанів по всій Україні", Tag = "SubtitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Знайти", Tag = "FindButtonCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = "Або погляньте на інші 128 ресторанів вашого міста", Tag = "EndLabelCaption"}
+                        }
+                    },
+                    new Container
+                    {
+                        Name = "SearchSlider",
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate {TemplateName = "CenterWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 8} } },
+                            new ContainerTemplate {TemplateName = "LeftWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 9} } },
+                            new ContainerTemplate {TemplateName = "RightWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 10} } }
+                        },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
                             new ContainerLocalizableString {Language = ukrainian, Text = "Знайдіть найкращі ресторани за привабливою ціною!", Tag = "TitleFirstLabelCaption"},
@@ -443,8 +469,10 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "OtherCitiesPlaces",
-                        TemplateName = "Default",
-                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 2 } },
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate { TemplateName = "Default"}
+                        },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
                             new ContainerLocalizableString {Language = ukrainian, Text = "Інші популярні міста", Tag = "TitleLabelCaption"},
@@ -454,8 +482,10 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "ThisCityPlaces",
-                        TemplateName = "Default",
-                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 3 } },
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate { TemplateName = "Default"}
+                        },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
                             new ContainerLocalizableString {Language = ukrainian, Text = "Ресторани у твоєму місті", Tag = "TitleLabelCaption"},
@@ -466,14 +496,18 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Capabilities",
-                        TemplateName = "Default",
-                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 4 } }
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate { TemplateName = "Default"}
+                        }
                     },
                     new Container
                     {
                         Name = "Suggestions",
-                        TemplateName = "Default",
-                        PageContainers = new List<PageContainer> { new PageContainer { Page = index, Position = 5 } }
+                        ContainerTemplates = new List<ContainerTemplate>
+                        {
+                            new ContainerTemplate { TemplateName = "Default"}
+                        }
                     }
                 }
             );

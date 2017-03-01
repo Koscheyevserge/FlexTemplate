@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlexTemplate.Entities
 {
-    public class PageContainer : BaseEntity
+    public class PageContainerTemplate : BaseEntity
     {
         /// <summary>
         /// Позиция компонента на странице - компоненты строятся по очереди в порядке возрастания
@@ -13,7 +13,7 @@ namespace FlexTemplate.Entities
         public int Position { get; set; }
         public int PageId { get; set; }
         public Page Page { get; set; }
-        public int ContainerId { get; set; }
-        public Container Container { get; set; }
+        public int ContainerTemplateId { get; set; }
+        public ContainerTemplate ContainerTemplate { get; set; }
     }
 }

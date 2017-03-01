@@ -10,7 +10,7 @@ namespace FlexTemplate.ViewComponents
     {
         public IViewComponentResult Invoke(string template)
         {
-            return View(string.IsNullOrEmpty(template) ? "Default" : template);
+            return View(template);
         }
     }
 }
