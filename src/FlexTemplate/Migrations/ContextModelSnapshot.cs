@@ -21,12 +21,9 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Name");
 
                     b.ToTable("Categories");
                 });

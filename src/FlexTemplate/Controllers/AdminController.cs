@@ -17,6 +17,7 @@ namespace FlexTemplate.Controllers
 {
     public class AdminController : Controller
     {
+        #region AdminController
         private readonly Context db;
         private readonly UserManager<User> um;
         private readonly RoleManager<IdentityRole> rm;
@@ -29,6 +30,37 @@ namespace FlexTemplate.Controllers
             um = userManager;
             sm = signInManager;
         }
+        #endregion
+
+        #region Views
+
+        public IActionResult Category(int id)
+        {
+            ViewData["Title"] = "Category";
+            ViewData["BodyClasses"] = string.Empty;
+            var model = GetCategory(id);
+            return View(model);
+        }
+
+        public IActionResult Categories(int id)
+        {
+            ViewData["Title"] = "Category";
+            ViewData["BodyClasses"] = string.Empty;
+            id--;
+            var model = new AdminCategoriesViewModel
+            {
+                Categories =
+                    db.Categories.Include(i => i.Aliases)
+                        .ThenInclude(a => a.Language)
+                        .Skip(10 * id)
+                        .Take(10)
+                        .AsEnumerable(),
+                Languages = GetAllLanguages()
+            };
+            return View(model);
+        }
+
+        #endregion
 
         #region UserRoles
 
@@ -89,35 +121,6 @@ namespace FlexTemplate.Controllers
         }
 
         #region Category
-
-        [HttpGet]
-        public IActionResult Category(int id)
-        {
-            ViewData["Title"] = "Category";
-            ViewData["BodyClasses"] = string.Empty;
-            var model = GetCategory(id);
-            return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult Categories(int id)
-        {
-            ViewData["Title"] = "Category";
-            ViewData["BodyClasses"] = string.Empty;
-            id--;
-            var model = new AdminCategoriesViewModel
-            {
-                Categories =
-                    db.Categories.Include(i => i.Aliases)
-                        .ThenInclude(a => a.Language)
-                        .Skip(10*id)
-                        .Take(10)
-                        .AsEnumerable(),
-                Languages = GetAllLanguages()
-            };
-            return View(model);
-        }
-
         [HttpGet]
         [Route("api/category/{id}")]
         public Category GetCategory(int id)
@@ -202,7 +205,7 @@ namespace FlexTemplate.Controllers
         {
             try
             {
-                if (item.Id != 0)
+                if (item != null && item.Id != 0)
                 {
                     item.Aliases = null;
                     db.Categories.Update(item);

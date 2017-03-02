@@ -39,7 +39,6 @@ namespace FlexTemplate.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>().HasAlternateKey(category => category.Name);
             base.OnModelCreating(modelBuilder);
         }
 

@@ -15,12 +15,11 @@ namespace FlexTemplate.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                    table.UniqueConstraint("AK_Categories_Name", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
