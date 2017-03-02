@@ -15,14 +15,6 @@ namespace FlexTemplate.Entities
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Локализируемые строки
-        /// </summary>
-        public virtual List<PageLocalizableString> LocalizableStrings { get; set; }
-        /// <summary>
-        /// Фотографии
-        /// </summary>
-        public virtual List<PagePhoto> Photos { get; set; } 
-        /// <summary>
         /// Классы, что будут подставлятся в <body classes="">
         /// </summary>
         public string BodyClasses { get; set; }

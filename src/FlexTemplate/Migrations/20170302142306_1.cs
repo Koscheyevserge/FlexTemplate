@@ -133,6 +133,28 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PagePhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    EntityId = table.Column<string>(nullable: true),
+                    EntityName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PagePhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PagePhotos_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContainerTemplate",
                 columns: table => new
                 {
@@ -250,56 +272,6 @@ namespace FlexTemplate.Migrations
                         name: "FK_CountryAliases_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PageLocalizableStrings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LanguageId = table.Column<int>(nullable: false),
-                    PageId = table.Column<int>(nullable: false),
-                    Tag = table.Column<string>(nullable: true),
-                    Text = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PageLocalizableStrings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PageLocalizableStrings_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PageLocalizableStrings_Pages_PageId",
-                        column: x => x.PageId,
-                        principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PagePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EntityId = table.Column<string>(nullable: true),
-                    EntityName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    PageId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PagePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PagePhotos_Pages_PageId",
-                        column: x => x.PageId,
-                        principalTable: "Pages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -652,6 +624,11 @@ namespace FlexTemplate.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PagePhotos_ContainerId",
+                table: "PagePhotos",
+                column: "ContainerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ContainerTemplate_ContainerId",
                 table: "ContainerTemplate",
                 column: "ContainerId");
@@ -674,21 +651,6 @@ namespace FlexTemplate.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PageContainerTemplate_PageId",
                 table: "PageContainerTemplate",
-                column: "PageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PageLocalizableStrings_LanguageId",
-                table: "PageLocalizableStrings",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PageLocalizableStrings_PageId",
-                table: "PageLocalizableStrings",
-                column: "PageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PagePhotos_PageId",
-                table: "PagePhotos",
                 column: "PageId");
 
             migrationBuilder.CreateIndex(
@@ -800,16 +762,13 @@ namespace FlexTemplate.Migrations
                 name: "ContainerLocalizableStrings");
 
             migrationBuilder.DropTable(
+                name: "PagePhotos");
+
+            migrationBuilder.DropTable(
                 name: "CountryAliases");
 
             migrationBuilder.DropTable(
                 name: "PageContainerTemplate");
-
-            migrationBuilder.DropTable(
-                name: "PageLocalizableStrings");
-
-            migrationBuilder.DropTable(
-                name: "PagePhotos");
 
             migrationBuilder.DropTable(
                 name: "PlaceAliases");

@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170302130119_1")]
+    [Migration("20170302142306_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,26 @@ namespace FlexTemplate.Migrations
                     b.ToTable("ContainerLocalizableStrings");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.ContainerPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContainerId");
+
+                    b.Property<string>("EntityId");
+
+                    b.Property<string>("EntityName");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.ToTable("PagePhotos");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
                 {
                     b.Property<int>("Id")
@@ -216,48 +236,6 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("PageId");
 
                     b.ToTable("PageContainerTemplate");
-                });
-
-            modelBuilder.Entity("FlexTemplate.Entities.PageLocalizableString", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("LanguageId");
-
-                    b.Property<int>("PageId");
-
-                    b.Property<string>("Tag");
-
-                    b.Property<string>("Text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("PageLocalizableStrings");
-                });
-
-            modelBuilder.Entity("FlexTemplate.Entities.PagePhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("EntityId");
-
-                    b.Property<string>("EntityName");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("PageId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("PagePhotos");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>
@@ -603,6 +581,14 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.ContainerPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Container", "Container")
+                        .WithMany("Photos")
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Container", "Container")
@@ -633,27 +619,6 @@ namespace FlexTemplate.Migrations
 
                     b.HasOne("FlexTemplate.Entities.Page", "Page")
                         .WithMany("PageContainerTemplates")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FlexTemplate.Entities.PageLocalizableString", b =>
-                {
-                    b.HasOne("FlexTemplate.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("FlexTemplate.Entities.Page", "Page")
-                        .WithMany("LocalizableStrings")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FlexTemplate.Entities.PagePhoto", b =>
-                {
-                    b.HasOne("FlexTemplate.Entities.Page", "Page")
-                        .WithMany("Photos")
                         .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

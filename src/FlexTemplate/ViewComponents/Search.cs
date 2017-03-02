@@ -24,11 +24,11 @@ namespace FlexTemplate.ViewComponents
         public IViewComponentResult Invoke(string template)
         {
             var categoryNames = _context.Categories.Select(c => c.Name).ToList();
-            var photoPath = "images/hero-header/01.jpg";
+            var photoPath = new List<string>{ "images/hero-header/01.jpg"};
             var strings = _context.Containers.Include(c => c.LocalizableStrings)
                 .FirstOrDefault(c => c.Name == GetType().Name)
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
-            var model = new SearchViewModel { CategoriesNames = categoryNames, PhotoPath = photoPath, Strings = strings};
+            var model = new SearchViewModel { CategoriesNames = categoryNames, Images = photoPath, Strings = strings};
             return View(template, model);
         }
     }

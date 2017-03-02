@@ -8,15 +8,15 @@ namespace FlexTemplate.Entities
     /// <summary>
     /// Фотография на странице
     /// </summary>
-    public class PagePhoto : BasePhoto
+    public class ContainerPhoto : BasePhoto
     {
         /// <summary>
-        /// Идентификатор страницы
+        /// Идентификатор компонента
         /// </summary>
-        public int PageId { get; set; }
+        public int ContainerId { get; set; }
         /// <summary>
-        /// Страница
+        /// Компонент
         /// </summary>
-        public Page Page { get; set; }
+        public Container Container { get; set; }
     }
 }

@@ -34,14 +34,6 @@ namespace FlexTemplate.Controllers
 
         #region Views
 
-        public IActionResult Category(int id)
-        {
-            ViewData["Title"] = "Category";
-            ViewData["BodyClasses"] = string.Empty;
-            var model = GetCategory(id);
-            return View(model);
-        }
-
         public IActionResult Categories(int id)
         {
             ViewData["Title"] = "Category";
@@ -55,6 +47,31 @@ namespace FlexTemplate.Controllers
                         .Skip(10 * id)
                         .Take(10)
                         .AsEnumerable(),
+                Languages = GetAllLanguages()
+            };
+            return View(model);
+        }
+
+        public IActionResult Pages(int id)
+        {
+            ViewData["Title"] = "Page";
+            ViewData["BodyClasses"] = string.Empty;
+            id--;
+            var model = new AdminPagesViewModel
+            {
+                Pages = db.Pages.Include(p => p.PageContainerTemplates)
+                        .ThenInclude(pct => pct.ContainerTemplate)
+                        .ThenInclude(ct => ct.Container)
+                        .ThenInclude(c => c.LocalizableStrings)
+                        .ThenInclude(ls => ls.Language)
+                        .Include(p => p.PageContainerTemplates)
+                        .ThenInclude(pct => pct.ContainerTemplate)
+                        .ThenInclude(ct => ct.Container)
+                        .ThenInclude(c => c.Photos)
+                        .Skip(10 * id)
+                        .Take(10)
+                        .AsEnumerable(),
+                Containers = GetAllContainers(),
                 Languages = GetAllLanguages()
             };
             return View(model);
@@ -111,6 +128,18 @@ namespace FlexTemplate.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        [Route("/api/containers")]
+        public IEnumerable<Container> GetAllContainers()
+        {
+            var model = db.Containers.Include(c => c.LocalizableStrings)
+                        .Include(c => c.Photos)
+                        .Include(c => c.ContainerTemplates)
+                        .AsNoTracking()
+                        .AsEnumerable();
+            return model;
+        }
 
         [HttpGet]
         [Route("/api/languages")]
@@ -330,6 +359,64 @@ namespace FlexTemplate.Controllers
                 };
             }
         }
+        #endregion
+        #region Page
+
+        [HttpPost]
+        [Route("api/page/create")]
+        public AjaxResponse AddPage([FromBody]Page page)
+        {
+            try
+            {
+                db.Pages.Add(page);
+                return new AjaxCreateResponse {Id = page.Id, Successed = true};
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+        [HttpPost]
+        [Route("api/page/update")]
+        public AjaxResponse UpdatePage([FromBody]Page page)
+        {
+            try
+            {
+                db.Pages.Update(page);
+                return new AjaxResponse { Successed = true };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+        [HttpGet]
+        [Route("api/page/delete/{id}")]
+        public AjaxResponse RemovePage(int id)
+        {
+            try
+            {
+                db.Remove(db.Pages.Where(p => p.Id == id));
+                return new AjaxResponse { Successed = true };
+            }
+            catch (Exception ex)
+            {
+                return new AjaxResponse
+                {
+                    ErrorMessages = new List<string> { ex.Message },
+                    Successed = false
+                };
+            }
+        }
+
         #endregion
     }
 }

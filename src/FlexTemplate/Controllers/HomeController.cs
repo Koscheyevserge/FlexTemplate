@@ -28,16 +28,13 @@ namespace FlexTemplate.Controllers
         {
             var page = context.Pages.AsNoTracking().Where(p => p.Name == "Index")
                 .Include(p => p.PageContainerTemplates).ThenInclude(pct => pct.ContainerTemplate).ThenInclude(ct => ct.Container).ThenInclude(c => c.LocalizableStrings)
-                .Include(p => p.LocalizableStrings)
                 .FirstOrDefault();
             ViewData["Title"] = page.Title;
             ViewData["BodyClasses"] = page.BodyClasses;
             var containers = page.PageContainerTemplates.OrderBy(pc => pc.Position).Select(pct => new KeyValuePair<string, string>(pct.ContainerTemplate.Container.Name, pct.ContainerTemplate.TemplateName));
-            var strings = page.LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
             var model = new HomeIndexViewModel
             {
-                Containers = containers,
-                Strings = strings
+                Containers = containers
             };
             return View(model);
         }

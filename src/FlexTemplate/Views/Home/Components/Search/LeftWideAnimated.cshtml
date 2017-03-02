@@ -5,15 +5,11 @@
 <div id="kb" class="carousel kb_elastic kb_wrapper hero-kb_elastic" data-ride="carousel" data-interval="4000" data-pause="false">
 
     <div class="carousel-inner" role="listbox">
-
-        <div class="item active img-bg" style="background-image:url('@Model.PhotoPath');">
-        </div>
-
-        <div class="item img-bg" style="background-image:url('@Model.PhotoPath');">
-        </div>
-
-        <div class="item img-bg" style="background-image:url('@Model.PhotoPath');">
-        </div>
+        
+        @foreach (var image in Model.Images)
+        {
+            <div class="item active img-bg" style="background-image:url('@image');"> </div>
+        }
 
         <div class="kb_overlay"></div>
 
@@ -42,18 +38,6 @@
                             }
                         </select>
 
-                    </div>
-
-                    <div class="form-group">
-                        <select class="custom-select" id="no-of-people">
-                            <option value="0">Number Of People</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
                     </div>
 
                     <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>

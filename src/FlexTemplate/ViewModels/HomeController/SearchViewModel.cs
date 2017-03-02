@@ -7,7 +7,7 @@ namespace FlexTemplate.ViewModels
 {
     public class SearchViewModel : EditableViewModel
     {
-        public string PhotoPath { get; set; }
+        public List<string> Images { get; set; }
         public List<string> CategoriesNames { get; set; }
         public Dictionary<string, string> Strings { get; set; }
     }

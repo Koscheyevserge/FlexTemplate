@@ -18,6 +18,10 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Шаблоны компонента
         /// </summary>
-        public virtual List<ContainerTemplate> ContainerTemplates { get; set; } 
+        public virtual List<ContainerTemplate> ContainerTemplates { get; set; }
+        /// <summary>
+        /// Изображения
+        /// </summary>
+        public virtual List<ContainerPhoto> Photos { get; set; }
     }
 }

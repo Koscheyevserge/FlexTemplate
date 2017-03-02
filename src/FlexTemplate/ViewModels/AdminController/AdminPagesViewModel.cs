@@ -7,9 +7,10 @@ using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.AdminController
 {
-    public class AdminCategoriesViewModel : BaseAdminViewModel
+    public class AdminPagesViewModel : BaseAdminViewModel
     {
         public IEnumerable<Language> Languages { get; set; }
-        public IEnumerable<Category> Categories { get; set; } 
+        public IEnumerable<Page> Pages { get; set; }
+        public IEnumerable<Container> Containers { get; set; } 
     }
 }

@@ -24,8 +24,7 @@ namespace FlexTemplate.Database
         public DbSet<Street> Streets { get; set; }
         public DbSet<StreetAlias> StreetAliases { get; set; }  
         public DbSet<Page> Pages { get; set; }
-        public DbSet<PageLocalizableString> PageLocalizableStrings { get; set; }
-        public DbSet<PagePhoto> PagePhotos { get; set; }
+        public DbSet<ContainerPhoto> PagePhotos { get; set; }
         public DbSet<Container> Containers { get; set; }
         public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; } 
         public DbSet<PageContainerTemplate> PageContainers { get; set; }
