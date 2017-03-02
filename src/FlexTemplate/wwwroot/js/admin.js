@@ -1,17 +1,15 @@
 "use strict"
 
-const GET_UPDATE_CATEGORY = "http://localhost:5000/api/category/update/";
-const GET_REMOVE_ALIAS = "http://localhost:5000/api/categoryalias/delete/";
-// const GET_LANGUAGES = "http://localhost:5000/api/languages";
+const POST_UPDATE_CATEGORY = "/api/category/update";
+const POST_CREATE_CATEGORY = "/api/category/create"; 
+const GET_REMOVE_CATEGORY = "/api/category/delete/";
 
-const POST_UPDATE_ALIAS = "http://localhost:5000/api/categoryalias/update"; 
-const POST_CREATE_ALIAS = "http://localhost:5000/api/categoryalias/create"; 
+const POST_UPDATE_ALIAS = "/api/categoryalias/update"; 
+const POST_CREATE_ALIAS = "/api/categoryalias/create"; 
+const GET_REMOVE_ALIAS = "/api/categoryalias/delete/";
 
-/* for category */
-
-$('.c-categories .admin-buttom-add-category').click(function() {
-	$('.c-categories .categories').append('<div class="category"><h3>Категорія <input class="form-control" type="text" value="Default"></h3><button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button><div class="alias"><div class="buttons"><button class="btn btn-primary btn-form admin-buttom">Add alias</button><button class="btn btn-primary btn-form admin-buttom">Save</button></div></div></div>');
-});
+/* url */
+const URL_DOMAIN = window.location.origin;
 
 
 /* create alias */
@@ -25,7 +23,7 @@ $('.c-categories').on('click', '.admin-button-add-alias', function() {
 	let child = this;
 	$.ajax({
 	  dataType: "json",
-	  url: GET_LANGUAGES,
+	  url: URL_DOMAIN + GET_LANGUAGES,
 	  data: "",
     success: function(languages) {
 		  $.ajax({
@@ -35,13 +33,17 @@ $('.c-categories').on('click', '.admin-button-add-alias', function() {
 		    contentType: "application/json",
 		    data: JSON.stringify(alias),
 		    success: function(data) {
-		    	let aliasJQ = '<div class="alias" dataId="' + data.id + '"><input class="form-control" type="text" value="' + alias.text + '"><select class="custom-select new">';
-		    	languages.forEach(function(lang) {
-		    		aliasJQ += '<option dataId="' + lang.id + '">' + lang.shortName + '</option>';
-		    	})
-		    	aliasJQ += '</select><button class="btn btn-primary btn-form admin-button-alias-save">Save alias</button><button class="btn btn-primary btn-form admin-button-alias-remove">Remove alias</button></div>';
-					$(child).parent().before(aliasJQ);
-					$('.custom-select.new').fancySelect();
+		    	if (data.successed) {
+			    	let aliasJQ = '<div class="alias" dataId="' + data.id + '"><input class="form-control" type="text" value="' + alias.text + '"><select class="custom-select new">';
+			    	languages.forEach(function(lang) {
+			    		aliasJQ += '<option dataId="' + lang.id + '">' + lang.shortName + '</option>';
+			    	})
+			    	aliasJQ += '</select><button class="btn btn-primary btn-form admin-button-alias-save">Save alias</button><button class="btn btn-primary btn-form admin-button-alias-remove">Remove alias</button></div>';
+						$(child).parent().before(aliasJQ);
+						$('.custom-select.new').fancySelect();
+					}	else {
+		    		alert('Error: ' + data.errorMessages);
+					}
 		    	console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
 		    }
 		  });
@@ -55,11 +57,15 @@ $('.c-categories').on('click','.admin-button-alias-remove', function() {
 	let alias = $(this).parent();;
 	$.ajax({
 	  dataType: "json",
-	  url: GET_REMOVE_ALIAS + alias.attr('dataId'),
+	  url: URL_DOMAIN + GET_REMOVE_ALIAS + alias.attr('dataId'),
 	  data: "",
     success: function(data) {
+    	if (data.successed) {
+				alias.remove();
+			}	else {
+    		alert('Error: ' + data.errorMessages);
+			}
     	console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
-			alias.remove();
     }
 	});
 });
@@ -69,7 +75,7 @@ $('.c-categories').on('click','.admin-button-alias-remove', function() {
 $('.c-categories').on('click', '.admin-button-alias-save', function() {
 	let alias = $(this).parent();
   $.ajax({
-    url: POST_UPDATE_ALIAS,
+    url: URL_DOMAIN + POST_UPDATE_ALIAS,
     datatype: 'json',
     type: "post", 
     contentType: "application/json",
@@ -79,40 +85,75 @@ $('.c-categories').on('click', '.admin-button-alias-save', function() {
 			languageId: +alias.find('select :selected').attr('dataId'),
 			categoryId: +alias.parents('.category').attr('dataId')
 		}),
-    success: function(data) {
-    	console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
-    }
+  	success: function(data) {
+    	if (!data.successed) {
+    		alert('Error: ' + data.errorMessages);
+    	}
+  		console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
+  	}
   });
 });
 
-					    			 		
 
-/* update api */
-$('.c-categories .admin-button-save').click(function() {
-	let parent = $(this).parents(".category");
-	let aliases = [];
-	parent.find(".alias").each(function(index) {
-		aliases.push({
-			Id: +$(this).attr("id"),
-			Text: $(this).find(".form-control").val(),
-			Language: {
-				ShortName: $(this).find(".custom-select").val()
-			}
-		});
-	})
-	let data = {
-		Id: +parent.attr("id"),
-		Name: parent.find("#categoryName").val(),
-		Aliases: aliases
-	};
-	debugger;
+/* create category */
+$('.c-categories').on('click', '.admin-button-add-category', function() {
+	let category = {
+		id: 0,
+		Name: 'Default'
+	}
+  $.ajax({
+    url: POST_CREATE_CATEGORY,
+    datatype: 'json',
+    type: "post", 
+    contentType: "application/json",
+    data: JSON.stringify(category),
+    success: function(data) {
+    	if (data.successed) {
+				$('.c-categories .categories').append('<div class="category" ' + data.id + '><h3>Категорія <input class="form-control" type="text" value="' + category.Name + '"></h3><button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button><div class="alias"><div class="buttons"><button class="btn btn-primary btn-form admin-buttom">Add alias</button><button class="btn btn-primary btn-form admin-buttom">Save</button></div></div></div>');
+    	} else {
+    		alert('Error: ' + data.errorMessages);
+    	}
+  		console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
+		}
+  });
+});
+
+
+/* remove category */
+$('.c-categories').on('click', '.admin-button-remove-category', function() {
+	let parent = $(this).parent();
 	$.ajax({
-	  type: "POST",
-	  url: GET_UPDATE_CATEGORY,
-	  data: data,
-	  success: function() {
+	  dataType: "json",
+	  url: URL_DOMAIN + GET_REMOVE_CATEGORY + parent.attr('dataId'),
+	  data: "",
+    success: function(data) {
+    	if (data.successed) {
+				parent.remove();
+    	} else {
+    		alert('Error: ' + data.errorMessages);
+    	}
+    	console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
+    }
+	});
+});		    			 		
 
-	  },
-	  dataType: dataType
+/* update category */
+$('.c-categories').on('click', '.admin-button-category-save', function() {
+	let parent = $(this).parents(".category");
+	$.ajax({
+	  url: URL_DOMAIN + POST_UPDATE_CATEGORY,
+    datatype: 'json',
+    type: "post", 
+    contentType: "application/json",
+	  data: JSON.stringify({
+			id: +parent.attr("dataId"),
+			Name: parent.find("#categoryName").val()
+	  }),
+		success: function(data) {
+    	if (!data.successed) {
+    		alert('Error: ' + data.errorMessages);
+    	}
+			console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
+		}
 	});
 });

@@ -2,7 +2,7 @@
 
 /* api */
 
-const GET_LANGUAGES = "http://localhost:5000/api/languages";
+const GET_LANGUAGES = "/api/languages";
 
 /* Get languages */
 
