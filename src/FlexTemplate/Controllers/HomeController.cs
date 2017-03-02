@@ -8,6 +8,7 @@ using FlexTemplate.Services;
 using FlexTemplate.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -22,6 +23,12 @@ namespace FlexTemplate.Controllers
         {
             context = Context;
             _signInManager = signInManager;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            ViewData["HeaderTemplate"] = "Solid";
+            base.OnActionExecuting(context);
         }
 
         public IActionResult Index()

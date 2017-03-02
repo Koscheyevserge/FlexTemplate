@@ -49,7 +49,7 @@
   <!-- start Container Wrapper -->
   <div class="container-wrapper">
 
-    @await Component.InvokeAsync("Header")
+    @await Component.InvokeAsync("Header", new {template = ViewData["HeaderTemplate"]})
 
     @RenderBody()
 
