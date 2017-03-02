@@ -1,4 +1,7 @@
-﻿<!-- start hero-header -->
+﻿﻿@model FlexTemplate.ViewModels.SearchViewModel
+@if (Model != null)
+{
+<!-- start hero-header -->
 <div class="hero-video-bg youtube-bg-wrapper">
 
     <div class="youtube-overlay"></div>
@@ -11,8 +14,8 @@
 
         <div class="container">
 
-            <h1>Find the best restaurants at the best price</h1>
-            <p>More than 20,000 restaurants all around the world and in your country or city</p>
+            <h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
+            <p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
 
             <div class="home-search-form">
 
@@ -23,15 +26,13 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="custom-select" id="cuisine-type">
-                            <option value="0">Cuisine Type</option>
-                            <option value="1">African</option>
-                            <option value="2">American‎</option>
-                            <option value="3">Italian</option>
-                            <option value="4">French</option>
-                            <option value="5">Indochinese‎</option>
-                            <option value="6">Halal</option>
+                        <select class="custom-select" id="category-type">
+                            @for (int i = 0; i < Model.CategoriesNames.Count; i++)
+                            {
+                                <option value="@i">@Model.CategoriesNames[i]</option>
+                            }
                         </select>
+
                     </div>
 
                     <div class="form-group">
@@ -46,14 +47,13 @@
                         </select>
                     </div>
 
-                    <button class="btn btn-primary btn-form">Find a Table</button>
+                    <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
 
                 </form>
 
                 <div class="clear"></div>
 
-                <p class="around-you"><a href="#">Or view all 360 restaurants in and/or around your current city</a>
-                </p>
+                <p class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
 
             </div>
 
@@ -63,3 +63,4 @@
 
 </div>
 <!-- end hero-header -->
+}
