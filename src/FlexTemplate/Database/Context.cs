@@ -27,7 +27,7 @@ namespace FlexTemplate.Database
         public DbSet<ContainerPhoto> PagePhotos { get; set; }
         public DbSet<Container> Containers { get; set; }
         public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; } 
-        public DbSet<PageContainerTemplate> PageContainers { get; set; }
+        public DbSet<ContainerTemplate> ContainerTemplates { get; set; }
         public DbSet<PlaceReview> PlaceReviews { get; set; }
         public DbSet<PageContainerTemplate> PageContainerTemplates { get; set; } 
 

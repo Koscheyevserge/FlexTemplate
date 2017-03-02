@@ -151,7 +151,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("ContainerId");
 
-                    b.ToTable("ContainerTemplate");
+                    b.ToTable("ContainerTemplates");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Country", b =>
@@ -234,7 +234,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("PageContainerTemplate");
+                    b.ToTable("PageContainerTemplates");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>

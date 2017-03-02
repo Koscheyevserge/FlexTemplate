@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170302142306_1")]
+    [Migration("20170302184223_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,7 +152,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("ContainerId");
 
-                    b.ToTable("ContainerTemplate");
+                    b.ToTable("ContainerTemplates");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Country", b =>
@@ -235,7 +235,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("PageContainerTemplate");
+                    b.ToTable("PageContainerTemplates");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>

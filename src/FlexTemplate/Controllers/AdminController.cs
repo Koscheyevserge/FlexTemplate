@@ -371,7 +371,14 @@ namespace FlexTemplate.Controllers
             {
                 db.Pages.Add(page);
                 db.SaveChanges();
-                return new AjaxCreateResponse {Id = page.Id, Successed = true};
+                if (page.Id > 0)
+                {
+                    return new AjaxCreateResponse {Id = page.Id, Successed = true};
+                }
+                return new AjaxResponse
+                {
+                    Successed = false
+                };
             }
             catch (Exception ex)
             {

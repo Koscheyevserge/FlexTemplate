@@ -155,7 +155,7 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContainerTemplate",
+                name: "ContainerTemplates",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -165,9 +165,9 @@ namespace FlexTemplate.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContainerTemplate", x => x.Id);
+                    table.PrimaryKey("PK_ContainerTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContainerTemplate_Containers_ContainerId",
+                        name: "FK_ContainerTemplates_Containers_ContainerId",
                         column: x => x.ContainerId,
                         principalTable: "Containers",
                         principalColumn: "Id",
@@ -363,7 +363,7 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PageContainerTemplate",
+                name: "PageContainerTemplates",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -374,15 +374,15 @@ namespace FlexTemplate.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PageContainerTemplate", x => x.Id);
+                    table.PrimaryKey("PK_PageContainerTemplates", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PageContainerTemplate_ContainerTemplate_ContainerTemplateId",
+                        name: "FK_PageContainerTemplates_ContainerTemplates_ContainerTemplateId",
                         column: x => x.ContainerTemplateId,
-                        principalTable: "ContainerTemplate",
+                        principalTable: "ContainerTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PageContainerTemplate_Pages_PageId",
+                        name: "FK_PageContainerTemplates_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
                         principalColumn: "Id",
@@ -629,8 +629,8 @@ namespace FlexTemplate.Migrations
                 column: "ContainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContainerTemplate_ContainerId",
-                table: "ContainerTemplate",
+                name: "IX_ContainerTemplates_ContainerId",
+                table: "ContainerTemplates",
                 column: "ContainerId");
 
             migrationBuilder.CreateIndex(
@@ -644,13 +644,13 @@ namespace FlexTemplate.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PageContainerTemplate_ContainerTemplateId",
-                table: "PageContainerTemplate",
+                name: "IX_PageContainerTemplates_ContainerTemplateId",
+                table: "PageContainerTemplates",
                 column: "ContainerTemplateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PageContainerTemplate_PageId",
-                table: "PageContainerTemplate",
+                name: "IX_PageContainerTemplates_PageId",
+                table: "PageContainerTemplates",
                 column: "PageId");
 
             migrationBuilder.CreateIndex(
@@ -768,7 +768,7 @@ namespace FlexTemplate.Migrations
                 name: "CountryAliases");
 
             migrationBuilder.DropTable(
-                name: "PageContainerTemplate");
+                name: "PageContainerTemplates");
 
             migrationBuilder.DropTable(
                 name: "PlaceAliases");
@@ -801,7 +801,7 @@ namespace FlexTemplate.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ContainerTemplate");
+                name: "ContainerTemplates");
 
             migrationBuilder.DropTable(
                 name: "Pages");
