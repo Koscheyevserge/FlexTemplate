@@ -109,7 +109,7 @@ $('.c-categories').on('click', '.admin-button-add-category', function() {
     data: JSON.stringify(category),
     success: function(data) {
     	if (data.successed) {
-				$('.c-categories .categories').append('<div class="category" ' + data.id + '><h3>Категорія <input class="form-control" type="text" value="' + category.Name + '"></h3><button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button><div class="alias"><div class="buttons"><button class="btn btn-primary btn-form admin-buttom">Add alias</button><button class="btn btn-primary btn-form admin-buttom">Save</button></div></div></div>');
+				$('.c-categories .categories').append('<div class="category" dataId="' + data.id + '"><h3>Категорія <input id="categoryName" class="form-control" type="text" value="' + category.Name + '"></h3><button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button><div class="buttons"><button class="btn btn-primary btn-form admin-button-add-alias">Add alias</button><button class="btn btn-primary btn-form admin-button-category-save">Save</button></div></div>');
     	} else {
     		alert('Error: ' + data.errorMessages);
     	}
