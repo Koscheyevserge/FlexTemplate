@@ -12,10 +12,11 @@ using FlexTemplate.ViewModels.AdminController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace FlexTemplate.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         #region AdminController
         private readonly Context db;
@@ -34,7 +35,7 @@ namespace FlexTemplate.Controllers
 
         #region Views
 
-        public IActionResult Categories(int id)
+        public IActionResult Categories(int id = 1)
         {
             ViewData["Title"] = "Category";
             ViewData["BodyClasses"] = string.Empty;
@@ -52,7 +53,7 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Pages(int id)
+        public IActionResult Pages(int id = 1)
         {
             ViewData["Title"] = "Page";
             ViewData["BodyClasses"] = string.Empty;
@@ -369,6 +370,7 @@ namespace FlexTemplate.Controllers
             try
             {
                 db.Pages.Add(page);
+                db.SaveChanges();
                 return new AjaxCreateResponse {Id = page.Id, Successed = true};
             }
             catch (Exception ex)
@@ -387,6 +389,7 @@ namespace FlexTemplate.Controllers
             try
             {
                 db.Pages.Update(page);
+                db.SaveChanges();
                 return new AjaxResponse { Successed = true };
             }
             catch (Exception ex)
@@ -415,6 +418,15 @@ namespace FlexTemplate.Controllers
                     Successed = false
                 };
             }
+        }
+        [HttpGet]
+        [Route("api/page/{id}")]
+        public JsonResult GetPage(int id)
+        {
+            var item = db.Pages.Include(p => p.PageContainerTemplates)
+                .AsNoTracking()
+                .FirstOrDefault(p => p.Id == id);
+            return Json(item);
         }
 
         #endregion

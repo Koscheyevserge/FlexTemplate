@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlexTemplate.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private Context context { get; set; }
         private SignInManager<User> _signInManager { get; set; }
@@ -23,12 +23,6 @@ namespace FlexTemplate.Controllers
         {
             context = Context;
             _signInManager = signInManager;
-        }
-
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            ViewData["HeaderTemplate"] = "Solid";
-            base.OnActionExecuting(context);
         }
 
         public IActionResult Index()
