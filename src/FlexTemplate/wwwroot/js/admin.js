@@ -101,7 +101,7 @@ $('.c-categories').on('click', '.admin-button-add-category', function() {
     datatype: 'json',
     type: "get",
     success:  function (data) {
-        $('.c-categories .categories').append.html(data);
+        $('.c-categories .categories').append(data);
     }
   });
 });
