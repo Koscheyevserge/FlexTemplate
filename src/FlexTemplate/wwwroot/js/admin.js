@@ -11,7 +11,6 @@ const GET_REMOVE_ALIAS = "/api/categoryalias/delete/";
 /* url */
 const URL_DOMAIN = window.location.origin;
 
-
 /* create alias */
 $('.c-categories').on('click', '.admin-button-add-alias', function() {
 	let alias = {
@@ -97,24 +96,13 @@ $('.c-categories').on('click', '.admin-button-alias-save', function() {
 
 /* create category */
 $('.c-categories').on('click', '.admin-button-add-category', function() {
-	let category = {
-		id: 0,
-		Name: 'Default'
-	}
   $.ajax({
     url: POST_CREATE_CATEGORY,
     datatype: 'json',
-    type: "post", 
-    contentType: "application/json",
-    data: JSON.stringify(category),
-    success: function(data) {
-    	if (data.successed) {
-				$('.c-categories .categories').append('<div class="category" dataId="' + data.id + '"><h3>Категорія <input id="categoryName" class="form-control" type="text" value="' + category.Name + '"></h3><button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button><div class="buttons"><button class="btn btn-primary btn-form admin-button-add-alias">Add alias</button><button class="btn btn-primary btn-form admin-button-category-save">Save</button></div></div>');
-    	} else {
-    		alert('Error: ' + data.errorMessages);
-    	}
-  		console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
-		}
+    type: "get",
+    success:  function (data) {
+        $('.c-categories .categories').append.html(data);
+    }
   });
 });
 
