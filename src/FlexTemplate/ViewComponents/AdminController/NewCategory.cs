@@ -17,10 +17,17 @@ namespace FlexTemplate.ViewComponents.AdminController
         }
         public IViewComponentResult Invoke()
         {
-            var newCategory = new Category();
-            _context.Categories.Add(newCategory);
-            _context.SaveChanges();
-            return View(newCategory);
+            try
+            {
+                var newCategory = new Category();
+                _context.Categories.Add(newCategory);
+                _context.SaveChanges();
+                return View(newCategory);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

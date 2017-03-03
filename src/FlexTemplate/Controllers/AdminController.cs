@@ -202,10 +202,10 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpGet]
-        [Route("api/category/createalias")]
-        public IActionResult CreateCategoryAlias()
+        [Route("api/category/createalias/{id}")]
+        public IActionResult CreateCategoryAlias(int id)
         {
-            return ViewComponent(typeof(NewCategoryAlias));
+            return ViewComponent(typeof(NewCategoryAlias), new {id});
         }
         #endregion
 
