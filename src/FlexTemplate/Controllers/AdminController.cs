@@ -153,9 +153,9 @@ namespace FlexTemplate.Controllers
         #region Category
         [HttpGet]
         [Route("api/category/{id}")]
-        public Category GetCategory(int id)
+        public JsonResult GetCategory(int id)
         {
-            return db.Categories.Include(i => i.Aliases).AsNoTracking().FirstOrDefault(i => i.Id == id);
+            return Json(db.Categories.Include(i => i.Aliases).AsNoTracking().SingleOrDefault(i => i.Id == id));
         }
 
         [HttpPost]
@@ -430,10 +430,7 @@ namespace FlexTemplate.Controllers
         [Route("api/page/{id}")]
         public JsonResult GetPage(int id)
         {
-            var item = db.Pages.Include(p => p.PageContainerTemplates)
-                .AsNoTracking()
-                .FirstOrDefault(p => p.Id == id);
-            return Json(item);
+            return Json(db.Pages.Include(p => p.PageContainerTemplates).SingleOrDefault(p => p.Id == id));
         }
 
         #endregion
