@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FlexTemplate.Database;
-using FlexTemplate.Entities;
-using FlexTemplate.ViewModels;
-using Microsoft.AspNetCore.Identity;
+using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 
-namespace FlexTemplate.ViewComponents
+namespace FlexTemplate.ViewComponents.HomeController
 {
     public class Search : ViewComponent
     {
