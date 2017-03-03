@@ -17,10 +17,7 @@ namespace FlexTemplate.ViewComponents.AdminController
         }
         public IViewComponentResult Invoke()
         {
-            var newCategoryAlias = new CategoryAlias();
-            _context.CategoryAliases.Add(newCategoryAlias);
-            _context.SaveChanges();
-            return View(newCategoryAlias);
+            return View(new CategoryAlias());
         }
     }
 }
