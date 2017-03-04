@@ -11,7 +11,7 @@ namespace FlexTemplate.Controllers
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            ViewData["HeaderTemplate"] = "Solid";
+            ViewData["HeaderTemplate"] = "Transparent";
             base.OnActionExecuting(context);
         }
     }

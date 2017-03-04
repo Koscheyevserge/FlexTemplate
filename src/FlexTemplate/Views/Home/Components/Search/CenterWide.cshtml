@@ -2,49 +2,51 @@
 @if (Model != null)
 {
 <!-- start hero-header -->
-<div class="hero text-center alt-height" style="background-image: url('@Model.Images.First()');">
-    <div class="container">
+   
+        <div class="hero text-center alt-height search-margin-top" style="background-image: url('@Model.Images.First()'); margin-top:-25px; z-index:100;">
+            <div class="container">
 
-        <div class="row">
+                <div class="row">
 
-            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                    <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
-                <h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
-                <p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
+                        <h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
+                        <p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
 
-                <div class="home-search-form home-search-form-center">
+                        <div class="home-search-form home-search-form-center">
 
-                    <form>
+                            <form>
 
-                        <div class="form-group location-form">
-                            <input type="text" class="form-control" placeholder="Where would you like to eat?">
+                                <div class="form-group location-form">
+                                    <input type="text" class="form-control" placeholder="Where would you like to eat?">
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="custom-select" id="category-type">
+                                        @for (int i = 0; i < Model.CategoriesNames.Count; i++)
+                                        {
+                                            <option value="@i">@Model.CategoriesNames[i]</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
+
+                            </form>
+
+                            <div class="clear"></div>
+
+                            <p class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
+
                         </div>
 
-                        <div class="form-group">
-                            <select class="custom-select" id="category-type">
-                                @for (int i = 0; i < Model.CategoriesNames.Count; i++)
-                                {
-                                    <option value="@i">@Model.CategoriesNames[i]</option>
-                                }
-                            </select>
-                        </div>
-
-                        <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
-
-                    </form>
-
-                    <div class="clear"></div>
-
-                    <p class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
+                    </div>
 
                 </div>
 
             </div>
 
         </div>
-
-    </div>
-
-</div>
-<!-- end hero-header -->
-}
+       
+        <!-- end hero-header -->
+        }

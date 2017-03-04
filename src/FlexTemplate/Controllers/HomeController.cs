@@ -25,7 +25,6 @@ namespace FlexTemplate.Controllers
             context = Context;
             _signInManager = signInManager;
         }
-
         public IActionResult Index()
         {
             var page = context.Pages.AsNoTracking().Where(p => p.Name == "Index")
