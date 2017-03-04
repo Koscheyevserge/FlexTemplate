@@ -149,15 +149,6 @@ namespace FlexTemplate.Controllers
         
         #region Category
         [HttpGet]
-        [Route("api/category/get/{id?}")]
-        public JsonResult GetCategory(int id)
-        {
-            return id == 0 
-                ? Json(db.Categories.Include(i => i.Aliases).AsNoTracking()) 
-                    : Json(db.Categories.Include(i => i.Aliases).AsNoTracking().SingleOrDefault(i => i.Id == id));
-        }
-
-        [HttpGet]
         [Route("api/category/create")]
         public IActionResult CreateCategory()
         {
@@ -211,23 +202,6 @@ namespace FlexTemplate.Controllers
 
         #region Page
         [HttpPost]
-        [Route("api/page/create")]
-        public JsonResult AddPage([FromBody]Page page)
-        {
-            try
-            {
-                db.Pages.Add(page);
-                db.SaveChanges();
-                return Json(page.Id > 0 
-                    ? new AjaxCreateResponse {Id = page.Id, Successed = true} 
-                        : new AjaxResponse());
-            }
-            catch (Exception ex)
-            {
-                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
-            }
-        }
-        [HttpPost]
         [Route("api/page/update")]
         public JsonResult UpdatePage([FromBody]Page item)
         {
@@ -247,28 +221,10 @@ namespace FlexTemplate.Controllers
             }
         }
         [HttpGet]
-        [Route("api/page/delete/{id}")]
-        public JsonResult RemovePage(int id)
+        [Route("api/category/createcontainer/{id}")]
+        public IActionResult CreatePageContainerTemplate(int id)
         {
-            try
-            {
-                if (id == 0) return Json(new AjaxResponse());
-                db.Remove(db.Pages.Where(p => p.Id == id));
-                db.SaveChanges();
-                return Json(new AjaxResponse { Successed = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
-            }
-        }
-        [HttpGet]
-        [Route("api/page/get/{id?}")]
-        public JsonResult GetPage(int id)
-        {
-            return id == 0 
-                ? Json(db.Pages.Include(p => p.PageContainerTemplates).AsNoTracking())
-                    : Json(db.Pages.Include(p => p.PageContainerTemplates).AsNoTracking());
+            return ViewComponent(typeof(NewPageContainer), new { id });
         }
         #endregion
     }
