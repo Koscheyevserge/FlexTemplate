@@ -221,7 +221,7 @@ namespace FlexTemplate.Controllers
             }
         }
         [HttpGet]
-        [Route("api/category/createcontainer/{id}")]
+        [Route("api/page/createcontainer/{id}")]
         public IActionResult CreatePageContainerTemplate(int id)
         {
             return ViewComponent(typeof(NewPageContainer), new { id });
