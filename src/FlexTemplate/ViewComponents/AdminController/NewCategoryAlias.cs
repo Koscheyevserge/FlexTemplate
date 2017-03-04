@@ -19,12 +19,12 @@ namespace FlexTemplate.ViewComponents.AdminController
         {
             try
             {
-                var newCategoryAlias = new CategoryAlias { CategoryId = id };
+                var newCategoryAlias = new CategoryAlias { CategoryId = id, Id =  0, LanguageId = _context.Languages.Select(l => l.Id).First()};
                 _context.CategoryAliases.Add(newCategoryAlias);
                 _context.SaveChanges();
                 return View(newCategoryAlias);
             }
-            catch (Exception)
+            catch
             {
                 return null;
             }
