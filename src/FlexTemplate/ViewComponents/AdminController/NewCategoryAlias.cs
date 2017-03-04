@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlexTemplate.Database;
 using FlexTemplate.Entities;
+using FlexTemplate.ViewModels.AdminController;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlexTemplate.ViewComponents.AdminController
 {
@@ -22,7 +24,7 @@ namespace FlexTemplate.ViewComponents.AdminController
                 var newCategoryAlias = new CategoryAlias { CategoryId = id, Id =  0, LanguageId = _context.Languages.Select(l => l.Id).First()};
                 _context.CategoryAliases.Add(newCategoryAlias);
                 _context.SaveChanges();
-                return View(newCategoryAlias);
+                return View(new NewCategoryAliasViewModel {Languages = _context.Languages.AsNoTracking().AsEnumerable(), Alias = newCategoryAlias});
             }
             catch
             {
