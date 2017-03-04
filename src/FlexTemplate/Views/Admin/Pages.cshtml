@@ -1,4 +1,22 @@
 ﻿@model FlexTemplate.ViewModels.AdminController.AdminPagesViewModel
 @if(Model != null)
 {
+	<!-- <div class="c-pages container admin">
+    @foreach (var page in Model.Pages)
+    {
+    	<div class="page" dataId="@page.Id">
+				<h3>Назва сторінки <input id="pageName" class="form-control" type="text" value="@page.Name"></h3>
+				<h4>Назва класу до тегу <input id="pageNameClass" class="form-control" type="text" value="@page.bodyClasses"></h4>
+				<h4>Назва сторінки у вікні <input id="pageNameTitle" class="form-control" type="text" value="@page.title"></h4>
+				<div class="container-components">
+					<ul id="draggablePanelList" class="list-unstyled">
+			    @foreach (var component in page.pageContainerTemplates)
+			    {
+						
+			    }
+					</ul>
+				</div>
+    	</div>
+    }
+	</div> -->
 }

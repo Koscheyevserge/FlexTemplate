@@ -3,13 +3,12 @@
 {
 <div class="alias" dataId="@Model.Alias.Id">
     <input class="form-control" type="text" value="@Model.Alias.Text">
-    <select class="custom-select languages">
+    <select class="custom-select languages new">
         @foreach (var lang in Model.Languages)
         {
             <option dataId="@lang.Id">@lang.ShortName</option>
         }
     </select>
-    <button class="btn btn-primary btn-form admin-button-alias-save">Save alias</button>
     <button class="btn btn-primary btn-form admin-button-alias-remove">Remove alias</button>
 </div>
 }			 	
