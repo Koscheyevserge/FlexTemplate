@@ -6,6 +6,7 @@ using FlexTemplate.Database;
 using FlexTemplate.Entities;
 using FlexTemplate.Services;
 using FlexTemplate.ViewModels;
+using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

@@ -1,0 +1,14 @@
+﻿@model FlexTemplate.Entities.Category
+@if (Model != null)
+{
+<div class="category" dataId="@Model.Id">
+    <h3>Категорія <input id="categoryName" class="form-control" type="text" value="@Model.Name"></h3>
+    <button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button>
+    <div class="aliases">
+        <div class="buttons">
+            <button class="btn btn-primary btn-form admin-button-add-alias">Add alias</button>
+            <button class="btn btn-primary btn-form admin-button-category-save">Save</button>
+        </div>
+    </div>
+</div>
+}

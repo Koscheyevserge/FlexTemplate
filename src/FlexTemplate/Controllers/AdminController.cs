@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FlexTemplate.Database;
 using FlexTemplate.Entities;
 using FlexTemplate.ViewComponents;
+using FlexTemplate.ViewComponents.AdminController;
 using FlexTemplate.ViewModels.AdminController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +23,23 @@ namespace FlexTemplate.Controllers
         private readonly Context db;
         private readonly UserManager<User> um;
         private readonly RoleManager<IdentityRole> rm;
-        private readonly SignInManager<User> sm; 
+        private readonly SignInManager<User> sm;
+
+        private IEnumerable<Container> GetAllContainers()
+        {
+            var model = db.Containers.Include(c => c.LocalizableStrings)
+                        .Include(c => c.Photos)
+                        .Include(c => c.ContainerTemplates)
+                        .AsNoTracking()
+                        .AsEnumerable();
+            return model;
+        }
+
+        private IEnumerable<Language> GetAllLanguages()
+        {
+            var model = db.Languages.AsNoTracking().AsEnumerable();
+            return model;
+        }
 
         public AdminController(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
@@ -129,310 +146,130 @@ namespace FlexTemplate.Controllers
         }
 
         #endregion
-
-        [HttpGet]
-        [Route("/api/containers")]
-        public IEnumerable<Container> GetAllContainers()
-        {
-            var model = db.Containers.Include(c => c.LocalizableStrings)
-                        .Include(c => c.Photos)
-                        .Include(c => c.ContainerTemplates)
-                        .AsNoTracking()
-                        .AsEnumerable();
-            return model;
-        }
-
-        [HttpGet]
-        [Route("/api/languages")]
-        public IEnumerable<Language> GetAllLanguages()
-        {
-            var model = db.Languages.AsNoTracking().AsEnumerable();
-            return model;
-        }
-
+        
         #region Category
         [HttpGet]
-        [Route("api/category/{id}")]
+        [Route("api/category/get/{id?}")]
         public JsonResult GetCategory(int id)
         {
-            return Json(db.Categories.Include(i => i.Aliases).AsNoTracking().SingleOrDefault(i => i.Id == id));
+            return id == 0 
+                ? Json(db.Categories.Include(i => i.Aliases).AsNoTracking()) 
+                    : Json(db.Categories.Include(i => i.Aliases).AsNoTracking().SingleOrDefault(i => i.Id == id));
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/category/create")]
-        public AjaxResponse CreateCategory([FromBody]Category item)
+        public IActionResult CreateCategory()
         {
-            try
-            {
-                item.Id = 0;
-                item.Aliases = null;
-                db.Categories.Add(item);
-                db.SaveChanges();
-                if (item.Id != 0)
-                {
-                    return new AjaxCreateResponse
-                    {
-                        Successed = true,
-                        Id = item.Id
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
-            }
+            return ViewComponent(typeof(NewCategory));
         }
 
         [HttpGet]
         [Route("api/category/delete/{id}")]
-        public AjaxResponse DeleteCategory(int id)
+        public JsonResult DeleteCategory(int id)
         {
             try
             {
-                if (id != 0)
-                {
-                    var entity = db.Categories.FirstOrDefault(i => i.Id == id);
-                    if (entity != null)
-                    {
-                        db.Categories.Remove(entity);
-                        db.SaveChanges();
-                        return new AjaxResponse
-                        {
-                            Successed = true
-                        };
-                    }
-                    return new AjaxResponse
-                    {
-                        Successed = false, ErrorMessages = new List<string> {"Такой сущности не существует"}
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
+                if (id == 0) return Json(new AjaxResponse());
+                db.Categories.RemoveRange(db.Categories.Where(i => i.Id == id));
+                db.SaveChanges();
+                return Json(new AjaxResponse{Successed = true});
             }
             catch (Exception ex)
             {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
+                return Json(new AjaxResponse{ErrorMessages = new List<string> { ex.Message }});
             }
         }
 
         [HttpPost]
         [Route("api/category/update")]
-        public AjaxResponse UpdateCategory([FromBody]Category item)
+        public JsonResult UpdateCategory([FromBody]Category item)
         {
             try
             {
-                if (item != null && item.Id != 0)
-                {
-                    item.Aliases = null;
-                    db.Categories.Update(item);
-                    db.SaveChanges();
-                    return new AjaxResponse
-                    {
-                        Successed = true
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
-            }
-        }
-
-        [HttpPost]
-        [Route("api/categoryalias/create")]
-        public AjaxResponse CreateCategoryAlias([FromBody]CategoryAlias item)
-        {
-            try
-            {
-                item.Id = 0;
-                db.CategoryAliases.Add(item);
+                if (item == null || item.Id == 0) return Json(new AjaxResponse());
+                db.CategoryAliases
+                    .RemoveRange(db.CategoryAliases
+                        .Where(a => !item.Aliases.Select(i => i.Id).Contains(a.Id) && a.CategoryId == item.Id));
+                db.Categories.Update(item);
                 db.SaveChanges();
-                if (item.Id != 0)
-                {
-                    return new AjaxCreateResponse
-                    {
-                        Successed = true,
-                        Id = item.Id
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
+                return Json(new AjaxResponse{Successed = true});
             }
             catch (Exception ex)
             {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
+                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
             }
         }
 
         [HttpGet]
-        [Route("api/categoryalias/delete/{id}")]
-        public AjaxResponse DeleteCategoryAlias(int id)
+        [Route("api/category/createalias/{id}")]
+        public IActionResult CreateCategoryAlias(int id)
         {
-            try
-            {
-                if (id != 0)
-                {
-                    var entity = db.CategoryAliases.FirstOrDefault(i => i.Id == id);
-                    if (entity != null)
-                    {
-                        db.CategoryAliases.Remove(entity);
-                        db.SaveChanges();
-                        return new AjaxResponse
-                        {
-                            Successed = true
-                        };
-                    }
-                    return new AjaxResponse
-                    {
-                        Successed = false,
-                        ErrorMessages = new List<string> { "Такой сущности не существует" }
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
-            }
-        }
-
-        [HttpPost]
-        [Route("api/categoryalias/update")]
-        public AjaxResponse UpdateCategoryAlias([FromBody]CategoryAlias item)
-        {
-            try
-            {
-                if (item.Id != 0)
-                {
-                    db.CategoryAliases.Update(item);
-                    db.SaveChanges();
-                    return new AjaxResponse
-                    {
-                        Successed = true
-                    };
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
-            }
-            catch (Exception ex)
-            {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
-            }
+            return ViewComponent(typeof(NewCategoryAlias), new {id});
         }
         #endregion
-        #region Page
 
+        #region Page
         [HttpPost]
         [Route("api/page/create")]
-        public AjaxResponse AddPage([FromBody]Page page)
+        public JsonResult AddPage([FromBody]Page page)
         {
             try
             {
                 db.Pages.Add(page);
                 db.SaveChanges();
-                if (page.Id > 0)
-                {
-                    return new AjaxCreateResponse {Id = page.Id, Successed = true};
-                }
-                return new AjaxResponse
-                {
-                    Successed = false
-                };
+                return Json(page.Id > 0 
+                    ? new AjaxCreateResponse {Id = page.Id, Successed = true} 
+                        : new AjaxResponse());
             }
             catch (Exception ex)
             {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
+                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
             }
         }
         [HttpPost]
         [Route("api/page/update")]
-        public AjaxResponse UpdatePage([FromBody]Page page)
+        public JsonResult UpdatePage([FromBody]Page item)
         {
             try
             {
-                db.Pages.Update(page);
+                if (item == null || item.Id == 0) return Json(new AjaxResponse());
+                db.PageContainerTemplates
+                    .RemoveRange(db.PageContainerTemplates
+                        .Where(pct => !item.PageContainerTemplates.Select(i => i.Id).Contains(pct.Id) && pct.PageId == item.Id));
+                db.Pages.Update(item);
                 db.SaveChanges();
-                return new AjaxResponse { Successed = true };
+                return Json(new AjaxResponse { Successed = true });
             }
             catch (Exception ex)
             {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
+                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
             }
         }
         [HttpGet]
         [Route("api/page/delete/{id}")]
-        public AjaxResponse RemovePage(int id)
+        public JsonResult RemovePage(int id)
         {
             try
             {
+                if (id == 0) return Json(new AjaxResponse());
                 db.Remove(db.Pages.Where(p => p.Id == id));
-                return new AjaxResponse { Successed = true };
+                db.SaveChanges();
+                return Json(new AjaxResponse { Successed = true });
             }
             catch (Exception ex)
             {
-                return new AjaxResponse
-                {
-                    ErrorMessages = new List<string> { ex.Message },
-                    Successed = false
-                };
+                return Json(new AjaxResponse { ErrorMessages = new List<string> { ex.Message } });
             }
         }
         [HttpGet]
-        [Route("api/page/{id}")]
+        [Route("api/page/get/{id?}")]
         public JsonResult GetPage(int id)
         {
-            return Json(db.Pages.Include(p => p.PageContainerTemplates).SingleOrDefault(p => p.Id == id));
+            return id == 0 
+                ? Json(db.Pages.Include(p => p.PageContainerTemplates).AsNoTracking())
+                    : Json(db.Pages.Include(p => p.PageContainerTemplates).AsNoTracking());
         }
-
         #endregion
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FlexTemplate.ViewModels
+﻿namespace FlexTemplate.ViewModels.HomeController
 {
     /// <summary>
     /// Модель, что передается в OtherCityPlaces
