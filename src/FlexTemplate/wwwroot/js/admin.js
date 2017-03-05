@@ -125,8 +125,6 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
     contentType: "application/json",
 	data: JSON.stringify({
 		id: +page.attr("dataId"),
-		Name: page.find("#pageName").val(),
-		BodyClasses: page.find("#pageNameClass").val(),
 		Title: page.find("#pageNameTitle").val(),
 		PageContainerTemplates: components
 	}),
