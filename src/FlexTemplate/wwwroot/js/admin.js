@@ -8,9 +8,9 @@ const GET_REMOVE_CATEGORY = "/api/category/delete/";
 const GET_CREATE_ALIAS = "/api/category/createalias/";
 
 
+//page
 const POST_UPDATE_PAGES = '/api/page/update';
-const GET_CREATE_PAGES = '/api/page/create';
-const GET_REMOVE_PAGES = '/api/page/remove/';
+const GET_CREATE_PAGE_COMPONENT = '/api/page/createcontainer/';
 
 /* url */
 const URL_DOMAIN = window.location.origin;
@@ -25,8 +25,12 @@ $('.c-categories').on('click', '.admin-button-add-alias', function() {
     url: URL_DOMAIN + GET_CREATE_ALIAS + $(this).parents('.category').attr('dataId'),
     data: "",
     success: function (data) {
-      $(child).parent().before(data);                        
-     	$('.custom-select.new').fancySelect();
+    	if (data.successed) {
+	      $(child).parent().before(data);                        
+	     	$('.custom-select.new').fancySelect();
+	    } else {
+    		alert('Error: ' + data.errorMessages);
+	    }
     }
 	});
 });
@@ -43,7 +47,11 @@ $('.c-categories').on('click', '.admin-button-add-category', function() {
     url: URL_DOMAIN + GET_CREATE_CATEGORY,
     data: "",
     success: function(data) {
-      $('.c-categories .categories').append(data);
+    	if (data.successed) {
+	      $('.c-categories .categories').append(data);
+	    } else {
+    		alert('Error: ' + data.errorMessages);
+	    }
     }
   });
 });
@@ -61,7 +69,6 @@ $('.c-categories').on('click', '.admin-button-remove-category', function() {
     	} else {
     		alert('Error: ' + data.errorMessages);
     	}
-    	console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
     }
 	});
 });
@@ -111,14 +118,6 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 			Position: i
 		});
 	};
-	let obj = {
-		
-			id: +page.attr("dataId"),
-			Name: page.find("#pageName").val(),
-			BodyClasses: page.find("#pageNameClass").val(),
-			Title: page.find("#pageNameTitle").val(),
-			PageContainerTemplates: components
-	}
 	$.ajax({
 	  url: URL_DOMAIN + POST_UPDATE_CATEGORY,
     datatype: 'json',
@@ -138,4 +137,25 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 			console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
 		}
 	});
+});
+
+/* create page-component */
+$('.c-pages').on('click', '.admin-button-add-component', function() {
+  $.ajax({
+    datatype: 'json',
+    url: URL_DOMAIN + GET_CREATE_PAGE_COMPONENT + $('.c-pages .page').attr('dataId'),
+    data: "",
+    success: function(data) {
+    	if (data.successed) {
+	      $('.c-pages .component-list').append(data);
+	    } else {
+    		alert('Error: ' + data.errorMessages);
+	    }
+    }
+  });
+});
+
+/* remove component */
+$('.c-pages').on('click', '.admin-button-remove-component', function() {
+	let parent = $(this).parent().remove();
 });

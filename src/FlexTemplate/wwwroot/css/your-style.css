@@ -104,6 +104,10 @@ Created:        24/10/2016
   vertical-align: middle;
 }
 
+.admin-button-remove-component {
+  float: right;
+}
+
 #draggablePanelList {
   padding-left: 20px;
   max-width: 780px;
