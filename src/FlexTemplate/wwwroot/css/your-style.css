@@ -50,11 +50,6 @@ Created:        24/10/2016
   margin-bottom: 80px;
 }
 
-.admin h3,
-.admin h4 {
-  display: inline-block;
-}
-
 .admin h3 span,
 .admin h4 span {
   width: 250px;
@@ -126,4 +121,13 @@ Created:        24/10/2016
   border-color: #faebcc;
   color: #8a6d3b;
   transition: background .3s ease-in-out;
+}
+
+
+
+
+/* home pages */
+
+.search-margin-top {
+  margin-top: -25px;
 }

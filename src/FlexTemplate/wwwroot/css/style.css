@@ -804,9 +804,6 @@ ul.navbar-nav {} ul.navbar-nav li {} .navbar-collapse.pull-left .navbar-nav {
     top: 50%;
 }
 
-.search-margin-top{
-    margin-top: -25px;
-}
 @media only screen and (max-width: 1199px) {
     .hero {
         background-size: auto;
