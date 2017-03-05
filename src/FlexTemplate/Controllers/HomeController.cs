@@ -17,10 +17,9 @@ namespace FlexTemplate.Controllers
 {
     public class HomeController : BaseController
     {
-        private Context context { get; set; }
         private SignInManager<User> _signInManager { get; set; }
 
-        public HomeController(Context Context, SignInManager<User> signInManager)
+        public HomeController(Context Context, SignInManager<User> signInManager) : base(Context)
         {
             context = Context;
             _signInManager = signInManager;

@@ -20,14 +20,13 @@ namespace FlexTemplate.Controllers
     public class AdminController : BaseController
     {
         #region AdminController
-        private readonly Context db;
         private readonly UserManager<User> um;
         private readonly RoleManager<IdentityRole> rm;
         private readonly SignInManager<User> sm;
 
         private IEnumerable<Container> GetAllContainers()
         {
-            var model = db.Containers.Include(c => c.LocalizableStrings)
+            var model = context.Containers.Include(c => c.LocalizableStrings)
                         .Include(c => c.Photos)
                         .Include(c => c.ContainerTemplates)
                         .AsNoTracking()
@@ -37,13 +36,13 @@ namespace FlexTemplate.Controllers
 
         private IEnumerable<Language> GetAllLanguages()
         {
-            var model = db.Languages.AsNoTracking().AsEnumerable();
+            var model = context.Languages.AsNoTracking().AsEnumerable();
             return model;
         }
 
-        public AdminController(Context context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
+        public AdminController(Context Context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager) : base(Context)
         {
-            db = context;
+            context = Context;
             rm = roleManager;
             um = userManager;
             sm = signInManager;
@@ -60,7 +59,7 @@ namespace FlexTemplate.Controllers
             var model = new AdminCategoriesViewModel
             {
                 Categories =
-                    db.Categories.Include(i => i.Aliases)
+                    context.Categories.Include(i => i.Aliases)
                         .ThenInclude(a => a.Language)
                         .Skip(10 * id)
                         .Take(10)
@@ -77,7 +76,7 @@ namespace FlexTemplate.Controllers
             id--;
             var model = new AdminPagesViewModel
             {
-                Pages = db.Pages.Include(p => p.PageContainerTemplates)
+                Pages = context.Pages.Include(p => p.PageContainerTemplates)
                         .ThenInclude(pct => pct.ContainerTemplate)
                         .ThenInclude(ct => ct.Container)
                         .ThenInclude(c => c.LocalizableStrings)
@@ -103,7 +102,7 @@ namespace FlexTemplate.Controllers
         public IActionResult UserRoles(int id)
         {
             id--;
-            var model = db.Roles.Skip(10 * id).Take(10).AsNoTracking();
+            var model = context.Roles.Skip(10 * id).Take(10).AsNoTracking();
             return View(model);
         }
         #endregion
@@ -115,7 +114,7 @@ namespace FlexTemplate.Controllers
         public IActionResult Users(int page)
         {
             page--;
-            var model = db.Users.Skip(10 * page).Take(10).AsNoTracking();
+            var model = context.Users.Skip(10 * page).Take(10).AsNoTracking();
             return View(model);
         }
         #endregion
@@ -126,7 +125,7 @@ namespace FlexTemplate.Controllers
         [Route("/Admin/UserRole/{id}")]
         public IActionResult UserRole(string id)
         {
-            var model = db.Roles.FirstOrDefault(i => i.Id == id);
+            var model = context.Roles.FirstOrDefault(i => i.Id == id);
             return View(model);
         }
         #endregion
@@ -162,8 +161,8 @@ namespace FlexTemplate.Controllers
             try
             {
                 if (id == 0) return Json(new AjaxResponse());
-                db.Categories.RemoveRange(db.Categories.Where(i => i.Id == id));
-                db.SaveChanges();
+                context.Categories.RemoveRange(context.Categories.Where(i => i.Id == id));
+                context.SaveChanges();
                 return Json(new AjaxResponse{Successed = true});
             }
             catch (Exception ex)
@@ -179,11 +178,11 @@ namespace FlexTemplate.Controllers
             try
             {
                 if (item == null || item.Id == 0) return Json(new AjaxResponse());
-                db.CategoryAliases
-                    .RemoveRange(db.CategoryAliases
+                context.CategoryAliases
+                    .RemoveRange(context.CategoryAliases
                         .Where(a => !item.Aliases.Select(i => i.Id).Contains(a.Id) && a.CategoryId == item.Id));
-                db.Categories.Update(item);
-                db.SaveChanges();
+                context.Categories.Update(item);
+                context.SaveChanges();
                 return Json(new AjaxResponse{Successed = true});
             }
             catch (Exception ex)
@@ -208,11 +207,14 @@ namespace FlexTemplate.Controllers
             try
             {
                 if (item == null || item.Id == 0) return Json(new AjaxResponse());
-                db.PageContainerTemplates
-                    .RemoveRange(db.PageContainerTemplates
+                context.PageContainerTemplates
+                    .RemoveRange(context.PageContainerTemplates
                         .Where(pct => !item.PageContainerTemplates.Select(i => i.Id).Contains(pct.Id) && pct.PageId == item.Id));
-                db.Pages.Update(item);
-                db.SaveChanges();
+                var oldEntity = context.Pages.AsNoTracking().SingleOrDefault(p => p.Id == item.Id);
+                item.Name = oldEntity.Name;
+                item.BodyClasses = oldEntity.BodyClasses;
+                context.Pages.Update(item);
+                context.SaveChanges();
                 return Json(new AjaxResponse { Successed = true });
             }
             catch (Exception ex)

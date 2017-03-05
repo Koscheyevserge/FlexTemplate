@@ -1,25 +1,26 @@
-﻿@model FlexTemplate.ViewModels.AdminController.AdminPagesViewModel
+﻿@using FlexTemplate.Entities
+@model FlexTemplate.ViewModels.AdminController.AdminPagesViewModel
 @if(Model != null)
 {
 	<div class="c-pages container admin">
-    @foreach (var page in Model.Pages)
+    @foreach (Page page in Model.Pages)
     {
     	<div class="page" dataId="@page.Id">
-				<h3><span>Назва сторінки</span> <input id="pageName" class="form-control" type="text" value="@page.Name"></h3>
-				<h4><span>Назва класу до тегу</span> <input id="pageNameClass" class="form-control" type="text" value="@page.BodyClasses"></h4>
+				<!--<h3><span>Назва сторінки</span> <input id="pageName" class="form-control" type="text" value="@page.Name"></h3>-->
+				<!--<h4><span>Назва класу до тегу</span> <input id="pageNameClass" class="form-control" type="text" value="@page.BodyClasses"></h4>-->
 				<h4><span>Назва сторінки у вікні</span> <input id="pageNameTitle" class="form-control" type="text" value="@page.Title"></h4>
 				<div class="container-components">
 					<h4>Порядок компонентів</h4>
-					<ul id="draggablePanelList" class="component-list list-unstyled">
-				    @foreach (var component in page.PageContainerTemplates)
-				    {
-							<li class="alert alert-info component clearfix" dataId="@component.ContainerTemplateId">
-								<span>@component.Page.Name</span>
-        				<button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
-							</li>
-				    }
-        		<button class="btn btn-primary btn-form admin-button-add-component">Add component</button>
-					</ul>
+				    <ul id="draggablePanelList" class="component-list list-unstyled">
+				        @foreach (PageContainerTemplate component in page.PageContainerTemplates)
+				        {
+				            <li class="alert alert-info component clearfix" dataId="@component.ContainerTemplateId">
+				                <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
+				                <span>@component.ContainerTemplate.Container.Name - @component.ContainerTemplate.TemplateName</span>
+				            </li>
+				        }
+				    </ul>
+                    <button class="btn btn-primary btn-form admin-button-add-component">Add component</button>
 				</div>
         <button class="btn btn-primary btn-form admin-button-pages-save">Save page</button>
     	</div>

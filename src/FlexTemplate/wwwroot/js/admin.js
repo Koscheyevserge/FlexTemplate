@@ -119,23 +119,23 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 		});
 	};
 	$.ajax({
-	  url: URL_DOMAIN + POST_UPDATE_CATEGORY,
+	  url: URL_DOMAIN + POST_UPDATE_PAGES,
     datatype: 'json',
     type: "post", 
     contentType: "application/json",
-	  data: JSON.stringify({
-			id: +page.attr("dataId"),
-			Name: page.find("#pageName").val(),
-			BodyClasses: page.find("#pageNameClass").val(),
-			Title: page.find("#pageNameTitle").val(),
-			PageContainerTemplates: components
-	  }),
-		success: function(data) {
-    	if (!data.successed) {
-    		alert('Error: ' + data.errorMessages);
-    	}
-			console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
-		}
+	data: JSON.stringify({
+		id: +page.attr("dataId"),
+		Name: page.find("#pageName").val(),
+		BodyClasses: page.find("#pageNameClass").val(),
+		Title: page.find("#pageNameTitle").val(),
+		PageContainerTemplates: components
+	}),
+	success: function(data) {
+    if (!data.successed) {
+    	alert('Error: ' + data.errorMessages);
+    }
+		console.log("Status: " + data.successed + "\nMessage: " + data.errorMessages);
+	}
 	});
 });
 
@@ -146,11 +146,7 @@ $('.c-pages').on('click', '.admin-button-add-component', function() {
     url: URL_DOMAIN + GET_CREATE_PAGE_COMPONENT + $('.c-pages .page').attr('dataId'),
     data: "",
     success: function(data) {
-    	if (data.successed) {
-	      $('.c-pages .component-list').append(data);
-	    } else {
-    		alert('Error: ' + data.errorMessages);
-	    }
+	    $('.c-pages .component-list').append(data);
     }
   });
 });

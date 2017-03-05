@@ -21,10 +21,16 @@ namespace FlexTemplate.ViewComponents.AdminController
         {
             try
             {
-                var model = new PageContainerTemplate{ PageId = id, ContainerTemplateId = _context.ContainerTemplates.Select(ct => ct.Id).First()};
-                _context.PageContainerTemplates.Add(model);
+                var entity = new PageContainerTemplate{ PageId = id, ContainerTemplate = _context.ContainerTemplates.Include(ct => ct.Container).First()};
+                _context.PageContainerTemplates.Add(entity);
                 _context.SaveChanges();
-                return View(new NewPageContainerViewModel { Languages = _context.Languages.AsNoTracking().AsEnumerable(), Containers = _context.Containers.AsNoTracking().AsEnumerable(), PageContainerTemplate = model});
+                var model = new NewPageContainerViewModel
+                {
+                    Languages = _context.Languages.AsNoTracking().AsEnumerable(),
+                    Containers = _context.Containers.AsNoTracking().AsEnumerable(),
+                    PageContainerTemplate = entity
+                };
+                return View(model);
             }
             catch
             {
