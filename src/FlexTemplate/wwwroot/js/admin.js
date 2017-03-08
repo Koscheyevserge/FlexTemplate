@@ -25,7 +25,7 @@ $('.c-categories').on('click', '.admin-button-add-alias', function() {
     url: URL_DOMAIN + GET_CREATE_ALIAS + $(this).parents('.category').attr('dataId'),
     data: "",
     success: function (data) {
-    	if (data.successed) {
+    	if (data) {
 	      $(child).parent().before(data);                        
 	     	$('.custom-select.new').fancySelect();
 	    } else {
@@ -47,7 +47,7 @@ $('.c-categories').on('click', '.admin-button-add-category', function() {
     url: URL_DOMAIN + GET_CREATE_CATEGORY,
     data: "",
     success: function(data) {
-    	if (data.successed) {
+    	if (data) {
 	      $('.c-categories .categories').append(data);
 	    } else {
     		alert('Error: ' + data.errorMessages);
@@ -143,8 +143,10 @@ $('.c-pages').on('click', '.admin-button-add-component', function() {
     datatype: 'json',
     url: URL_DOMAIN + GET_CREATE_PAGE_COMPONENT + $('.c-pages .page').attr('dataId'),
     data: "",
-    success: function(data) {
-	    $('.c-pages .component-list').append(data);
+    success: function (data) {
+        if (data) {
+            $('.c-pages .component-list').append(data);
+        }
     }
   });
 });
