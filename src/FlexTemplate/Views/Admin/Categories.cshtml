@@ -8,7 +8,6 @@
     {
     	<div class="category" dataId="@category.Id">
 				<h3><span>Категорія</span> <input id="categoryName" class="form-control" type="text" value="@category.Name"></h3>
-				<button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button>
 				<div class="aliases">
 				 	@foreach (var alias in category.Aliases)
 				 	{
@@ -28,6 +27,7 @@
 	    			<button class="btn btn-primary btn-form admin-button-category-save">Save</button>
 					</div>
 				</div>
+				<button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove category</button>
 			</div>
 		}
 		</div>

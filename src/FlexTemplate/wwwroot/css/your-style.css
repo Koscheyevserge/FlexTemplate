@@ -50,7 +50,6 @@ Created:        24/10/2016
   margin-bottom: 80px;
 }
 
-.admin h3 span,
 .admin h4 span {
   width: 250px;
   display: inline-block;
@@ -74,9 +73,8 @@ Created:        24/10/2016
 }
 
 .admin .admin-button-remove-category {
-  display: inline-block;
-  margin: -12px 0 0 20px;
-  vertical-align: middle;
+  display: block;
+  margin-top: 10px;
 }
 
 .admin .buttons .admin-button {
@@ -101,6 +99,10 @@ Created:        24/10/2016
 
 .admin-button-remove-component {
   float: right;
+}
+
+.admin .container-components {
+  margin-bottom: 20px;
 }
 
 #draggablePanelList {
