@@ -46,7 +46,12 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Users()
+        public IActionResult Places()
+        {
+            return View();
+        }
+
+        public IActionResult Place()
         {
             return View();
         }
