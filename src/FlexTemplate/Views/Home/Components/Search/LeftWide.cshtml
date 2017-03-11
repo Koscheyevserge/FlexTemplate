@@ -4,9 +4,8 @@
 <!-- start hero-header -->
 <div class="hero alt-height search-margin-top" style="background-image:url('@Model.Images.First()'); margin-top:-25px;">
     <div class="container">
-
-        <h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
-        <p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
+        <div contenteditable="true" name="ckeditor"><h1 tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1></div>
+        <div contenteditable="true" name="ckeditor"><p tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p></div>
 
         <div class="home-search-form">
 
@@ -24,19 +23,18 @@
                         }
                     </select>
                 </div>
-
                 <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
-
             </form>
 
             <div class="clear"></div>
-
-            <p class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
-
+            <div contenteditable="true" name="ckeditor">
+            <p class="around-you" tag="EndLabelCaption">@Model.Strings["EndLabelCaption"]</p>
+            </div>
         </div>
 
     </div>
 
 </div>
 <!-- end hero-header -->
+<script type="text/javascript">CKEDITOR.inline('ckeditor',{toolbar: 'Full'});</script>
 }
