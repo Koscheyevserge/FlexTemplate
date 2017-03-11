@@ -18,7 +18,7 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(int id)
         {
-            var photoPath = "images/hot-item/01.jpg";
+            var photoPath = "images/1.jpg";
             var place = _context.Places.Where(p => p.Id == id).Include(p => p.Street).Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).Include(p => p.Reviews).FirstOrDefault();
             var name = place.Name;
             var address = place.Street.Name;

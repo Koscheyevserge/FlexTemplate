@@ -19,7 +19,7 @@ namespace FlexTemplate.ViewComponents.HomeController
         public IViewComponentResult Invoke(string template)
         {
             var categoryNames = _context.Categories.Select(c => c.Name).ToList();
-            var photoPath = new List<string>{ "images/hero-header/01.jpg"};
+            var photoPath = new List<string>{ "images/2.jpg"};
             var strings = _context.Containers.Include(c => c.LocalizableStrings)
                 .FirstOrDefault(c => c.Name == GetType().Name)
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);

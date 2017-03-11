@@ -6,10 +6,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 CKEDITOR.editorConfig = function( config )
 {
     config.skin = 'bootstrapck';
-    // Define changes to default configuration here. For example:
-    // config.language = 'fr';
-    // config.uiColor = '#AADC6E';
-    CKEDITOR.config.toolbar.Full =
+    /*config.toolbar.Full =
         [
             { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'] },
             { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
@@ -32,12 +29,12 @@ CKEDITOR.editorConfig = function( config )
             { name: 'tools', items: ['Maximize', 'ShowBlocks', '-', 'About'] }
         ];
 
-    CKEDITOR.config.toolbar.Basic =
+    config.toolbar.Basic =
         [
             ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About']
         ];
-    CKEDITOR.config.toolbar_Basic =
+    config.toolbar_Basic =
     [
         ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About']
-    ];
+    ];*/
 };
