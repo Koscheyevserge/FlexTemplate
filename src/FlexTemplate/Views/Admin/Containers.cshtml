@@ -1,0 +1,30 @@
+﻿@model FlexTemplate.ViewModels.AdminController.NewPageContainerViewModel
+
+<div class="c-categories container admin">
+    @if (Model != null)
+    {
+        <div class="containers">
+            @foreach (var container in Model.Containers)
+            {
+                <div class="container" dataId="@container.Id">
+                    <h3><span>Контейнер</span> <input id="containerName" class="form-control" type="text" value="@container.Name"></h3>
+                  
+                    <button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove container</button>
+                </div>}
+        </div>
+        <button class="btn btn-primary btn-form admin-button admin-button-add-category">Add container</button>
+    }
+</div>
+
+<script>
+	// window.onload = function() {
+	// 	$.ajax(GET_LANGUAGES, {
+ //    	success: function() {
+ //    		$()
+ //    	},
+	//     error: function(error) {
+	//       console.log('error ' + error);
+	//     }
+	// 	});
+	// };
+</script>
