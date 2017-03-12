@@ -69,6 +69,25 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
+        public IActionResult Containers(int id = 1)
+        {
+            ViewData["Title"] = "Container";
+            ViewData["BodyClasses"] = string.Empty;
+            id--;
+            var model = new AdminContainersViewModel
+            {
+                Containers =
+                    context.Containers.Include(p => p.LocalizableStrings)
+                    .ThenInclude(ls => ls.Language)
+                    .Include(c => c.Photos)
+                    .Skip(10 * id)
+                    .Take(10)
+                    .AsEnumerable(),
+                Languages = GetAllLanguages()
+            };
+            return View(model);
+        }
+
         public IActionResult Pages(int id = 1)
         {
             ViewData["Title"] = "Page";
