@@ -11,8 +11,5 @@ namespace FlexTemplate.ViewModels.AdminController
     {
         public IEnumerable<Language> Languages { get; set; }
         public IEnumerable<Container> Containers { get; set; }
-        public ContainerLocalizableString Localization { get; set; }
-        public ContainerPhoto Photo { get; set; }
-        
     }
 }

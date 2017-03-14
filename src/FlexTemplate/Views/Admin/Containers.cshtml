@@ -7,33 +7,19 @@
             @foreach (var container in Model.Containers)
             {
                 <div class="container" dataId="@container.Id">
-                    <h3><span>Контейнер</span> <input id="containerName" class="form-control" type="text" value="@container.Name"></h3>
-                    @foreach (var local in container.LocalizableStrings)
+                    <h3><span>Контейнер @container.Name</span></h3>
+                    @foreach (var localTag in container.LocalizableStrings.GroupBy(ls => ls.Tag).Select(ls => ls.First()))
                     {
                         <div class="alias" dataId="@container.Id">
-                            <input class="form-control" type="text" value="@container.Name">
-                            <select class="custom-select languages">
-                                @foreach (var lang in Model.Languages)
-                                {
-                                    <option dataId="@lang.Id">@lang.ShortName</option>
-                                }
-                            </select>
-                            <button class="btn btn-primary btn-form admin-button-alias-remove">Remove localization</button>
-                        </div> 
-                    }
-
-                    @foreach (var templates in container.ContainerTemplates)
-                    {
-                        <div class="alias" dataId="@container.Id">
-                            <input class="form-control" type="text" value="@container.Name">
-                           
-                            <button class="btn btn-primary btn-form admin-button-alias-remove">Remove template</button>
+                            <label>@localTag.Tag</label>
                         </div>
-                    }
 
-                    <div class="image">
-                        <img src=@Model.Photo alt="Hot Item">
-                    </div>
+                        @foreach (var local in container.LocalizableStrings.Where(ls => ls.Tag == localTag.Tag))
+                        {
+                            <input class="form-control" type="text" value="@local.Text">
+                            <label>@localTag.Language.ShortName</label>
+                        }
+                    }
 
                     <button class="btn btn-primary btn-form admin-button admin-button-remove-category">Remove container</button>
                 </div>
