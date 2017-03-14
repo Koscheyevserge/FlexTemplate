@@ -10,14 +10,24 @@
                     <h3><span>Контейнер @container.Name</span></h3>
                     @foreach (var localTag in container.LocalizableStrings.GroupBy(ls => ls.Tag).Select(ls => ls.First()))
                     {
-                        <div class="alias" dataId="@container.Id">
+                        <div dataId="@container.Id">
                             <label>@localTag.Tag</label>
                         </div>
-
-                        @foreach (var local in container.LocalizableStrings.Where(ls => ls.Tag == localTag.Tag))
+                        @foreach (var lang in Model.Languages)
                         {
-                            <input class="form-control" type="text" value="@local.Text">
-                            <label>@localTag.Language.ShortName</label>
+                            @if (container.LocalizableStrings.Where(ls => ls.LanguageId == lang.Id && ls.Tag == localTag.Tag).Any())
+                            {
+                                @foreach (var real in container.LocalizableStrings.Where(ls => ls.LanguageId == lang.Id && ls.Tag == localTag.Tag))
+                                 {
+                                     <input class="form-control" type="text" value="@real.Text" dataId="@real.Id">
+                                     <label dataId="@lang.Id">@lang.ShortName</label>
+                                 }
+                            }
+                            else
+                            {
+                                <input class="form-control" type="text" dataId="0">
+                                <label dataId="@lang.Id">@lang.ShortName</label>
+                            }
                         }
                     }
 
