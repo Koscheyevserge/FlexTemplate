@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace FlexTemplate
 {
@@ -48,8 +49,6 @@ namespace FlexTemplate
             })
                 .AddEntityFrameworkStores<Context>()
                 .AddDefaultTokenProviders();
-            services.AddScoped<ContextProvider>();
-            services.AddScoped<ContextProvider>();
             services.AddMvc()
                 .AddJsonOptions(options => 
                 {
@@ -57,7 +56,6 @@ namespace FlexTemplate
                 });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();

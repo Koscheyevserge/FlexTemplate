@@ -151,8 +151,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="restuarant-submit.html">List Your Restaurant</a></li>
-
+                        <li><a href="@Url.Action("NewPlace", "Home")">List Your Restaurant</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
                 <div class="pull-right">
@@ -171,13 +170,14 @@
                             </li>
                             <li class="dropdown bt-dropdown-click">
                                 <a id="language-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="ion-android-globe"></i> English
+                                    <i class="ion-android-globe"></i> @ViewBag.HeaderViewModel.CurrentLanguage.Name
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="language-dropdown">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">France</a></li>
-                                    <li><a href="#">Japanese</a></li>
+                                    @foreach (FlexTemplate.Entities.Language lang in ViewBag.HeaderViewModel.Languages)
+                                    {
+                                        <li><a href="@Url.Action("ChangeUserLanguage", "Home", new {redirect = Context.Request.Host + Context.Request.Path, languageId = lang.Id})">@lang.Name</a></li>
+                                    }
                                 </ul>
                             </li>
                             <li class="user-action">

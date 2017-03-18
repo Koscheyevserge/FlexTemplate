@@ -1,8 +1,15 @@
-﻿@model FlexTemplate.ViewModels.AdminController.NewPageContainerViewModel
+﻿@using FlexTemplate.Entities
+@model FlexTemplate.ViewModels.AdminController.NewPageContainerViewModel
 @if (Model != null)
 {
-    <li class="alert alert-info component clearfix" dataId="@Model.PageContainerTemplate.ContainerTemplateId">
+    <li class="alert alert-info component clearfix">
+        <select size="1" name="component[]" class="custom-select">
+            <option selected="selected" dataId="@Model.PageContainerTemplate.ContainerTemplate.Id">@Model.PageContainerTemplate.ContainerTemplate.Container.Name - @Model.PageContainerTemplate.ContainerTemplate.TemplateName</option>
+            @foreach (ContainerTemplate containerTemplate in Model.Containers.Where(c => c.AvailableContainers.Any(ac => ac.PageId == Model.PageContainerTemplate.PageId)).SelectMany(c => c.ContainerTemplates))
+            {
+                <option dataId="@containerTemplate.Id">@containerTemplate.Container.Name - @containerTemplate.TemplateName</option>
+            }
+        </select>
         <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
-        <span>@Model.PageContainerTemplate.ContainerTemplate.Container.Name - @Model.PageContainerTemplate.ContainerTemplate.TemplateName</span>
     </li>
 }

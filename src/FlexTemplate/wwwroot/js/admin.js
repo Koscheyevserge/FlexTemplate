@@ -114,7 +114,7 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 	let components = [];
 	for (let i = 0; i < componentsParent.length; i++) {
     components.push({
-			ContainerTemplateId: +$(componentsParent[i]).attr('dataId'),
+            ContainerTemplateId: +$(componentsParent[i]).find('select :selected').attr('dataId'),
 			Position: i
 		});
 	};
@@ -138,17 +138,19 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 });
 
 /* create page-component */
-$('.c-pages').on('click', '.admin-button-add-component', function() {
-  $.ajax({
-    datatype: 'json',
-    url: URL_DOMAIN + GET_CREATE_PAGE_COMPONENT + $('.c-pages .page').attr('dataId'),
-    data: "",
-    success: function (data) {
-        if (data) {
-            $('.c-pages .component-list').append(data);
+$('.c-pages').on('click', '.admin-button-add-component', function () {
+    $.ajax({
+        datatype: 'json',
+        url: URL_DOMAIN + GET_CREATE_PAGE_COMPONENT + $('.c-pages .page').attr('dataId'),
+        data: "",
+        success: function (data) {
+            if (data) {
+                $('.c-pages .component-list').append(data);
+            } else {
+                alert('Error: ' + data.errorMessages);
+            }
         }
-    }
-  });
+    });
 });
 
 /* remove component */

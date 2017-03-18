@@ -8,7 +8,6 @@ namespace FlexTemplate.ViewModels.AdminController
 {
     public class NewPageContainerViewModel
     {
-        public IEnumerable<Language> Languages { get; set; }
         public PageContainerTemplate PageContainerTemplate { get; set; }
         public IEnumerable<Container> Containers { get; set; }
     }

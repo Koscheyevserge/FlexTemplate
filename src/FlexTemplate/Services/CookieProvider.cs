@@ -12,31 +12,22 @@ namespace FlexTemplate.Services
     /// <summary>
     /// Класс для работы с куки
     /// </summary>
-    public class CookieProvider
+    public static class CookieProvider
     {
-        private readonly Context _context;
-        private readonly HttpContext _httpContext;
-
-        public CookieProvider(HttpContext httpContext, Context context)
+        public static void AppendLanguage(HttpContext httpContext, Context _context, Language language)
         {
-            _context = context;
-            _httpContext = httpContext;
+            httpContext.Response.Cookies.Append(Constants.LANGUAGE_COOKIE_NAME, language.ShortName, new CookieOptions {Expires = new DateTimeOffset(DateTime.Now, new TimeSpan(Constants.COOKIE_LIFETIME_MILLISECONDS))});
         }
 
-        public void AppendLanguage(Language language)
-        {
-            _httpContext.Response.Cookies.Append(Constants.LANGUAGE_COOKIE_NAME, language.ShortName, new CookieOptions {Expires = new DateTimeOffset(DateTime.Now, new TimeSpan(Constants.COOKIE_LIFETIME_MILLISECONDS))});
-        }
-
-        public Language GetLanguage()
+        public static Language GetLanguage(HttpContext httpContext, Context _context)
         {
             string cookieValue;
-            return _httpContext.Request.Cookies.TryGetValue(Constants.LANGUAGE_COOKIE_NAME, out cookieValue) ? _context.Languages.FirstOrDefault(uc => uc.ShortName == cookieValue) : null;
+            return httpContext.Request.Cookies.TryGetValue(Constants.LANGUAGE_COOKIE_NAME, out cookieValue) ? _context.Languages.FirstOrDefault(uc => uc.ShortName == cookieValue) : null;
         }
 
-        public void DeleteLanguage()
+        public static void DeleteLanguage(HttpContext httpContext, Context _context)
         {
-            _httpContext.Response.Cookies.Delete(Constants.LANGUAGE_COOKIE_NAME);
+            httpContext.Response.Cookies.Delete(Constants.LANGUAGE_COOKIE_NAME);
         }
     }
 }

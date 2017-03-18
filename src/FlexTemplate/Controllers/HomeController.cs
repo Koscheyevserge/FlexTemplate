@@ -48,12 +48,51 @@ namespace FlexTemplate.Controllers
 
         public IActionResult Places()
         {
+            ViewData["Title"] = "Places";
+            ViewData["BodyClasses"] = "full-width-container";
             return View();
         }
 
-        public IActionResult Place()
+        public IActionResult Place(int id)
         {
+            ViewData["Title"] = "Place";
+            ViewData["BodyClasses"] = "full-width-container";
             return View();
+        }
+
+        public IActionResult Blogs()
+        {
+            ViewData["Title"] = "Blogs";
+            ViewData["BodyClasses"] = "full-width-container";
+            return View();
+        }
+
+        public IActionResult Blog()
+        {
+            ViewData["Title"] = "Blog";
+            ViewData["BodyClasses"] = "full-width-container";
+            return View();
+        }
+
+        public IActionResult NewPlace()
+        {
+            ViewData["Title"] = "NewPlace";
+            ViewData["BodyClasses"] = "full-width-container";
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewPlace(Place item)
+        {
+            ViewData["Title"] = "NewPlace";
+            ViewData["BodyClasses"] = "full-width-container";
+            var newPlaceId = 0;
+            return RedirectToAction("Places", new {id = newPlaceId});
+        }
+
+        public IActionResult ChangeUserLanguage(string redirect, int languageId)
+        {
+            return Redirect(redirect);
         }
 
         [HttpGet]

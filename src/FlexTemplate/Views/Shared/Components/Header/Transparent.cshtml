@@ -1,19 +1,14 @@
 ﻿<!-- start Header -->
 <header id="header">
-
     <!-- start Navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
-
         <div class="header-inner">
-
             <div class="navbar-header">
                 <a class="navbar-brand hidden-xs off-sticky" href="index.html"><img src="images/logo-white.png" alt="Image" /></a>
                 <a class="navbar-brand hidden-xs on-sticky" href="index.html"><img src="images/logo.png" alt="Image" /></a>
                 <a class="navbar-brand visible-xs" href="index.html"><img src="images/logo-white-xs.png" alt="Image" /></a>
             </div>
-
             <div id="navbar" class="collapse navbar-collapse navbar-arrow pull-left">
-
                 <ul class="nav navbar-nav" id="responsive-menu">
                     <li>
                         <a href="#">Home</a>
@@ -156,11 +151,10 @@
                             </li>
                         </ul>
                     </li>
-                    <li><a href="restuarant-submit.html">List Your Restaurant</a></li>
+                    <li><a href="@Url.Action("NewPlace", "Home")">List Your Restaurant</a></li>
 
                 </ul>
             </div><!--/.nav-collapse -->
-
             <div class="pull-right">
                 <div class="navbar-mini">
                     <ul class="clearfix">
@@ -177,13 +171,14 @@
                         </li>
                         <li class="dropdown bt-dropdown-click">
                             <a id="language-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="ion-android-globe"></i> English
+                                <i class="ion-android-globe"></i> @ViewBag.HeaderViewModel.CurrentLanguage.Name
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="language-dropdown">
-                                <li><a href="#">English</a></li>
-                                <li><a href="#">France</a></li>
-                                <li><a href="#">Japanese</a></li>
+                                @foreach (FlexTemplate.Entities.Language lang in ViewBag.HeaderViewModel.Languages)
+                                {
+                                    <li><a href="@Url.Action("ChangeUserLanguage", "Home", new {redirect = Context.Request.Host + Context.Request.Path, languageId = lang.Id})">@lang.Name</a></li>
+                                }
                             </ul>
                         </li>
                         <li class="user-action">
@@ -191,15 +186,10 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
-
         <div id="slicknav-mobile"></div>
-
     </nav>
     <!-- end Navbar -->
-
 </header>
 <!-- end Header -->

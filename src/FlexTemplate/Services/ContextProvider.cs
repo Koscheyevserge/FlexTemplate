@@ -27,14 +27,14 @@ namespace FlexTemplate.Services
 
         public async Task Invoke(HttpContext httpContext)
         {
-            await Initialize(httpContext);
+            await Initialize();
+            await _next.Invoke(httpContext);
         }
 
-        private async Task Initialize(HttpContext httpContext)
+        private async Task Initialize()
         {
             if (context == null || !context.HasNoRows())
             {
-                await _next.Invoke(httpContext);
                 return;
             }
             var ukrainian = new Language
@@ -42,6 +42,11 @@ namespace FlexTemplate.Services
                 Name = "Українська",
                 ShortName = "UA"
             };
+            context.Add(new Language
+            {
+                Name = "English",
+                ShortName = "EN"
+            });
             var supervisorAddResult = await roleManager.CreateAsync(new IdentityRole
             {
                 Name = "Supervisor"
@@ -518,7 +523,6 @@ namespace FlexTemplate.Services
                 }
             );
             context.SaveChanges();
-            await _next.Invoke(httpContext);
         }
     }
 }

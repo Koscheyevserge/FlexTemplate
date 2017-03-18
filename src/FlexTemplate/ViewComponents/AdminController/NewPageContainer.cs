@@ -22,9 +22,10 @@ namespace FlexTemplate.ViewComponents.AdminController
             try
             {
                 var entity = new PageContainerTemplate{ ContainerTemplate = _context.ContainerTemplates.Include(ct => ct.Container).ThenInclude(c => c.AvailableContainers).FirstOrDefault(ct => ct.Container.AvailableContainers.Any(ac => ac.PageId == id)), PageId = id};
+                if (entity.ContainerTemplate == null)
+                    return null;
                 var model = new NewPageContainerViewModel
                 {
-                    Languages = _context.Languages.AsNoTracking().AsEnumerable(),
                     Containers = _context.Containers.Include(c => c.AvailableContainers).AsNoTracking().AsEnumerable(),
                     PageContainerTemplate = entity
                 };

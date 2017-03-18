@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FlexTemplate.Database;
 using FlexTemplate.Entities;
+using FlexTemplate.Services;
 using FlexTemplate.ViewComponents;
 using FlexTemplate.ViewComponents.AdminController;
 using FlexTemplate.ViewModels.AdminController;
@@ -29,6 +30,7 @@ namespace FlexTemplate.Controllers
             var model = context.Containers.Include(c => c.LocalizableStrings)
                         .Include(c => c.Photos)
                         .Include(c => c.ContainerTemplates)
+                        .Include(c => c.AvailableContainers)
                         .AsNoTracking()
                         .AsEnumerable();
             return model;
@@ -221,18 +223,17 @@ namespace FlexTemplate.Controllers
         #region Page
         [HttpPost]
         [Route("api/page/update")]
-        public JsonResult UpdatePage([FromBody]Page item)
+        public async Task<JsonResult> UpdatePage([FromBody]Page item)
         {
             try
             {
                 if (item == null || item.Id == 0) return Json(new AjaxResponse());
-                var oldEntity = context.Pages.Include(p => p.PageContainerTemplates).AsNoTracking().Single(p => p.Id == item.Id);
-                var pageContainerTemplatesToRemove = oldEntity.PageContainerTemplates.Except(item.PageContainerTemplates);
+                var entity = context.Pages.Include(p => p.PageContainerTemplates).Single(p => p.Id == item.Id);
+                var pageContainerTemplatesToRemove = item.PageContainerTemplates.Where(pct => !item.PageContainerTemplates.Select(itempct => itempct.Id).Contains(pct.Id));
+                entity.PageContainerTemplates = item.PageContainerTemplates.Where(pct => item.PageContainerTemplates.Select(itempct => itempct.Id).Contains(pct.Id)).ToList();
                 context.PageContainerTemplates.RemoveRange(pageContainerTemplatesToRemove);
-                item.Name = oldEntity.Name;
-                item.BodyClasses = oldEntity.BodyClasses;
-                context.Pages.Update(item);
-                context.SaveChanges();
+                entity.Title = item.Title;
+                await context.SaveChangesAsync();
                 return Json(new AjaxResponse { Successed = true });
             }
             catch (Exception ex)
