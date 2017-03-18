@@ -226,10 +226,9 @@ namespace FlexTemplate.Controllers
             try
             {
                 if (item == null || item.Id == 0) return Json(new AjaxResponse());
-                context.PageContainerTemplates
-                    .RemoveRange(context.PageContainerTemplates
-                        .Where(pct => !item.PageContainerTemplates.Select(i => i.Id).Contains(pct.Id) && pct.PageId == item.Id));
-                var oldEntity = context.Pages.AsNoTracking().SingleOrDefault(p => p.Id == item.Id);
+                var oldEntity = context.Pages.Include(p => p.PageContainerTemplates).AsNoTracking().Single(p => p.Id == item.Id);
+                var pageContainerTemplatesToRemove = oldEntity.PageContainerTemplates.Except(item.PageContainerTemplates);
+                context.PageContainerTemplates.RemoveRange(pageContainerTemplatesToRemove);
                 item.Name = oldEntity.Name;
                 item.BodyClasses = oldEntity.BodyClasses;
                 context.Pages.Update(item);

@@ -21,7 +21,7 @@ namespace FlexTemplate.ViewComponents.AdminController
         {
             try
             {
-                var entity = new PageContainerTemplate{ PageId = id, ContainerTemplate = _context.ContainerTemplates.Include(ct => ct.Container).First()};
+                var entity = new PageContainerTemplate{ ContainerTemplate = _context.ContainerTemplates.Include(ct => ct.Container).FirstOrDefault(ct => ct.Container.PageId == id)};
                 _context.PageContainerTemplates.Add(entity);
                 _context.SaveChanges();
                 var model = new NewPageContainerViewModel

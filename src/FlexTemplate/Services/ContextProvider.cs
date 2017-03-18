@@ -431,15 +431,16 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Search",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate {TemplateName = "CenterShort", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 1} } },
-                            new ContainerTemplate {TemplateName = "CenterWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 2} } },
-                            new ContainerTemplate {TemplateName = "LeftShort", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 3} } },
-                            new ContainerTemplate {TemplateName = "LeftShortAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 4} } },
-                            new ContainerTemplate {TemplateName = "LeftShortVideo", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 5} } },
-                            new ContainerTemplate {TemplateName = "LeftWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 6} } },
-                            new ContainerTemplate {TemplateName = "LeftWideAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 7} } }
+                            new ContainerTemplate {TemplateName = "CenterShort" },
+                            new ContainerTemplate {TemplateName = "CenterWide" },
+                            new ContainerTemplate {TemplateName = "LeftShort" },
+                            new ContainerTemplate {TemplateName = "LeftShortAnimated" },
+                            new ContainerTemplate {TemplateName = "LeftShortVideo" },
+                            new ContainerTemplate {TemplateName = "LeftWide" },
+                            new ContainerTemplate {TemplateName = "LeftWideAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Position = 1} } }
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
@@ -452,11 +453,12 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "SearchSlider",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate {TemplateName = "CenterWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 8} } },
-                            new ContainerTemplate {TemplateName = "LeftWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 9} } },
-                            new ContainerTemplate {TemplateName = "RightWide", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate {Page = index, Position = 10} } }
+                            new ContainerTemplate {TemplateName = "CenterWide" },
+                            new ContainerTemplate {TemplateName = "LeftWide" },
+                            new ContainerTemplate {TemplateName = "RightWide" }
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
@@ -469,6 +471,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "OtherCitiesPlaces",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate { TemplateName = "Default"}
@@ -482,6 +485,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "ThisCityPlaces",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate { TemplateName = "Default"}
@@ -496,6 +500,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Capabilities",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate { TemplateName = "Default"}
@@ -504,6 +509,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Suggestions",
+                        Page = index,
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate { TemplateName = "Default"}

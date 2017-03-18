@@ -8,6 +8,14 @@ namespace FlexTemplate.Entities
     public class Container : BaseEntity
     {
         /// <summary>
+        /// Идентификатор страницы, на которой доступен этот контейнер
+        /// </summary>
+        public int PageId { get; set; }
+        /// <summary>
+        /// Страница, на которой доступен этот контейнер
+        /// </summary>
+        public Page Page { get; set; }
+        /// <summary>
         /// Имя компонента (например "Search")
         /// </summary>
         public string Name { get; set; }

@@ -11,8 +11,6 @@ namespace FlexTemplate.Entities
         /// Позиция компонента на странице - компоненты строятся по очереди в порядке возрастания
         /// </summary>
         public int Position { get; set; }
-        public int PageId { get; set; }
-        public Page Page { get; set; }
         public int ContainerTemplateId { get; set; }
         public ContainerTemplate ContainerTemplate { get; set; }
     }
