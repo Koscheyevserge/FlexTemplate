@@ -114,7 +114,7 @@ $('.c-pages').on('click', '.admin-button-pages-save', function() {
 	let components = [];
 	for (let i = 0; i < componentsParent.length; i++) {
     components.push({
-        ContainerTemplateId: +$(componentsParent[i]).find('select :selected').attr('dataId'),
+			ContainerTemplateId: +$(componentsParent[i]).attr('dataId'),
 			Position: i
 		});
 	};

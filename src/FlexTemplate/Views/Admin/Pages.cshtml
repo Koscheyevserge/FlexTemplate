@@ -11,17 +11,12 @@
 					<h4>Порядок компонентів</h4>
 				    <ul id="draggablePanelList" class="component-list list-unstyled">
 				        @foreach (PageContainerTemplate component in page.PageContainerTemplates)
-                        {
-                            <li class="alert alert-info component clearfix" dataId="@component.ContainerTemplateId">
-                                    <select size="1" name="component[]" class="custom-select">
-                                        @foreach (ContainerTemplate containerTemplate in Model.Containers.SelectMany(c => c.ContainerTemplates))
-                                        {
-                                            <option dataId="@containerTemplate.Id">@containerTemplate.Container.Name - @containerTemplate.TemplateName</option>
-                                        }
-                                    </select>
-                                    <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
-                            </li>  
-                        }
+				        {
+				            <li class="alert alert-info component clearfix" dataId="@component.ContainerTemplateId">
+				                <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
+				                <span>@component.ContainerTemplate.Container.Name - @component.ContainerTemplate.TemplateName</span>
+				            </li>
+				        }
 				    </ul>
                     <button class="btn btn-primary btn-form admin-button-add-component">Add component</button>
 				</div>
