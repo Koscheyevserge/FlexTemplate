@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170302184223_1")]
+    [Migration("20170318123546_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,24 @@ namespace FlexTemplate.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("FlexTemplate.Entities.AvailableContainer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContainerId");
+
+                    b.Property<int>("PageId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.HasIndex("PageId");
+
+                    b.ToTable("AvailableContainer");
+                });
 
             modelBuilder.Entity("FlexTemplate.Entities.Category", b =>
                 {
@@ -532,6 +550,19 @@ namespace FlexTemplate.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.AvailableContainer", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Container", "Container")
+                        .WithMany("AvailableContainers")
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Page", "Page")
+                        .WithMany("AvailableContainers")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>

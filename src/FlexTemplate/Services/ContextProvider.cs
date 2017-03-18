@@ -431,7 +431,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Search",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate {TemplateName = "CenterShort" },
@@ -440,7 +440,7 @@ namespace FlexTemplate.Services
                             new ContainerTemplate {TemplateName = "LeftShortAnimated" },
                             new ContainerTemplate {TemplateName = "LeftShortVideo" },
                             new ContainerTemplate {TemplateName = "LeftWide" },
-                            new ContainerTemplate {TemplateName = "LeftWideAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Position = 1} } }
+                            new ContainerTemplate {TemplateName = "LeftWideAnimated", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Page = index,  Position = 1} } }
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
@@ -453,7 +453,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "SearchSlider",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
                             new ContainerTemplate {TemplateName = "CenterWide" },
@@ -471,10 +471,10 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "OtherCitiesPlaces",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate { TemplateName = "Default"}
+                            new ContainerTemplate { TemplateName = "Default", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Page = index,  Position = 2} }}
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
@@ -485,10 +485,10 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "ThisCityPlaces",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate { TemplateName = "Default"}
+                            new ContainerTemplate { TemplateName = "Default", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Page = index,  Position = 3} }}
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
@@ -500,19 +500,19 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Capabilities",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate { TemplateName = "Default"}
+                            new ContainerTemplate { TemplateName = "Default", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Page = index,  Position = 4} }}
                         }
                     },
                     new Container
                     {
                         Name = "Suggestions",
-                        Page = index,
+                        AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
-                            new ContainerTemplate { TemplateName = "Default"}
+                            new ContainerTemplate { TemplateName = "Default", PageContainerTemplates = new List<PageContainerTemplate> { new PageContainerTemplate { Page = index,  Position = 5} }}
                         }
                     }
                 }

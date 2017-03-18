@@ -16,6 +16,24 @@ namespace FlexTemplate.Migrations
                 .HasAnnotation("ProductVersion", "1.0.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("FlexTemplate.Entities.AvailableContainer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContainerId");
+
+                    b.Property<int>("PageId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContainerId");
+
+                    b.HasIndex("PageId");
+
+                    b.ToTable("AvailableContainer");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -91,11 +109,7 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PageId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PageId");
 
                     b.ToTable("Containers");
                 });
@@ -228,7 +242,7 @@ namespace FlexTemplate.Migrations
 
                     b.Property<int>("ContainerTemplateId");
 
-                    b.Property<int?>("PageId");
+                    b.Property<int>("PageId");
 
                     b.Property<int>("Position");
 
@@ -537,6 +551,19 @@ namespace FlexTemplate.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.AvailableContainer", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Container", "Container")
+                        .WithMany("AvailableContainers")
+                        .HasForeignKey("ContainerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Page", "Page")
+                        .WithMany("AvailableContainers")
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Category", "Category")
@@ -568,14 +595,6 @@ namespace FlexTemplate.Migrations
                     b.HasOne("FlexTemplate.Entities.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("FlexTemplate.Entities.Container", b =>
-                {
-                    b.HasOne("FlexTemplate.Entities.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -628,9 +647,10 @@ namespace FlexTemplate.Migrations
                         .HasForeignKey("ContainerTemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("FlexTemplate.Entities.Page")
+                    b.HasOne("FlexTemplate.Entities.Page", "Page")
                         .WithMany("PageContainerTemplates")
-                        .HasForeignKey("PageId");
+                        .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>

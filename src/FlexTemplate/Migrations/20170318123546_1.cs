@@ -277,6 +277,32 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AvailableContainer",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    PageId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AvailableContainer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AvailableContainer_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AvailableContainer_Pages_PageId",
+                        column: x => x.PageId,
+                        principalTable: "Pages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -589,6 +615,16 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AvailableContainer_ContainerId",
+                table: "AvailableContainer",
+                column: "ContainerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AvailableContainer_PageId",
+                table: "AvailableContainer",
+                column: "PageId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryAliases_CategoryId",
                 table: "CategoryAliases",
                 column: "CategoryId");
@@ -752,6 +788,9 @@ namespace FlexTemplate.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AvailableContainer");
+
             migrationBuilder.DropTable(
                 name: "CategoryAliases");
 
