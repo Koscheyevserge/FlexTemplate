@@ -27,5 +27,10 @@ namespace FlexTemplate.Entities
         /// Доступные контейнеры
         /// </summary>
         public virtual List<AvailableContainer> AvailableContainers { get; set; } 
+        /// <summary>
+        /// Где может располагаться этот контейнер (заголовок, боковая панель, нижняя панель, центр)? 
+        /// </summary>
+        public int PanelId { get; set; }
+        public Panel Panel { get; set; }
     }
 }

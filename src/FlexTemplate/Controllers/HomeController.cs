@@ -46,7 +46,7 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Places()
+        public IActionResult Places(int[] cities, int[]categories)
         {
             ViewData["Title"] = "Places";
             ViewData["BodyClasses"] = "full-width-container";

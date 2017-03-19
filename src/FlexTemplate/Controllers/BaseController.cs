@@ -25,7 +25,8 @@ namespace FlexTemplate.Controllers
         public override void OnActionExecuting(ActionExecutingContext _context)
         {
             ViewData["HeaderTemplate"] = "Solid";
-            ViewBag.HeaderViewModel = new HeaderViewModel{Languages = context.Languages.AsNoTracking(), CurrentLanguage = CookieProvider.GetLanguage(this.HttpContext, context) ?? new Language()};
+            CurrentUserLanguage = CookieProvider.GetLanguage(HttpContext, context) ?? context.Languages.FirstOrDefault(l => l.IsDefault);
+            ViewBag.HeaderViewModel = new HeaderViewModel{Languages = context.Languages.AsNoTracking(), CurrentLanguage = CurrentUserLanguage ?? new Language()};
             base.OnActionExecuting(_context);
         }
     }

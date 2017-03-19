@@ -31,7 +31,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("AvailableContainer");
+                    b.ToTable("AvailableContainers");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Category", b =>
@@ -109,7 +109,11 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("PanelId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PanelId");
 
                     b.ToTable("Containers");
                 });
@@ -209,6 +213,8 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsDefault");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("ShortName")
@@ -253,6 +259,18 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("PageId");
 
                     b.ToTable("PageContainerTemplates");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Panel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Panel");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>
@@ -595,6 +613,14 @@ namespace FlexTemplate.Migrations
                     b.HasOne("FlexTemplate.Entities.Language", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Container", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Panel", "Panel")
+                        .WithMany("Containers")
+                        .HasForeignKey("PanelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -22,7 +22,7 @@ namespace FlexTemplate.ViewComponents.HomeController
             var cityName = city != null ? city.Name : string.Empty;
             var placesCount = _context.Places.Include(place => place.Street).Count(place => place.Street.CityId == id);
             var placeDescription = "закладів";
-            var model = new OtherCityPlacesViewModel { PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };
+            var model = new OtherCityPlacesViewModel { CityId = city.Id, PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };
             return View(model);
         }
     }

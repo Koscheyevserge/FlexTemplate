@@ -19,13 +19,13 @@ namespace FlexTemplate.ViewComponents.HomeController
         public IViewComponentResult Invoke(int id)
         {
             var photoPath = "images/1.jpg";
-            var place = _context.Places.Where(p => p.Id == id).Include(p => p.Street).Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).Include(p => p.Reviews).FirstOrDefault();
+            var place = _context.Places.Include(p => p.Street).Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).Include(p => p.Reviews).ThenInclude(r => r.User).FirstOrDefault(p => p.Id == id);
             var name = place.Name;
             var address = place.Street.Name;
-            var categories = place.PlaceCategories.Select(c => c.Category.Name).ToList();
+            var categories = place.PlaceCategories.Select(pc => pc.Category);
             var reviewsCount = place.Reviews.Count();
-            var stars = reviewsCount > 0 ? Math.Ceiling(place.Reviews.Average(p => p.Star)) : 0;
-            var model = new ThisCityPlaceViewModel { PhotoPath = photoPath, Name = name, Address = address, Categories = categories, Stars = stars, ReviewsCount = reviewsCount };
+            var stars = reviewsCount > 0 ? Math.Ceiling(place.Reviews.Where(p => p.Star > 0).Average(p => p.Star)) : 0;
+            var model = new ThisCityPlaceViewModel { PlaceId = place.Id, PhotoPath = photoPath, Name = name, Address = address, Categories = categories, Stars = stars, ReviewsCount = reviewsCount };
             return View(model);
         }
     }

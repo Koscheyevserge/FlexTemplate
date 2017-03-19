@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
     public class ThisCityPlaceViewModel: EditableViewModel
     {
+        public int PlaceId { get; set; }
         /// <summary>
         /// Фото, что будет отображаться в компоненте
         /// </summary>
@@ -27,6 +29,6 @@ namespace FlexTemplate.ViewModels.HomeController
         /// <summary>
         /// Коллекция моделей, что передаются в компонент ThisCityPlace
         /// </summary>
-        public List<string> Categories { get; set; }      
+        public IEnumerable<Category> Categories { get; set; }      
     }
 }

@@ -8,10 +8,6 @@ namespace FlexTemplate.ViewModels.HomeController
     public class HomeIndexViewModel
     {
         /// <summary>
-        /// Словарь локализируемых строк. Формат "название строки": "значение"
-        /// </summary>
-        public Dictionary<string, string> Strings { get; set; } 
-        /// <summary>
         /// Словарь контейнеров. Формат "название контейнера": "название шаблона"
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Containers { get; set; }

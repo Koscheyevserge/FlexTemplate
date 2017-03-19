@@ -5,6 +5,7 @@
     /// </summary>
     public class OtherCityPlacesViewModel
     {
+        public int CityId { get; set; }
         /// <summary>
         /// Фото, что будет отображаться в компоненте
         /// </summary>

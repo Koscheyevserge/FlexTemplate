@@ -23,19 +23,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Containers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Containers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
@@ -54,6 +41,7 @@ namespace FlexTemplate.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IsDefault = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ShortName = table.Column<string>(maxLength: 2, nullable: true)
                 },
@@ -75,6 +63,19 @@ namespace FlexTemplate.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Panel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Panel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,48 +134,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PagePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerId = table.Column<int>(nullable: false),
-                    EntityId = table.Column<string>(nullable: true),
-                    EntityName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PagePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PagePhotos_Containers_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Containers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContainerTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerId = table.Column<int>(nullable: false),
-                    TemplateName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContainerTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ContainerTemplates_Containers_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Containers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -222,34 +181,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContainerLocalizableStrings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerId = table.Column<int>(nullable: false),
-                    LanguageId = table.Column<int>(nullable: false),
-                    Tag = table.Column<string>(nullable: true),
-                    Text = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContainerLocalizableStrings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ContainerLocalizableStrings_Containers_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Containers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ContainerLocalizableStrings_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CountryAliases",
                 columns: table => new
                 {
@@ -277,27 +208,21 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AvailableContainer",
+                name: "Containers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerId = table.Column<int>(nullable: false),
-                    PageId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    PanelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AvailableContainer", x => x.Id);
+                    table.PrimaryKey("PK_Containers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AvailableContainer_Containers_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Containers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AvailableContainer_Pages_PageId",
-                        column: x => x.PageId,
-                        principalTable: "Pages",
+                        name: "FK_Containers_Panel_PanelId",
+                        column: x => x.PanelId,
+                        principalTable: "Panel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -389,33 +314,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PageContainerTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerTemplateId = table.Column<int>(nullable: false),
-                    PageId = table.Column<int>(nullable: false),
-                    Position = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PageContainerTemplates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PageContainerTemplates_ContainerTemplates_ContainerTemplateId",
-                        column: x => x.ContainerTemplateId,
-                        principalTable: "ContainerTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PageContainerTemplates_Pages_PageId",
-                        column: x => x.PageId,
-                        principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CityAliases",
                 columns: table => new
                 {
@@ -458,6 +356,102 @@ namespace FlexTemplate.Migrations
                         name: "FK_Streets_Cities_CityId",
                         column: x => x.CityId,
                         principalTable: "Cities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AvailableContainers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    PageId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AvailableContainers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AvailableContainers_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AvailableContainers_Pages_PageId",
+                        column: x => x.PageId,
+                        principalTable: "Pages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContainerLocalizableStrings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    LanguageId = table.Column<int>(nullable: false),
+                    Tag = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContainerLocalizableStrings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContainerLocalizableStrings_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ContainerLocalizableStrings_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PagePhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    EntityId = table.Column<string>(nullable: true),
+                    EntityName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PagePhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PagePhotos_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContainerTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerId = table.Column<int>(nullable: false),
+                    TemplateName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContainerTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContainerTemplates_Containers_ContainerId",
+                        column: x => x.ContainerId,
+                        principalTable: "Containers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -506,6 +500,33 @@ namespace FlexTemplate.Migrations
                         name: "FK_StreetAliases_Streets_StreetId",
                         column: x => x.StreetId,
                         principalTable: "Streets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PageContainerTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContainerTemplateId = table.Column<int>(nullable: false),
+                    PageId = table.Column<int>(nullable: false),
+                    Position = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PageContainerTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PageContainerTemplates_ContainerTemplates_ContainerTemplateId",
+                        column: x => x.ContainerTemplateId,
+                        principalTable: "ContainerTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PageContainerTemplates_Pages_PageId",
+                        column: x => x.PageId,
+                        principalTable: "Pages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -615,13 +636,13 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AvailableContainer_ContainerId",
-                table: "AvailableContainer",
+                name: "IX_AvailableContainers_ContainerId",
+                table: "AvailableContainers",
                 column: "ContainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AvailableContainer_PageId",
-                table: "AvailableContainer",
+                name: "IX_AvailableContainers_PageId",
+                table: "AvailableContainers",
                 column: "PageId");
 
             migrationBuilder.CreateIndex(
@@ -648,6 +669,11 @@ namespace FlexTemplate.Migrations
                 name: "IX_CityAliases_LanguageId",
                 table: "CityAliases",
                 column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Containers_PanelId",
+                table: "Containers",
+                column: "PanelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContainerLocalizableStrings_ContainerId",
@@ -789,7 +815,7 @@ namespace FlexTemplate.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AvailableContainer");
+                name: "AvailableContainers");
 
             migrationBuilder.DropTable(
                 name: "CategoryAliases");
@@ -865,6 +891,9 @@ namespace FlexTemplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "Streets");
+
+            migrationBuilder.DropTable(
+                name: "Panel");
 
             migrationBuilder.DropTable(
                 name: "Cities");

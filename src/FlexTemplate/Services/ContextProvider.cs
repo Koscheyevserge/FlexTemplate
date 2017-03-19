@@ -40,12 +40,18 @@ namespace FlexTemplate.Services
             var ukrainian = new Language
             {
                 Name = "Українська",
-                ShortName = "UA"
+                ShortName = "UA",
+                IsDefault = true
             };
             context.Add(new Language
             {
                 Name = "English",
                 ShortName = "EN"
+            });
+            context.Add(new Language
+            {
+                Name = "Русский",
+                ShortName = "RU"
             });
             var supervisorAddResult = await roleManager.CreateAsync(new IdentityRole
             {
@@ -429,6 +435,34 @@ namespace FlexTemplate.Services
                 BodyClasses = "full-width-container transparent-header",
                 Title = "Index"
             };
+            var mainPanel = new Panel{Name = "Main"};
+            var sidebar = new Panel{Name = "Sidebar"};
+            var top = new Panel{Name = "Top"};
+            var bottom = new Panel{Name = "Bottom"};
+            var place = new Page
+            {
+                Name = "Place",
+                BodyClasses = "full-width-container transparent-header",
+                Title = "Place"
+            };
+            var places = new Page
+            {
+                Name = "Places",
+                BodyClasses = "full-width-container transparent-header",
+                Title = "Places"
+            };
+            var blog = new Page
+            {
+                Name = "Blog",
+                BodyClasses = "full-width-container transparent-header",
+                Title = "Blog"
+            };
+            var blogs = new Page
+            {
+                Name = "Blogs",
+                BodyClasses = "full-width-container transparent-header",
+                Title = "Blogs"
+            };
             context.Containers.AddRange
             ( 
                 new List<Container>
@@ -436,6 +470,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Search",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
@@ -458,6 +493,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "SearchSlider",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
@@ -476,6 +512,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "OtherCitiesPlaces",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
@@ -490,6 +527,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "ThisCityPlaces",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
@@ -505,6 +543,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Capabilities",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {
@@ -514,6 +553,7 @@ namespace FlexTemplate.Services
                     new Container
                     {
                         Name = "Suggestions",
+                        Panel = mainPanel,
                         AvailableContainers = new List<AvailableContainer>{new AvailableContainer{Page = index}},
                         ContainerTemplates = new List<ContainerTemplate>
                         {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FlexTemplate.Entities
+﻿namespace FlexTemplate.Entities
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -9,6 +7,7 @@ namespace FlexTemplate.Entities
     /// </summary>
     public class Language : BaseEntity
     {
+        public bool IsDefault { get; set; }
         /// <summary>
         /// Название языка
         /// </summary>
