@@ -26,7 +26,7 @@ namespace FlexTemplate.ViewComponents.AdminController
                     return null;
                 var model = new NewPageContainerViewModel
                 {
-                    Containers = _context.Containers.Include(c => c.AvailableContainers).AsNoTracking().AsEnumerable(),
+                    Containers = _context.Containers.Include(c => c.AvailableContainers).Include(c => c.ContainerTemplates).AsNoTracking().AsEnumerable(),
                     PageContainerTemplate = entity
                 };
                 return View(model);
