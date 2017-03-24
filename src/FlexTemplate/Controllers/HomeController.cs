@@ -7,6 +7,7 @@ using FlexTemplate.Entities;
 using FlexTemplate.Services;
 using FlexTemplate.ViewModels;
 using FlexTemplate.ViewModels.HomeController;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -18,11 +19,13 @@ namespace FlexTemplate.Controllers
     public class HomeController : BaseController
     {
         private SignInManager<User> _signInManager { get; set; }
+        private IHostingEnvironment _environment { get; set; }
 
-        public HomeController(Context Context, SignInManager<User> signInManager) : base(Context)
+        public HomeController(Context Context, SignInManager<User> signInManager, IHostingEnvironment env) : base(Context)
         {
             context = Context;
             _signInManager = signInManager;
+            _environment = env;
         }
         public IActionResult Index()
         {
@@ -82,12 +85,12 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewPlace(Place item)
+        public IActionResult NewPlace(NewPlacePostViewModel item)
         {
             ViewData["Title"] = "NewPlace";
             ViewData["BodyClasses"] = "full-width-container";
             var newPlaceId = 0;
-            return RedirectToAction("Places", new {id = newPlaceId});
+            return RedirectToAction("Place", new {id = newPlaceId});
         }
 
         public IActionResult ChangeUserLanguage(string redirect, int languageId)
