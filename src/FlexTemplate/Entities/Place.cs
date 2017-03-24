@@ -11,6 +11,7 @@ namespace FlexTemplate.Entities
         /// Название заведения
         /// </summary>
         public string Name { get; set; }
+        public string Description { get; set; }
         /// <summary>
         /// Идентификатор улицы, на которой расположено заведение
         /// </summary>
@@ -38,6 +39,6 @@ namespace FlexTemplate.Entities
         /// <summary>
         /// Номер дома
         /// </summary>
-        public string HouseText { get; set; }
+        public string Address { get; set; }
     }
 }

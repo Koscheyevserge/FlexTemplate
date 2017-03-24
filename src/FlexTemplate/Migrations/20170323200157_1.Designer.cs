@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170319172007_1")]
+    [Migration("20170323200157_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -279,7 +279,9 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("HouseText");
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 

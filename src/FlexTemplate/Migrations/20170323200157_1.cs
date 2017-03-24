@@ -462,7 +462,8 @@ namespace FlexTemplate.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    HouseText = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     StreetId = table.Column<int>(nullable: false)
                 },

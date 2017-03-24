@@ -278,7 +278,9 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("HouseText");
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
