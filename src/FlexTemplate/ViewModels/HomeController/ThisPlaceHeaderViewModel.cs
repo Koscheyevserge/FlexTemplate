@@ -6,8 +6,9 @@ using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
-    public class HomePlaceViewModel
+    public class ThisPlaceHeaderViewModel
     {
         public Place Place { get; set; }
+        public double Stars { get; set; }
     }
 }

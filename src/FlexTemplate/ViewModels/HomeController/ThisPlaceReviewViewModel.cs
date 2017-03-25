@@ -6,8 +6,8 @@ using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
-    public class HomePlaceViewModel
+    public class ThisPlaceReviewViewModel
     {
-        public Place Place { get; set; }
+        public PlaceReview Review { get; set; }
     }
 }

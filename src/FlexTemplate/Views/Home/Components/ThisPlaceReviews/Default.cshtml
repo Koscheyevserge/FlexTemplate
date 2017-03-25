@@ -1,7 +1,165 @@
-﻿<div class="review-item-wrapper">
+﻿<div id="detail-content-sticky-nav-02" class="detail-content-section clearfix">
 
-    <ul class="review-item-list">
-        @await Component.InvokeAsync("ThisPlaceReview")
-    </ul>
+    <div class="section-title-02">
+        <h3><span>Review</span></h3>
+    </div>
+
+    <div class="review-wrapper">
+
+        <!--<div class="review-header">
+
+            <div class="GridLex-gap-30">
+
+                <div class="GridLex-grid-middle">
+
+                    <div class="GridLex-col-4_sm-5_xs-12">
+
+                        <div class="average-score">
+
+                            <div class="progress-radial progress-radial-md progress-80">
+                                <div class="overlay">
+                                    <div class="progress-radial-inner">
+                                        <div class="caption">
+
+                                            <p class="number">8.0</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="texting">
+
+                                <h6>Very good</h6>
+                                <a href="#">(based on 10575 reviews)</a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="GridLex-col-8_sm-7_xs-12">
+
+                        <div class="item-score clearfix">
+
+                            <ul class="item-score-list">
+
+                                <li>
+
+                                    <div class="progress-radial progress-radial-sm progress-80">
+                                        <div class="overlay">
+                                            <div class="progress-radial-inner">
+                                                <div class="caption">
+
+                                                    <p class="number">8.0</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">Quality of food</p>
+
+                                </li>
+
+                                <li>
+
+                                    <div class="progress-radial progress-radial-sm progress-80">
+                                        <div class="overlay">
+                                            <div class="progress-radial-inner">
+                                                <div class="caption">
+
+                                                    <p class="number">8.0</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">Level of service</p>
+
+                                </li>
+
+                                <li>
+
+                                    <div class="progress-radial progress-radial-sm progress-80">
+                                        <div class="overlay">
+                                            <div class="progress-radial-inner">
+                                                <div class="caption">
+
+                                                    <p class="number">8.0</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">Likely to recommend</p>
+
+                                </li>
+
+                                <li>
+
+                                    <div class="progress-radial progress-radial-sm progress-80">
+                                        <div class="overlay">
+                                            <div class="progress-radial-inner">
+                                                <div class="caption">
+
+                                                    <p class="number">8.0</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">Worth to eat</p>
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>-->
+        
+        <div class="review-item-wrapper">
+            
+            <ul class="review-item-list">
+                @if (Model.Place.Reviews.Count == 0)
+                {
+                    <li class="clearfix">
+
+                        <div class="review-content">
+                            <div class="meta-top">
+                                Станьте першим хто залишить коментар до цього закладу!
+                            </div>
+
+                            <div class="review-entry">
+                            </div>
+                        </div>
+
+                    </li>
+                }
+                @foreach (var review in Model.Place.Reviews)
+                {
+                    @await Component.InvokeAsync("ThisPlaceReview", new { item = review })
+                }
+            </ul>
+
+        </div>
+        <div class="btn-wrappper">
+
+            <a href="restuarant-review.html" class="btn btn-primary">Read more full review</a>
+
+            <a href="restuarant-review.html#review-form" class="btn btn-primary">Write Your Review</a>
+
+        </div>
+
+    </div>
+
+    <div class="clear mb-15"></div>
 
 </div>

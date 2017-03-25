@@ -282,9 +282,19 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("Email");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
                     b.Property<string>("Name");
 
+                    b.Property<string>("Phone");
+
                     b.Property<int>("StreetId");
+
+                    b.Property<string>("Website");
 
                     b.HasKey("Id");
 

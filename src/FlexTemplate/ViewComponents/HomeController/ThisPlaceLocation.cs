@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlexTemplate.Database;
 using Microsoft.AspNetCore.Mvc;
+using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewComponents.HomeController
 {
@@ -16,7 +17,7 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(Place item)
         {
             return View();
         }

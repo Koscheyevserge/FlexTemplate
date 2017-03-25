@@ -177,6 +177,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Пузата хата",
                     Street = kievStreet1,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory {Category = category1}
@@ -190,6 +197,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Пузата хата",
                     Street = kievStreet2,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory {Category = category1}
@@ -199,6 +213,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Il molino",
                     Street = kievStreet1,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -223,6 +244,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Banka",
                     Street = kievStreet3,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -251,6 +279,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Borjomi",
                     Street = kievStreet4,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -271,6 +306,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Rojo Ojo",
                     Street = kievStreet1,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -295,7 +337,14 @@ namespace FlexTemplate.Services
                 {
                    Name = "KFC",
                    Street = kievStreet1,
-                   PlaceCategories = new List<PlaceCategory>
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
                    {
                        new PlaceCategory
                        {
@@ -312,6 +361,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Сушия",
                     Street = kievStreet1,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -328,6 +384,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Царьград",
                     Street = kievStreet2,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -344,6 +407,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Buddha-bar",
                     Street = kievStreet2,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -364,6 +434,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "MAFIA",
                     Street = kievStreet2,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -380,6 +457,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Хінкалі",
                     Street = kievStreet4,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -392,6 +476,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "BEEF",
                     Street = kievStreet4,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -408,6 +499,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Нобу",
                     Street = kievStreet4,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory
@@ -420,6 +518,13 @@ namespace FlexTemplate.Services
                 {
                     Name = "Кафе Кентавр",
                     Street = lvivStreet1,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "23-A 3-й поверх",
+                    Latitude = 48.918503,
+                    Longitude = 24.712582,
+                    Website = "contoso.com",
+                    Phone = "0975556501",
+                    Email = "contoso@contoso.com",
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory

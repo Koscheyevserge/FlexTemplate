@@ -1,4 +1,5 @@
-﻿<li class="clearfix">
+﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceReviewViewModel
+<li class="clearfix">
 
     <div class="review-man">
 
@@ -8,8 +9,7 @@
 
         </div>
 
-        <h6>Abdultohman Saidai</h6>
-        <p>from Malaysia</p>
+        <h6>@Model.Review.User.Name @Model.Review.User.Surname</h6> 
 
     </div>
 
@@ -26,7 +26,7 @@
                     <div class="progress-radial-inner">
                         <div class="caption">
 
-                            <p class="number">8.0</p>
+                            <p class="number">@Model.Review.Star</p>
 
                         </div>
                     </div>
@@ -38,10 +38,10 @@
         </div>
 
         <div class="review-entry">
-            <p>It allowance prevailed enjoyment in it. Calling observe for who pressed raising his. Can connection instrument astonished unaffected his motionless preference.</p>
+            <p>@Model.Review.Text</p>
         </div>
 
-        <div class="meta-bottom">
+        <!--<div class="meta-bottom">
 
             <ul class="review-score-list clearfix">
                 <li>Food: 7</li>
@@ -58,7 +58,7 @@
             </ul>
 
 
-        </div>
+        </div>-->
 
     </div>
 

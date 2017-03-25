@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlexTemplate.Database;
+using Microsoft.AspNetCore.Mvc;
 using FlexTemplate.Entities;
 using FlexTemplate.ViewModels.HomeController;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.ViewComponents.HomeController
 {
-    public class ThisPlaceReviews : ViewComponent
+    public class ThisPlaceHeader : ViewComponent
     {
         private readonly Context _context;
 
-        public ThisPlaceReviews(Context context)
+        public ThisPlaceHeader(Context context)
         {
             _context = context;
         }
 
         public IViewComponentResult Invoke(Place item)
         {
-            return View(new ThisPlaceReviewsViewModel {Place = item});
+            return View(new ThisPlaceHeaderViewModel { Place = item , Stars = item.Reviews.Any() ? Math.Ceiling(item.Reviews.Where(p => p.Star > 0).Average(p => p.Star)) : 0 });
         }
     }
 }

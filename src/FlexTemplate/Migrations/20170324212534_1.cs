@@ -464,8 +464,13 @@ namespace FlexTemplate.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    StreetId = table.Column<int>(nullable: false)
+                    Phone = table.Column<string>(nullable: true),
+                    StreetId = table.Column<int>(nullable: false),
+                    Website = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

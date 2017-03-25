@@ -60,7 +60,26 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "Place";
             ViewData["BodyClasses"] = "full-width-container";
-            return View();
+            var model = new HomePlaceViewModel
+            {
+                Place =
+                    context.Places.Include(p => p.Photos)
+                        .Include(p => p.PlaceCategories)
+                        .ThenInclude(pc => pc.Category)
+                        .Include(p => p.Reviews)
+                        .ThenInclude(r => r.User)
+                        .Include(p => p.Street)
+                        .ThenInclude(s => s.City)
+                        .ThenInclude(c => c.Country)
+                        .ThenInclude(c => c.Aliases)
+                        .Include(p => p.Street)
+                        .ThenInclude(s => s.City)
+                        .ThenInclude(c => c.Aliases)
+                        .Include(p => p.Street)
+                        .ThenInclude(s => s.Aliases)
+                        .SingleOrDefault(item => item.Id == id)
+            };
+            return View(model);
         }
 
         public IActionResult Blogs()
