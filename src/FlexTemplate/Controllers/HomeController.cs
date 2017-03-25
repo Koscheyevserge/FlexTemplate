@@ -49,11 +49,11 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Places(int[] cities, int[]categories)
+        public IActionResult Places(int[] cities, int[]categories, string input)
         {
             ViewData["Title"] = "Places";
             ViewData["BodyClasses"] = "full-width-container";
-            return View();
+            return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input});
         }
 
         public IActionResult Place(int id)

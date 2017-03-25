@@ -18,9 +18,9 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(Place item)
+        public IViewComponentResult Invoke(int[] cities, int[] categories, string input)
         {
-            return View(new ThisPlaceReviewsViewModel { Place = item });
+            return View();
         }
     }
 }

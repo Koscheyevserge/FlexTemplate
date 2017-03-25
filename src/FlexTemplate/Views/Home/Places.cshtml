@@ -1,4 +1,5 @@
-﻿<!-- start Main Wrapper -->
+﻿@model FlexTemplate.ViewModels.HomeController.HomePlacesViewModel
+<!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
     <!-- start hero-header -->
@@ -22,18 +23,6 @@
                             <option value="4">French</option>
                             <option value="5">Indochinese‎</option>
                             <option value="6">Halal</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <select class="custom-select" id="no-of-people">
-                            <option value="0">Number Of People</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
                         </select>
                     </div>
 
@@ -72,11 +61,8 @@
         </div>
 
         <div class="row">
-
-            
-            @await Component.InvokeAsync("ThisPlacesFilters")
-            @await Component.InvokeAsync("ThisPlacesList")
-
+            @await Component.InvokeAsync("ThisPlacesFilters", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
+            @await Component.InvokeAsync("ThisPlacesList", new {cities = Model.Cities, input = Model.Input, categories = Model.Categories})
         </div>
 
     </div>
