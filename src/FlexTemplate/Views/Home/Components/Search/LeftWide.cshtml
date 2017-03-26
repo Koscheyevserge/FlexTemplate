@@ -4,8 +4,8 @@
 <!-- start hero-header -->
 <div class="hero alt-height search-margin-top" style="background-image:url('@Model.Images.First()'); margin-top:-25px;">
     <div class="container">
-        <h1 contenteditable="true" tag="TitleFirstLabelCaption">@Model.Strings["TitleFirstLabelCaption"]</h1>
-        <p contenteditable="true" tag="SubtitleLabelCaption">@Model.Strings["SubtitleLabelCaption"]</p>
+        @Html.Raw(Model.Strings["TitleFirstLabelCaption"])
+        @Html.Raw(Model.Strings["SubtitleLabelCaption"])
 
         <div class="home-search-form">
 
@@ -23,11 +23,11 @@
                         }
                     </select>
                 </div>
-                <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
+                @Html.Raw(Model.Strings["FindButtonCaption"])
             </form>
 
             <div class="clear"></div>
-            <p contenteditable="true" class="around-you" tag="EndLabelCaption"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
+            @Html.Raw(Model.Strings["EndLabelCaption"])
         </div>
 
     </div>

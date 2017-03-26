@@ -9,8 +9,8 @@
 
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
 
-                <h1 tag="TitleFirstLabelCaption" contenteditable="true">@Model.Strings["TitleFirstLabelCaption"]</h1>
-                <p tag="SubtitleLabelCaption" contenteditable="true">@Model.Strings["SubtitleLabelCaption"]</p>
+                @Html.Raw(Model.Strings["TitleFirstLabelCaption"])
+                @Html.Raw(Model.Strings["SubtitleLabelCaption"])
 
                 <div class="home-search-form home-search-form-center">
 
@@ -29,13 +29,13 @@
                             </select>
                         </div>
 
-                        <button class="btn btn-primary btn-form" tag="FindButtonCaption">@Model.Strings["FindButtonCaption"]</button>
+                        @Html.Raw(Model.Strings["FindButtonCaption"])
 
                     </form>
 
                     <div class="clear"></div>
 
-                    <p class="around-you" tag="EndLabelCaption" contenteditable="true"><a href="#">@Model.Strings["EndLabelCaption"]</a></p>
+                    @Html.Raw(Model.Strings["EndLabelCaption"])
 
                 </div>
 

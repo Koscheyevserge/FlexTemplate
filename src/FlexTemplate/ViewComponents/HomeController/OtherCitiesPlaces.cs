@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using FlexTemplate.Database;
 using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,10 @@ namespace FlexTemplate.ViewComponents.HomeController
         public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Cities.Take(4).Select(city => city.Id).ToList();
-            var strings = _context.Containers.Include(c => c.LocalizableStrings).Include(c => c.ContainerTemplates)
+            var localizableStringReplaceRegex = new Regex("dataId='\\d*'");
+            var strings = _context.Containers.Include(c => c.LocalizableStrings)
                 .FirstOrDefault(c => c.Name == GetType().Name)
-                .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => ls.Text);
+                .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => localizableStringReplaceRegex.Replace(ls.Text, $"dataId='{ls.Id}'"));
             var model = new OtherCitiesPlacesViewModel { OtherCitiesPlacesIds = ids, Strings = strings };
             return View(template, model);
         }
