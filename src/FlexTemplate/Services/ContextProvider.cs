@@ -608,10 +608,10 @@ namespace FlexTemplate.Services
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<h1 dataId='0' tag='TitleFirstLabelCaption' contenteditable='true'>Знайдіть найкращі ресторани за привабливою ціною!</h1>", Tag = "TitleFirstLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' tag='SubtitleLabelCaption' contenteditable='true'>Більш ніж 5000 ресторанів по всій Україні</p>", Tag = "SubtitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<button dataId='0' class='btn btn-primary btn-form' tag='FindButtonCaption' contenteditable='true'>Знайти</button>", Tag = "FindButtonCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' class='around-you' tag='EndLabelCaption' contenteditable='true'>Або погляньте на інші 128 ресторанів вашого міста</p>", Tag = "EndLabelCaption"}
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<h1 dataId='0' contenteditable='true'>Знайдіть найкращі ресторани за привабливою ціною!</h1>", Tag = "TitleFirstLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' contenteditable='true'>Більш ніж 5000 ресторанів по всій Україні</p>", Tag = "SubtitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<button dataId='0' class='btn btn-primary btn-form' contenteditable='true'>Знайти</button>", Tag = "FindButtonCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' class='around-you' contenteditable='true'>Або погляньте на інші 128 ресторанів вашого міста</p>", Tag = "EndLabelCaption"}
                         }
                     },
                     new Container
@@ -625,8 +625,8 @@ namespace FlexTemplate.Services
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' tag='TitleLabelCaption' contenteditable='true'>Інші популярні міста</span>", Tag = "TitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' class='user-edit-text' tag='SubtitleLabelCaption' contenteditable='true'>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>", Tag = "SubtitleLabelCaption"}
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' contenteditable='true'>Інші популярні міста</span>", Tag = "TitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' class='user-edit-text' contenteditable='true'>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>", Tag = "SubtitleLabelCaption"}
                         }
                     },
                     new Container
@@ -640,9 +640,9 @@ namespace FlexTemplate.Services
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' tag='TitleLabelCaption' contenteditable='true'>Ресторани у твоєму місті</span>", Tag = "TitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' tag='SubtitleLabelCaption' contenteditable='true'>Найкращі ресторани міста на будь-який смак</p>", Tag = "SubtitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<a href='#' dataId='0' class='btn btn-primary' tag='MorePlacesButtonCaption'>Більше ресторанів</a>", Tag = "MorePlacesButtonCaption"}
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' contenteditable='true'>Ресторани у твоєму місті</span>", Tag = "TitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' contenteditable='true'>Найкращі ресторани міста на будь-який смак</p>", Tag = "SubtitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<a href='#' dataId='0' class='btn btn-primary' contenteditable='true'>Більше ресторанів</a>", Tag = "MorePlacesButtonCaption"}
                         }
                     },
                     new Container
