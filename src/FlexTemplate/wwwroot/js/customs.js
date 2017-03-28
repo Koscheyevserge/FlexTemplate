@@ -394,15 +394,43 @@ function initSlider() {
  * User edit text-box
  */
 
-	$('.user-edit-icon').click(function(event) {
-		let arrayChangeText = $(this).parent().find('.user-edit-text');
+	$('body').on('click', '.user-edit-icon', function(event) {
+    let parent = $(this).parent();
+    if (!parent.attr('contenteditable')) {
+      $(this).addClass('active');
+      parent.wrapInner("<div class='text-edit' contenteditable='true'></div>");
+      parent.append($('<button class="btn btn-primary btn-form user-edit-button">Save</button>'));
+    }
 		// $.each(arrayChangeText, function(index, el) {
 		// 	this.append($('<textarea class="user-edit-textarea"></textarea>'));
 		// 	this.append($('<button class="btn btn-primary btn-form user-edit-button">Edit</button>'));
 		// });
 		// arrayChangeText.wrap($('<textarea class="user-edit-textarea"></textarea>'));
-		arrayChangeText.append($('<button class="btn btn-primary btn-form user-edit-button">Edit</button>'));
 	});
 
+  const URL_DOMAIN = window.location.origin;
+  const localizableStrings = '/api/localizablestrings/update/';
+
+  $('body').on('click', '.user-edit-button', function(event) {
+    let parent = $(this).parent();
+    let templateDom = $(parent.find('span[dataId]')[0]);
+
+    $.ajax({
+      url: URL_DOMAIN + localizableStrings + templateDom.attr('dataId'),
+      datatype: 'json',
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+        id: +templateDom.attr('dataId'),
+        template: templateDom
+      }),
+      success: function(data) {
+        debugger;
+        parent.find('.text-edit').contents().unwrap();
+        parent.find('.user-edit-button').remove();
+        parent.find('.user-edit-icon').removeClass('active');
+      }
+    });
+  });
 }
 
