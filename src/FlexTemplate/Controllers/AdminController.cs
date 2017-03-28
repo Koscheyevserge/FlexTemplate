@@ -115,7 +115,7 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Language(int id = 1)
+        public IActionResult Language()
         {
             ViewData["Title"] = "Language";
             ViewData["BodyClasses"] = string.Empty;
@@ -261,11 +261,28 @@ namespace FlexTemplate.Controllers
         }
         #endregion
 
-      
+        #region Language
         [HttpPost]
-        public IActionResult Language(AdminLanguageViewModel item)
+        public IActionResult Language(AdminLanguagePostViewModel item)
         {
             return RedirectToAction("Languages");
         }
+        #endregion
+
+        #region LocalizableString
+        [HttpPost]
+        [Route("api/localizable/createcontainer/{id}")]
+        public JsonResult UpdateLocalizableString(int id, [FromBody]string item)
+        {
+            var localizableString = context.ContainerLocalizableStrings.SingleOrDefault(ls => ls.Id == id);
+            if (localizableString == null)
+            {
+                return Json(new AjaxResponse {ErrorMessages = new List<string> {"Такой локализируемой строки не существует"}});
+            }
+            localizableString.Text = item;
+            context.SaveChanges();
+            return Json(new AjaxResponse {Successed = true});
+        }
+        #endregion
     }
 }

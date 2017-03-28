@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FlexTemplate.ViewModels.AdminController
 {
-    public class LanguagePostViewModel
+    public class AdminLanguagePostViewModel
     {
         public int DefaultLanguage { get; set; }
         public IEnumerable<AdminLanguagePostViewModelItem> Languages { get; set; }
