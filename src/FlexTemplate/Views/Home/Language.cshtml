@@ -1,2 +1,34 @@
 ﻿@using System.ComponentModel
+@using FlexTemplate.Entities
 @model FlexTemplate.ViewModels.AdminController.AdminLanguageViewModel
+@if (Model != null)
+{
+    <div class="c-pages container admin">
+        @foreach (Language lang in Model.Languages)
+        {
+            <div class="page" dataId="@lang.Id">
+                <div class="container-components">
+                    <h4>Порядок мов</h4>
+                    <ul id="draggablePanelList" class="component-list list-unstyled">
+                        @foreach(Language name in Model.Languages)
+                    {
+                            <li class="alert alert-info component clearfix">
+                                <select size="1" name="component[]" class="custom-select">
+                                    <option selected="selected" dataId="@lang.Id">@lang.Name - @lang.ShortName</option>
+                                    @foreach (Language nameL in Model.Languages)
+                                    {
+                                        <option dataId="@lang.Id">@lang.Name - @lang.ShortName</option>
+                                        <input type="radio" value="@lang.IsActive" style="float:left"><input type="radio" value="@lang.IsDefault">
+                                    }
+                                </select>
+                                <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
+                            </li>
+                        }
+                    </ul>
+                    <button class="btn btn-primary btn-form admin-button-add-component">Add component</button>
+                </div>
+                <button class="btn btn-primary btn-form admin-button-pages-save">Save page</button>
+            </div>
+        }
+    </div>
+}
