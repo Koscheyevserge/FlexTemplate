@@ -115,6 +115,18 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
+        public IActionResult Language(int id = 1)
+        {
+            ViewData["Title"] = "Language";
+            ViewData["BodyClasses"] = string.Empty;
+            var model = new AdminLanguageViewModel
+            {
+                Languages = GetAllLanguages()
+            };
+            return View(model);
+        }
+
+
         #endregion
 
         #region UserRoles
@@ -248,5 +260,12 @@ namespace FlexTemplate.Controllers
             return ViewComponent(typeof(NewPageContainer), new { id });
         }
         #endregion
+
+      
+        [HttpPost]
+        public IActionResult Language(AdminLanguageViewModel item)
+        {
+            return RedirectToAction("Languages");
+        }
     }
 }

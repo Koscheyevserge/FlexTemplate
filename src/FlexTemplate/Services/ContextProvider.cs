@@ -41,17 +41,35 @@ namespace FlexTemplate.Services
             {
                 Name = "Українська",
                 ShortName = "UA",
-                IsDefault = true
+                IsDefault = true,
+                IsActive = true
             };
             context.Add(new Language
             {
                 Name = "English",
-                ShortName = "EN"
+                ShortName = "EN",
+                IsActive = true
             });
             context.Add(new Language
             {
                 Name = "Русский",
-                ShortName = "RU"
+                ShortName = "RU",
+                IsActive = true
+            });
+            context.Add(new Language
+            {
+                Name = "German",
+                ShortName = "GE"
+            });
+            context.Add(new Language
+            {
+                Name = "French",
+                ShortName = "FR"
+            });
+            context.Add(new Language
+            {
+                Name = "Italian",
+                ShortName = "IT"
             });
             var supervisorAddResult = await roleManager.CreateAsync(new IdentityRole
             {

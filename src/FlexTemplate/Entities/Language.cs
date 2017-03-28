@@ -8,6 +8,7 @@
     public class Language : BaseEntity
     {
         public bool IsDefault { get; set; }
+        public bool IsActive { get; set; }
         /// <summary>
         /// Название языка
         /// </summary>
