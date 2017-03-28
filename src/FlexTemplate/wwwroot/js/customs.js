@@ -409,12 +409,12 @@ function initSlider() {
 	});
 
   const URL_DOMAIN = window.location.origin;
-  const localizableStrings = '/api/localizablestrings/update/';
+  const localizableStrings = '/api/localizable/createcontainer/';
 
   $('body').on('click', '.user-edit-button', function(event) {
     let parent = $(this).parent();
-    let templateDom = $(parent.find('span[dataId]')[0]);
-
+    let templateDom = parent.find('span[dataId]');
+debugger
     $.ajax({
       url: URL_DOMAIN + localizableStrings + templateDom.attr('dataId'),
       datatype: 'json',
@@ -422,7 +422,7 @@ function initSlider() {
       contentType: "application/json",
       data: JSON.stringify({
         id: +templateDom.attr('dataId'),
-        template: templateDom
+        item: templateDom[0].outerHTML
       }),
       success: function(data) {
         debugger;
