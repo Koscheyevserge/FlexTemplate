@@ -271,7 +271,7 @@ namespace FlexTemplate.Controllers
 
         #region LocalizableString
         [HttpPost]
-        [Route("api/localizable/createcontainer/{id}")]
+        [Route("api/localizablestrings/update/{id}")]
         public JsonResult UpdateLocalizableString(int id, [FromBody]string item)
         {
             var localizableString = context.ContainerLocalizableStrings.SingleOrDefault(ls => ls.Id == id);

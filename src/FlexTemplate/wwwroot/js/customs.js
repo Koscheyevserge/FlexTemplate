@@ -409,7 +409,7 @@ function initSlider() {
 	});
 
   const URL_DOMAIN = window.location.origin;
-  const localizableStrings = '/api/localizable/createcontainer/';
+  const localizableStrings = '/api/localizablestrings/update/';
 
   $('body').on('click', '.user-edit-button', function(event) {
     let parent = $(this).parent();

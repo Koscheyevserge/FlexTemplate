@@ -213,6 +213,8 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsActive");
+
                     b.Property<bool>("IsDefault");
 
                     b.Property<string>("Name");

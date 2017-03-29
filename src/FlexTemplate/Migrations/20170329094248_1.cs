@@ -41,6 +41,7 @@ namespace FlexTemplate.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IsActive = table.Column<bool>(nullable: false),
                     IsDefault = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ShortName = table.Column<string>(maxLength: 2, nullable: true)
