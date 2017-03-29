@@ -115,7 +115,7 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Language()
+        public IActionResult Languages()
         {
             ViewData["Title"] = "Language";
             ViewData["BodyClasses"] = string.Empty;
@@ -263,7 +263,7 @@ namespace FlexTemplate.Controllers
 
         #region Language
         [HttpPost]
-        public IActionResult Language(AdminLanguagePostViewModel item)
+        public IActionResult Languages(AdminLanguagePostViewModel item)
         {
             return RedirectToAction("Languages");
         }
