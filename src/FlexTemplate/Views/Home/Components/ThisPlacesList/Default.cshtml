@@ -1,5 +1,7 @@
-﻿@using System.Linq
+﻿@using System
+@using System.Linq
 @using FlexTemplate.Entities
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
 <div class="col-sm-8 col-md-9">
 
@@ -67,8 +69,8 @@
 
                                 <div class="content">
                                     <h5><a href="#">@place.Name</a></h5>
-                                    <p class="location"><i class="fa fa-map-marker"></i>@place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
-                                    <p class="short-info">@place.Description.Substring(0, 50)...</p>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
+                                    <p class="short-info">@place.Description.Substring(0, 100)...</p>
                                     <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
                                     <p class="cuisine">
                                         Cuisine:
@@ -86,7 +88,7 @@
                                 <div class="meta">
                                     <div class="rating-wrapper">
                                         <div class="rating-item">
-                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="3.5" />
+                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="4" />
                                         </div>
                                         <span class="texting"> (@place.Reviews.Count reviews)</span>
                                     </div>

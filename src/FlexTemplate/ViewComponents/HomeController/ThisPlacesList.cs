@@ -21,19 +21,19 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(int[] cities, int[] categories, string input)
         {
-            var places = _context.Places.AsNoTracking()
-                .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).ThenInclude(c => c.Aliases)
+            var places = _context.Places.AsNoTracking();
+            if (cities != null && cities.Any())
+                places = places.Where(p => cities.Contains(p.Street.CityId));
+            if (categories != null && categories.Any())
+                places = places.Where(p => categories.Intersect(p.PlaceCategories.Select(pc => pc.CategoryId)).Any());
+            if (!string.IsNullOrEmpty(input))
+                places = places.Where(p => p.Name.Contains(input));
+            places = places.Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).ThenInclude(c => c.Aliases)
                 .Include(p => p.Photos)
                 .Include(p => p.Reviews)
                 .Include(p => p.Aliases)
                 .Include(p => p.Street).ThenInclude(s => s.Aliases)
                 .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases);
-            if (cities != null && cities.Any())
-                places.Where(p => cities.Contains(p.Street.CityId));
-            if (categories != null && categories.Any())
-                places.Where(p => categories.Intersect(p.PlaceCategories.Select(pc => pc.CategoryId)).Any());
-            if (!string.IsNullOrEmpty(input))
-                places.Where(p => p.Name.Contains(input));
             var model = new ThisPlacesListViewModel {Places = places.AsEnumerable()};
             return View(model);
         }
