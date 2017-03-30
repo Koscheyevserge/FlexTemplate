@@ -1,4 +1,7 @@
-﻿<div class="col-sm-8 col-md-9">
+﻿@using System.Linq
+@using FlexTemplate.Entities
+@model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
+<div class="col-sm-8 col-md-9">
 
     <div class="sort-by-wrapper clearfix">
 
@@ -44,47 +47,56 @@
     </div>
 
     <div class="restaurant-list-item-wrapper no-last-bb">
+        @foreach (Place place in Model.Places)
+        {
+            <div class="restaurant-list-item clearfix">
 
-        <div class="restaurant-list-item clearfix">
+                <div class="GridLex-grid-noGutter-equalHeight">
 
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/01.jpg" alt="Image" />
+                    <div class="GridLex-col-3_sm-3_xss-12">
+                        <div class="image">
+                            <img src="@place.Photos?.FirstOrDefault()" alt="Image" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="GridLex-col-9_sm-9_xss-12">
+                    <div class="GridLex-col-9_sm-9_xss-12">
 
-                    <div class="GridLex-grid-noGutter-equalHeight">
+                        <div class="GridLex-grid-noGutter-equalHeight">
 
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
+                            <div class="GridLex-col-9_sm-12 content-wrapper">
 
-                            <div class="content">
-                                <h5><a href="#">The Smokin' Pug</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 88 Thanon Surawong, Si Phraya, Bang Rak </p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
+                                <div class="content">
+                                    <h5><a href="#">@place.Name</a></h5>
+                                    <p class="location"><i class="fa fa-map-marker"></i>@place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
+                                    <p class="short-info">@place.Description.Substring(0, 50)...</p>
+                                    <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
+                                    <p class="cuisine">
+                                        Cuisine:
+                                        @foreach (Category category in place.PlaceCategories.Select(pc => pc?.Category))
+                                        {
+                                            <span>@category.Name</span>
+                                        }
+                                    </p>
+                                </div>
+
                             </div>
 
-                        </div>
+                            <div class="GridLex-col-3_sm-12 meta-wrapper">
 
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="3.5" />
+                                <div class="meta">
+                                    <div class="rating-wrapper">
+                                        <div class="rating-item">
+                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="3.5" />
+                                        </div>
+                                        <span class="texting"> (@place.Reviews.Count reviews)</span>
                                     </div>
-                                    <span class="texting"> (27 reviews)</span>
+                                    <div class="right-bottom">
+                                        <div class="price">Average price: <span>$65 - $78</span></div>
+                                        <div class="clear"></div>
+                                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Details</a>
+                                    </div>
                                 </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
+
                             </div>
 
                         </div>
@@ -94,269 +106,7 @@
                 </div>
 
             </div>
-
-        </div>
-
-        <div class="restaurant-list-item clearfix">
-
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/02.jpg" alt="Image" />
-                    </div>
-                </div>
-
-                <div class="GridLex-col-9_sm-9_xss-12">
-
-                    <div class="GridLex-grid-noGutter-equalHeight">
-
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
-
-                            <div class="content">
-                                <h5><a href="#">J'AIME by Jean-Michel Lorain</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 105 Soi Sathon 1, Thung Maha Mek, Sathon</p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
-                            </div>
-
-                        </div>
-
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="3.5" />
-                                    </div>
-                                    <span class="texting"> (27 reviews)</span>
-                                </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="restaurant-list-item clearfix">
-
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/03.jpg" alt="Image" />
-                    </div>
-                </div>
-
-                <div class="GridLex-col-9_sm-9_xss-12">
-
-                    <div class="GridLex-grid-noGutter-equalHeight">
-
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
-
-                            <div class="content">
-                                <h5><a href="#">The Smokin' Pug</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 88 Thanon Surawong, Si Phraya, Bang Rak </p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
-                            </div>
-
-                        </div>
-
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="4.5" />
-                                    </div>
-                                    <span class="texting"> (43 reviews)</span>
-                                </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="restaurant-list-item clearfix">
-
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/04.jpg" alt="Image" />
-                    </div>
-                </div>
-
-                <div class="GridLex-col-9_sm-9_xss-12">
-
-                    <div class="GridLex-grid-noGutter-equalHeight">
-
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
-
-                            <div class="content">
-                                <h5><a href="#">J'AIME by Jean-Michel Lorain</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 105 Soi Sathon 1, Thung Maha Mek, Sathon</p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
-                            </div>
-
-                        </div>
-
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="4.0" />
-                                    </div>
-                                    <span class="texting"> (65 reviews)</span>
-                                </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="restaurant-list-item clearfix">
-
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/05.jpg" alt="Image" />
-                    </div>
-                </div>
-
-                <div class="GridLex-col-9_sm-9_xss-12">
-
-                    <div class="GridLex-grid-noGutter-equalHeight">
-
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
-
-                            <div class="content">
-                                <h5><a href="#">The Smokin' Pug</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 88 Thanon Surawong, Si Phraya, Bang Rak </p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
-                            </div>
-
-                        </div>
-
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="5.0" />
-                                    </div>
-                                    <span class="texting"> (143 reviews)</span>
-                                </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="restaurant-list-item clearfix">
-
-            <div class="GridLex-grid-noGutter-equalHeight">
-
-                <div class="GridLex-col-3_sm-3_xss-12">
-                    <div class="image">
-                        <img src="images/restaurant/06.jpg" alt="Image" />
-                    </div>
-                </div>
-
-                <div class="GridLex-col-9_sm-9_xss-12">
-
-                    <div class="GridLex-grid-noGutter-equalHeight">
-
-                        <div class="GridLex-col-9_sm-12 content-wrapper">
-
-                            <div class="content">
-                                <h5><a href="#">J'AIME by Jean-Michel Lorain</a></h5>
-                                <p class="location"><i class="fa fa-map-marker"></i> 105 Soi Sathon 1, Thung Maha Mek, Sathon</p>
-                                <p class="short-info">Barton waited twenty always repair in within we do. An delighted offending curiosity my is dashwoods at...</p>
-                                <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
-                                <p class="cuisine">Cuisine: <span>Italian</span> <span>Seafood</span> <span>Bistro</span></p>
-                            </div>
-
-                        </div>
-
-                        <div class="GridLex-col-3_sm-12 meta-wrapper">
-
-                            <div class="meta">
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="4.0" />
-                                    </div>
-                                    <span class="texting"> (65 reviews)</span>
-                                </div>
-                                <div class="right-bottom">
-                                    <div class="price">Average price: <span>$65 - $78</span></div>
-                                    <div class="clear"></div>
-                                    <a href="#" class="btn btn-primary btn-sm btn-block">Details</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
+        }
     </div>
 
     <div class="pagination-wrapper">

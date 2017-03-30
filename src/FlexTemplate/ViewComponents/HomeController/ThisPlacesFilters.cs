@@ -20,7 +20,8 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(int[] cities, int[] categories, string input)
         {
-            return View();
+            var model = new ThisPlacesFiltersViewModel();
+            return View(model);
         }
     }
 }
