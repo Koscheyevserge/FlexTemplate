@@ -643,8 +643,8 @@ namespace FlexTemplate.Services
                         },
                         LocalizableStrings = new List<ContainerLocalizableString>
                         {
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0'>Інші популярні міста</span>", Tag = "TitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' class='user-edit-text'>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>", Tag = "SubtitleLabelCaption"}
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' contenteditable='true'>Інші популярні міста</span>", Tag = "TitleLabelCaption"},
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' contenteditable='true'>Mist is highly flexible, and will be able to adjust to any of your customization’s. Get your projects to a new level. Included is animation on view, Parallax block, counters and charts, high resolution graphics etc.</p>", Tag = "SubtitleLabelCaption"}
                         }
                     },
                     new Container

@@ -394,12 +394,11 @@ function initSlider() {
  * User edit text-box
  */
 
-	$('body').on('click', '.user-edit-icon', function(event) {
-    let parent = $(this).parent();
-    if (!parent.attr('contenteditable')) {
+	$('body').on('focus', '[contenteditable]', function(event) {
+    if (!$(this).hasClass('active')) {
       $(this).addClass('active');
-      parent.wrapInner("<div class='text-edit' contenteditable='true'></div>");
-      parent.append($('<button class="btn btn-primary btn-form user-edit-button">Save</button>'));
+      $(this).wrapInner("<div class='text-edit'></div>");
+      $(this).append($('<button class="btn btn-primary btn-form user-edit-button">Save</button>'));
     }
 		// $.each(arrayChangeText, function(index, el) {
 		// 	this.append($('<textarea class="user-edit-textarea"></textarea>'));
@@ -413,22 +412,22 @@ function initSlider() {
 
   $('body').on('click', '.user-edit-button', function(event) {
     let parent = $(this).parent();
-    let templateDom = parent.find('span[dataId]');
-debugger
+
+    parent.find('.text-edit').contents().unwrap();
+    parent.find('.user-edit-button').remove();
+    parent.find('.user-edit-icon').removeClass('active');
+
     $.ajax({
-      url: URL_DOMAIN + localizableStrings + templateDom.attr('dataId'),
+      url: URL_DOMAIN + localizableStrings + parent.attr('dataId'),
       datatype: 'json',
       type: "post",
       contentType: "application/json",
-      data: JSON.stringify({
-        id: +templateDom.attr('dataId'),
-        item: templateDom[0].outerHTML
+      data:JSON.stringify({
+        id: +parent.attr('dataId'),
+        item: parent[0].outerHTML
       }),
       success: function(data) {
-        debugger;
-        parent.find('.text-edit').contents().unwrap();
-        parent.find('.user-edit-button').remove();
-        parent.find('.user-edit-icon').removeClass('active');
+        console.log(data.successed);
       }
     });
   });

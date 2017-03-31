@@ -13,5 +13,4 @@ function getLanguages(result) {
       console.log('error ' + error);
     }
 	});
-}   
-    
+}
