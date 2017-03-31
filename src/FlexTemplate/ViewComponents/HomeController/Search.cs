@@ -20,13 +20,14 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(string template)
         {
-            var categoryNames = _context.Categories.Select(c => c.Name).ToList();
+            var categories = _context.Categories.ToList();
+            var cities = _context.Cities.ToList();
             var photoPath = new List<string>{ "images/2.jpg"};
             var localizableStringReplaceRegex = new Regex("dataId='\\d*'");
             var strings = _context.Containers.Include(c => c.LocalizableStrings)
                 .FirstOrDefault(c => c.Name == GetType().Name)
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => localizableStringReplaceRegex.Replace(ls.Text, $"dataId='{ls.Id}'"));
-            var model = new SearchViewModel { CategoriesNames = categoryNames, Images = photoPath, Strings = strings};
+            var model = new SearchViewModel { Categories = categories, Cities = cities, Images = photoPath, Strings = strings};
             return View(template, model);
         }
     }
