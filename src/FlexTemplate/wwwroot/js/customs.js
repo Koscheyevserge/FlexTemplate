@@ -397,7 +397,9 @@ function initSlider() {
 	$('body').on('focus', '[contenteditable]', function(event) {
     if (!$(this).hasClass('active')) {
       $(this).addClass('active');
-      $(this).wrapInner("<div class='text-edit'></div>");
+      let id = $(this).attr('dataId');
+      $(this).wrapInner("<div class='text-edit' name='"+ id +"' id='" + id + "'></div>");
+      initCKEditor(id);
       $(this).append($('<button class="btn btn-primary btn-form user-edit-button">Save</button>'));
     }
 		// $.each(arrayChangeText, function(index, el) {
@@ -415,7 +417,7 @@ function initSlider() {
 
     dom.find('.text-edit').contents().unwrap();
     dom.find('.user-edit-button').remove();
-    dom.removeClass('active');
+    dom.removeAttr('class aria-label title tabindex spellcheck role');
 
     $.ajax({
       url: URL_DOMAIN + localizableStrings,
@@ -431,5 +433,51 @@ function initSlider() {
       }
     });
   });
+
+
+  /*
+  * CKEditor config
+  */
+
+  CKEDITOR.config.height = 150;
+  CKEDITOR.config.width = 'auto';
+
+  var initCKEditor = function(id) {
+    var wysiwygareaAvailable = isWysiwygareaAvailable(),
+      isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
+
+    return function(id) {
+      var editorElement = CKEDITOR.document.getById(id);
+
+      // :(((
+      if ( isBBCodeBuiltIn ) {
+        editorElement.setHtml(
+          'Hello world!\n\n' +
+          'I\'m an instance of [url=http://ckeditor.com]CKEditor[/url].'
+        );
+      }
+
+      // Depending on the wysiwygare plugin availability initialize classic or inline editor.
+      if ( wysiwygareaAvailable ) {
+        CKEDITOR.replace(id);
+      } else {
+        editorElement.setAttribute( 'contenteditable', 'true' );
+        CKEDITOR.inline(id);
+
+        // TODO we can consider displaying some info box that
+        // without wysiwygarea the classic editor may not work.
+      }
+    };
+
+    function isWysiwygareaAvailable() {
+      // If in development mode, then the wysiwygarea must be available.
+      // Split REV into two strings so builder does not replace it :D.
+      if ( CKEDITOR.revision == ( '%RE' + 'V%' ) ) {
+        return true;
+      }
+
+      return !!CKEDITOR.plugins.get( 'wysiwygarea' );
+    }
+  };
 }
 
