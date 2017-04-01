@@ -271,15 +271,15 @@ namespace FlexTemplate.Controllers
 
         #region LocalizableString
         [HttpPost]
-        [Route("api/localizablestrings/update/{id}")]
-        public JsonResult UpdateLocalizableString(int id, [FromBody]string item)
+        [Route("api/localizablestrings/update")]
+        public JsonResult UpdateLocalizableString([FromBody]AdminUpdateLocalizableStringViewModel model)
         {
-            var localizableString = context.ContainerLocalizableStrings.SingleOrDefault(ls => ls.Id == id);
+            var localizableString = context.ContainerLocalizableStrings.SingleOrDefault(ls => ls.Id == model.Id);
             if (localizableString == null)
             {
                 return Json(new AjaxResponse {ErrorMessages = new List<string> {"Такой локализируемой строки не существует"}});
             }
-            localizableString.Text = item;
+            localizableString.Text = model.Item;
             context.SaveChanges();
             return Json(new AjaxResponse {Successed = true});
         }

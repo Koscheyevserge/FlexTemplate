@@ -418,7 +418,7 @@ function initSlider() {
     dom.removeClass('active');
 
     $.ajax({
-      url: URL_DOMAIN + localizableStrings + dom.attr('dataId'),
+      url: URL_DOMAIN + localizableStrings,
       datatype: 'json',
       type: "post",
       contentType: "application/json",

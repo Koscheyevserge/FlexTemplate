@@ -8,6 +8,7 @@ using FlexTemplate.Services;
 using FlexTemplate.ViewModels;
 using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -158,6 +159,17 @@ namespace FlexTemplate.Controllers
             // удаляем аутентификационные куки
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Test()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public void Test(IFormFile file)
+        {
+
         }
     }
 }
