@@ -56,9 +56,10 @@ Created:        24/10/2016
   border: 1px solid #DB3944;
 }
 
-.text-edit:focus {
-  outline:none;
-  box-shadow: 0 0 3px -1px #DB3944;
+[contenteditable]:focus {
+  // padding: 2px;
+  outline: none;
+  // box-shadow: 0 0 3px -1px #DB3944;
 }
 
 .user-edit-button {

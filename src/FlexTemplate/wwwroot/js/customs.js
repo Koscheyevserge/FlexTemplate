@@ -411,20 +411,20 @@ function initSlider() {
   const localizableStrings = '/api/localizablestrings/update/';
 
   $('body').on('click', '.user-edit-button', function(event) {
-    let parent = $(this).parent();
+    let dom = $(this).parent();
 
-    parent.find('.text-edit').contents().unwrap();
-    parent.find('.user-edit-button').remove();
-    parent.find('.user-edit-icon').removeClass('active');
+    dom.find('.text-edit').contents().unwrap();
+    dom.find('.user-edit-button').remove();
+    dom.removeClass('active');
 
     $.ajax({
-      url: URL_DOMAIN + localizableStrings + parent.attr('dataId'),
+      url: URL_DOMAIN + localizableStrings + dom.attr('dataId'),
       datatype: 'json',
       type: "post",
       contentType: "application/json",
       data:JSON.stringify({
-        id: +parent.attr('dataId'),
-        item: parent[0].outerHTML
+        id: +dom.attr('dataId'),
+        item: dom[0].outerHTML
       }),
       success: function(data) {
         console.log(data.successed);
