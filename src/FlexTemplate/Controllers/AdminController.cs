@@ -263,13 +263,9 @@ namespace FlexTemplate.Controllers
 
         #region Language
         [HttpPost]
-        public IActionResult Languages([FromBody] AdminLanguagePostViewModel item)
+        public IActionResult UpdateLanguages(AdminLanguagePostViewModel item)
         {
-            if(item.DefaultLanguage == 0)
-            {
-                return RedirectToAction("Pages");
-            }
-            return RedirectToAction("Categories");
+            return null;
         }
         
         #endregion

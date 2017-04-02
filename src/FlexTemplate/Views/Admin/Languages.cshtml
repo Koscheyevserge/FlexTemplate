@@ -1,48 +1,17 @@
-﻿@using FlexTemplate.Entities
-@model FlexTemplate.ViewModels.AdminController.AdminLanguageViewModel
+﻿@model FlexTemplate.ViewModels.AdminController.AdminLanguageViewModel
 @if (Model != null)
 {
-    <form method="post" enctype="multipart/form-data">
-    @for(int i = 0; i < Model.Languages.Count; i++)
+    @using (Html.BeginForm("UpdateLanguages", "Admin"))
     {
-        <div>
-            <label>@Model.Languages[i].Name - @Model.Languages[i].ShortName</label>
-            <input type="checkbox" checked="@Model.Languages[i].IsActive" name="Languages[@Model.Languages[i].Id].IsActive" style="display: block; opacity: 100;"/>
-            <input type="radio" checked="@Model.Languages[i].IsDefault" name="DefaultLanguage" style="display: block; opacity: 100;"/>
-            <input type="text" name="Languages[@Model.Languages[i].Id].Id" style="display: none; opacity: 0;" value="@Model.Languages[i].Id"/>
-        </div>
-
-    }
-        <input type="submit" value="Кнопка"/>
-    </form>
-
-
-    @*<div class="c-pages container admin">
-        @foreach (Language lang in Model.Languages)
-        {
-            <div class="page" dataId="@lang.Id">
-                <div class="container-components">
-                    <h4>Порядок мов</h4>
-                    <ul id="draggablePanelList" class="component-list list-unstyled">
-                        @foreach(Language name in Model.Languages)
-                    {
-                            <li class="alert alert-info component clearfix">
-                                <select size="1" name="component[]" class="custom-select">
-                                    <option selected="selected" dataId="@lang.Id">@lang.Name - @lang.ShortName</option>
-                                    @foreach (Language nameL in Model.Languages)
-                                    {
-                                        <option dataId="@lang.Id">@lang.Name - @lang.ShortName</option>
-                                        <input type="checkbox" value="@lang.IsActive" style="float:left"><input type="radio" value="@lang.IsDefault">
-                                    }
-                                </select>
-                                <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
-                            </li>
-                        }
-                    </ul>
-                    <button class="btn btn-primary btn-form admin-button-add-component">Add component</button>
-                </div>
-                <button class="btn btn-primary btn-form admin-button-pages-save">Save page</button>
-            </div>
-        }
-    </div>*@
+         @for (var i = 0; i < Model.Languages.Count; i++)
+          {
+              <div>
+                  <label>@Model.Languages[i].Name - @Model.Languages[i].ShortName</label>
+                  <input name="Languages[@i].IsActive" type="checkbox" style="display: block; opacity: 100;" checked="@Model.Languages[i].IsActive">
+                  @Html.EditorFor(model => Model.Languages[i].Id, false)
+                  <input type="text" name="Languages.Id" style="display: none; opacity: 0;" value="@Model.Languages[i].Id"/>
+              </div>
+          }
+         <input type="submit" value="Кнопка"/>
+     }
 }
