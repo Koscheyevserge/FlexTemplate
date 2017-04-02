@@ -1,41 +1,43 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceHeaderViewModel
 <!-- start hero-header -->
-<form method="post" asp-action="Upload" asp-controller="Home" enctype="multipart/form-data">
-    <div id="file-submit" class="dropzone">
-        <input type="file">
-    </div>
-</form>
-<div class="hero hero-detail" style="background-image: url('~/Resources/Place/@Model.Place.Id/head.jpg');">
-    <div class="container">
-        <div class="hero-detail-inner">
-            <div id="detail-content-sticky-nav-00" class="hero-detail-bottom">
-                <div class="GridLex-grid-bottom">
-                    <div class="GridLex-col-8_sm-7_xs-12_xss-12">
-                        <div class="detail-header">
-                            <div class="detail-header-inner">
-                                <h3>@Model.Place.Name</h3>
-                                <p class="location"><i class="fa fa-map-marker"></i> @Model.Place.Street.Name @Model.Place.Address, @Model.Place.Street.City.Name</p>
-                                <div class="rating-wrapper">
-                                    <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@Model.Stars"/>
-                                    </div>
-                                    <span class="texting"> based on @Model.Place.Reviews.Count() reviews</span>
-                                </div>
-                            </div>
-                        </div>
+<div class="c-this-place-header">
+  <form method="post" asp-action="Upload" asp-controller="Home" enctype="multipart/form-data">
+      <div id="file-submit" class="dropzone">
+          <input type="file">
+      </div>
+  </form>
+  <div class="hero hero-detail" style="background-image: url('~/Resources/Place/@Model.Place.Id/head.jpg');">
+      <div class="container">
+          <div class="hero-detail-inner">
+              <div id="detail-content-sticky-nav-00" class="hero-detail-bottom">
+                  <div class="GridLex-grid-bottom">
+                      <div class="GridLex-col-8_sm-7_xs-12_xss-12">
+                          <div class="detail-header">
+                              <div class="detail-header-inner">
+                                  <h3>@Model.Place.Name</h3>
+                                  <p class="location"><i class="fa fa-map-marker"></i> @Model.Place.Street.Name @Model.Place.Address, @Model.Place.Street.City.Name</p>
+                                  <div class="rating-wrapper">
+                                      <div class="rating-item">
+                                          <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@Model.Stars"/>
+                                      </div>
+                                      <span class="texting"> based on @Model.Place.Reviews.Count() reviews</span>
+                                  </div>
+                              </div>
+                          </div>
 
-                    </div>
-                        <div class="GridLex-col-4_sm-4_xs-12_xss-12">
-                            <div class="text-right text-left-xs">
-                                <a href="#" class="fav-like"><i class="fa fa-heart"></i></a>
-                             <div class="btn-holder mt-5">
-                                 <a href="#detail-content-sticky-nav-01" class="btn btn-primary anchor-alt">See Menu Lists</a>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                      </div>
+                          <div class="GridLex-col-4_sm-4_xs-12_xss-12">
+                              <div class="text-right text-left-xs">
+                                  <a href="#" class="fav-like"><i class="fa fa-heart"></i></a>
+                               <div class="btn-holder mt-5">
+                                   <a href="#detail-content-sticky-nav-01" class="btn btn-primary anchor-alt">See Menu Lists</a>
+                               </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
 <!-- end hero-header -->

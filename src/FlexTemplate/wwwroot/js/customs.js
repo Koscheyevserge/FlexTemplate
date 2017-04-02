@@ -436,6 +436,15 @@ function initSlider() {
 
 
   /*
+  * Input download
+  */
+
+  $('.c-this-place-header').on('click', '#file-submit', function() {
+    setTimeout(() => this.parentElement.remove(), 10000);
+  })
+
+
+  /*
   * CKEditor config
   */
 
