@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using FlexTemplate.Database;
 using FlexTemplate.Entities;
@@ -59,6 +62,13 @@ namespace FlexTemplate.Controllers
 
         public IActionResult Place(int id)
         {
+            if (id == 0)
+            {
+                id = CookieProvider.GetCurrentPlace(HttpContext);
+                UploadPlaceHead(id, HttpContext.Request.Form.Files[0]);
+                return null;
+            }
+            CookieProvider.AppendCurrentPlace(HttpContext, id);
             ViewData["Title"] = "Place";
             ViewData["BodyClasses"] = "full-width-container";
             var model = new HomePlaceViewModel
@@ -161,15 +171,34 @@ namespace FlexTemplate.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Test()
+        public void UploadPlaceFiles(int id, IFormFile file)
         {
-            return View();
+            var filename = Guid.NewGuid().ToString() + ".jpg";
+            var path = $@"wwwroot\Resources\Places\{id}\";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(stream);
+                }
+            }
         }
 
-        [HttpPost]
-        public void Test(IFormFile file)
+        public void UploadPlaceHead(int id, IFormFile file)
         {
-
+            var path = $@"wwwroot\Resources\Places\{id}\";
+            var filename = "head.jpg";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(stream);
+                }
+            }
         }
     }
 }

@@ -14,20 +14,35 @@ namespace FlexTemplate.Services
     /// </summary>
     public static class CookieProvider
     {
-        public static void AppendLanguage(HttpContext httpContext, Context _context, Language language)
+        public static void AppendLanguage(HttpContext httpContext, Language language)
         {
-            httpContext.Response.Cookies.Append(Constants.LANGUAGE_COOKIE_NAME, language.ShortName, new CookieOptions {Expires = new DateTimeOffset(DateTime.Now, new TimeSpan(Constants.COOKIE_LIFETIME_MILLISECONDS))});
+            httpContext.Response.Cookies.Append(Constants.LANGUAGE_COOKIE_NAME, language.ShortName);
         }
 
-        public static Language GetLanguage(HttpContext httpContext, Context _context)
+        public static string GetLanguage(HttpContext httpContext)
         {
             string cookieValue;
-            return httpContext.Request.Cookies.TryGetValue(Constants.LANGUAGE_COOKIE_NAME, out cookieValue) ? _context.Languages.FirstOrDefault(uc => uc.ShortName == cookieValue) : null;
+            return httpContext.Request.Cookies.TryGetValue(Constants.LANGUAGE_COOKIE_NAME, out cookieValue) ? cookieValue : null;
         }
 
-        public static void DeleteLanguage(HttpContext httpContext, Context _context)
+        public static void DeleteLanguage(HttpContext httpContext)
         {
             httpContext.Response.Cookies.Delete(Constants.LANGUAGE_COOKIE_NAME);
+        }
+        public static void AppendCurrentPlace(HttpContext httpContext, int placeId)
+        {
+            httpContext.Response.Cookies.Append(Constants.CURRENT_PLACE_COOKIE_NAME, placeId.ToString());
+        }
+
+        public static int GetCurrentPlace(HttpContext httpContext)
+        {
+            string cookieValue;
+            return httpContext.Request.Cookies.TryGetValue(Constants.CURRENT_PLACE_COOKIE_NAME, out cookieValue) ? int.Parse(cookieValue) : 0;
+        }
+
+        public static void DeleteCurrentPlace(HttpContext httpContext)
+        {
+            httpContext.Response.Cookies.Delete(Constants.CURRENT_PLACE_COOKIE_NAME);
         }
     }
 }
