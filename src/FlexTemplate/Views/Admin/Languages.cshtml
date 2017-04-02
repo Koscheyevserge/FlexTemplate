@@ -1,9 +1,23 @@
-﻿@using System.ComponentModel
-@using FlexTemplate.Entities
+﻿@using FlexTemplate.Entities
 @model FlexTemplate.ViewModels.AdminController.AdminLanguageViewModel
 @if (Model != null)
 {
-    <div class="c-pages container admin">
+    <form method="post" enctype="multipart/form-data">
+    @for(int i = 0; i < Model.Languages.Count; i++)
+    {
+        <div>
+            <label>@Model.Languages[i].Name - @Model.Languages[i].ShortName</label>
+            <input type="checkbox" checked="@Model.Languages[i].IsActive" name="Languages[@Model.Languages[i].Id].IsActive" style="display: block; opacity: 100;"/>
+            <input type="radio" checked="@Model.Languages[i].IsDefault" name="DefaultLanguage" style="display: block; opacity: 100;"/>
+            <input type="text" name="Languages[@Model.Languages[i].Id].Id" style="display: none; opacity: 0;" value="@Model.Languages[i].Id"/>
+        </div>
+
+    }
+        <input type="submit" value="Кнопка"/>
+    </form>
+
+
+    @*<div class="c-pages container admin">
         @foreach (Language lang in Model.Languages)
         {
             <div class="page" dataId="@lang.Id">
@@ -18,7 +32,7 @@
                                     @foreach (Language nameL in Model.Languages)
                                     {
                                         <option dataId="@lang.Id">@lang.Name - @lang.ShortName</option>
-                                        <input type="radio" value="@lang.IsActive" style="float:left"><input type="radio" value="@lang.IsDefault">
+                                        <input type="checkbox" value="@lang.IsActive" style="float:left"><input type="radio" value="@lang.IsDefault">
                                     }
                                 </select>
                                 <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
@@ -30,5 +44,5 @@
                 <button class="btn btn-primary btn-form admin-button-pages-save">Save page</button>
             </div>
         }
-    </div>
+    </div>*@
 }

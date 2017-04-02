@@ -121,7 +121,7 @@ namespace FlexTemplate.Controllers
             ViewData["BodyClasses"] = string.Empty;
             var model = new AdminLanguageViewModel
             {
-                Languages = GetAllLanguages()
+                Languages = GetAllLanguages().ToList()
             };
             return View(model);
         }
@@ -263,10 +263,15 @@ namespace FlexTemplate.Controllers
 
         #region Language
         [HttpPost]
-        public IActionResult Languages(AdminLanguagePostViewModel item)
+        public IActionResult Languages([FromBody] AdminLanguagePostViewModel item)
         {
-            return RedirectToAction("Languages");
+            if(item.DefaultLanguage == 0)
+            {
+                return RedirectToAction("Pages");
+            }
+            return RedirectToAction("Categories");
         }
+        
         #endregion
 
         #region LocalizableString

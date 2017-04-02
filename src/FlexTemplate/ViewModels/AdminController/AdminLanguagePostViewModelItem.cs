@@ -8,6 +8,6 @@ namespace FlexTemplate.ViewModels.AdminController
     public class AdminLanguagePostViewModelItem
     {
         public int Id { get; set; }
-        public bool IsAction { get; set; }
+        public bool IsActive { get; set; }
     }
 }

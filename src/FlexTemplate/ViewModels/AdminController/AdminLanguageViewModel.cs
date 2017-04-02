@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace FlexTemplate.ViewModels.AdminController
 {
-    public class AdminLanguageViewModel : BaseAdminViewModel
+    public class AdminLanguageViewModel 
     {
-        public IEnumerable<Language> Languages { get; set; }
+        public List<Language> Languages { get; set; }
     }
 }
