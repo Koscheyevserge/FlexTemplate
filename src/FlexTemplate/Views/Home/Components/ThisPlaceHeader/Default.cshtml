@@ -4,9 +4,10 @@
   <form method="post" asp-action="Upload" asp-controller="Home" enctype="multipart/form-data">
       <div id="file-submit" class="dropzone">
           <input type="file">
+          <div class="dz-default dz-message"><span>Змінити головну фотографію закладу</span></div>
       </div>
   </form>
-  <div class="hero hero-detail" style="background-image: url('~/Resources/Place/@Model.Place.Id/head.jpg');">
+  <div class="hero hero-detail" style="background-image: url(../../@Model.HeadPhoto);">
       <div class="container">
           <div class="hero-detail-inner">
               <div id="detail-content-sticky-nav-00" class="hero-detail-bottom">
