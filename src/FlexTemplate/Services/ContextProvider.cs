@@ -157,6 +157,19 @@ namespace FlexTemplate.Services
                 Language = ukrainian,
                 Text = "Дніпро"
             });
+
+            var user1 = new User { Name = "Alexeii", Surname = "Minailov" };
+            var user2 = new User { Name = "Павел", Surname = "Балыбердин" };
+            var user3 = new User { Name = "Анна", Surname = "Сергеева" };
+            var user4 = new User { Name = "Marina", Surname = "Rostova" };
+            var user5 = new User { Name = "Dariia", Surname = "Spase" };
+            var user6 = new User { Name = "Max", Surname = "Grigoriev" };
+            var user7 = new User { Name = "Женя", Surname = "Нестеров" };
+            var user8 = new User { Name = "Vetal", Surname = "Crimea" };
+            var user9 = new User { Name = "Ann", Surname = "Starling" };
+            var user10 = new User { Name = "Владимир", Surname = "Жолудь" };
+
+
             var kievStreet1 = new Street { Name = "Obolonsky avenue", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet1, Language = ukrainian, Text = "Оболонський проспект" });
             var kievStreet2 = new Street { Name = "Khreschatyk avenue", City = kiev };
@@ -178,6 +191,27 @@ namespace FlexTemplate.Services
             context.Add(new StreetAlias { Street = harkovStreet2, Language = ukrainian, Text = "Вулиця Сумська" });
             var harkovStreet3 = new Street { Name = "Gogolya street", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet3, Language = ukrainian, Text = "Вулиця Гоголя" });
+            var harkovStreet4 = new Street { Name = "Universitetska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet4, Language = ukrainian, Text = "Вулиця Університетська" });
+            var harkovStreet5 = new Street { Name = "Pushkinska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet5, Language = ukrainian, Text = "Вулиця Пушкінська" });
+            var harkovStreet6 = new Street { Name = "Batumska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet6, Language = ukrainian, Text = "Вулиця Батумська" });
+            var harkovStreet7 = new Street { Name = "Novgorodska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet7, Language = ukrainian, Text = "Вулиця Новгородська" });
+            var harkovStreet8 = new Street { Name = "Kulturi street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet8, Language = ukrainian, Text = "Вулиця Культури" });
+            var harkovStreet9 = new Street { Name = "Kvitki-Osnovyanenka street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet9, Language = ukrainian, Text = "Вулиця Квітки-Основ'яненка" });
+            var harkovStreet10 = new Street { Name = "Gagarina street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet10, Language = ukrainian, Text = "Вулиця Гагаріна" });
+            var harkovStreet11 = new Street { Name = "Shatilivska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet11, Language = ukrainian, Text = "Вулиця Шатилівська" });
+            var harkovStreet12 = new Street { Name = "Rimarska street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet12, Language = ukrainian, Text = "Вулиця Римарська" });
+            var harkovStreet13 = new Street { Name = "Lyudviga Svobody street", City = harkov };
+            context.Add(new StreetAlias { Street = harkovStreet13, Language = ukrainian, Text = "Вулиця Людвига Свободи" });
+
 
 
             var category1 = new Category { Name = "Ukrainian cuisine" };
@@ -190,6 +224,12 @@ namespace FlexTemplate.Services
             context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська кухня" });
             var category5 = new Category { Name = "Japanese cuisine" };
             context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська кухня" });
+            var category6 = new Category { Name = "French cuisine" };
+            context.Add(new CategoryAlias { Category = category6, Language = ukrainian, Text = "Француська кухня" });
+            var category7 = new Category { Name = "Armenian cuisine" };
+            context.Add(new CategoryAlias { Category = category7, Language = ukrainian, Text = "Вірменська кухня" });
+            var category8 = new Category { Name = "Chinese cuisine" };
+            context.Add(new CategoryAlias { Category = category8, Language = ukrainian, Text = "Китайська кухня" });
             context.AddRange(
                 new Place
                 {
@@ -208,7 +248,7 @@ namespace FlexTemplate.Services
                     },
                     Reviews = new List<PlaceReview>
                     {
-                         new PlaceReview {Text = "Спасибо за хороший вечер. Зашли случайно. Согрели, накормили. И цена приемлимая. Будем если в этом районе обязательно зайдем еще раз)", Star = 4, User = supervisor } 
+                         new PlaceReview {Text = "Спасибо за хороший вечер. Зашли случайно. Согрели, накормили. И цена приемлимая. Будем если в этом районе обязательно зайдем еще раз)", Star = 4, User = supervisor }
                     }
                 },
                 new Place
@@ -353,8 +393,8 @@ namespace FlexTemplate.Services
                 },
                 new Place
                 {
-                   Name = "KFC",
-                   Street = kievStreet1,
+                    Name = "KFC",
+                    Street = kievStreet1,
                     Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
                     Address = "23-A 3-й поверх",
                     Latitude = 48.918503,
@@ -368,12 +408,30 @@ namespace FlexTemplate.Services
                        {
                            Category = category4
                        }
-                      
+
                    },
-                   Aliases = new List<PlaceAlias>
+                    Aliases = new List<PlaceAlias>
                    {
                        new PlaceAlias {Language = ukrainian, Text = "КФс"}
-                   }
+                   },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                    }
                 },
                 new Place
                 {
@@ -396,6 +454,24 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Суші Я"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -419,6 +495,24 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Цаград"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -446,6 +540,24 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Будка бар"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -469,6 +581,24 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "МАФІЯ"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -488,6 +618,24 @@ namespace FlexTemplate.Services
                         {
                             Category = category3
                         }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -511,6 +659,24 @@ namespace FlexTemplate.Services
                     Aliases = new List<PlaceAlias>
                     {
                         new PlaceAlias {Language = ukrainian, Text = "Біф"}
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
                     }
                 },
                 new Place
@@ -530,6 +696,494 @@ namespace FlexTemplate.Services
                         {
                             Category = category1
                         }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                    }
+                },
+                new Place
+                {
+                    Name = "Nikas Restaurant",
+                    Street = harkovStreet4,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "2",
+                    Latitude = 49.992792,
+                    Longitude = 36.229767,
+                    Website = "contoso.com",
+                    Phone = "0670001114",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Настоящий ресторан в Харькове. Новый современный интерьер. Цены выше среднего. Официанты вышколены. Обслуживание супер. Стильно, дорого, вкусно. Есть деньги - советую, нет денег, тогда только бизнес-ланч около 150 грн."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Был в Харькове у родственников в ноябре, решили провести вечер в этом ресторане. Я там ни разу до этого не был, а они мне расхвалили место, заинтриговав. Порадовало, что заведение находится в самом центре."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "Обстановка замечательная: интерьер новый, музыка приятная, зал просторный. Цены, к слову, не заоблачные, а средние ресторанные. За такой сервис от меня 5 баллов ресторану! Всё очень понравилось, особенно еда и тёплый приём."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "В Харькове была во многих местах, всё как-то однообразно. В Никасе совсем другие ощущения. Была первый раз с мужем в этом ресторане на событии 'Weekend в Nikas' 03.12. Приехали на такси в 17 часов, дорога к нему не загруженная."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Замечательный ресторан в центре Харькова. Гостей встречает приятная, комфортная обстановка. Внутри очень чисто и красиво. Здесь вкусно готовят морепродукты, особенно мне понравился тунец. Цены не выше чем у других."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Гармата-Мигдаль",
+                    Street = harkovStreet5,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "31",
+                    Latitude = 49.997320,
+                    Longitude = 36.238342,
+                    Website = "contoso.com",
+                    Phone = "0577545722",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении "бомжа", простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Наша Дача",
+                    Street = harkovStreet6,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "4-А",
+                    Latitude = 50.050475,
+                    Longitude = 36.271476,
+                    Website = "contoso.com",
+                    Phone = "0577140989",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Мисливський двір",
+                    Street = harkovStreet7,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "85-А",
+                    Latitude = 50.023063,
+                    Longitude = 36.238607,
+                    Website = "contoso.com",
+                    Phone = "0987591986",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Зелений Папуга",
+                    Street = harkovStreet8,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "20",
+                    Latitude = 50.012689,
+                    Longitude = 36.235175,
+                    Website = "contoso.com",
+                    Phone = "0577021391",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Шарикоff",
+                    Street = harkovStreet9,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "12",
+                    Latitude = 49.989468,
+                    Longitude = 36.231402,
+                    Website = "contoso.com",
+                    Phone = "0577523344",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Osteria il Tartufo",
+                    Street = harkovStreet11,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "10",
+                    Latitude = 50.015797,
+                    Longitude = 36.233386,
+                    Website = "contoso.com",
+                    Phone = "0577020703",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Шато",
+                    Street = harkovStreet12,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "30",
+                    Latitude = 49.998054,
+                    Longitude = 36.231981,
+                    Website = "contoso.com",
+                    Phone = "0577050806",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "MAFIA",
+                    Street = harkovStreet13,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "48-Г",
+                    Latitude = 50.056752,
+                    Longitude = 36.204618,
+                    Website = "contoso.com",
+                    Phone = "0675464341",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
+                    }
+                },
+                new Place
+                {
+                    Name = "Абажур",
+                    Street = harkovStreet2,
+                    Description = "Опис закладу. Necessary up knowledge it tolerably. Unwilling departure education is be dashwoods.Easy mind life fact with see has bore ten.",
+                    Address = "19",
+                    Latitude = 49.997254,
+                    Longitude = 36.232988,
+                    Website = "contoso.com",
+                    Phone = "0577160022",
+                    Email = "contoso@contoso.com",
+                    PlaceCategories = new List<PlaceCategory>
+                    {
+                        new PlaceCategory
+                        {
+                            Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user6,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user7,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user8,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user9,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user10,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
+                        }
                     }
                 },
                 new Place
@@ -548,6 +1202,34 @@ namespace FlexTemplate.Services
                         new PlaceCategory
                         {
                             Category = category1
+                        }
+                    },
+                    Reviews = new List<PlaceReview>
+                    {
+                        new PlaceReview
+                        {
+                            User = user1,
+                            Text = "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
+                        },
+                        new PlaceReview
+                        {
+                            User = user2,
+                            Text = "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
+                        },
+                        new PlaceReview
+                        {
+                            User = user3,
+                            Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
+                        },
+                        new PlaceReview
+                        {
+                            User = user4,
+                            Text = "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
+                        },
+                        new PlaceReview
+                        {
+                            User = user5,
+                            Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
                     }
                 }
