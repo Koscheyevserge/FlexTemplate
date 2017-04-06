@@ -85,10 +85,20 @@ namespace FlexTemplate.Services
                     await userManager.AddToRoleAsync(supervisor, "Supervisor");
                 }
             }
-            await roleManager.CreateAsync(new IdentityRole
+            var guestAddResult = await roleManager.CreateAsync(new IdentityRole
             {
                 Name = "Guest"
             });
+            var guest = new User { UserName = "Guest", Name = "Олексій", Surname = "Мирний"};
+            if (guestAddResult.Succeeded)
+            {
+
+                var result = await userManager.CreateAsync(guest, "Guest");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(guest, "Guest");
+                }
+            }
             var ukraine = new Country
             {
                 Name = "Ukraine"

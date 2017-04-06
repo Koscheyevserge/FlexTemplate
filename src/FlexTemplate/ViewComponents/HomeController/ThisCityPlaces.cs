@@ -4,6 +4,8 @@ using FlexTemplate.Database;
 using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using FlexTemplate.Services;
 
 namespace FlexTemplate.ViewComponents.HomeController
 {
@@ -19,10 +21,7 @@ namespace FlexTemplate.ViewComponents.HomeController
         public IViewComponentResult Invoke(string template)
         {
             var ids = _context.Places.Take(8).Select(p => p.Id).ToList();
-            var localizableStringReplaceRegex = new Regex("dataId='\\d*'");
-            var strings = _context.Containers.Include(c => c.LocalizableStrings)
-                .FirstOrDefault(c => c.Name == GetType().Name)
-                .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => localizableStringReplaceRegex.Replace(ls.Text, $"dataId='{ls.Id}'"));
+            var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
             var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids, Strings = strings};
             return View(template, model);
         }

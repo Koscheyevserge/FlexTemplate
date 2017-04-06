@@ -13,6 +13,13 @@
                         <li><a href="@Url.Action("Index", "Home")">Головна</a></li>
                         <li><a href="@Url.Action("Places", "Home")">Ресторани</a></li>
                         <li><a href="@Url.Action("NewPlace", "Home")">Додати ресторан</a></li>
+                        <li>
+                            <a>Увійти(Тест)</a>
+                            <ul style="display: none">
+                                <li><a href="@Url.Action("LoginAsAdmin", "Home")">Як адміністратор</a></li>
+                                <li><a href="@Url.Action("LoginAsGuest", "Home")">Як користувач</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div><!--/.nav-collapse -->
                 <div class="pull-right">

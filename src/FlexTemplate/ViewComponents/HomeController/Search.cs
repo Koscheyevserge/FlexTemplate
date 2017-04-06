@@ -6,6 +6,8 @@ using FlexTemplate.Database;
 using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using FlexTemplate.Services;
 
 namespace FlexTemplate.ViewComponents.HomeController
 {
@@ -23,10 +25,7 @@ namespace FlexTemplate.ViewComponents.HomeController
             var categories = _context.Categories.ToList();
             var cities = _context.Cities.ToList();
             var photoPath = new List<string>{ "images/2.jpg"};
-            var localizableStringReplaceRegex = new Regex("dataId='\\d*'");
-            var strings = _context.Containers.Include(c => c.LocalizableStrings)
-                .FirstOrDefault(c => c.Name == GetType().Name)
-                .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => localizableStringReplaceRegex.Replace(ls.Text, $"dataId='{ls.Id}'"));
+            var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
             var model = new SearchViewModel { Categories = categories, Cities = cities, Images = photoPath, Strings = strings};
             return View(template, model);
         }

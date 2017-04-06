@@ -162,6 +162,20 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> LoginAsGuest()
+        {
+            var guest = context.Users.SingleOrDefault(u => u.UserName == "Guest");
+            await _signInManager.PasswordSignInAsync(guest, "Guest", true, false);
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> LoginAsAdmin()
+        {
+            var supervisor = context.Users.SingleOrDefault(u => u.UserName == "Supervisor");
+            await _signInManager.PasswordSignInAsync(supervisor, "Supervisor123", true, false);
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
