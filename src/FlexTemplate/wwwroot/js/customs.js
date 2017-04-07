@@ -439,9 +439,22 @@ function initSlider() {
   * Input download
   */
 
-  $('.c-this-place-header').on('click', '#file-submit', function() {
-    setTimeout(() => this.parentElement.remove(), 10000);
-  })
+  // $('.c-this-place-header').on('click', '#file-submit', function() {
+  //   setTimeout(() => this.parentElement.remove(), 10000);
+  // })
+  if( $('.dropzone').length > 0 ) {
+    $("#one-download").dropzone({
+        url: "upload",
+        addRemoveLinks: true,
+        maxFiles:1,
+        init: function() {
+          this.on("maxfilesexceeded", function(file) {
+            this.removeAllFiles();
+            this.addFile(file);
+          });
+        } 
+    });
+  }
 
 
   /*

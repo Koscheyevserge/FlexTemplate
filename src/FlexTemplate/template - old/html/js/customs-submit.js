@@ -41,8 +41,7 @@ jQuery(function($) {
 			$("#profile-picture").dropzone({
 					url: "upload",
 					addRemoveLinks: true
-			});
-			
+
 			$(".food-menu-image").dropzone({
 					url: "upload",
 					maxFiles: 1,
