@@ -1,7 +1,7 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.HomePlacesViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
-    <form>
+    <form asp-action="Places">
         <!-- start hero-header -->
         <div class="hero hero-sm" style="background-image:url('../../images/hero-header/02.jpg');">
             <div class="container">
@@ -9,7 +9,7 @@
                 <div class="home-search-form">
 
                     <div class="form-group location-form">
-                        <input type="text" class="form-control" placeholder="@Model.Input">
+                        <input name="input" type="text" class="form-control" placeholder="@Model.Input">
                     </div>
 
                     <button class="btn btn-primary btn-form">Find a Table</button>
