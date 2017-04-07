@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using FlexTemplate.Database;
 using FlexTemplate.ViewModels.HomeController;
@@ -18,11 +19,12 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(string template)
+        public IViewComponentResult Invoke(string template, IEnumerable<int> loadedPlacesIds)
         {
-            var ids = _context.Places.Take(8).Select(p => p.Id).ToList();
+            var ids = _context.Places.Where(p => !loadedPlacesIds.Contains(p.Id)).Select(p => p.Id).Except(loadedPlacesIds == null ? new int[] {} : loadedPlacesIds).Take(8).ToList();
+            if (loadedPlacesIds != null) ids = ids.Concat(loadedPlacesIds).ToList();
             var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
-            var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids, Strings = strings};
+            var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids.ToList(), Strings = strings};
             return View(template, model);
         }
     }

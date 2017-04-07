@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 
 namespace FlexTemplate.Controllers
@@ -44,6 +45,13 @@ namespace FlexTemplate.Controllers
                 Containers = containers
             };
             return View(model);
+        }
+
+        [Route("api/loadmoreplaces")]
+        [HttpPost]
+        public IActionResult LoadMorePlaces([FromBody]LoadMorePlacesViewModel data)
+        {
+            return ViewComponent("ThisCityPlaces", new { loadedPlacesIds = data.LoadedPlacesIds });
         }
 
         public IActionResult Error()

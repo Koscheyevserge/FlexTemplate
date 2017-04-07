@@ -1352,7 +1352,7 @@ namespace FlexTemplate.Services
                         {
                             new ContainerLocalizableString {Language = ukrainian, Text = @"<span dataId='0' contenteditable='true'>Ресторани у твоєму місті</span>", Tag = "TitleLabelCaption"},
                             new ContainerLocalizableString {Language = ukrainian, Text = @"<p dataId='0' contenteditable='true'>Найкращі ресторани міста на будь-який смак</p>", Tag = "SubtitleLabelCaption"},
-                            new ContainerLocalizableString {Language = ukrainian, Text = @"<a href='#' dataId='0' class='btn btn-primary' contenteditable='true'>Більше ресторанів</a>", Tag = "MorePlacesButtonCaption"}
+                            new ContainerLocalizableString {Language = ukrainian, Text = @"<span id='loadmoreplaces_btn' dataId='0' class='btn btn-primary' contenteditable='true'>Більше ресторанів</span>", Tag = "MorePlacesButtonCaption"}
                         }
                     },
                     new Container

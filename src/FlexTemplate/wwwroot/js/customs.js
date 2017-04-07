@@ -434,6 +434,28 @@ function initSlider() {
     });
   });
 
+  const loadmoreplaces = '/api/loadmoreplaces/';
+
+  $("body").on('click', "#loadmoreplaces_btn", function () {    
+      let loadedPlaces = [];
+      var elements = $(".restaurant-grid-item");
+      for (let i = 0; i < elements.length; i++) {
+          loadedPlaces.push($(elements[i]).attr("dataid"));
+      }
+      $.ajax({
+          url: URL_DOMAIN + loadmoreplaces,
+          datatype: 'json',
+          type: "post",
+          contentType: "application/json",
+          data: JSON.stringify({
+               loadedPlacesIds: loadedPlaces
+          }),
+          success: function(dom) {
+              $(".c-this-city-places").replaceWith(dom);
+          }
+      });
+  });
+
 
   /*
   * Input download
@@ -503,3 +525,39 @@ function initSlider() {
   };
 }
 
+
+/*
+var view =
+{
+    type: "Container",
+    id: "root_container"
+    items:
+        [
+            {
+                type: "Label",
+                caption: {bindTo: "mainLabelCaption"}
+            },
+            {
+                type: "Button",
+                click: {bindTo:"mainButtonClick"},
+                caption: "OK"
+            }
+        ]
+}
+var viewModel =
+{
+    values: {
+         mainLabelCaption: "Hello World!"
+    },
+    methods: {
+        mainButtonClick: function(e) {
+            return this.get("mainLabelCaption");
+        } 
+    }
+}
+var constructor =
+{
+    init: function() {view.bind(viewModel)}
+}
+return constructor;
+*/

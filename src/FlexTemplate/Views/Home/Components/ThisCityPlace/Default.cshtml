@@ -3,7 +3,7 @@
 @if (Model != null)
 {    
     <div class="GridLex-col-3_sm-4_xs-6_xss-12">
-        <div class="restaurant-grid-item">
+        <div dataId="@Model.PlaceId" class="restaurant-grid-item">
             <a href="@Url.Action("Place", "Home", new {id = Model.PlaceId})">
                 <div class="image">
                     <img src="@Model.PhotoPath" alt="Image" />
