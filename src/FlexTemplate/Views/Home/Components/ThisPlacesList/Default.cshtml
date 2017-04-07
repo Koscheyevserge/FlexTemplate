@@ -57,7 +57,7 @@
 
                     <div class="GridLex-col-3_sm-3_xss-12">
                         <div class="image">
-                            <img src="~/Resources/Places/@place.Id/head.jpg" alt="Image" />
+                            <img src="Resources/Places/@place.Id/head.jpg" alt="Image" />
                         </div>
                     </div>
 
@@ -68,7 +68,7 @@
                             <div class="GridLex-col-9_sm-12 content-wrapper">
 
                                 <div class="content">
-                                    <h5><a href="#">@place.Name</a></h5>
+                                    <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
                                     <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
                                     <p class="short-info">@place.Description.Substring(0, 100)...</p>
                                     <p class="text-primary offer">-30% off the "à la carte" menu! * </p>

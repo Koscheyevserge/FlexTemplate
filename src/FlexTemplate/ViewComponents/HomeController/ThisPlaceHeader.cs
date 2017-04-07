@@ -20,7 +20,7 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(Place item)
         {
-            return View(new ThisPlaceHeaderViewModel { HeadPhoto = $"Resources/Places/{item.Id}/head.jpg", Place = item , Stars = item.Reviews.Any() ? Math.Ceiling(item.Reviews.Where(p => p.Star > 0).Average(p => p.Star)) : 0 });
+            return View(new ThisPlaceHeaderViewModel { HeadPhoto = $"Resources/Places/{item.Id}/head.jpg", Place = item , Stars = item.Reviews.Any(p => p.Star > 0) ? Math.Ceiling(item.Reviews.Where(p => p.Star > 0).Average(p => p.Star)) : 0 });
         }
     }
 }
