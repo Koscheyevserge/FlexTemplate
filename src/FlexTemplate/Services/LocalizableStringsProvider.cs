@@ -18,7 +18,7 @@ namespace FlexTemplate.Services
             return context.Containers.Include(c => c.LocalizableStrings)
                 .FirstOrDefault(c => c.Name == containerName)?
                 .LocalizableStrings.ToDictionary(ls => ls.Tag, ls => 
-                isEditableRegex.Replace(localizableStringReplaceRegex.Replace(ls.Text, $"dataId='{ls.Id}'"), $"contenteditable='{isAdmin}'"));
+                isEditableRegex.Replace(localizableStringReplaceRegex.Replace(ls.Text, isAdmin ? $"dataId=\"{ls.Id}\"" : ""), isAdmin ? "contenteditable=\"true\"" : ""));
         }
     }
 }

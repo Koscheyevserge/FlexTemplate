@@ -26,7 +26,7 @@
         @foreach (Category category in Model.Categories)
         {
             <div class="checkbox-block font-icon-checkbox">
-                <input id="filter_categories-@category.Id" name="[@category.Id].categories" type="checkbox" class="checkbox" checked="@Model.SelectedCategories.Contains(category.Id)" />
+                <input id="filter_categories-@category.Id" name="categories" value="@category.Id" type="checkbox" class="checkbox" checked="@Model.SelectedCategories.Contains(category.Id)" />
                 <label class="" for="filter_categories-@category.Id">@category.Name</label>
             </div>
         }

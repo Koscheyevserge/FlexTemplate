@@ -1,71 +1,56 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.HomePlacesViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
+    <form>
+        <!-- start hero-header -->
+        <div class="hero hero-sm" style="background-image:url('../../images/hero-header/02.jpg');">
+            <div class="container">
 
-    <!-- start hero-header -->
-    <div class="hero hero-sm" style="background-image:url('images/hero-header/02.jpg');">
-        <div class="container">
-
-            <div class="home-search-form">
-
-                <form>
+                <div class="home-search-form">
 
                     <div class="form-group location-form">
                         <input type="text" class="form-control" placeholder="@Model.Input">
                     </div>
 
-                    <div class="form-group">
-                        <select class="custom-select" id="cuisine-type">
-                            <option value="0">Cuisine Type</option>
-                            <option value="1">African</option>
-                            <option value="2">American‎</option>
-                            <option value="3">Italian</option>
-                            <option value="4">French</option>
-                            <option value="5">Indochinese‎</option>
-                            <option value="6">Halal</option>
-                        </select>
-                    </div>
-
                     <button class="btn btn-primary btn-form">Find a Table</button>
-
-                </form>
-
-            </div>
-
-        </div>
-
-    </div>
-    <!-- end hero-header -->
-
-    <div class="container pt-10 pb-30">
-
-        <div class="breadcrumb-wrapper">
-            <ol class="breadcrumb">
-                <li><a href="@Url.Action("Index", "Home")">Home</a></li>
-                <li><a href="@Url.Action("Places", "Home")" class="active">Places</a></li>
-            </ol>
-        </div>
-
-        <div class="row mb-10">
-
-            <div class="col-md-8">
-
-                <div class="section-title-02">
-
-                    <h3><span>Ресторани<small class="ml-10">/ 253 ресторанів</small></span></h3>
 
                 </div>
 
             </div>
 
         </div>
+        <!-- end hero-header -->
 
-        <div class="row">
-            @await Component.InvokeAsync("ThisPlacesFilters", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
-            @await Component.InvokeAsync("ThisPlacesList", new {cities = Model.Cities, input = Model.Input, categories = Model.Categories})
+        <div class="container pt-10 pb-30">
+
+            <div class="breadcrumb-wrapper">
+                <ol class="breadcrumb">
+                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li><a href="@Url.Action("Places", "Home")" class="active">Places</a></li>
+                </ol>
+            </div>
+
+            <div class="row mb-10">
+
+                <div class="col-md-8">
+
+                    <div class="section-title-02">
+
+                        <h3><span>Ресторани<small class="ml-10">/ 253 ресторанів</small></span></h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                @await Component.InvokeAsync("ThisPlacesFilters", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
+
+                @await Component.InvokeAsync("ThisPlacesList", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
+            </div>
+
         </div>
-
-    </div>
-
+    </form>
 </div>
 <!-- end Main Wrapper -->

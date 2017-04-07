@@ -58,17 +58,17 @@ namespace FlexTemplate.Services
             });
             context.Add(new Language
             {
-                Name = "German",
+                Name = "Deutch",
                 ShortName = "GE"
             });
             context.Add(new Language
             {
-                Name = "French",
+                Name = "Francais",
                 ShortName = "FR"
             });
             context.Add(new Language
             {
-                Name = "Italian",
+                Name = "Italiano",
                 ShortName = "IT"
             });
             var supervisorAddResult = await roleManager.CreateAsync(new IdentityRole
@@ -101,7 +101,7 @@ namespace FlexTemplate.Services
             }
             var ukraine = new Country
             {
-                Name = "Ukraine"
+                Name = "Україна"
             };
             context.Add(new CountryAlias
             {
@@ -111,7 +111,7 @@ namespace FlexTemplate.Services
             });
             var kiev = new City
             {
-                Name = "Kiev",
+                Name = "Київ",
                 Country = ukraine
             };
             context.Add(new CityAlias
@@ -122,7 +122,7 @@ namespace FlexTemplate.Services
             });
             var lviv = new City
             {
-                Name = "Lviv",
+                Name = "Львів",
                 Country = ukraine
             };
             context.Add(new CityAlias
@@ -134,7 +134,7 @@ namespace FlexTemplate.Services
            
             var harkov = new City
             {
-                Name = "Harkov",
+                Name = "Харків",
                 Country = ukraine
             };
             context.Add(new CityAlias
@@ -146,7 +146,7 @@ namespace FlexTemplate.Services
 
             var odessa = new City
             {
-                Name = "Odessa",
+                Name = "Одеса",
                 Country = ukraine
             };
             context.Add(new CityAlias
@@ -158,7 +158,7 @@ namespace FlexTemplate.Services
 
             var dnepr = new City
             {
-                Name = "Dnepr",
+                Name = "Дніпро",
                 Country = ukraine
             };
             context.Add(new CityAlias
@@ -180,65 +180,65 @@ namespace FlexTemplate.Services
             var user10 = new User { Name = "Владимир", Surname = "Жолудь" };
 
 
-            var kievStreet1 = new Street { Name = "Obolonsky avenue", City = kiev };
+            var kievStreet1 = new Street { Name = "Оболонський проспект", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet1, Language = ukrainian, Text = "Оболонський проспект" });
-            var kievStreet2 = new Street { Name = "Khreschatyk avenue", City = kiev };
+            var kievStreet2 = new Street { Name = "Вулиця Хрещатик", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet2, Language = ukrainian, Text = "Вулиця Хрещатик" });
-            var kievStreet3 = new Street { Name = "Antonovycha street", City = kiev };
+            var kievStreet3 = new Street { Name = "Вулиця Антоновича", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet3, Language = ukrainian, Text = "Вулиця Антоновича" });
-            var kievStreet4 = new Street { Name = "Shota Rustaveli street", City = kiev };
+            var kievStreet4 = new Street { Name = "Вулиця Шота Руставелі", City = kiev };
             context.Add(new StreetAlias { Street = kievStreet4, Language = ukrainian, Text = "Вулиця Шота Руставелі" });
-            var lvivStreet1 = new Street { Name = "Rynok square", City = lviv };
+            var lvivStreet1 = new Street { Name = "Площа Ринок", City = lviv };
             context.Add(new StreetAlias { Street = lvivStreet1, Language = ukrainian, Text = "Площа Ринок" });
-            var lvivStreet2 = new Street { Name = "Katedralniy square", City = lviv };
+            var lvivStreet2 = new Street { Name = "Катедральна площа", City = lviv };
             context.Add(new StreetAlias { Street = lvivStreet2, Language = ukrainian, Text = "Катедральна площа" });
-            var lvivStreet3 = new Street { Name = "Operniy square", City = lviv };
+            var lvivStreet3 = new Street { Name = "Оперна площа", City = lviv };
             context.Add(new StreetAlias { Street = lvivStreet3, Language = ukrainian, Text = "Оперна площа" });
 
-            var harkovStreet1 = new Street { Name = "Pavlova street", City = harkov };
+            var harkovStreet1 = new Street { Name = "Вулиця Павлова", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet1, Language = ukrainian, Text = "Вулиця Павлова" });
-            var harkovStreet2 = new Street { Name = "Sumskaya street", City = harkov };
+            var harkovStreet2 = new Street { Name = "Вулиця Сумська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet2, Language = ukrainian, Text = "Вулиця Сумська" });
-            var harkovStreet3 = new Street { Name = "Gogolya street", City = harkov };
+            var harkovStreet3 = new Street { Name = "Вулиця Гоголя", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet3, Language = ukrainian, Text = "Вулиця Гоголя" });
-            var harkovStreet4 = new Street { Name = "Universitetska street", City = harkov };
+            var harkovStreet4 = new Street { Name = "Вулиця Університетська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet4, Language = ukrainian, Text = "Вулиця Університетська" });
-            var harkovStreet5 = new Street { Name = "Pushkinska street", City = harkov };
+            var harkovStreet5 = new Street { Name = "Вулиця Пушкінська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet5, Language = ukrainian, Text = "Вулиця Пушкінська" });
-            var harkovStreet6 = new Street { Name = "Batumska street", City = harkov };
+            var harkovStreet6 = new Street { Name = "Вулиця Батумська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet6, Language = ukrainian, Text = "Вулиця Батумська" });
-            var harkovStreet7 = new Street { Name = "Novgorodska street", City = harkov };
+            var harkovStreet7 = new Street { Name = "Вулиця Новгородська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet7, Language = ukrainian, Text = "Вулиця Новгородська" });
-            var harkovStreet8 = new Street { Name = "Kulturi street", City = harkov };
+            var harkovStreet8 = new Street { Name = "Вулиця Культури", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet8, Language = ukrainian, Text = "Вулиця Культури" });
-            var harkovStreet9 = new Street { Name = "Kvitki-Osnovyanenka street", City = harkov };
+            var harkovStreet9 = new Street { Name = "Вулиця Квітки-Основ'яненка", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet9, Language = ukrainian, Text = "Вулиця Квітки-Основ'яненка" });
-            var harkovStreet10 = new Street { Name = "Gagarina street", City = harkov };
+            var harkovStreet10 = new Street { Name = "Вулиця Гагаріна", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet10, Language = ukrainian, Text = "Вулиця Гагаріна" });
-            var harkovStreet11 = new Street { Name = "Shatilivska street", City = harkov };
+            var harkovStreet11 = new Street { Name = "Вулиця Шатилівська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet11, Language = ukrainian, Text = "Вулиця Шатилівська" });
-            var harkovStreet12 = new Street { Name = "Rimarska street", City = harkov };
+            var harkovStreet12 = new Street { Name = "Вулиця Римарська", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet12, Language = ukrainian, Text = "Вулиця Римарська" });
-            var harkovStreet13 = new Street { Name = "Lyudviga Svobody street", City = harkov };
+            var harkovStreet13 = new Street { Name = "Вулиця Людвига Свободи", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet13, Language = ukrainian, Text = "Вулиця Людвига Свободи" });
 
 
 
-            var category1 = new Category { Name = "Ukrainian cuisine" };
+            var category1 = new Category { Name = "Українська кухня" };
             context.Add(new CategoryAlias { Category = category1, Language = ukrainian, Text = "Українська кухня" });
-            var category2 = new Category { Name = "Italian cuisine" };
+            var category2 = new Category { Name = "Італійська кухня" };
             context.Add(new CategoryAlias { Category = category2, Language = ukrainian, Text = "Італійська кухня" });
-            var category3 = new Category { Name = "Georgian cuisine" };
+            var category3 = new Category { Name = "Грузинська кухня" };
             context.Add(new CategoryAlias { Category = category3, Language = ukrainian, Text = "Грузинська кухня" });
-            var category4 = new Category { Name = "American cuisine" };
+            var category4 = new Category { Name = "Американська кухня" };
             context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська кухня" });
-            var category5 = new Category { Name = "Japanese cuisine" };
+            var category5 = new Category { Name = "Японська кухня" };
             context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська кухня" });
-            var category6 = new Category { Name = "French cuisine" };
+            var category6 = new Category { Name = "Француська кухня" };
             context.Add(new CategoryAlias { Category = category6, Language = ukrainian, Text = "Француська кухня" });
-            var category7 = new Category { Name = "Armenian cuisine" };
+            var category7 = new Category { Name = "Вірменська кухня" };
             context.Add(new CategoryAlias { Category = category7, Language = ukrainian, Text = "Вірменська кухня" });
-            var category8 = new Category { Name = "Chinese cuisine" };
+            var category8 = new Category { Name = "Китайська кухня" };
             context.Add(new CategoryAlias { Category = category8, Language = ukrainian, Text = "Китайська кухня" });
             context.AddRange(
                 new Place

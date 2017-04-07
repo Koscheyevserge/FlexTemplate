@@ -2,7 +2,7 @@
 @if (Model != null)
 {
 <!-- start hero-header -->
-<div class="hero text-center search-margin-top" style="background-image: url('@Model.Images.First()'); margin-top:-25px; z-index:1000;">
+<div class="hero text-center search-margin-top" style="background-image: url('../../@Model.Images.First()'); margin-top:-25px; z-index:1000;">
     <div class="container">
 
         <div class="row">
@@ -14,15 +14,16 @@
 
                 <div class="home-search-form home-search-form-center">
 
-                    <form>
+                    <form asp-action="Places">
 
                         <div class="form-group location-form">
-                            <input type="text" class="form-control" placeholder="Where would you like to eat?">
+                            <input name="input" type="text" class="form-control" placeholder="Where would you like to eat?">
                         </div>
 
                         <div class="form-group">
-                            <select class="custom-select" id="category-type">
-                                @foreach(var category in Model.Categories)
+                            <select name="categories" class="custom-select" id="category-type">
+                                <option selected="true" disabled="disabled">Всі</option>
+                                @foreach (var category in Model.Categories)
                                 {
                                     <option value="@category.Id">@category.Name</option>
                                 }
@@ -30,7 +31,8 @@
                         </div>
 
                         <div class="form-group">
-                            <select class="custom-select" id="city-type">
+                            <select name="cities" class="custom-select" id="city-type">
+                                <option selected="true" disabled="disabled">Всі</option>
                                 @foreach (var city in Model.Cities)
                                 {
                                     <option value="@city.Id">@city.Name</option>
