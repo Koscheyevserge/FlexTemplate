@@ -418,7 +418,7 @@ function initSlider() {
   const URL_DOMAIN = window.location.origin;
   const localizableStrings = '/api/localizablestrings/update/';
 
-  $('body').on('click', '.user-edit-button', function(event) {
+  $('body').on('mousedown', '.user-edit-button', function(event) {
     let dom = $(this).parent();
 
     dom.find('.text-edit').contents().unwrap();
