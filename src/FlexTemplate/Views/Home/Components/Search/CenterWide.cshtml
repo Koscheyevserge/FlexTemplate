@@ -3,7 +3,7 @@
 {
 <!-- start hero-header -->
    
-        <div class="hero text-center alt-height search-margin-top" style="background-image: url('@Model.Images.First()'); margin-top:-25px; z-index:100;">
+        <div class="hero text-center alt-height search-margin-top" style="background-image: url('../../@Model.Images.First()'); margin-top:-25px; z-index:100;">
             <div class="container">
 
                 <div class="row">
@@ -15,14 +15,15 @@
 
                         <div class="home-search-form home-search-form-center">
 
-                            <form>
+                            <form asp-action="Places" name="FormPalces">
 
                                 <div class="form-group location-form">
-                                    <input type="text" class="form-control" placeholder="Where would you like to eat?">
+                                    <input type="input" class="form-control" placeholder="Where would you like to eat?">
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="custom-select" id="category-type">
+                                    <select name="categories" class="custom-select" id="category-type">
+                                        <option selected="true" disabled="disabled">Всі кухні</option>
                                         @foreach (var category in Model.Categories)
                                         {
                                             <option value="@category.Id">@category.Name</option>
@@ -31,8 +32,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="custom-select" id="city-type">
-                                        @foreach (var city in Model.Cities)
+                                    <select name="cities" class="custom-select" id="city-type">
+                                        <option selected="true" disabled="disabled">Всі міста</option>
+                                         @foreach (var city in Model.Cities)
                                         {
                                             <option value="@city.Id">@city.Name</option>
                                         }

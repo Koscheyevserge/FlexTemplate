@@ -10,7 +10,7 @@
         <div id="player"></div>
     </div>
 
-    <div class="hero-video-bg-inner">
+    <div class="hero-video-bg-inner" style="background-image: url('../../@Model.Images.First()'); margin-top:-25px; z-index:1000;">
 
         <div class="container">
 
@@ -19,14 +19,15 @@
 
             <div class="home-search-form">
 
-                <form>
+                <form asp-action="Places" name="FormPalces">
 
                     <div class="form-group location-form">
-                        <input type="text" class="form-control" placeholder="Where would you like to eat?">
+                        <input type="input" class="form-control" placeholder="Where would you like to eat?">
                     </div>
 
                     <div class="form-group">
-                        <select class="custom-select" id="category-type">
+                        <select name="categories" class="custom-select" id="category-type">
+                            <option selected="true" disabled="disabled">Всі кухні</option>
                             @foreach (var category in Model.Categories)
                             {
                                 <option value="@category.Id">@category.Name</option>
@@ -35,7 +36,8 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="custom-select" id="city-type">
+                        <select name="cities" class="custom-select" id="city-type">
+                            <option selected="true" disabled="disabled">Всі міста</option>
                             @foreach (var city in Model.Cities)
                             {
                                 <option value="@city.Id">@city.Name</option>

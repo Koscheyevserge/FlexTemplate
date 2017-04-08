@@ -14,7 +14,7 @@
 
                 <div class="home-search-form home-search-form-center">
 
-                    <form asp-action="Places">
+                    <form asp-action="Places" name="FormPalces">
 
                         <div class="form-group location-form">
                             <input name="input" type="text" class="form-control" placeholder="Where would you like to eat?">
@@ -22,7 +22,7 @@
 
                         <div class="form-group">
                             <select name="categories" class="custom-select" id="category-type">
-                                <option selected="true" disabled="disabled">Всі</option>
+                                <option selected="true" disabled="disabled">Всі кухні</option>
                                 @foreach (var category in Model.Categories)
                                 {
                                     <option value="@category.Id">@category.Name</option>
@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <select name="cities" class="custom-select" id="city-type">
-                                <option selected="true" disabled="disabled">Всі</option>
+                                <option selected="true" disabled="disabled">Всі міста</option>
                                 @foreach (var city in Model.Cities)
                                 {
                                     <option value="@city.Id">@city.Name</option>
