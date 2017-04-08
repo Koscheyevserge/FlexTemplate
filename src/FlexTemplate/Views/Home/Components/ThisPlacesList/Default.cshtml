@@ -10,25 +10,25 @@
 
             <div class="col-sm-10">
 
-                <div class="text-holder bg-primary">Sort By:</div>
+                <div class="text-holder bg-primary">Сортувати за:</div>
                 <ul class="sort-by">
                     <li>
-                        <button class="btn active">Offer <i class="ti-angle-up"></i></button>
+                        <button class="btn active">Пропозиція <i class="ti-angle-up"></i></button>
                     </li>
                     <li>
-                        <button class="btn">Name</button>
+                        <button class="btn">Iм'я</button>
                     </li>
                     <li>
-                        <button class="btn">Rating</button>
+                        <button class="btn">Рейтинг</button>
                     </li>
                     <li>
-                        <button class="btn">Price</button>
+                        <button class="btn">Цiна</button>
                     </li>
                     <li>
-                        <button class="btn">Cuisine</button>
+                        <button class="btn">Кухня</button>
                     </li>
                     <li>
-                        <button class="btn">Location</button>
+                        <button class="btn">Місцезнаходження</button>
                     </li>
                 </ul>
 
@@ -70,9 +70,9 @@
                                     <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
                                     <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
                                     <p class="short-info">@place.Description?.Substring(0, place.Description.Length > 100 ? 100 : place.Description.Length)...</p>
-                                    <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
+                                    <p class="text-primary offer">-30% від меню «а ля карт»! * </p>
                                     <p class="cuisine">
-                                        Cuisine:
+                                        Кухня:
                                         @foreach (Category category in place.PlaceCategories.Select(pc => pc?.Category))
                                         {
                                             <span>@category.Name</span>
@@ -89,12 +89,12 @@
                                         <div class="rating-item">
                                             <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="4" />
                                         </div>
-                                        <span class="texting"> (@place.Reviews.Count reviews)</span>
+                                        <span class="texting"> (@place.Reviews.Count відгуків)</span>
                                     </div>
                                     <div class="right-bottom">
-                                        <div class="price">Average price: <span>$65 - $78</span></div>
+                                        <div class="price">Середня ціна: <span>$65 - $78</span></div>
                                         <div class="clear"></div>
-                                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Details</a>
+                                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Деталі</a>
                                     </div>
                                 </div>
 
@@ -114,7 +114,7 @@
 
         <div class="GridLex-grid-middle GridLex-grid-noGutter">
             <div class="GridLex-col-6_sm-12_xs-12">
-                <div class="text-right text-center-sm mb-10-sm">Showing 1 to 24 from 253 restaurants</div>
+                <div class="text-right text-center-sm mb-10-sm">Показано з 1 по 24 з 253 ресторанів</div>
             </div>
             <div class="GridLex-col-6_sm-12_xs-12">
                 <nav>
