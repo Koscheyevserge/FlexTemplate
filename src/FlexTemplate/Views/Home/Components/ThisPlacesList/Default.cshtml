@@ -1,6 +1,5 @@
 ﻿@using System.Linq
 @using FlexTemplate.Entities
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
 <div class="col-sm-8 col-md-9">
 
@@ -10,13 +9,13 @@
 
             <div class="col-sm-10">
 
-                <div class="text-holder bg-primary">Сортувати за:</div>
+                <div class="text-holder bg-primary">Порядок:</div>
                 <ul class="sort-by">
                     <li>
-                        <button class="btn active">Пропозиція <i class="ti-angle-up"></i></button>
+                        <button class="btn active">Пропозиція<i class="ti-angle-up"></i></button>
                     </li>
                     <li>
-                        <button class="btn">Iм'я</button>
+                        <button class="btn">Назва</button>
                     </li>
                     <li>
                         <button class="btn">Рейтинг</button>
@@ -28,7 +27,7 @@
                         <button class="btn">Кухня</button>
                     </li>
                     <li>
-                        <button class="btn">Місцезнаходження</button>
+                        <button class="btn">Місто</button>
                     </li>
                 </ul>
 
@@ -92,7 +91,7 @@
                                         <span class="texting"> (@place.Reviews.Count відгуків)</span>
                                     </div>
                                     <div class="right-bottom">
-                                        <div class="price">Середня ціна: <span>$65 - $78</span></div>
+                                        <div class="price">Середній чек: <span>65 - 78 грн</span></div>
                                         <div class="clear"></div>
                                         <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Деталі</a>
                                     </div>
