@@ -1,5 +1,4 @@
-﻿@using System
-@using System.Linq
+﻿@using System.Linq
 @using FlexTemplate.Entities
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
@@ -57,7 +56,7 @@
 
                     <div class="GridLex-col-3_sm-3_xss-12">
                         <div class="image">
-                            <img src="Resources/Places/@place.Id/head.jpg" alt="Image" />
+                            <img src="../../Resources/Places/@place.Id/head.jpg" alt="Image" />
                         </div>
                     </div>
 
@@ -70,7 +69,7 @@
                                 <div class="content">
                                     <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
                                     <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
-                                    <p class="short-info">@place.Description.Substring(0, 100)...</p>
+                                    <p class="short-info">@place.Description?.Substring(0, place.Description.Length > 100 ? 100 : place.Description.Length)...</p>
                                     <p class="text-primary offer">-30% off the "à la carte" menu! * </p>
                                     <p class="cuisine">
                                         Cuisine:
