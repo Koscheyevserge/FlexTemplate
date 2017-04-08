@@ -8,14 +8,14 @@
         
         @foreach (var image in Model.Images)
         {
-            <div class="item active img-bg" style="background-image:url('@image');"> </div>
+            <div class="item active img-bg" style="background-image:url('../../@image');"> </div>
         }
 
         <div class="kb_overlay"></div>
 
     </div>
 
-    <div class="hero-kb_elastic-inner search-margin-top" style="background-image: url('../../@Model.Images.First()'); margin-top:-25px; z-index:1000;">
+    <div class="hero-kb_elastic-inner search-margin-top">
 
         <div class="container">
 

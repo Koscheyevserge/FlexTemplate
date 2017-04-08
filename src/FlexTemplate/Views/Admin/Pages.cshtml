@@ -10,7 +10,7 @@
 			<div class="container-components">
 				<h4>Порядок компонентів</h4>
 				<ul id="draggablePanelList" class="component-list list-unstyled">
-				    @foreach (PageContainerTemplate component in page.PageContainerTemplates)
+				    @foreach (PageContainerTemplate component in page.PageContainerTemplates.OrderBy(pct => pct.Position))
                     {
                         <li class="alert alert-info component clearfix">
                             <select size="1" name="component[]" class="custom-select">
