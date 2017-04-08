@@ -72,11 +72,8 @@ namespace FlexTemplate.Controllers
         {
             if (id == 0)
             {
-                id = CookieProvider.GetCurrentPlace(HttpContext);
-                UploadPlaceHead(id, HttpContext.Request.Form.Files[0]);
-                return null;
+                return NotFound();
             }
-            CookieProvider.AppendCurrentPlace(HttpContext, id);
             ViewData["Title"] = "Place";
             ViewData["BodyClasses"] = "full-width-container";
             var model = new HomePlaceViewModel
@@ -127,8 +124,38 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "NewPlace";
             ViewData["BodyClasses"] = "full-width-container";
-            var newPlaceId = 0;
-            return RedirectToAction("Place", new {id = newPlaceId});
+            var possibleCities =
+                context.Cities.Where(
+                    c => c.Name.Contains(item.City) || c.Aliases.Any(a => a.Text.Contains(item.City)));
+            var chosenCity = possibleCities.Any()
+                ? possibleCities.FirstOrDefault()
+                : new City { Name = item.City };
+            var possibleStreets =
+                context.Streets.Where(
+                    s => s.Name.Contains(item.Street) || s.Aliases.Any(a => a.Text.Contains(item.Street)));
+            var chosenStreet = possibleStreets.Any()
+                ? possibleStreets.FirstOrDefault()
+                : new Street {Name = item.Street, City = chosenCity };
+            var placeCategories = context.Categories.Where(c => item.Categories.Contains(c.Id)).Select(c => new PlaceCategory { Category = c }).ToList();
+            var newPlace = new Place
+            {
+                Address = item.Address,
+                Description = item.Description,
+                Name = item.Name,
+                Email = item.Email,
+                Website = item.Website,
+                Phone = item.Phone,
+                Latitude = item.Latitude,
+                Longitude = item.Longitude,
+                Street = chosenStreet,
+                PlaceCategories = placeCategories
+            };
+            context.Places.Add(newPlace);
+            context.SaveChanges();
+            var sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
+            var destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
+            Directory.Move(sourceDirectory, destinationDirectory);
+            return RedirectToAction("Place", new {id = newPlace.Id});
         }
 
         public IActionResult ChangeUserLanguage(string redirect, int languageId)
@@ -193,10 +220,13 @@ namespace FlexTemplate.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public void UploadPlaceFiles(int id, IFormFile file)
+        [HttpPost]
+        [Route("/api/upload/newplace/{fileDescriptor}")]
+        public void UploadNewPlacePhoto(string fileDescriptor)
         {
-            var filename = Guid.NewGuid().ToString() + ".jpg";
-            var path = $@"wwwroot\Resources\Places\{id}\";
+            var file = HttpContext.Request.Form.Files[0];
+            var filename = Guid.NewGuid() + ".jpg";
+            var path = $@"wwwroot\Resources\Places\{fileDescriptor}\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             if (file.Length > 0)
@@ -208,8 +238,11 @@ namespace FlexTemplate.Controllers
             }
         }
 
-        public void UploadPlaceHead(int id, IFormFile file)
+        [HttpPost]
+        [Route("/api/upload/head/{id}")]
+        public void UploadHeadPhoto(string id)
         {
+            var file = HttpContext.Request.Form.Files[0];
             var path = $@"wwwroot\Resources\Places\{id}\";
             var filename = "head.jpg";
             if (!Directory.Exists(path))

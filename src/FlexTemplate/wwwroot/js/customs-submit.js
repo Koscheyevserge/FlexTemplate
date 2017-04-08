@@ -31,12 +31,9 @@ jQuery(function($) {
 	
 	//  Dropzone -----------------------------------------------------------------------------------------------------------
 
-	if( $('.dropzone').length > 0 ) {
+	if ($('.dropzone').length > 0) {
+	    let fileDescriptor = $("#file_descriptor").val();
 			Dropzone.autoDiscover = false;
-			$("#file-submit").dropzone({
-					url: "upload",
-					addRemoveLinks: true
-			});
 
 			$("#profile-picture").dropzone({
 					url: "upload",
@@ -48,6 +45,20 @@ jQuery(function($) {
 					maxFiles: 1,
 					addRemoveLinks: true
 			});
+			$("#new-place").dropzone({
+			    url: "/api/upload/newplace/" + fileDescriptor
+			});
+	        $("#head-update").dropzone({
+	            url: "/api/upload/head/" + fileDescriptor,
+	            addRemoveLinks: true,
+	            maxFiles:1,
+	            init: function() {
+	              this.on("success", function(file) {
+	                  $("#head-update").hide();
+	                  window.alert("File \""+ file.name +"\"was uploaded");
+	              });
+	            } 
+	        });
 	}
 
 	//  Timepicker ---------------------------------------------------------------------------------------------------------

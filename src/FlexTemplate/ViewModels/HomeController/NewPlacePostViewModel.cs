@@ -19,7 +19,7 @@ namespace FlexTemplate.ViewModels.HomeController
         public string Website { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public IFormFile[] Files { get; set; }
         public bool TermAccept { get; set; }
+        public string Uid { get; set; }
     }
 }
