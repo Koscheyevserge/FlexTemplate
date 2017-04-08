@@ -408,6 +408,12 @@ function initSlider() {
 		// });
 		// arrayChangeText.wrap($('<textarea class="user-edit-textarea"></textarea>'));
 	});
+	$('body').on('blur', '[contenteditable]', function (event) {
+	    $(".user-edit-button").remove();
+	    var cnt = $(".text-edit").contents();
+	    $(".text-edit").replaceWith(cnt);
+	    $(this).removeClass('active');
+	});
 
   const URL_DOMAIN = window.location.origin;
   const localizableStrings = '/api/localizablestrings/update/';
@@ -458,41 +464,6 @@ function initSlider() {
 
 
   /*
-  * Input download
-  */
-
-  // $('.c-this-place-header').on('click', '#file-submit', function() {
-  //   setTimeout(() => this.parentElement.remove(), 10000);
-  // })
-  //Dropzone.autoDiscover = false;
-  //Dropzone.uploadMultiple = true;
-  //if( $('.dropzone').length > 0 ) {
-  //  $("#one-download").dropzone({
-  //      url: "upload",
-  //      addRemoveLinks: true,
-  //      maxFiles:1,
-  //      init: function() {
-  //        this.on("maxfilesexceeded", function(file) {
-  //          this.removeAllFiles();
-  //          this.addFile(file);
-  //        });
-  //      } 
-  //  });
-  //  $("#file-submit").dropzone({
-  //      url: "upload",
-  //      addRemoveLinks: true,
-  //      uploadMultiple: true,
-  //      init: function () {
-  //          this.on("maxfilesexceeded", function (file) {
-  //              this.removeAllFiles();
-  //              this.addFile(file);
-  //          });
-  //      }
-  //  }); 
-  //}
-
-
-  /*
   * CKEditor config
   */
 
@@ -537,40 +508,3 @@ function initSlider() {
     }
   };
 }
-
-
-/*
-var view =
-{
-    type: "Container",
-    id: "root_container"
-    items:
-        [
-            {
-                type: "Label",
-                caption: {bindTo: "mainLabelCaption"}
-            },
-            {
-                type: "Button",
-                click: {bindTo:"mainButtonClick"},
-                caption: "OK"
-            }
-        ]
-}
-var viewModel =
-{
-    values: {
-         mainLabelCaption: "Hello World!"
-    },
-    methods: {
-        mainButtonClick: function(e) {
-            return this.get("mainLabelCaption");
-        } 
-    }
-}
-var constructor =
-{
-    init: function() {view.bind(viewModel)}
-}
-return constructor;
-*/

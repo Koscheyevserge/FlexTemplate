@@ -168,7 +168,16 @@ namespace FlexTemplate.Services
                 Text = "Дніпро"
             });
 
-            var user1 = new User { Name = "Alexeii", Surname = "Minailov" };
+            var user1 = new User { UserName = "aminailov94", Name = "Alexeii", Surname = "Minailov"};
+            if (guestAddResult.Succeeded)
+            {
+
+                var result = await userManager.CreateAsync(user1, "aminailov94");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user1, "Guest");
+                }
+            }
             var user2 = new User { Name = "Павел", Surname = "Балыбердин" };
             var user3 = new User { Name = "Анна", Surname = "Сергеева" };
             var user4 = new User { Name = "Marina", Surname = "Rostova" };

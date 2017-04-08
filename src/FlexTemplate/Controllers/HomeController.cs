@@ -199,13 +199,15 @@ namespace FlexTemplate.Controllers
 
         public async Task<IActionResult> LoginAsGuest()
         {
-            var guest = context.Users.SingleOrDefault(u => u.UserName == "Guest");
-            await _signInManager.PasswordSignInAsync(guest, "Guest", true, false);
+            await _signInManager.SignOutAsync();
+            var guest = context.Users.SingleOrDefault(u => u.UserName == "aminailov94");
+            await _signInManager.PasswordSignInAsync(guest, "aminailov94", true, false);
             return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> LoginAsAdmin()
         {
+            await _signInManager.SignOutAsync();
             var supervisor = context.Users.SingleOrDefault(u => u.UserName == "Supervisor");
             await _signInManager.PasswordSignInAsync(supervisor, "Supervisor123", true, false);
             return RedirectToAction("Index", "Home");
