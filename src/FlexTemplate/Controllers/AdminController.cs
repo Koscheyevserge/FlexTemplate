@@ -28,7 +28,6 @@ namespace FlexTemplate.Controllers
         private IEnumerable<Container> GetAllContainers()
         {
             var model = context.Containers.Include(c => c.LocalizableStrings)
-                        .Include(c => c.Photos)
                         .Include(c => c.ContainerTemplates)
                         .Include(c => c.AvailableContainers)
                         .AsNoTracking()
@@ -81,7 +80,6 @@ namespace FlexTemplate.Controllers
                 Containers =
                     context.Containers.Include(p => p.LocalizableStrings)
                     .ThenInclude(ls => ls.Language)
-                    .Include(c => c.Photos)
                     .Skip(10 * id)
                     .Take(10)
                     .AsEnumerable(),
@@ -105,7 +103,6 @@ namespace FlexTemplate.Controllers
                         .Include(p => p.PageContainerTemplates)
                         .ThenInclude(pct => pct.ContainerTemplate)
                         .ThenInclude(ct => ct.Container)
-                        .ThenInclude(c => c.Photos)
                         .Skip(10 * id)
                         .Take(10)
                         .AsEnumerable(),

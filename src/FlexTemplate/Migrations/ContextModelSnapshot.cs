@@ -140,26 +140,6 @@ namespace FlexTemplate.Migrations
                     b.ToTable("ContainerLocalizableStrings");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.ContainerPhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ContainerId");
-
-                    b.Property<string>("EntityId");
-
-                    b.Property<string>("EntityName");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContainerId");
-
-                    b.ToTable("PagePhotos");
-                });
-
             modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
                 {
                     b.Property<int>("Id")
@@ -225,6 +205,22 @@ namespace FlexTemplate.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("PlaceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Page", b =>
@@ -294,11 +290,16 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Phone");
 
+                    b.Property<int?>("ScheduleId");
+
                     b.Property<int>("StreetId");
 
                     b.Property<string>("Website");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ScheduleId")
+                        .IsUnique();
 
                     b.HasIndex("StreetId");
 
@@ -343,26 +344,6 @@ namespace FlexTemplate.Migrations
                     b.ToTable("PlaceCategories");
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.PlacePhoto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("EntityId");
-
-                    b.Property<string>("EntityName");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("PlaceId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlaceId");
-
-                    b.ToTable("PlacePhotos");
-                });
-
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
                 {
                     b.Property<int>("Id")
@@ -385,6 +366,64 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("UserId1");
 
                     b.ToTable("PlaceReviews");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("MenuId");
+
+                    b.Property<double>("Price");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<TimeSpan>("FridayFrom");
+
+                    b.Property<TimeSpan>("FridayTo");
+
+                    b.Property<TimeSpan>("MondayFrom");
+
+                    b.Property<TimeSpan>("MondayTo");
+
+                    b.Property<TimeSpan>("SaturdayFrom");
+
+                    b.Property<TimeSpan>("SaturdayTo");
+
+                    b.Property<TimeSpan>("SundayFrom");
+
+                    b.Property<TimeSpan>("SundayTo");
+
+                    b.Property<TimeSpan>("ThurstdayFrom");
+
+                    b.Property<TimeSpan>("ThurstdayTo");
+
+                    b.Property<TimeSpan>("TuesdayFrom");
+
+                    b.Property<TimeSpan>("TuesdayTo");
+
+                    b.Property<TimeSpan>("WednesdayFrom");
+
+                    b.Property<TimeSpan>("WednesdayTo");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Street", b =>
@@ -651,14 +690,6 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.ContainerPhoto", b =>
-                {
-                    b.HasOne("FlexTemplate.Entities.Container", "Container")
-                        .WithMany("Photos")
-                        .HasForeignKey("ContainerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("FlexTemplate.Entities.ContainerTemplate", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Container", "Container")
@@ -680,6 +711,14 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.Menu", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Place", "Place")
+                        .WithMany("Menus")
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.PageContainerTemplate", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.ContainerTemplate", "ContainerTemplate")
@@ -695,6 +734,10 @@ namespace FlexTemplate.Migrations
 
             modelBuilder.Entity("FlexTemplate.Entities.Place", b =>
                 {
+                    b.HasOne("FlexTemplate.Entities.Schedule", "Schedule")
+                        .WithOne("Place")
+                        .HasForeignKey("FlexTemplate.Entities.Place", "ScheduleId");
+
                     b.HasOne("FlexTemplate.Entities.Street", "Street")
                         .WithMany()
                         .HasForeignKey("StreetId")
@@ -727,14 +770,6 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FlexTemplate.Entities.PlacePhoto", b =>
-                {
-                    b.HasOne("FlexTemplate.Entities.Place", "Place")
-                        .WithMany("Photos")
-                        .HasForeignKey("PlaceId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
@@ -745,6 +780,14 @@ namespace FlexTemplate.Migrations
                     b.HasOne("FlexTemplate.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Product", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Menu", "Menu")
+                        .WithMany("Products")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Street", b =>

@@ -14,7 +14,6 @@ namespace FlexTemplate.Database
         public DbSet<CategoryAlias> CategoryAliases { get; set; } 
         public DbSet<Place> Places { get; set; }
         public DbSet<PlaceAlias> PlaceAliases { get; set; }
-        public DbSet<PlacePhoto> PlacePhotos { get; set; }
         public DbSet<PlaceCategory> PlaceCategories { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<CityAlias> CityAliases { get; set; } 
@@ -24,13 +23,15 @@ namespace FlexTemplate.Database
         public DbSet<Street> Streets { get; set; }
         public DbSet<StreetAlias> StreetAliases { get; set; }  
         public DbSet<Page> Pages { get; set; }
-        public DbSet<ContainerPhoto> PagePhotos { get; set; }
         public DbSet<Container> Containers { get; set; }
         public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; } 
         public DbSet<ContainerTemplate> ContainerTemplates { get; set; }
         public DbSet<PlaceReview> PlaceReviews { get; set; }
         public DbSet<PageContainerTemplate> PageContainerTemplates { get; set; }
         public DbSet<AvailableContainer> AvailableContainers { get; set; }
+        public DbSet<Schedule> Schedules { get; set; } 
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Product> Products { get; set; } 
         public Context(DbContextOptions<Context> options) : base(options)
         {
             

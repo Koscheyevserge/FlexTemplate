@@ -29,7 +29,6 @@ namespace FlexTemplate.ViewComponents.HomeController
             if (!string.IsNullOrEmpty(input))
                 places = places.Where(p => p.Name.Contains(input));
             places = places.Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).ThenInclude(c => c.Aliases)
-                .Include(p => p.Photos)
                 .Include(p => p.Reviews)
                 .Include(p => p.Aliases)
                 .Include(p => p.Street).ThenInclude(s => s.Aliases)

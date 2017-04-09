@@ -1,27 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
-namespace FlexTemplate.ViewModels.HomeController
+namespace FlexTemplate.Entities
 {
-    public class NewPlacePostViewModel
+    /// <summary>
+    /// Расписание заведения
+    /// </summary>
+    public class Schedule : BaseEntity
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int[] Categories { get; set; }
-        public string City { get; set; }
-        public string Street { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public string Website { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public bool TermAccept { get; set; }
-        public string Uid { get; set; }
+        public Place Place { get; set; }
         public TimeSpan MondayFrom { get; set; }
         public TimeSpan MondayTo { get; set; }
         public TimeSpan TuesdayFrom { get; set; }

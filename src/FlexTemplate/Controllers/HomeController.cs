@@ -79,7 +79,7 @@ namespace FlexTemplate.Controllers
             var model = new HomePlaceViewModel
             {
                 Place =
-                    context.Places.Include(p => p.Photos)
+                    context.Places
                         .Include(p => p.PlaceCategories)
                         .ThenInclude(pc => pc.Category)
                         .Include(p => p.Reviews)

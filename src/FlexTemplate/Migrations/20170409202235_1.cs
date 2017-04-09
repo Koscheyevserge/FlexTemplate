@@ -80,6 +80,32 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FridayFrom = table.Column<TimeSpan>(nullable: false),
+                    FridayTo = table.Column<TimeSpan>(nullable: false),
+                    MondayFrom = table.Column<TimeSpan>(nullable: false),
+                    MondayTo = table.Column<TimeSpan>(nullable: false),
+                    SaturdayFrom = table.Column<TimeSpan>(nullable: false),
+                    SaturdayTo = table.Column<TimeSpan>(nullable: false),
+                    SundayFrom = table.Column<TimeSpan>(nullable: false),
+                    SundayTo = table.Column<TimeSpan>(nullable: false),
+                    ThurstdayFrom = table.Column<TimeSpan>(nullable: false),
+                    ThurstdayTo = table.Column<TimeSpan>(nullable: false),
+                    TuesdayFrom = table.Column<TimeSpan>(nullable: false),
+                    TuesdayTo = table.Column<TimeSpan>(nullable: false),
+                    WednesdayFrom = table.Column<TimeSpan>(nullable: false),
+                    WednesdayTo = table.Column<TimeSpan>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -416,28 +442,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PagePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ContainerId = table.Column<int>(nullable: false),
-                    EntityId = table.Column<string>(nullable: true),
-                    EntityName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PagePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PagePhotos_Containers_ContainerId",
-                        column: x => x.ContainerId,
-                        principalTable: "Containers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ContainerTemplates",
                 columns: table => new
                 {
@@ -470,12 +474,19 @@ namespace FlexTemplate.Migrations
                     Longitude = table.Column<double>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Phone = table.Column<string>(nullable: true),
+                    ScheduleId = table.Column<int>(nullable: true),
                     StreetId = table.Column<int>(nullable: false),
                     Website = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Places", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Places_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Places_Streets_StreetId",
                         column: x => x.StreetId,
@@ -539,6 +550,26 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    PlaceId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Menus_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlaceAliases",
                 columns: table => new
                 {
@@ -592,28 +623,6 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlacePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EntityId = table.Column<string>(nullable: true),
-                    EntityName = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    PlaceId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlacePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlacePhotos_Places_PlaceId",
-                        column: x => x.PlaceId,
-                        principalTable: "Places",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "PlaceReviews",
                 columns: table => new
                 {
@@ -640,6 +649,28 @@ namespace FlexTemplate.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    MenuId = table.Column<int>(nullable: false),
+                    Price = table.Column<double>(nullable: false),
+                    Title = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Menus_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "Menus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -693,11 +724,6 @@ namespace FlexTemplate.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PagePhotos_ContainerId",
-                table: "PagePhotos",
-                column: "ContainerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ContainerTemplates_ContainerId",
                 table: "ContainerTemplates",
                 column: "ContainerId");
@@ -713,6 +739,11 @@ namespace FlexTemplate.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Menus_PlaceId",
+                table: "Menus",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PageContainerTemplates_ContainerTemplateId",
                 table: "PageContainerTemplates",
                 column: "ContainerTemplateId");
@@ -721,6 +752,12 @@ namespace FlexTemplate.Migrations
                 name: "IX_PageContainerTemplates_PageId",
                 table: "PageContainerTemplates",
                 column: "PageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Places_ScheduleId",
+                table: "Places",
+                column: "ScheduleId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Places_StreetId",
@@ -748,11 +785,6 @@ namespace FlexTemplate.Migrations
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlacePhotos_PlaceId",
-                table: "PlacePhotos",
-                column: "PlaceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PlaceReviews_PlaceId",
                 table: "PlaceReviews",
                 column: "PlaceId");
@@ -761,6 +793,11 @@ namespace FlexTemplate.Migrations
                 name: "IX_PlaceReviews_UserId1",
                 table: "PlaceReviews",
                 column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_MenuId",
+                table: "Products",
+                column: "MenuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Streets_CityId",
@@ -834,9 +871,6 @@ namespace FlexTemplate.Migrations
                 name: "ContainerLocalizableStrings");
 
             migrationBuilder.DropTable(
-                name: "PagePhotos");
-
-            migrationBuilder.DropTable(
                 name: "CountryAliases");
 
             migrationBuilder.DropTable(
@@ -849,10 +883,10 @@ namespace FlexTemplate.Migrations
                 name: "PlaceCategories");
 
             migrationBuilder.DropTable(
-                name: "PlacePhotos");
+                name: "PlaceReviews");
 
             migrationBuilder.DropTable(
-                name: "PlaceReviews");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "StreetAliases");
@@ -882,7 +916,7 @@ namespace FlexTemplate.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Places");
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "Languages");
@@ -897,10 +931,16 @@ namespace FlexTemplate.Migrations
                 name: "Containers");
 
             migrationBuilder.DropTable(
-                name: "Streets");
+                name: "Places");
 
             migrationBuilder.DropTable(
                 name: "Panel");
+
+            migrationBuilder.DropTable(
+                name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "Streets");
 
             migrationBuilder.DropTable(
                 name: "Cities");

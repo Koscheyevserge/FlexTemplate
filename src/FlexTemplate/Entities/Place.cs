@@ -29,10 +29,6 @@ namespace FlexTemplate.Entities
         /// </summary>
         public virtual List<PlaceAlias> Aliases { get; set; } 
         /// <summary>
-        /// Фотография заведения
-        /// </summary>
-        public virtual List<PlacePhoto> Photos { get; set; }
-        /// <summary>
         /// Отзывы заведения
         /// </summary>
         public virtual List<PlaceReview> Reviews { get; set; }
@@ -45,5 +41,13 @@ namespace FlexTemplate.Entities
         public string Website { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        /// <summary>
+        /// Расписание заведения
+        /// </summary>
+        public Schedule Schedule { get; set; }
+        /// <summary>
+        /// Расписание заведения
+        /// </summary>
+        public virtual List<Menu> Menus { get; set; }
     }
 }
