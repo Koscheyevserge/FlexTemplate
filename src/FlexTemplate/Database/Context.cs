@@ -10,6 +10,8 @@ namespace FlexTemplate.Database
 {
     public class Context : IdentityDbContext<User>
     {
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryAlias> CategoryAliases { get; set; } 
         public DbSet<Place> Places { get; set; }
