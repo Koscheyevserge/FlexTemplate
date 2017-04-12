@@ -109,13 +109,9 @@ namespace FlexTemplate.Controllers
             ViewData["BodyClasses"] = "full-width-container";
             var model = new HomeBlogViewModel
             {
-                Blog = context.Blogs.Include(a => a.Author)
-                .Include(c => c.Caption)
-                .Include(com => com.Comments)
-                .Include(d => d.CreatedOn)
-                .Include(p => p.Preamble)
-                .Include(t => t.Text)
-                .SingleOrDefault(item => item.Id == id)
+                Blog = context.Blogs.Include(blog => blog.Author)
+                .Include(blog => blog.Comments)
+                .SingleOrDefault(blog => blog.Id == id)
             };
             return View(model);
         }
