@@ -440,8 +440,6 @@ function initSlider() {
     });
   });
 
-  const loadmoreplaces = '/api/loadmoreplaces/';
-
   $("body").on('click', "#loadmoreplaces_btn", function () {    
       let loadedPlaces = [];
       var elements = $(".restaurant-grid-item");
@@ -449,7 +447,7 @@ function initSlider() {
           loadedPlaces.push($(elements[i]).attr("dataid"));
       }
       $.ajax({
-          url: URL_DOMAIN + loadmoreplaces,
+          url: URL_DOMAIN + '/api/loadmoreplaces/',
           datatype: 'json',
           type: "post",
           contentType: "application/json",
@@ -461,14 +459,39 @@ function initSlider() {
           }
       });
   });
-  $("body").on('click', "#add-menu", function() {
-    debugger;
+  $("body").on('click', "#add-menu", function () {
+    let newMenuId = $(".food-menu-form-wrapper").length;
+    $.ajax({
+      url: URL_DOMAIN + '/api/loadmenu',
+      datatype: 'json',
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+          Position: newMenuId
+      }),
+      success: function (dom) {
+          $(".food-menu-form-wrapper").last().after(dom);
+      }
+    });
   });
   $("body").on('click', "#add-product", function () {
-      debugger;
+    let data = {
+      Position: $(this).parent().prev().length + 1,
+      Menu: $(this).parent().parent().index() + 1
+    };
+    $.ajax({
+      url: URL_DOMAIN + '/api/loadproduct',
+      datatype: 'json',
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (dom) {
+          $(this).parent().prev().after(dom);
+      }.bind(this)
+    });
   });
   $("body").on('click', "#remove-product", function () {
-      debugger;
+    debugger;
   });
 
   /*

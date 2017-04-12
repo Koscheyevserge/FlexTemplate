@@ -21,5 +21,19 @@ namespace FlexTemplate.Controllers
         {
             return ViewComponent("MorePlaces", new { loadedPlacesIds = data.LoadedPlacesIds });
         }
+
+        [Route("api/loadmenu")]
+        [HttpPost]
+        public IActionResult LoadMenu([FromBody]NewPlaceNewMenuViewModel model)
+        {
+            return ViewComponent("NewPlaceMenu", new { model = model });
+        }
+
+        [Route("api/loadproduct")]
+        [HttpPost]
+        public IActionResult LoadProduct([FromBody]NewPlaceNewProductViewModel model)
+        {
+            return ViewComponent("NewPlaceProduct", new { model = model });
+        }
     }
 }
