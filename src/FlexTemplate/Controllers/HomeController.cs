@@ -99,11 +99,25 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Blog()
+        public IActionResult Blog(int id)
         {
+            if (id == 0)
+            {
+                return NotFound();
+            }
             ViewData["Title"] = "Blog";
             ViewData["BodyClasses"] = "full-width-container";
-            return View();
+            var model = new HomeBlogViewModel
+            {
+                Blog = context.Blogs.Include(a => a.Author)
+                .Include(c => c.Caption)
+                .Include(com => com.Comments)
+                .Include(d => d.CreatedOn)
+                .Include(p => p.Preamble)
+                .Include(t => t.Text)
+                .SingleOrDefault(item => item.Id == id)
+            };
+            return View(model);
         }
 
         public IActionResult NewPlace()
