@@ -366,7 +366,7 @@
 
                                 <div class="form-group form-group-lg">
 
-                                    <input type="text" class="form-control" placeholder="Ex: Breakfast" />
+                                    <input type="text" name="Menus[0].Name" class="form-control" placeholder="Ex: Breakfast" />
 
                                 </div>
 
@@ -392,7 +392,7 @@
 
                                                 <div class="form-group">
                                                     <label>Title</label>
-                                                    <input type="text" class="form-control" />
+                                                    <input type="text" name="Menus[0].Products[0].Name" class="form-control" />
                                                 </div>
 
                                             </div>
@@ -402,7 +402,7 @@
                                                 <div class="form-group">
                                                     <label>Price</label>
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control" name="Menus[0].Products[0].Price">
                                                         <span class="input-group-addon">$</span>
                                                     </div>
                                                 </div>
@@ -413,7 +413,7 @@
 
                                                 <div class="form-group">
                                                     <label>Short Description</label>
-                                                    <input type="text" class="form-control" />
+                                                    <input type="text" name="Menus[0].Products[0].Price" class="form-control" />
                                                 </div>
 
                                             </div>
@@ -425,8 +425,8 @@
                                 </div>
 
                                 <div class="clearfix mt-15">
-                                    <a href="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                    <a id="add-product" menu-position="0"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                                    <a id="remove-product" menu-position="0"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     <span class="ml-5 font13 line-12 text-muted font-italic">You can add upto 10 menus</span>
                                 </div>
 
@@ -435,7 +435,7 @@
                         </div>
 
                         <div class="text-center">
-                            <h6 class="text-primary text-uppercase mb-0"><a href="#"><i class="fa fa-plus font14"></i> Add more menu category</a></h6>
+                            <h6 class="text-primary text-uppercase mb-0"><a id="add-menu" menu-position="0"><i class="fa fa-plus font14"></i> Add more menu category</a></h6>
                             <p>You can add upto 10 menu categories</p>
                         </div>
                         <!--End Menus-->

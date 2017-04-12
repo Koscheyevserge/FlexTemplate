@@ -9,7 +9,7 @@
 
     <p class="font500">@Model.Place.Description</p>
 
-    <!--<p>Knowledge nay estimable questions repulsive daughters boy. Solicitude gay way unaffected expression for. His mistress ladyship required off horrible disposed rejoiced. Unpleasing pianoforte unreserved as oh he unpleasant no inquietude insipidity. Advantages can discretion possession add favourable cultivated admiration far. Why rather assure how esteem end hunted nearer and before. By an truth after heard going early given he. Charmed to it excited females whether at examine. Him abilities suffering may are yet dependent.</p>
+    <p>Knowledge nay estimable questions repulsive daughters boy. Solicitude gay way unaffected expression for. His mistress ladyship required off horrible disposed rejoiced. Unpleasing pianoforte unreserved as oh he unpleasant no inquietude insipidity. Advantages can discretion possession add favourable cultivated admiration far. Why rather assure how esteem end hunted nearer and before. By an truth after heard going early given he. Charmed to it excited females whether at examine. Him abilities suffering may are yet dependent.</p>
 
     <div class="row">
 
@@ -65,163 +65,164 @@
         </div>
 
     </div>
+    @if (@Model.Place.Schedule != null)
+    {
+        <div class="col-xs-12 col-sm-6">
 
-    <div class="col-xs-12 col-sm-6">
+            <div class="open-time-box">
 
-        <div class="open-time-box">
+                <h5 class="text-primary">Opening Time</h5>
 
-            <h5 class="text-primary">Opening Time</h5>
+                <ul class="open-time-list">
 
-            <ul class="open-time-list">
+                    <li>
 
-                <li>
+                        <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Monday
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Понеділок
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.MondayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.MondayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    10:00 am - 10:00 pm
+                    </li>
+
+                    <li>
+
+                        <div class="row">
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Вівторок
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.TuesdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.TuesdayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                    </div>
+                    </li>
 
-                </li>
+                    <li>
 
-                <li>
+                        <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Tuesday
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Середа
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.WednesdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.WednesdayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    10:00 am - 10:00 pm
+                    </li>
+
+                    <li>
+
+                        <div class="row">
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Четвер
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.ThurstdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.ThurstdayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                    </div>
+                    </li>
 
-                </li>
+                    <li>
 
-                <li>
+                        <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Wednesday
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    П’ятниця
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.FridayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.FridayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    10:00 am - 10:00 pm
+                    </li>
+
+                    <li>
+
+                        <div class="row">
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Суббота
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time">
+                                    @Model.Place.Schedule.SaturdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.SaturdayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                    </div>
+                    </li>
 
-                </li>
+                    <li class="day-close">
 
-                <li>
+                        <div class="row">
 
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Thursday
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Неділя
                                 </span>
+                            </div>
+
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Place.Schedule.SundayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.SundayTo.ToString("hh\\:mm")
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    10:00 am - 10:00 pm
-                                </span>
-                        </div>
+                    </li>
 
-                    </div>
+                </ul>
 
-                </li>
-
-                <li>
-
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Friday
-                                </span>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    09:00 am - 12:00 pm
-                                </span>
-                        </div>
-
-                    </div>
-
-                </li>
-
-                <li>
-
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Saturday
-                                </span>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time">
-                                    09:00 am - 12:00 pm
-                                </span>
-                        </div>
-
-                    </div>
-
-                </li>
-
-                <li class="day-close">
-
-                    <div class="row">
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="day">
-                                    Sunday
-                                </span>
-                        </div>
-
-                        <div class="col-xs-6 col-sm-6">
-                            <span class="time text-uppercase font700 spacing-2">
-                                    Close
-                                </span>
-                        </div>
-
-                    </div>
-
-                </li>
-
-            </ul>
+            </div>
 
         </div>
-
+    }
     </div>
-
-    </div>
-
+    <!--
     <h5 class="text-primary">More about J'AIME by Jean-Michel Lorain</h5>
 
     <div class="row">
@@ -251,7 +252,7 @@
             <p>- Visa, Master card, American Express, UnionPay</p>
         </div>
 
-    </div>-->
-
+    </div>
+    -->
     </div>
 }

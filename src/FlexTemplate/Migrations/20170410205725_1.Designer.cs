@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170409202235_1")]
+    [Migration("20170410205725_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,50 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("PageId");
 
                     b.ToTable("AvailableContainers");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Caption");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Preamble");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.BlogComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<int>("BlogId");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogComments");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Category", b =>
@@ -633,6 +677,25 @@ namespace FlexTemplate.Migrations
                     b.HasOne("FlexTemplate.Entities.Page", "Page")
                         .WithMany("AvailableContainers")
                         .HasForeignKey("PageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.Blog", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.BlogComment", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.HasOne("FlexTemplate.Entities.Blog", "Blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

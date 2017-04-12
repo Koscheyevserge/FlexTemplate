@@ -457,11 +457,19 @@ function initSlider() {
                loadedPlacesIds: loadedPlaces
           }),
           success: function(dom) {
-              $(".c-this-city-places").replaceWith(dom);
+              $(".GridLex-col-3_sm-4_xs-6_xss-12").last().after(dom);
           }
       });
   });
-
+  $("body").on('click', "#add-menu", function() {
+    debugger;
+  });
+  $("body").on('click', "#add-product", function () {
+      debugger;
+  });
+  $("body").on('click', "#remove-product", function () {
+      debugger;
+  });
 
   /*
   * CKEditor config

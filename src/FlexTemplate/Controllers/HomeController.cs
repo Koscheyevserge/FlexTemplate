@@ -47,13 +47,6 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        [Route("api/loadmoreplaces")]
-        [HttpPost]
-        public IActionResult LoadMorePlaces([FromBody]LoadMorePlacesViewModel data)
-        {
-            return ViewComponent("ThisCityPlaces", new { loadedPlacesIds = data.LoadedPlacesIds });
-        }
-
         public IActionResult Error()
         {
             ViewData["Title"] = "Oops!";
@@ -93,6 +86,7 @@ namespace FlexTemplate.Controllers
                         .ThenInclude(c => c.Aliases)
                         .Include(p => p.Street)
                         .ThenInclude(s => s.Aliases)
+                        .Include(p => p.Schedule)
                         .SingleOrDefault(item => item.Id == id)
             };
             return View(model);
@@ -150,6 +144,35 @@ namespace FlexTemplate.Controllers
                 Street = chosenStreet,
                 PlaceCategories = placeCategories
             };
+            if (!(item.MondayFrom == TimeSpan.MinValue && item.MondayTo == TimeSpan.MinValue
+                && item.TuesdayFrom == TimeSpan.MinValue && item.TuesdayTo == TimeSpan.MinValue
+                && item.WednesdayFrom == TimeSpan.MinValue && item.WednesdayTo == TimeSpan.MinValue
+                && item.ThurstdayFrom == TimeSpan.MinValue && item.ThurstdayTo == TimeSpan.MinValue
+                && item.FridayFrom == TimeSpan.MinValue && item.FridayTo == TimeSpan.MinValue
+                && item.SaturdayFrom == TimeSpan.MinValue && item.SaturdayTo == TimeSpan.MinValue
+                && item.SundayFrom == TimeSpan.MinValue && item.SundayTo == TimeSpan.MinValue)
+                && item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
+                && item.WednesdayFrom <= item.WednesdayTo && item.ThurstdayFrom <= item.ThurstdayTo
+                && item.FridayFrom <= item.FridayTo && item.SaturdayFrom <= item.SaturdayTo && item.SundayFrom <= item.SundayTo)
+            {
+                newPlace.Schedule = new Schedule
+                {
+                    MondayFrom = item.MondayFrom,
+                    MondayTo = item.MondayTo,
+                    TuesdayFrom = item.TuesdayFrom,
+                    TuesdayTo = item.TuesdayTo,
+                    WednesdayFrom = item.WednesdayFrom,
+                    WednesdayTo = item.WednesdayTo,
+                    ThurstdayFrom = item.ThurstdayFrom,
+                    ThurstdayTo = item.ThurstdayTo,
+                    FridayFrom = item.FridayFrom,
+                    FridayTo = item.FridayTo,
+                    SaturdayFrom = item.SaturdayFrom,
+                    SaturdayTo = item.SaturdayTo,
+                    SundayFrom = item.SundayFrom,
+                    SundayTo = item.SundayTo
+                };
+            }
             context.Places.Add(newPlace);
             context.SaveChanges();
             var sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
@@ -162,101 +185,5 @@ namespace FlexTemplate.Controllers
         {
             return Redirect(redirect);
         }
-
-        [HttpGet]
-        public IActionResult Login(string returnUrl = null)
-        {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
-                {
-                    // проверяем, принадлежит ли URL приложению
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
-                }
-            }
-            return View(model);
-        }
-
-        public async Task<IActionResult> LoginAsGuest()
-        {
-            await _signInManager.SignOutAsync();
-            var guest = context.Users.SingleOrDefault(u => u.UserName == "aminailov94");
-            await _signInManager.PasswordSignInAsync(guest, "aminailov94", true, false);
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<IActionResult> LoginAsAdmin()
-        {
-            await _signInManager.SignOutAsync();
-            var supervisor = context.Users.SingleOrDefault(u => u.UserName == "Supervisor");
-            await _signInManager.PasswordSignInAsync(supervisor, "Supervisor123", true, false);
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
-        {
-            // удаляем аутентификационные куки
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        [Route("/api/upload/newplace/{fileDescriptor}")]
-        public void UploadNewPlacePhoto(string fileDescriptor)
-        {
-            var file = HttpContext.Request.Form.Files[0];
-            var filename = Guid.NewGuid() + ".jpg";
-            var path = $@"wwwroot\Resources\Places\{fileDescriptor}\";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            if (file.Length > 0)
-            {
-                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
-                {
-                    file.CopyTo(stream);
-                }
-            }
-        }
-
-        [HttpPost]
-        [Route("/api/upload/head/{id}")]
-        public void UploadHeadPhoto(string id)
-        {
-            var file = HttpContext.Request.Form.Files[0];
-            var path = $@"wwwroot\Resources\Places\{id}\";
-            var filename = "head.jpg";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            if (file.Length > 0)
-            {
-                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
-                {
-                    file.CopyTo(stream);
-                }
-            }
-        }
     }
 }
-

@@ -194,7 +194,7 @@ namespace FlexTemplate.Services
                Author = user10,
                Caption = "10 кращих веганських рецептів",
                Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
-               Text = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти. Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
+               Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                Comments = new List<BlogComment>
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
@@ -206,8 +206,8 @@ namespace FlexTemplate.Services
            {
                Author = user9,
                Caption = "Кулінарні секрети",
-               Preamble = "Безе сміливо можна назвати кулінарним парадоксом - будучи дуже простим кондитерським виробом з усього двох компонентів",
-               Text = "Безе сміливо можна назвати кулінарним парадоксом - будучи дуже простим кондитерським виробом з усього двох компонентів(білок і цукор), воно примудряється виглядати як справжній вишукування.І часом вимагає чималого кулінарної майстерності, а також знання великої кількості нюансів.Сьогоднішній гостьовий пост від проекту «Маніфо ТВ» представляє вашій увазі те, що буде цікаво і корисно дізнатися всім любителям солодкого.",
+               Preamble = "Безе сміливо можна назвати кулінарним парадоксом - будучи дуже простим кондитерським виробом з усього двох компонентів(білок і цукор), воно примудряється виглядати як справжній вишукування.",
+               Text = "І часом вимагає чималого кулінарної майстерності, а також знання великої кількості нюансів.Сьогоднішній гостьовий пост від проекту «Маніфо ТВ» представляє вашій увазі те, що буде цікаво і корисно дізнатися всім любителям солодкого.",
                Comments = new List<BlogComment>
                {
                  new BlogComment {  Author = user1, Text = "Очень хорошая статья- как всегда- ни убавить ни прибавить. Будучи уверенной в том, что ни капли желтка не должно попасть в белок, так и делала. "},
@@ -220,7 +220,7 @@ namespace FlexTemplate.Services
                 Author = user8,
                 Caption = "Місця і події",
                 Preamble = "Кинувши побіжний погляд на календар, неважко здогадатися, що сьогодні - третій четвер листопада.",
-                Text = "Кинувши побіжний погляд на календар, неважко здогадатися, що сьогодні - третій четвер листопада. Він був би зовсім не примітним днем, якби не одне але: саме в третій четвер листопада в усьому світі відзначається свято молодого вина Божоле, а я традиційно публікую цю статтю. За моїми спостереженнями, останнім часом популярність молодого Божоле в нашій країні почала поступово сходити нанівець, але ще пару років тому кожен поважаючий себе ресторан зазивав гостей на Божоле Нуво, а різні особистості, які вважають себе експертами в області випити, щорічно виступали з заявами про тому, що Божоле можуть пити тільки дурні, яким нікуди дівати свої гроші.",
+                Text = "Він був би зовсім не примітним днем, якби не одне але: саме в третій четвер листопада в усьому світі відзначається свято молодого вина Божоле, а я традиційно публікую цю статтю. За моїми спостереженнями, останнім часом популярність молодого Божоле в нашій країні почала поступово сходити нанівець, але ще пару років тому кожен поважаючий себе ресторан зазивав гостей на Божоле Нуво, а різні особистості, які вважають себе експертами в області випити, щорічно виступали з заявами про тому, що Божоле можуть пити тільки дурні, яким нікуди дівати свої гроші.",
                 Comments = new List<BlogComment>
                 {
                  new BlogComment {  Author = user1, Text = "Я, конечно, не могу претендовать на столь изысканный вкус, коим, несомненно, обладает уважаемый автор статьи, но абхазское вино (уж не знаю, какое продают в тех краях, где гурман проживает) совсем не новоявленное, а “Лыхны” (настоящее) ничуть не хуже, если не лучше Божоле и, как минимум, в 1,5 раза дешевле (хорошего Божоле, конечно, потому что в бутылках с этой наклейкой тоже можно купить, что угодно).  "},
@@ -232,8 +232,8 @@ namespace FlexTemplate.Services
             {
                    Author = user7,
                    Caption = "Кухонна техніка",
-                   Preamble = "Здавалося б - чашка кави, суща дрібниця, не випадково навіть популярний метод оцінки добробуту тієї...",
-                   Text = "Здавалося б - чашка кави, суща дрібниця, не випадково навіть популярний метод оцінки добробуту тієї чи іншої нації пропонує підрахувати кількість чашок кави, які можуть дозволити собі їх представники.Але варто озирнутися на всі боки, і стає зрозуміло, що кава - це не дрібниця, і навіть не новий загальний еквівалент.Кава - це нова релігія.",
+                   Preamble = "Здавалося б - чашка кави, суща дрібниця, не випадково навіть популярний метод оцінки добробуту тієї чи іншої нації пропонує підрахувати кількість чашок кави, які можуть дозволити собі їх представники.",
+                   Text = "Але варто озирнутися на всі боки, і стає зрозуміло, що кава - це не дрібниця, і навіть не новий загальний еквівалент.Кава - це нова релігія.",
                    Comments = new List<BlogComment>
                    {
                      new BlogComment {  Author = user1, Text = "Отличная статья, узнал много нового!"},
@@ -246,7 +246,7 @@ namespace FlexTemplate.Services
                       Author = user6,
                       Caption = "Персона",
                       Preamble = "У 2009 році мені довелося взяти інтерв'ю у Влада Піскунова, який в ту пору вів скромний блог в Живому Журналі.",
-                      Text = "У 2009 році мені довелося взяти інтерв'ю у Влада Піскунова, який в ту пору вів скромний блог в Живому Журналі. З тих пір Влад залишив ЖЖ, які мігрували на сайт з тривожним назвою 'Залізо та вогонь', встиг стати автором декількох кулінарних книг і провідним телепередач про їжу, почав проводити майстер-класи і їздити в кулінарні експедиції. Я вирішив знову поспілкуватися з Владом і з'ясувати, що ще змінилося за ці кілька років.",
+                      Text = "З тих пір Влад залишив ЖЖ, які мігрували на сайт з тривожним назвою 'Залізо та вогонь', встиг стати автором декількох кулінарних книг і провідним телепередач про їжу, почав проводити майстер-класи і їздити в кулінарні експедиції. Я вирішив знову поспілкуватися з Владом і з'ясувати, що ще змінилося за ці кілька років.",
                       Comments = new List<BlogComment>
                       {
                          new BlogComment {  Author = user1, Text = "Интересное интервью, еще и все строго по делу, без всякой воды, благодарю."},
@@ -331,6 +331,23 @@ namespace FlexTemplate.Services
                     Reviews = new List<PlaceReview>
                     {
                          new PlaceReview {Text = "Спасибо за хороший вечер. Зашли случайно. Согрели, накормили. И цена приемлимая. Будем если в этом районе обязательно зайдем еще раз)", Star = 4, User = supervisor }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -347,6 +364,23 @@ namespace FlexTemplate.Services
                     PlaceCategories = new List<PlaceCategory>
                     {
                         new PlaceCategory {Category = category1}
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -378,6 +412,23 @@ namespace FlexTemplate.Services
                     Reviews = new List<PlaceReview>
                     {
                          new PlaceReview {Text = "Решили отметить день рождения с молодым человеком в данном ресторане. Я забронировала столик за неделю, при этом указав, что у спутника праздник. Поздравления с днем рождения устраивают многие заведения, начиная от простых кафе и заканчивая ресторанами класса люкс", Star = 5, User = supervisor }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -413,6 +464,23 @@ namespace FlexTemplate.Services
                     Reviews = new List<PlaceReview>
                     {
                          new PlaceReview {Text = "В январе с друзьями посетили этот ресторан. В Трипе по отзывам искали лучшее место. Придя в 'Банку' несколько не разочаровались.", Star = 4, User = supervisor }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -440,6 +508,23 @@ namespace FlexTemplate.Services
                     Reviews = new List<PlaceReview>
                     {
                          new PlaceReview {Text = "Вкусно, красиво и спокойно. Мясо действительно очень вкусное и хорошо приготовлено. Рекомендую. Цены конечно высокие, но и ресторан не для каждого дня.", Star = 5, User = supervisor }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -471,6 +556,23 @@ namespace FlexTemplate.Services
                     Reviews = new List<PlaceReview>
                     {
                          new PlaceReview {Text = "Обслуживание по форме предупредительное, при этом очень неторопливое. Если пришли на обед, имейте в виду, что вряд ли за час управитесь....", Star = 3, User = supervisor }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -515,7 +617,24 @@ namespace FlexTemplate.Services
                             Star = 4,
                             User = user1,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
-                        },
+                        }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -560,6 +679,23 @@ namespace FlexTemplate.Services
                             User = user8,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -604,6 +740,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -652,6 +805,23 @@ namespace FlexTemplate.Services
                             User = user2,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -696,6 +866,23 @@ namespace FlexTemplate.Services
                             User = user9,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -735,7 +922,24 @@ namespace FlexTemplate.Services
                             Star = 4,
                             User = user6,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
-                        },
+                        }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -779,7 +983,24 @@ namespace FlexTemplate.Services
                             Star = 4,
                             User = user3,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
-                        },
+                        }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -820,6 +1041,23 @@ namespace FlexTemplate.Services
                             User = user8,
                             Text = "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -872,6 +1110,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Замечательный ресторан в центре Харькова. Гостей встречает приятная, комфортная обстановка. Внутри очень чисто и красиво. Здесь вкусно готовят морепродукты, особенно мне понравился тунец. Цены не выше чем у других."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -924,6 +1179,23 @@ namespace FlexTemplate.Services
                             User = user10,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -976,6 +1248,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1028,6 +1317,23 @@ namespace FlexTemplate.Services
                             User = user10,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1080,6 +1386,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1132,6 +1455,23 @@ namespace FlexTemplate.Services
                             User = user10,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1184,6 +1524,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1236,6 +1593,23 @@ namespace FlexTemplate.Services
                             User = user10,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1288,6 +1662,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1340,6 +1731,23 @@ namespace FlexTemplate.Services
                             User = user10,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 },
                 new Place
@@ -1392,6 +1800,23 @@ namespace FlexTemplate.Services
                             User = user5,
                             Text = "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                         }
+                    },
+                    Schedule = new Schedule
+                    {
+                        MondayFrom = new TimeSpan(9, 0, 0),
+                        MondayTo = new TimeSpan(22, 0, 0),
+                        TuesdayFrom = new TimeSpan(9, 0, 0),
+                        TuesdayTo = new TimeSpan(22, 0, 0),
+                        WednesdayFrom = new TimeSpan(9, 0, 0),
+                        WednesdayTo = new TimeSpan(22, 0, 0),
+                        ThurstdayFrom = new TimeSpan(9, 0, 0),
+                        ThurstdayTo = new TimeSpan(22, 0, 0),
+                        FridayFrom = new TimeSpan(9, 0, 0),
+                        FridayTo = new TimeSpan(22, 0, 0),
+                        SaturdayFrom = new TimeSpan(9, 0, 0),
+                        SaturdayTo = new TimeSpan(20, 0, 0),
+                        SundayFrom = new TimeSpan(0, 0, 0),
+                        SundayTo = new TimeSpan(0, 0, 0)
                     }
                 }
             );

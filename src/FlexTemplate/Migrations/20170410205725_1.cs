@@ -255,6 +255,29 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<string>(nullable: true),
+                    Caption = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    Preamble = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Blogs_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -457,6 +480,34 @@ namespace FlexTemplate.Migrations
                         name: "FK_ContainerTemplates_Containers_ContainerId",
                         column: x => x.ContainerId,
                         principalTable: "Containers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BlogComments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<string>(nullable: true),
+                    BlogId = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogComments_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BlogComments_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -684,6 +735,21 @@ namespace FlexTemplate.Migrations
                 column: "PageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Blogs_AuthorId",
+                table: "Blogs",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogComments_AuthorId",
+                table: "BlogComments",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogComments_BlogId",
+                table: "BlogComments",
+                column: "BlogId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryAliases_CategoryId",
                 table: "CategoryAliases",
                 column: "CategoryId");
@@ -862,6 +928,9 @@ namespace FlexTemplate.Migrations
                 name: "AvailableContainers");
 
             migrationBuilder.DropTable(
+                name: "BlogComments");
+
+            migrationBuilder.DropTable(
                 name: "CategoryAliases");
 
             migrationBuilder.DropTable(
@@ -905,6 +974,9 @@ namespace FlexTemplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Blogs");
 
             migrationBuilder.DropTable(
                 name: "ContainerTemplates");

@@ -19,10 +19,9 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(string template, IEnumerable<int> loadedPlacesIds)
+        public IViewComponentResult Invoke(string template)
         {
-            var ids = _context.Places.Where(p => !loadedPlacesIds.Contains(p.Id)).Select(p => p.Id).Except(loadedPlacesIds == null ? new int[] {} : loadedPlacesIds).Take(8).ToList();
-            if (loadedPlacesIds != null) ids = ids.Concat(loadedPlacesIds).ToList();
+            var ids = _context.Places.Select(p => p.Id).Take(8);
             var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
             var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids.ToList(), Strings = strings};
             return View(template, model);
