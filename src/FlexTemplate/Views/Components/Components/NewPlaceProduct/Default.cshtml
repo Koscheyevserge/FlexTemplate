@@ -3,12 +3,13 @@
 
     <div class="icon">
         <i class="fa fa-cutlery text-primary"></i>
-        <span class="number-label">@Model.Position</span>
+        <span class="number-label">@(Model.Position + 1)</span>
     </div>
 
     <div class="image-upload">
         <div class="dropzone food-menu-image">
             <input name="file" type="file">
+            <input type="hidden" name="Menus[@Model.Menu].Product[@Model.Position].Guid" value="@Guid.NewGuid().ToString()"/>
             <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>
         </div>
     </div>
@@ -21,7 +22,7 @@
 
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" name="Menus[@Model.Menu].Products[@Model.Position].Name" class="form-control" />
                 </div>
 
             </div>
@@ -31,7 +32,7 @@
                 <div class="form-group">
                     <label>Price</label>
                     <div class="input-group">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="Menus[@Model.Menu].Products[@Model.Position].Price">
                         <span class="input-group-addon">$</span>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
 
                 <div class="form-group">
                     <label>Short Description</label>
-                    <input type="text" class="form-control" />
+                    <input type="text" name="Menus[@Model.Menu].Products[@Model.Position].Description" class="form-control" />
                 </div>
 
             </div>

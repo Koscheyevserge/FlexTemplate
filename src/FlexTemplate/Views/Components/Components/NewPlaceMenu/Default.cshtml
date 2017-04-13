@@ -1,62 +1,59 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.NewPlaceNewMenuViewModel
-<div class="submite-list-box">
+<div class="food-menu-form-wrapper">
 
-    <div class="food-menu-form-wrapper">
+    <h6 class="text-primary text-uppercase">Menu Category #@(Model.Position + 1)<a id="remove-menu" class="pull-right"><i class="fa fa-minus-circle"></i></a></h6>
 
-        <h6 class="text-primary text-uppercase">Menu Category #@(Model.Position + 1)</h6>
+    <div class="form-group form-group-lg">
 
-        <div class="form-group form-group-lg">
+        <input type="text" name="Menus[@Model.Position].Name" class="form-control" placeholder="Ex: Breakfast" />
+            
+    </div>
 
-            <input type="text" name="Menus[@Model.Position]" class="form-control" placeholder="Ex: Breakfast" />
+    <div class="food-menu-form-box clearfix">
 
+        <div class="icon">
+            <i class="fa fa-cutlery text-primary"></i>
+            <span class="number-label">1</span>
         </div>
 
-        <div class="food-menu-form-box clearfix">
-
-            <div class="icon">
-                <i class="fa fa-cutlery text-primary"></i>
-                <span class="number-label">1</span>
+        <div class="image-upload">
+            <div class="dropzone food-menu-image">
+                <input type="hidden" name="Menus[@Model.Position].Product[0].Guid" value="@Guid.NewGuid()"/>
+                <input name="file" type="file">
+                <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>
             </div>
+        </div>
 
-            <div class="image-upload">
-                <div class="dropzone food-menu-image">
-                    <input name="file" type="file">
-                    <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>
+        <div class="food-memu-form">
+
+            <div class="row gap-20">
+
+                <div class="col-xss-12 col-xs-12 col-sm-9">
+
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" name="Menus[@Model.Position].Products[0].Name" class="form-control" />
+                    </div>
+
                 </div>
-            </div>
 
-            <div class="food-memu-form">
+                <div class="col-xss-12 col-xs-12 col-sm-3">
 
-                <div class="row gap-20">
-
-                    <div class="col-xss-12 col-xs-12 col-sm-9">
-
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" name="Menus[@Model.Position].Products[0].Name" class="form-control" />
+                    <div class="form-group">
+                        <label>Price</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="Menus[@Model.Position].Products[0].Price">
+                            <span class="input-group-addon">$</span>
                         </div>
-
                     </div>
 
-                    <div class="col-xss-12 col-xs-12 col-sm-3">
+                </div>
 
-                        <div class="form-group">
-                            <label>Price</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="Menus[@Model.Position].Products[0].Price">
-                                <span class="input-group-addon">$</span>
-                            </div>
-                        </div>
+                <div class="col-xss-12 col-xs-12 col-sm-12">
 
-                    </div>
-
-                    <div class="col-xss-12 col-xs-12 col-sm-12">
-
-                        <div class="form-group">
-                            <label>Short Description</label>
-                            <input type="text" name="Menus[@Model.Position].Products[0].Description" class="form-control" />
-                        </div>
-
+                    <div class="form-group">
+                        <label>Short Description</label>
+                        <input type="text" name="Menus[@Model.Position].Products[0].Description" class="form-control" />
                     </div>
 
                 </div>
@@ -65,12 +62,12 @@
 
         </div>
 
-        <div class="clearfix mt-15">
-            <a id="add-product" menu-position="@Model.Position"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-            <a id="remove-product" menu-position="@Model.Position"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-            <span class="ml-5 font13 line-12 text-muted font-italic">You can add upto 10 menus</span>
-        </div>
+    </div>
 
+    <div class="clearfix mt-15">
+        <a id="add-product" menu-position="@Model.Position"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+        <a id="remove-product" menu-position="@Model.Position"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+        <span class="ml-5 font13 line-12 text-muted font-italic">You can add upto 10 menus</span>
     </div>
 
 </div>

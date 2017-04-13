@@ -470,14 +470,16 @@ function initSlider() {
           Position: newMenuId
       }),
       success: function (dom) {
+          $("#remove-menu").remove();
           $(".food-menu-form-wrapper").last().after(dom);
+          /*'<a class="pull-right"><i class="fa fa-minus-circle"></i></a>'*/
       }
     });
   });
   $("body").on('click', "#add-product", function () {
     let data = {
-      Position: $(this).parent().prev().length + 1,
-      Menu: $(this).parent().parent().index() + 1
+      Position: $(this).parent().parent().children(".food-menu-form-box").length,
+      Menu: $(this).closest(".food-menu-form-wrapper").index()
     };
     $.ajax({
       url: URL_DOMAIN + '/api/loadproduct',
@@ -491,7 +493,14 @@ function initSlider() {
     });
   });
   $("body").on('click', "#remove-product", function () {
-    debugger;
+      $(this).parent().parent().children(".food-menu-form-box").last().remove();
+  });
+  $("body").on('click', "#remove-menu", function () {
+      let parent = $(this).parent().parent().parent();
+      parent.prev();
+      if (parent.siblings() > 0) {
+          parent.remove();
+      }
   });
 
   /*
