@@ -6,9 +6,8 @@ using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
-    public class HomeBlogViewModel
+    public class HomeBlogCommentsViewModel
     {
-       public Blog Blog { get; set; }
-       
+        public BlogComment Comment { get; set; }
     }
 }

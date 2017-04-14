@@ -18,7 +18,7 @@
         <div class="breadcrumb-wrapper">
             <ol class="breadcrumb">
                 <li><a href="#">Головна</a></li>
-                <li class="active">Blog Single</li>
+                <li class="active">@Model.Blog.Caption</li>
             </ol>
         </div>
 
@@ -36,7 +36,7 @@
 
                             <div class="meta clearfix">
                                 <div class="date-posted">@Model.Blog.CreatedOn</div>
-                                <div>by: @Model.Blog.Author</div>
+                                <div>by: @Model.Blog.Author.Name @Model.Blog.Author.Surname</div>
                                 <div>in: Review Trip</div>
                             </div>
 
@@ -73,14 +73,14 @@
                             </div>
                         </div>
 
-                        <h4>About The Author</h4>
+                        <h4>Про автора</h4>
                         <div class="blog-author clearfix">
                             <div class="author-label">
                                 <img src="images/man/01.jpg" alt="author image" />
                             </div>
                             <div class="author-details">
 
-                                <h6><a href="#" class="inverse">John Joe</a></h6>
+                                <h6><a href="#" class="inverse">@Model.Blog.Author.Name @Model.Blog.Author.Surname</a></h6>
                                 <p>Prepared do an dissuade be so whatever steepest. Yet her beyond looked either day wished nay. By doubtful disposed do juvenile an. Now curiosity you explained immediate why behaviour. An dispatched impossible of of melancholy favourable. </p>
 
                                 <div class="social">
@@ -100,14 +100,8 @@
                     <div class="clear mb-40"></div>
 
                     <h4>9 Comments</h4>
-
-                    <div class="comment-wrapper">
-
-                        <ul class="comment-item">
-                            <li class="clearfix">@Model.Blog.Comments</li>  
-                        </ul>
-
-                    </div><!-- End Comment -->
+                    @await Component.InvokeAsync("BlogComments", new { item = Model.Blog })
+                  <!-- End Comment -->
 
                     <div class="clear mb-40"></div>
 
