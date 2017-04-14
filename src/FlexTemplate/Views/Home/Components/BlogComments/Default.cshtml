@@ -1,20 +1,20 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.HomeBlogCommentsViewModel
 
-    <ul class="comment-item">
-        <li class="clearfix">
-            <div class="comment-avatar">
-                <img src="images/man/03.jpg" alt="author image" />
-            </div>
-            <div class="comment-header">
-                <a href="#" class="comment-reply">відповісти</a>
-                <a href="#" class="font700 text-uppercase">@Model.Comment.Author.Name @Model.Comment.Author.Surname</a>
-                <span class="comment-time">@Model.Comment.CreatedOn</span>
-            </div>
-            <div class="comment-content">
-                <p>@Model.Comment.Text</p>
-            </div>
-        </li>
+<ul class="comment-item">
+    <li class="clearfix">
+        <div class="comment-avatar">
+            <img src="images/man/03.jpg" alt="author image" />
+        </div>
+        <div class="comment-header">
+            <a href="#" class="comment-reply">відповісти</a>
+            <a href="#" class="font700 text-uppercase">@Model.Comment.Author.Name @Model.Comment.Author.Surname</a>
+            <span class="comment-time">@Model.Comment.CreatedOn</span>
+        </div>
+        <div class="comment-content">
+            <p>@Model.Comment.Text</p>
+        </div>
+    </li>
 
-    </ul>
+</ul>
 
 </div>
