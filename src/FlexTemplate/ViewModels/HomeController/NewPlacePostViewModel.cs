@@ -9,6 +9,7 @@ namespace FlexTemplate.ViewModels.HomeController
 {
     public class NewPlacePostViewModel
     {
+        [Required(ErrorMessage = "Необхідно вказати назв")]
         public string Name { get; set; }
         public string Description { get; set; }
         public int[] Categories { get; set; }

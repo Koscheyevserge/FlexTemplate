@@ -16,14 +16,14 @@
         </div>
         <div class="row mt-40 mb-30">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-                <div class="notify-box">
+                <!--<div class="notify-box">
                     <div class="notify-inner">
                         <p> Якщо у вас немає аккаунту ви можете створити новий, ввівши свою електронну адресу/ім'я користувача. Дані аккаунту будуть підтверджені по електронній пошті.</p>
                         <a href="#" class="btn btn-primary btn-sm btn-absolute">Вхід</a>
                     </div>
-                </div>
+                </div>-->
                 <div class="submite-list-wrapper">
-                    <form method="post" asp-controller="Home" asp-action="NewPlace" enctype="multipart/form-data">
+                    <form method="post" asp-controller="Home" asp-action="NewPlace" enctype="multipart/form-data"  id="new-place-form">
                         <input id="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
                         <!--Main info-->
                         <div class="row">
@@ -39,13 +39,13 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group form-group-lg">
                                         <label>Назва ресторану:</label>
-                                        <input type="text" class="form-control" name="Name"/>
+                                        <input id="required" type="text" class="form-control" name="Name"/>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group bootstrap3-wysihtml5-wrapper">
                                         <label>Iнформація про ресторан:</label>
-                                        <textarea name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
+                                        <textarea id="required" name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -95,31 +95,31 @@
                                 <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label>Місто</label>
-                                        <input type="text" class="form-control" name="city" />
+                                        <input id="required" type="text" class="form-control" name="city" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label>Вулиця</label>
-                                        <input type="text" class="form-control" name="street" />
+                                        <input id="required" type="text" class="form-control" name="street" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
                                     <div class="form-group">
                                         <label>Адреса</label>
-                                        <input type="text" class="form-control" name="address" />
+                                        <input id="required" type="text" class="form-control" name="address" />
                                     </div>
                                 </div>
                                 <div class="col-xss-12 col-xs-6 col-sm-4">
                                     <div class="form-group">
                                         <label>Телефон</label>
-                                        <input type="text" class="form-control" name="phone" />
+                                        <input id="required" type="text" class="form-control" name="phone" />
                                     </div>
                                 </div>
                                 <div class="col-xss-12 col-xs-6 col-sm-4">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" name="email" />
+                                        <input id="required" type="email" class="form-control" name="email" />
                                     </div>
                                 </div>
                                 <div class="col-xss-12 col-xs-6 col-sm-4">
@@ -457,10 +457,10 @@
                         </div>
                         <!--End Фотографії-->
                         <!--Submit-->
-                        <div class="checkbox-block font-icon-checkbox">
-                            <input id="term_accept-1" name="TermAccept" type="checkbox" class="checkbox" />
+                        <!--<div class="checkbox-block font-icon-checkbox">
+                            <input id="term_accept-1" name="TermAccept" type="checkbox" class="required checkbox" />
                             <label class="" for="term_accept-1">Am terminated it excellence invitation projection as. She graceful shy believed distance use nay. Lively is people so basket ladies window expect. <a href="#" class="font700">Terms &amp; Conditions</a></label>
-                        </div>
+                        </div>-->
                         <input type="submit" class="btn btn-primary mt-15" value="Відправити" />
                         <!--End Submit-->
                     </form>

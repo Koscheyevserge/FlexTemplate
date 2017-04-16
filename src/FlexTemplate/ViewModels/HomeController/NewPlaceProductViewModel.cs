@@ -9,7 +9,7 @@ namespace FlexTemplate.ViewModels.HomeController
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Guid Guid { get; set; }
+        public string Guid { get; set; }
         public double Price { get; set; }
     }
 }

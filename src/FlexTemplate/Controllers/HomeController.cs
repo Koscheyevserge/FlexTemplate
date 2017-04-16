@@ -186,8 +186,11 @@ namespace FlexTemplate.Controllers
             context.Places.Add(newPlace);
             context.SaveChanges();
             var sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
-            var destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
-            Directory.Move(sourceDirectory, destinationDirectory);
+            if (Directory.Exists(sourceDirectory))
+            {
+                var destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
+                Directory.Move(sourceDirectory, destinationDirectory);
+            }
             return RedirectToAction("Place", new {id = newPlace.Id});
         }
 
