@@ -24,7 +24,6 @@
                 </div>-->
                 <div class="submite-list-wrapper">
                     <form method="post" asp-controller="Home" asp-action="NewPlace" enctype="multipart/form-data"  id="new-place-form">
-                        <input id="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
                         <!--Main info-->
                         <div class="row">
                             <div class="col-md-8">
@@ -452,6 +451,7 @@
                         <div class="submite-list-box">
                             <div id="new-place" class="dropzone">
                                 <input name="files" type="file" multiple>
+                                <input id="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
                                 <div class="dz-default dz-message"><span>Натисніть або перетяніть сюди зображення</span></div>
                             </div>
                         </div>

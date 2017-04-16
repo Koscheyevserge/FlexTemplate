@@ -508,11 +508,6 @@ function initSlider() {
           $(this).prop('required', true);
       });
   });
-    $("body").on("submit", "#new-place-form", function(event) {
-        if ($("#term_accept-1").val() !== true) {
-            event.preventDefault();
-        }
-    });
 
   /*
   * CKEditor config

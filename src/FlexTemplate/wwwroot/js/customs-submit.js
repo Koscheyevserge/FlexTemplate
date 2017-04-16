@@ -32,7 +32,6 @@ jQuery(function($) {
 	//  Dropzone -----------------------------------------------------------------------------------------------------------
 
 	if ($('.dropzone').length > 0) {
-	    let fileDescriptor = $("#file_descriptor").val();
 			Dropzone.autoDiscover = false;
 
 			$("#profile-picture").dropzone({
@@ -41,15 +40,15 @@ jQuery(function($) {
 			});
 			
 			$(".food-menu-image").dropzone({
-					url: "upload",
-					maxFiles: 1,
-					addRemoveLinks: true
+			    url: "/api/upload/producthead/" + $(this).find("#file_descriptor").val(),
+			    addRemoveLinks: true,
+			    maxFiles: 1
 			});
 			$("#new-place").dropzone({
-			    url: "/api/upload/newplace/" + fileDescriptor
+			    url: "/api/upload/newplace/" + $(this).find("#file_descriptor").val()
 			});
 	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + fileDescriptor,
+	            url: "/api/upload/head/" + $(this).find("#file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {

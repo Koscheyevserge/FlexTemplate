@@ -133,7 +133,7 @@ namespace FlexTemplate.Controllers
                     c => c.Name.Contains(item.City) || c.Aliases.Any(a => a.Text.Contains(item.City)));
             var chosenCity = possibleCities.Any()
                 ? possibleCities.FirstOrDefault()
-                : new City { Name = item.City };
+                : new City { Name = item.City, Country = context.Countries.FirstOrDefault()};
             var possibleStreets =
                 context.Streets.Where(
                     s => s.Name.Contains(item.Street) || s.Aliases.Any(a => a.Text.Contains(item.Street)));
