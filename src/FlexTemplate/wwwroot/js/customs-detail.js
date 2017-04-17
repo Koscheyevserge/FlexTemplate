@@ -61,7 +61,7 @@ function initialize() {
 		position: loc,
 		//disableDefaultUI:true,
 
-		icon:'images/map-marker/00.png',
+		icon:'../../images/map-marker/00.png',
 		//pixelOffset: new google.maps.Size(-140, -100),
 		visible: true
 
@@ -77,7 +77,7 @@ function initialize() {
 		alignBottom: true,
 		isHidden: false,
 		//closeBoxMargin: "12px 4px 2px 2px",
-		closeBoxURL: "images/infobox-close.png",
+		closeBoxURL: "../../images/infobox-close.png",
 		closeBoxClass:"infoBox-close",
 		infoBoxClearance: new google.maps.Size(1, 1)
 	});

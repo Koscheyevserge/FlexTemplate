@@ -87,6 +87,8 @@ jQuery(function($) {
             draggable: true
         };
         var mapElement = document.getElementById('map-simple');
+        if (!mapElement)
+            return;
         var map = new google.maps.Map(mapElement, mapOptions);
 
         // Google map marker content -----------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ function initialize() {
 							draggable: true,
 							position: markerData[i].latLng,
 							visible: true,
-							icon: 'images/map-marker/00.png',
+							icon: '../../images/map-marker/00.png',
 					}),
 					boxText = document.createElement("div"),
 					//these are the options for all infoboxes
@@ -43,7 +43,7 @@ function initialize() {
 							pixelOffset: new google.maps.Size(0, -50),
 							zIndex: null,
 							closeBoxMargin: '0',
-							closeBoxURL: "images/infobox-close.png",
+							closeBoxURL: "../../images/infobox-close.png",
 							infoBoxClearance: new google.maps.Size(1, 1),
 							isHidden: false,
 							pane: "floatPane",
