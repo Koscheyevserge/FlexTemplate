@@ -154,13 +154,13 @@ namespace FlexTemplate.Controllers
                 Street = chosenStreet,
                 PlaceCategories = placeCategories
             };
-            if (!(item.MondayFrom == TimeSpan.MinValue && item.MondayTo == TimeSpan.MinValue
-                && item.TuesdayFrom == TimeSpan.MinValue && item.TuesdayTo == TimeSpan.MinValue
-                && item.WednesdayFrom == TimeSpan.MinValue && item.WednesdayTo == TimeSpan.MinValue
-                && item.ThurstdayFrom == TimeSpan.MinValue && item.ThurstdayTo == TimeSpan.MinValue
-                && item.FridayFrom == TimeSpan.MinValue && item.FridayTo == TimeSpan.MinValue
-                && item.SaturdayFrom == TimeSpan.MinValue && item.SaturdayTo == TimeSpan.MinValue
-                && item.SundayFrom == TimeSpan.MinValue && item.SundayTo == TimeSpan.MinValue)
+            if (!(item.MondayFrom == TimeSpan.Zero && item.MondayTo == TimeSpan.Zero
+                && item.TuesdayFrom == TimeSpan.Zero && item.TuesdayTo == TimeSpan.Zero
+                && item.WednesdayFrom == TimeSpan.Zero && item.WednesdayTo == TimeSpan.Zero
+                && item.ThurstdayFrom == TimeSpan.Zero && item.ThurstdayTo == TimeSpan.Zero
+                && item.FridayFrom == TimeSpan.Zero && item.FridayTo == TimeSpan.Zero
+                && item.SaturdayFrom == TimeSpan.Zero && item.SaturdayTo == TimeSpan.Zero
+                && item.SundayFrom == TimeSpan.Zero && item.SundayTo == TimeSpan.Zero)
                 && item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
                 && item.WednesdayFrom <= item.WednesdayTo && item.ThurstdayFrom <= item.ThurstdayTo
                 && item.FridayFrom <= item.FridayTo && item.SaturdayFrom <= item.SaturdayTo && item.SundayFrom <= item.SundayTo)

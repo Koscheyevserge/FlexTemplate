@@ -5,27 +5,21 @@ jQuery(function($) {
 		
 	/**
 	 * Image Grid for Photo
-	 */	
-		
-	$('#detail-food-photo').imagesGrid({
-			images: [
-					{ src: 'images/detail-food-photo/01.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption One' },
-					{ src: 'images/detail-food-photo/02.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Two' },
-					{ src: 'images/detail-food-photo/03.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Three' },
-					{ src: 'images/detail-food-photo/04.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Fpur' },
-					{ src: 'images/detail-food-photo/05.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Five' },
-					{ src: 'images/detail-food-photo/06.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Six' },
-					{ src: 'images/detail-food-photo/07.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Seven' },
-					{ src: 'images/detail-food-photo/08.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Eight' },
-					{ src: 'images/detail-food-photo/09.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Nine' },
-					{ src: 'images/detail-food-photo/10.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Ten' },
-					{ src: 'images/detail-food-photo/11.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Eleven' },
-					{ src: 'images/detail-food-photo/12.jpg', alt: 'Second image', title: 'Second image', caption: 'Image Caption Twelve' },
-			],
-			cells: 5,
-			align: true
-	});
-	
+	 */
+	var url = window.location.href.split("/").pop();
+	if (!Number.isNaN(url)) {
+	    $.get(window.location.origin + "/api/resources/photo-detail/" + url, function (data) {
+	        var images = [];
+	        for (let i = 0; i < data.length; i++) {
+	            images.push({ src: data[i].replace("wwwroot", "../.."), alt: 'alt', title: 'title', caption: 'caption' });
+	        }
+	        $('#detail-food-photo').imagesGrid({
+	            images: images,
+	            cells: 5,
+	            align: true
+	        });
+	    });
+	}
 });
 
 
