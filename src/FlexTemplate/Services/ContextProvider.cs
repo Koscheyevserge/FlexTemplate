@@ -33,7 +33,7 @@ namespace FlexTemplate.Services
 
         private async Task Initialize()
         {
-            if (context == null || !context.HasNoRows())
+            if (!context?.HasNoRows() ?? true)
             {
                 return;
             }
@@ -296,22 +296,22 @@ namespace FlexTemplate.Services
             var harkovStreet13 = new Street { Name = "Вулиця Людвига Свободи", City = harkov };
             context.Add(new StreetAlias { Street = harkovStreet13, Language = ukrainian, Text = "Вулиця Людвига Свободи" });
 
-            var category1 = new Category { Name = "Українська кухня" };
-            context.Add(new CategoryAlias { Category = category1, Language = ukrainian, Text = "Українська кухня" });
-            var category2 = new Category { Name = "Італійська кухня" };
-            context.Add(new CategoryAlias { Category = category2, Language = ukrainian, Text = "Італійська кухня" });
-            var category3 = new Category { Name = "Грузинська кухня" };
-            context.Add(new CategoryAlias { Category = category3, Language = ukrainian, Text = "Грузинська кухня" });
-            var category4 = new Category { Name = "Американська кухня" };
-            context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська кухня" });
-            var category5 = new Category { Name = "Японська кухня" };
-            context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська кухня" });
-            var category6 = new Category { Name = "Француська кухня" };
-            context.Add(new CategoryAlias { Category = category6, Language = ukrainian, Text = "Француська кухня" });
-            var category7 = new Category { Name = "Вірменська кухня" };
-            context.Add(new CategoryAlias { Category = category7, Language = ukrainian, Text = "Вірменська кухня" });
-            var category8 = new Category { Name = "Китайська кухня" };
-            context.Add(new CategoryAlias { Category = category8, Language = ukrainian, Text = "Китайська кухня" });
+            var category1 = new Category { Name = "Українська" };
+            context.Add(new CategoryAlias { Category = category1, Language = ukrainian, Text = "Українська" });
+            var category2 = new Category { Name = "Італійська" };
+            context.Add(new CategoryAlias { Category = category2, Language = ukrainian, Text = "Італійська" });
+            var category3 = new Category { Name = "Грузинська" };
+            context.Add(new CategoryAlias { Category = category3, Language = ukrainian, Text = "Грузинська" });
+            var category4 = new Category { Name = "Американська" };
+            context.Add(new CategoryAlias { Category = category4, Language = ukrainian, Text = "Американська" });
+            var category5 = new Category { Name = "Японська" };
+            context.Add(new CategoryAlias { Category = category5, Language = ukrainian, Text = "Японська" });
+            var category6 = new Category { Name = "Француська" };
+            context.Add(new CategoryAlias { Category = category6, Language = ukrainian, Text = "Француська" });
+            var category7 = new Category { Name = "Вірменська" };
+            context.Add(new CategoryAlias { Category = category7, Language = ukrainian, Text = "Вірменська" });
+            var category8 = new Category { Name = "Китайська" };
+            context.Add(new CategoryAlias { Category = category8, Language = ukrainian, Text = "Китайська" });
             context.AddRange(
                 new Place
                 {
