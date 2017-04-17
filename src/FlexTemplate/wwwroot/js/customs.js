@@ -472,6 +472,14 @@ function initSlider() {
       success: function (dom) {
           $("#remove-menu").remove();
           $(".food-menu-form-wrapper").last().after(dom);
+          let newDropzone = $(".food-menu-image:not(.dz-clickable)");
+          if (newDropzone) {
+              newDropzone.dropzone({
+                  url: "/api/upload/producthead/" + newDropzone.find("#file_descriptor").val(),
+                  addRemoveLinks: true,
+                  maxFiles: 1
+              });
+          }
           /*'<a class="pull-right"><i class="fa fa-minus-circle"></i></a>'*/
       }
     });
@@ -489,6 +497,14 @@ function initSlider() {
       data: JSON.stringify(data),
       success: function (dom) {
           $(this).parent().prev().after(dom);
+          let newDropzone = $(".food-menu-image:not(.dz-clickable)");
+          if (newDropzone) {
+              newDropzone.dropzone({
+                  url: "/api/upload/producthead/" + newDropzone.find("#file_descriptor").val(),
+                  addRemoveLinks: true,
+                  maxFiles: 1
+              });
+          }
       }.bind(this)
     });
   });

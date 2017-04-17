@@ -36,8 +36,10 @@ function initialize() {
 	var styledMap = new google.maps.StyledMapType(styles,  {name: "Styled Map"});
 
 	loc = new google.maps.LatLng($("#hotel-detail-map").attr("data-lat"), $("#hotel-detail-map").attr("data-lon"));
-
-	map = new google.maps.Map(document.getElementById("hotel-detail-map"), {
+	var element = document.getElementById("hotel-detail-map");
+    if (!element)
+        return;
+	map = new google.maps.Map(element, {
 		zoom: 14,
 		center: loc,
 		scrollwheel: false,

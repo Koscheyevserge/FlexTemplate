@@ -87,6 +87,8 @@ namespace FlexTemplate.Controllers
                         .Include(p => p.Street)
                         .ThenInclude(s => s.Aliases)
                         .Include(p => p.Schedule)
+                        .Include(p => p.Menus)
+                        .ThenInclude(m => m.Products)
                         .SingleOrDefault(item => item.Id == id)
             };
             return View(model);
@@ -183,8 +185,41 @@ namespace FlexTemplate.Controllers
                     SundayTo = item.SundayTo
                 };
             }
+            newPlace.Menus = item.Menus
+                .Where(m => m.Products.Any(p => p.Price > 0 && !string.IsNullOrEmpty(p.Name)))
+                .Select(menu => 
+                new Menu
+                {
+                    Name = menu.Name,
+                    Products = menu.Products
+                    .Where(p => p.Price > 0 && !string.IsNullOrEmpty(p.Name))
+                    .Select(product =>
+                    new Product
+                    {
+                        Description = product.Description,
+                        Price = product.Price,
+                        Title = product.Name
+                    }).ToList()
+                }).ToList();
             context.Places.Add(newPlace);
             context.SaveChanges();
+            foreach (var menu in newPlace.Menus)
+            {
+                foreach (var product in menu.Products)
+                {
+                    var entity = item.Menus.SelectMany(m => m.Products)
+                        .FirstOrDefault(p => p.Description == product.Description && Math.Abs(p.Price - product.Price) < 0.1 && p.Name == product.Title);
+                    var uid = entity?.Guid;
+                    if(uid == null)
+                        continue;
+                    var source = $@"wwwroot\Resources\Products\{uid}.tmp";
+                    if (System.IO.File.Exists(source))
+                    {
+                        var destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
+                        System.IO.File.Move(source, destinationDirectory);
+                    }
+                }
+            }
             var sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
             if (Directory.Exists(sourceDirectory))
             {

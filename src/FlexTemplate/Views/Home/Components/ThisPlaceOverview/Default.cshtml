@@ -1,6 +1,6 @@
 ﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceOverviewViewModel
 @{
-    bool hasSchedule = !(Model.Place.Schedule.MondayFrom == TimeSpan.Zero && Model.Place.Schedule.MondayTo == TimeSpan.Zero
+    bool hasSchedule = Model.Place.Schedule != null && !(Model.Place.Schedule.MondayFrom == TimeSpan.Zero && Model.Place.Schedule.MondayTo == TimeSpan.Zero
     && Model.Place.Schedule.TuesdayFrom == TimeSpan.Zero && Model.Place.Schedule.TuesdayTo == TimeSpan.Zero
     && Model.Place.Schedule.WednesdayFrom == TimeSpan.Zero && Model.Place.Schedule.WednesdayTo == TimeSpan.Zero
     && Model.Place.Schedule.ThurstdayFrom == TimeSpan.Zero && Model.Place.Schedule.ThurstdayTo == TimeSpan.Zero

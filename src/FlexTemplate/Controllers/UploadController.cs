@@ -38,13 +38,12 @@ namespace FlexTemplate.Controllers
         public void UploadProductHeadPhoto(string fileDescriptor)
         {
             var file = HttpContext.Request.Form.Files[0];
-            var filename = Guid.NewGuid() + ".jpg";
-            var path = $@"wwwroot\Resources\Products\{fileDescriptor}\";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+            var path = $@"wwwroot\Resources\Products\{fileDescriptor}.tmp";
+            if (!System.IO.File.Exists(@"wwwroot\Resources\Products\"))
+                Directory.CreateDirectory(@"wwwroot\Resources\Products\");
             if (file.Length > 0)
             {
-                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
+                using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
                 {
                     file.CopyTo(stream);
                 }
