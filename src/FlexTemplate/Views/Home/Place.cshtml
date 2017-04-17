@@ -185,7 +185,7 @@
 
         </div>
 
-        @await  Component.InvokeAsync("YouMayAlsoLike")
+        @await  Component.InvokeAsync("YouMayAlsoLike", new { item = Model.Place })
 
     </div>
 

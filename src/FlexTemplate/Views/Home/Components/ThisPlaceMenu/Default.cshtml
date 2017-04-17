@@ -1,5 +1,5 @@
 ﻿@model FlexTemplate.Entities.Place
-@if (Model != null && Model.Menus != null)
+@if (Model != null && Model.Menus != null && Model.Menus.Any())
 {
     <div id="detail-content-sticky-nav-01" class="detail-content-section clearfix">
 
@@ -32,7 +32,7 @@
                                         <div class="food-menu-item clearfix">
 
                                             <div class="image">
-                                                <img src="../../Resources/Products/@product.Id" onerror="this.onerror = null; this.src = '../../images/item-sq/01.jpg';" alt="image"/>
+                                                <img src="../../Resources/Products/@product.Id" onerror="this.onerror = null; this.src = '../../Resources/Defaults/product.jpg';" alt="image"/>
                                             </div>
 
                                             <div class="content">

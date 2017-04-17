@@ -60,7 +60,7 @@ namespace FlexTemplate
         {
             loggerFactory.AddConsole();
 
-            if (env.IsDevelopment())
+            if (true)//(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
