@@ -112,8 +112,11 @@ namespace FlexTemplate.Controllers
             var model = new HomeBlogViewModel
             {
                 Blog = context.Blogs.Include(blog => blog.Author)
-                .Include(blog => blog.Comments)
-                .SingleOrDefault(blog => blog.Id == id)
+                .SingleOrDefault(blog => blog.Id == id),
+
+                Comments = context.BlogComments.Where(com => com.BlogId == id)
+                .Include(a => a.Author)
+                
             };
             return View(model);
         }

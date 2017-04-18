@@ -9,6 +9,6 @@ namespace FlexTemplate.ViewModels.HomeController
     public class HomeBlogViewModel
     {
        public Blog Blog { get; set; }
-       
+       public virtual IEnumerable<BlogComment> Comments { get; set; }
     }
 }

@@ -100,7 +100,7 @@
                     <div class="clear mb-40"></div>
 
                     <h4>9 Comments</h4>
-                    @foreach (FlexTemplate.Entities.BlogComment comment in Model.Blog.Comments)
+                    @foreach (FlexTemplate.Entities.BlogComment comment in Model.Comments)
                     {
                         @await Component.InvokeAsync("BlogComments", new {item = comment})
                     }
