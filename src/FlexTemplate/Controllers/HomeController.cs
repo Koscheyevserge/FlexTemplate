@@ -115,8 +115,7 @@ namespace FlexTemplate.Controllers
                 .SingleOrDefault(blog => blog.Id == id),
 
                 Comments = context.BlogComments.Where(com => com.BlogId == id)
-                .Include(a => a.Author)
-                
+                .Include(a => a.Author),
             };
             return View(model);
         }
