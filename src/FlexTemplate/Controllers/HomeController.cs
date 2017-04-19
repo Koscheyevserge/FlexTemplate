@@ -124,7 +124,7 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "NewPlace";
             ViewData["BodyClasses"] = "full-width-container";
-            return View();
+            return View(context.Categories.AsNoTracking().AsEnumerable());
         }
 
         [HttpPost]
@@ -205,6 +205,8 @@ namespace FlexTemplate.Controllers
                 }).ToList();
             context.Places.Add(newPlace);
             context.SaveChanges();
+            string destinationDirectory = null;
+            string sourceDirectory = null;
             foreach (var menu in newPlace.Menus)
             {
                 foreach (var product in menu.Products)
@@ -214,18 +216,26 @@ namespace FlexTemplate.Controllers
                     var uid = entity?.Guid;
                     if(uid == null)
                         continue;
-                    var source = $@"wwwroot\Resources\Products\{uid}.tmp";
-                    if (System.IO.File.Exists(source))
+                    sourceDirectory = $@"wwwroot\Resources\Products\{uid}.tmp";
+                    if (System.IO.File.Exists(sourceDirectory))
                     {
-                        var destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
-                        System.IO.File.Move(source, destinationDirectory);
+                        destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
+                        if (System.IO.File.Exists(destinationDirectory))
+                        {
+                            Directory.Delete(destinationDirectory, true);
+                        }
+                        System.IO.File.Move(sourceDirectory, destinationDirectory);
                     }
                 }
             }
-            var sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
+            sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
             if (Directory.Exists(sourceDirectory))
             {
-                var destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
+                destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
+                if (System.IO.File.Exists(destinationDirectory))
+                {
+                    Directory.Delete(destinationDirectory, true);
+                }
                 Directory.Move(sourceDirectory, destinationDirectory);
             }
             return RedirectToAction("Place", new {id = newPlace.Id});

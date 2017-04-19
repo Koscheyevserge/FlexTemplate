@@ -1,4 +1,5 @@
-﻿<!-- start Main Wrapper -->
+﻿@model IEnumerable<FlexTemplate.Entities.Category>
+<!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
     <!-- start hero-header -->
     <div class="hero hero-breadcrumb" style="background-image:url('../../images/hero-header/03.jpg');">
@@ -52,42 +53,15 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <label class="block">Категорії</label>
                                 </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-1" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-1">Visa</label>
+                                @foreach (FlexTemplate.Entities.Category category in Model)
+                                {
+                                    <div class="col-xs-12 col-sm-4">
+                                        <div class="checkbox-block font-icon-checkbox">
+                                            <input id="filter_cuisine-@category.Id" type="checkbox" class="checkbox" name="Categories[]" value="@category.Id"/>
+                                            <label for="filter_cuisine-@category.Id">@category.Name</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-2" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-2">Master card</label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-3" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-3">American Express</label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-4" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-4">Paypal</label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-5" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-5">Citibank Cash Back </label>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-4">
-                                    <div class="checkbox-block font-icon-checkbox">
-                                        <input id="filter_cuisine-6" name="filter_cuisine" type="checkbox" class="checkbox" />
-                                        <label class="" for="filter_cuisine-6"> Krungsri Credit Card</label>
-                                    </div>
-                                </div>
+                                }
                             </div>
                             <h6 class="text-primary text-uppercase mt-15">Адреса &amp; Контакти</h6>
                             <div class="row gap-20">
