@@ -19,8 +19,8 @@ namespace FlexTemplate.ViewModels.HomeController
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public bool TermAccept { get; set; }
         public string Uid { get; set; }
         public TimeSpan MondayFrom { get; set; }

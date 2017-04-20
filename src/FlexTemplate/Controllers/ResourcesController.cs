@@ -26,14 +26,5 @@ namespace FlexTemplate.Controllers
             var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" });
             return result;
         }
-
-        [Route("api/placelocation/{id}")]
-        public GeolocationViewModel PlaceLocation(int id)
-        {
-            var result = context.Places.Where(p => p.Id == id)
-                .Select(p => new GeolocationViewModel { Latitude = p.Latitude, Longitude = p.Longitude })
-                .SingleOrDefault();
-            return result;
-        }
     }
 }

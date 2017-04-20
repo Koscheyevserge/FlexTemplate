@@ -19,7 +19,7 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(Place item)
         {
-            return View();
+            return View(item);
         }
     }
 }

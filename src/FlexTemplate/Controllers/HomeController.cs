@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
@@ -153,8 +154,8 @@ namespace FlexTemplate.Controllers
                 Email = item.Email,
                 Website = item.Website,
                 Phone = item.Phone,
-                Latitude = item.Latitude,
-                Longitude = item.Longitude,
+                Latitude = double.Parse(item.Latitude, CultureInfo.InvariantCulture),
+                Longitude = double.Parse(item.Longitude, CultureInfo.InvariantCulture),
                 Street = chosenStreet,
                 PlaceCategories = placeCategories
             };

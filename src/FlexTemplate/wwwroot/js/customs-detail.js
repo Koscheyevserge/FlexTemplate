@@ -7,7 +7,7 @@ jQuery(function($) {
 	 * Image Grid for Photo
 	 */
 	var url = window.location.href.split("/").pop();
-	if (!Number.isNaN(url)) {
+	if (!Number.isNaN(url) && window.location.href.indexOf('lace') > -1) {
 	    $.get(window.location.origin + "/api/resources/photo-detail/" + url, function (data) {
 	        var images = [];
 	        for (let i = 0; i < data.length; i++) {
@@ -42,7 +42,7 @@ function initialize() {
 	map = new google.maps.Map(element, {
 		zoom: 14,
 		center: loc,
-		scrollwheel: false,
+		scrollwheel: true,
 		//draggable:true,
 		navigationControl: false,
 		scaleControl: false,
