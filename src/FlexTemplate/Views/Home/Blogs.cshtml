@@ -121,6 +121,8 @@
 
                 </div>
 
+                @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blogs });
+
             </div>
 
         </div>

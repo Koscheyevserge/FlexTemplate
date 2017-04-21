@@ -102,7 +102,9 @@ namespace FlexTemplate.Controllers
             var model = new HomeBlogsViewModel
             {
                Blogs = context.Blogs.Include(a => a.Author)
-      };
+               .Include(c => c.Comments)
+               .Take(4)
+            };
             return View(model);
         }
 

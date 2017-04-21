@@ -18,9 +18,9 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(Blog item)
+        public IViewComponentResult Invoke(IEnumerable<Blog> item)
         {
-            return View(new BlogsFeedViewModel { Blog = item });
+            return View(new BlogsFeedViewModel { Blogs = item });
         }
     }
 }
