@@ -242,6 +242,59 @@ namespace FlexTemplate.Controllers
             return RedirectToAction("Place", new {id = newPlace.Id});
         }
 
+        public IActionResult EditPlace(int id)
+        {
+            var place = context.Places
+                .Include(p => p.Schedule)
+                .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category)
+                .Include(p => p.Street).ThenInclude(s => s.City)
+                .AsNoTracking()
+                .SingleOrDefault(p => p.Id == id);
+            if (place == null)
+            {
+                return NotFound();
+            }
+            var model = new EditPlaceViewModel
+            {
+                Street = place.Street.Name,
+                Name = place.Name,
+                Address = place.Address,
+                AllCategories = context.Categories.AsNoTracking().AsEnumerable(),
+                City = place.Street?.City?.Name,
+                CurrentCategories = place.PlaceCategories?.Select(pc => pc?.Category),
+                Description = place.Description,
+                Email = place.Email,
+                Longitude = place.Longitude.ToString("0.00", CultureInfo.InvariantCulture),
+                Latitude = place.Latitude.ToString("0.00", CultureInfo.InvariantCulture),
+                Website = place.Website,
+                Phone = place.Phone
+            };
+            if (place.Schedule != null)
+            {
+                model.MondayFrom = place.Schedule.MondayFrom;
+                model.MondayTo = place.Schedule.MondayTo;
+                model.TuesdayFrom = place.Schedule.TuesdayFrom;
+                model.TuesdayTo = place.Schedule.TuesdayTo;
+                model.WednesdayFrom = place.Schedule.WednesdayFrom;
+                model.WednesdayTo = place.Schedule.WednesdayTo;
+                model.ThurstdayFrom = place.Schedule.ThurstdayFrom;
+                model.ThurstdayTo = place.Schedule.ThurstdayTo;
+                model.FridayFrom = place.Schedule.FridayFrom;
+                model.FridayTo = place.Schedule.FridayTo;
+                model.SaturdayFrom = place.Schedule.SaturdayFrom;
+                model.SaturdayTo = place.Schedule.SaturdayTo;
+                model.SundayFrom = place.Schedule.SundayFrom;
+                model.SundayTo = place.Schedule.SundayTo;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EditPlace(string test)
+        {
+            return null;
+        }
+
         public IActionResult ChangeUserLanguage(string redirect, int languageId)
         {
             return Redirect(redirect);

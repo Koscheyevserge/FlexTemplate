@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
-    public class NewPlacePostViewModel
+    public class EditPlaceViewModel
     {
-        [Required(ErrorMessage = "Необхідно вказати назв")]
         public string Name { get; set; }
         public string Description { get; set; }
         public int[] Categories { get; set; }
+        public IEnumerable<Category> CurrentCategories { get; set; }
+        public IEnumerable<Category> AllCategories { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string Address { get; set; }
@@ -21,7 +22,6 @@ namespace FlexTemplate.ViewModels.HomeController
         public string Website { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        public string Uid { get; set; }
         public TimeSpan MondayFrom { get; set; }
         public TimeSpan MondayTo { get; set; }
         public TimeSpan TuesdayFrom { get; set; }
@@ -36,6 +36,6 @@ namespace FlexTemplate.ViewModels.HomeController
         public TimeSpan SaturdayTo { get; set; }
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
-        public NewPlaceMenuViewModel[] Menus { get; set; } 
+        public IEnumerable<Menu> Menus { get; set; }
     }
 }
