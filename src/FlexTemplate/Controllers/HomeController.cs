@@ -99,7 +99,11 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "Blogs";
             ViewData["BodyClasses"] = "full-width-container";
-            return View();
+            var model = new HomeBlogsViewModel
+            {
+               Blogs = context.Blogs.Include(a => a.Author)
+      };
+            return View(model);
         }
 
         public IActionResult Blog(int id)
