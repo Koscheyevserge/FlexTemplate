@@ -355,7 +355,7 @@
                                     <div class="image-upload">
                                         <div class="dropzone food-menu-image">
                                             <input name="file" type="file">
-                                            <input type="hidden" name="Menus[0].Products[0].Guid" value="@Guid.NewGuid()"/>
+                                            <input class="file_descriptor" type="hidden" name="Menus[0].Products[0].Guid" value="@Guid.NewGuid()"/>
                                             <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>
                                         </div>
                                     </div>
@@ -427,7 +427,7 @@
                         <div class="submite-list-box">
                             <div id="new-place" class="dropzone">
                                 <input name="files" type="file" multiple>
-                                <input id="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
+                                <input class="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
                                 <div class="dz-default dz-message"><span>Натисніть або перетяніть сюди зображення</span></div>
                             </div>
                         </div>

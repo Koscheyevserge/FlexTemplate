@@ -40,21 +40,30 @@ jQuery(function($) {
 			});
 			
 			$(".food-menu-image").dropzone({
-			    url: "/api/upload/producthead/" + $(this).find("#file_descriptor").val(),
+			    url: "/api/upload/producthead/" + $(this).find(".file_descriptor").val(),
 			    addRemoveLinks: true,
-			    maxFiles: 1
+			    maxFiles: 1,
+			    removedfile: function (file) {
+			        $.ajax({
+			            type: 'DELETE',
+			            url: '/api/upload/producthead/' + $(this).find(".file_descriptor").val(),
+			            data: "",
+			            dataType: 'text'
+			        });
+			        var _ref;
+			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+			    }
 			});
 			$("#new-place").dropzone({
-			    url: "/api/upload/newplace/" + $(this).find("#file_descriptor").val()
+			    url: "/api/upload/newplace/" + $(this).find(".file_descriptor").val()
 			});
 	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + $(this).find("#file_descriptor").val(),
+	            url: "/api/upload/head/" + $(this).find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
-	              this.on("success", function(file) {
+	              this.on("success", function() {
 	                  $("#head-update").hide();
-	                  window.alert("File \""+ file.name +"\"was uploaded");
 	              });
 	            } 
 	        });
@@ -156,5 +165,7 @@ jQuery(function($) {
                 marker.content.className = 'marker-loaded';
 	        });
 	    });
-	}
+    } else {
+        alert("Sorry, your browser does not support HTML5 geolocation.");
+    }
 });

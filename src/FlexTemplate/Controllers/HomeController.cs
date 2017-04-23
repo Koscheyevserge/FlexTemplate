@@ -254,6 +254,7 @@ namespace FlexTemplate.Controllers
                 .Include(p => p.Schedule)
                 .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category)
                 .Include(p => p.Street).ThenInclude(s => s.City)
+                .Include(p => p.Menus).ThenInclude(s => s.Products)
                 .AsNoTracking()
                 .SingleOrDefault(p => p.Id == id);
             if (place == null)
@@ -273,7 +274,8 @@ namespace FlexTemplate.Controllers
                 Longitude = place.Longitude.ToString("0.00", CultureInfo.InvariantCulture),
                 Latitude = place.Latitude.ToString("0.00", CultureInfo.InvariantCulture),
                 Website = place.Website,
-                Phone = place.Phone
+                Phone = place.Phone,
+                Menus = place.Menus
             };
             if (place.Schedule != null)
             {

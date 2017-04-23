@@ -36,6 +36,6 @@ namespace FlexTemplate.ViewModels.HomeController
         public TimeSpan SaturdayTo { get; set; }
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
-        public IEnumerable<Menu> Menus { get; set; }
+        public List<Menu> Menus { get; set; }
     }
 }

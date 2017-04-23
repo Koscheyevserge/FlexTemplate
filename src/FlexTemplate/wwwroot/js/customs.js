@@ -475,7 +475,7 @@ function initSlider() {
           let newDropzone = $(".food-menu-image:not(.dz-clickable)");
           if (newDropzone) {
               newDropzone.dropzone({
-                  url: "/api/upload/producthead/" + newDropzone.find("#file_descriptor").val(),
+                  url: "/api/upload/producthead/" + newDropzone.find(".file_descriptor").val(),
                   addRemoveLinks: true,
                   maxFiles: 1
               });
@@ -500,7 +500,7 @@ function initSlider() {
           let newDropzone = $(".food-menu-image:not(.dz-clickable)");
           if (newDropzone) {
               newDropzone.dropzone({
-                  url: "/api/upload/producthead/" + newDropzone.find("#file_descriptor").val(),
+                  url: "/api/upload/producthead/" + newDropzone.find(".file_descriptor").val(),
                   addRemoveLinks: true,
                   maxFiles: 1
               });

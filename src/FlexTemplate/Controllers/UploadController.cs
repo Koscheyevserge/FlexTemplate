@@ -67,5 +67,12 @@ namespace FlexTemplate.Controllers
                 }
             }
         }
+
+        [HttpDelete]
+        [Route("/api/upload/producthead/{fileDescriptor}")]
+        public void DeleteProductHead(string fileDescriptor)
+        {
+            
+        }
     }
 }
