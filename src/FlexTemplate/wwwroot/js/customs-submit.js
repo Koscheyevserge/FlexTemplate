@@ -38,22 +38,28 @@ jQuery(function($) {
 					url: "upload",
 					addRemoveLinks: true
 			});
+
+            let arrayFoodMenuImage = $(".food-menu-image");
+
+            for (let i = 0; i < arrayFoodMenuImage.length; i++) {
+                let self = $(arrayFoodMenuImage[i]);
+                self.dropzone({
+                    url: "/api/upload/producthead/" + self.find(".file_descriptor").val(),
+                    addRemoveLinks: true,
+                    maxFiles: 1,
+                    removedfile: function (file) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '/api/upload/producthead/' + self.find(".file_descriptor").val(),
+                            data: "",
+                            dataType: 'text'
+                        });
+                        var _ref;
+                        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                    }
+                })
+            }
 			
-			$(".food-menu-image").dropzone({
-			    url: "/api/upload/producthead/" + $(this).find(".file_descriptor").val(),
-			    addRemoveLinks: true,
-			    maxFiles: 1,
-			    removedfile: function (file) {
-			        $.ajax({
-			            type: 'DELETE',
-			            url: '/api/upload/producthead/' + $(this).find(".file_descriptor").val(),
-			            data: "",
-			            dataType: 'text'
-			        });
-			        var _ref;
-			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-			    }
-			});
 			$("#new-place").dropzone({
 			    url: "/api/upload/newplace/" + $(this).find(".file_descriptor").val()
 			});
