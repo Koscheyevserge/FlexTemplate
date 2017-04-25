@@ -355,7 +355,7 @@
                                                  </div>
 
                                                  <div class="image-upload">
-                                                     <div class="dropzone food-menu-image">
+                                                     <div class="dropzone food-menu-image @(System.IO.File.Exists("Resources/Products/" + Model.Menus[i].Products[i].Id + ".jpg") ? "food-menu-image-exsisting" : "")">
                                                          <input name="file" type="file">
                                                          <input type="hidden" name="Menus[@i].Products[@j].Guid" value="@Model.Menus[i].Products[i].Id"/>
                                                          <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>

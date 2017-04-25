@@ -72,7 +72,11 @@ namespace FlexTemplate.Controllers
         [Route("/api/upload/producthead/{fileDescriptor}")]
         public void DeleteProductHead(string fileDescriptor)
         {
-            
+            Guid fileName;
+            var extention = Guid.TryParse(fileDescriptor, out fileName) ? "tmp" : "jpg";
+            var path = $@"wwwroot\Resources\Products\{fileDescriptor}.{extention}";
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
         }
     }
 }

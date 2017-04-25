@@ -477,7 +477,17 @@ function initSlider() {
               newDropzone.dropzone({
                   url: "/api/upload/producthead/" + newDropzone.find(".file_descriptor").val(),
                   addRemoveLinks: true,
-                  maxFiles: 1
+                  maxFiles: 1,
+                  removedfile: function (file) {
+                      $.ajax({
+                          type: 'DELETE',
+                          url: '/api/upload/producthead/' + newDropzone.find(".file_descriptor").val(),
+                          data: "",
+                          dataType: 'text'
+                      });
+                      var _ref;
+                      return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                  }
               });
           }
           /*'<a class="pull-right"><i class="fa fa-minus-circle"></i></a>'*/
@@ -502,7 +512,17 @@ function initSlider() {
               newDropzone.dropzone({
                   url: "/api/upload/producthead/" + newDropzone.find(".file_descriptor").val(),
                   addRemoveLinks: true,
-                  maxFiles: 1
+                  maxFiles: 1,
+                  removedfile: function (file) {
+                      $.ajax({
+                          type: 'DELETE',
+                          url: '/api/upload/producthead/' + newDropzone.find(".file_descriptor").val(),
+                          data: "",
+                          dataType: 'text'
+                      });
+                      var _ref;
+                      return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                  }
               });
           }
       }.bind(this)

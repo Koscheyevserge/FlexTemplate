@@ -47,7 +47,7 @@ jQuery(function($) {
                     url: "/api/upload/producthead/" + self.find(".file_descriptor").val(),
                     addRemoveLinks: true,
                     maxFiles: 1,
-                    removedfile: function (file) {
+                    removedfile: function(file) {
                         $.ajax({
                             type: 'DELETE',
                             url: '/api/upload/producthead/' + self.find(".file_descriptor").val(),
@@ -57,7 +57,13 @@ jQuery(function($) {
                         var _ref;
                         return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                     }
-                })
+                });
+                if (self.hasClass("food-menu-image-exsisting")) {
+                    debugger;
+                    var mockFile = { name: "test.jpg", size: 12345 };
+                    Dropzone.options.addedfile.call(Dropzone, mockFile);
+                    Dropzone.options.thumbnail.call(Dropzone, mockFile, window.location.origin + "/Resources/Products/1.jpg");
+                }
             }
 			
 			$("#new-place").dropzone({
@@ -128,10 +134,56 @@ jQuery(function($) {
                 marker.content.className = 'marker-loaded';
             });
     } else if (navigator.geolocation) {
-	    navigator.geolocation.getCurrentPosition(function(position) {
-	        $("#map-simple").ready(function () {
-                var _latitude = position.coords.latitude;
-                var _longitude = position.coords.longitude;
+        try {
+	        navigator.geolocation.getCurrentPosition(function(position) {
+	            $("#map-simple").ready(function () {
+                    var _latitude = position.coords.latitude;
+                    var _longitude = position.coords.longitude;
+                    var mapCenter = new google.maps.LatLng(_latitude, _longitude);
+                    var mapOptions = {
+                        zoom: 14,
+                        center: mapCenter,
+                        disableDefaultUI: true,
+                        scrollwheel: true,
+                        styles: mapStyles,
+                        panControl: true,
+                        zoomControl: true,
+                        draggable: true
+                    };
+                    var mapElement = document.getElementById('map-simple');
+                    if (!mapElement)
+                        return;
+                    // Google map marker content -----------------------------------------------------------------------------------
+                    var map = new google.maps.Map(mapElement, mapOptions);
+                    var markerContent = document.createElement('DIV');
+                    markerContent.innerHTML =
+                        '<div class="map-marker">' +
+                        '<div class="icon"></div>' +
+                        '</div>';
+
+                    // Create marker on the map ------------------------------------------------------------------------------------
+
+                    var marker = new RichMarker({
+                        //position: mapCenter,
+                        position: new google.maps.LatLng(_latitude, _longitude),
+                        map: map,
+                        draggable: true,
+                        content: markerContent,
+                        flat: true
+                    });
+                    $("#lat-hidden").val(_latitude);
+                    $("#lng-hidden").val(_longitude);
+                    google.maps.event.addListener(marker, 'dragend', function () {
+                        $("#lat-hidden").val(this.position.lat());
+                        $("#lng-hidden").val(this.position.lng());
+                    });
+                    marker.content.className = 'marker-loaded';
+	            });
+	        });
+        } catch (err) {
+            $("#map-simple").ready(function () {
+                var _latitude = "50,5";
+                var _longitude = "30,5";
                 var mapCenter = new google.maps.LatLng(_latitude, _longitude);
                 var mapOptions = {
                     zoom: 14,
@@ -164,13 +216,15 @@ jQuery(function($) {
                     content: markerContent,
                     flat: true
                 });
+                $("#lat-hidden").val(_latitude);
+                $("#lng-hidden").val(_longitude);
                 google.maps.event.addListener(marker, 'dragend', function () {
                     $("#lat-hidden").val(this.position.lat());
                     $("#lng-hidden").val(this.position.lng());
                 });
                 marker.content.className = 'marker-loaded';
-	        });
-	    });
+            });
+        }
     } else {
         alert("Sorry, your browser does not support HTML5 geolocation.");
     }

@@ -160,8 +160,8 @@ namespace FlexTemplate.Controllers
                 Email = item.Email,
                 Website = item.Website,
                 Phone = item.Phone,
-                Latitude = double.Parse(item.Latitude, CultureInfo.InvariantCulture),
-                Longitude = double.Parse(item.Longitude, CultureInfo.InvariantCulture),
+                Latitude = double.Parse(item.Latitude ?? "50.5", CultureInfo.InvariantCulture),
+                Longitude = double.Parse(item.Longitude ?? "30.5", CultureInfo.InvariantCulture),
                 Street = chosenStreet,
                 PlaceCategories = placeCategories
             };
@@ -271,8 +271,8 @@ namespace FlexTemplate.Controllers
                 CurrentCategories = place.PlaceCategories?.Select(pc => pc?.Category),
                 Description = place.Description,
                 Email = place.Email,
-                Longitude = place.Longitude.ToString("0.00", CultureInfo.InvariantCulture),
-                Latitude = place.Latitude.ToString("0.00", CultureInfo.InvariantCulture),
+                Longitude = place.Longitude.ToString("0.000000", CultureInfo.InvariantCulture),
+                Latitude = place.Latitude.ToString("0.000000", CultureInfo.InvariantCulture),
                 Website = place.Website,
                 Phone = place.Phone,
                 Menus = place.Menus
