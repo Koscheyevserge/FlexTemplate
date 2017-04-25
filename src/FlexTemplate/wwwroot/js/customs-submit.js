@@ -182,8 +182,8 @@ jQuery(function($) {
 	        });
         } else {
             $("#map-simple").ready(function () {
-                var _latitude = "50,5";
-                var _longitude = "30,5";
+                var _latitude = "50.5";
+                var _longitude = "30.5";
                 var mapCenter = new google.maps.LatLng(_latitude, _longitude);
                 var mapOptions = {
                     zoom: 14,
