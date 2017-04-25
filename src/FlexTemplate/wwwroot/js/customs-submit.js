@@ -134,7 +134,7 @@ jQuery(function($) {
                 marker.content.className = 'marker-loaded';
             });
     } else if (navigator.geolocation) {
-        try {
+        if (false) {
 	        navigator.geolocation.getCurrentPosition(function(position) {
 	            $("#map-simple").ready(function () {
                     var _latitude = position.coords.latitude;
@@ -180,7 +180,7 @@ jQuery(function($) {
                     marker.content.className = 'marker-loaded';
 	            });
 	        });
-        } catch (err) {
+        } else {
             $("#map-simple").ready(function () {
                 var _latitude = "50,5";
                 var _longitude = "30,5";
