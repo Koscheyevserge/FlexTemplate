@@ -250,50 +250,63 @@ namespace FlexTemplate.Controllers
 
         public IActionResult EditPlace(int id)
         {
-            var place = context.Places
-                .Include(p => p.Schedule)
-                .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category)
+            var model = context.Places
+                .Include(p => p.Street).ThenInclude(s => s.City)
+                .Include(p => p.Menus).ThenInclude(s => s.Products)
+                .AsNoTracking()
+                .Where(p => p.Id == id)
+                .Select(place => new EditPlaceViewModel
+                {
+                    Street = place.Street != null ? place.Street.Name : string.Empty,
+                    Name = place.Name,
+                    Address = place.Address,
+                    Description = place.Description,
+                    Email = place.Email,
+                    Longitude = place.Longitude.ToString("0.000000", CultureInfo.InvariantCulture),
+                    Latitude = place.Latitude.ToString("0.000000", CultureInfo.InvariantCulture),
+                    Website = place.Website,
+                    Phone = place.Phone,
+                    Menus = place.Menus ?? new List<Menu>()
+                })
+                .SingleOrDefault();
+            if (model == null)
+            {
+                return NotFound();
+            }
+            var entity = context.Places
                 .Include(p => p.Street).ThenInclude(s => s.City)
                 .Include(p => p.Menus).ThenInclude(s => s.Products)
                 .AsNoTracking()
                 .SingleOrDefault(p => p.Id == id);
-            if (place == null)
+            if (entity != null)
             {
-                return NotFound();
+                model.MondayFrom = entity.Schedule?.MondayFrom ?? TimeSpan.Zero;
+                model.MondayTo = entity.Schedule?.MondayTo ?? TimeSpan.Zero;
+                model.TuesdayFrom = entity.Schedule?.TuesdayFrom ?? TimeSpan.Zero;
+                model.TuesdayTo = entity.Schedule?.TuesdayTo ?? TimeSpan.Zero;
+                model.WednesdayFrom = entity.Schedule?.WednesdayFrom ?? TimeSpan.Zero;
+                model.WednesdayTo = entity.Schedule?.WednesdayTo ?? TimeSpan.Zero;
+                model.ThurstdayFrom = entity.Schedule?.ThurstdayFrom ?? TimeSpan.Zero;
+                model.ThurstdayTo = entity.Schedule?.ThurstdayTo ?? TimeSpan.Zero;
+                model.FridayFrom = entity.Schedule?.FridayFrom ?? TimeSpan.Zero;
+                model.FridayTo = entity.Schedule?.FridayTo ?? TimeSpan.Zero;
+                model.SaturdayFrom = entity.Schedule?.SaturdayFrom ?? TimeSpan.Zero;
+                model.SaturdayTo = entity.Schedule?.SaturdayTo ?? TimeSpan.Zero;
+                model.SundayFrom = entity.Schedule?.SundayFrom ?? TimeSpan.Zero;
+                model.SundayTo = entity.Schedule?.SundayTo ?? TimeSpan.Zero;
             }
-            var model = new EditPlaceViewModel
-            {
-                Street = place.Street.Name,
-                Name = place.Name,
-                Address = place.Address,
-                AllCategories = context.Categories.AsNoTracking().AsEnumerable(),
-                City = place.Street?.City?.Name,
-                CurrentCategories = place.PlaceCategories?.Select(pc => pc?.Category),
-                Description = place.Description,
-                Email = place.Email,
-                Longitude = place.Longitude.ToString("0.000000", CultureInfo.InvariantCulture),
-                Latitude = place.Latitude.ToString("0.000000", CultureInfo.InvariantCulture),
-                Website = place.Website,
-                Phone = place.Phone,
-                Menus = place.Menus
-            };
-            if (place.Schedule != null)
-            {
-                model.MondayFrom = place.Schedule.MondayFrom;
-                model.MondayTo = place.Schedule.MondayTo;
-                model.TuesdayFrom = place.Schedule.TuesdayFrom;
-                model.TuesdayTo = place.Schedule.TuesdayTo;
-                model.WednesdayFrom = place.Schedule.WednesdayFrom;
-                model.WednesdayTo = place.Schedule.WednesdayTo;
-                model.ThurstdayFrom = place.Schedule.ThurstdayFrom;
-                model.ThurstdayTo = place.Schedule.ThurstdayTo;
-                model.FridayFrom = place.Schedule.FridayFrom;
-                model.FridayTo = place.Schedule.FridayTo;
-                model.SaturdayFrom = place.Schedule.SaturdayFrom;
-                model.SaturdayTo = place.Schedule.SaturdayTo;
-                model.SundayFrom = place.Schedule.SundayFrom;
-                model.SundayTo = place.Schedule.SundayTo;
-            }
+            var categories = context.Categories.AsEnumerable();
+            model.AllCategories = categories ?? new List<Category>().AsEnumerable();
+            model.CurrentCategories = context.PlaceCategories.Where(pc => pc.PlaceId == id).Select(pc => pc.Category);
+            var city = context.Places
+                .Include(p => p.Street)
+                .ThenInclude(s => s.City)
+                .SingleOrDefault(p => p.Id == id);
+            if (city != null)
+                model.City = city.Street.City.Name;
+            var menus = context.Places.Include(p => p.Menus).ThenInclude(m => m.Products).SingleOrDefault(p => p.Id == id);
+            if (menus != null)
+                model.Menus = menus.Menus;
             return View(model);
         }
 
