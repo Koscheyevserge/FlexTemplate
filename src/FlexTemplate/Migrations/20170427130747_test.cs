@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlexTemplate.Migrations
 {
-    public partial class _1 : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -263,6 +263,7 @@ namespace FlexTemplate.Migrations
                     AuthorId = table.Column<string>(nullable: true),
                     Caption = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
+                    IsModerated = table.Column<bool>(nullable: false),
                     Preamble = table.Column<string>(nullable: true),
                     Text = table.Column<string>(nullable: true)
                 },

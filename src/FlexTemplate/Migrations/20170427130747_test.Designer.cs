@@ -8,8 +8,8 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170410205725_1")]
-    partial class _1
+    [Migration("20170427130747_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -45,6 +45,8 @@ namespace FlexTemplate.Migrations
                     b.Property<string>("Caption");
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsModerated");
 
                     b.Property<string>("Preamble");
 

@@ -45,6 +45,8 @@ namespace FlexTemplate.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<bool>("IsModerated");
+
                     b.Property<string>("Preamble");
 
                     b.Property<string>("Text");

@@ -11,5 +11,6 @@ namespace FlexTemplate.Entities
         public virtual List<BlogComment> Comments { get; set; }
         public string Preamble { get; set; }
         public string Text { get; set; }
+        public bool IsModerated { get; set; }
     }
 }
