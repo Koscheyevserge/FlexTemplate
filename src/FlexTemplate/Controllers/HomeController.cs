@@ -106,9 +106,8 @@ namespace FlexTemplate.Controllers
                .Include(c => c.Comments)
                .Skip(6 * id)
                .Take(6)
-               .AsEnumerable(),
+               .AsEnumerable()
             };
-            var x = model;
             return View(model);
         }
 
@@ -269,8 +268,7 @@ namespace FlexTemplate.Controllers
                     Longitude = place.Longitude.ToString("0.000000", CultureInfo.InvariantCulture),
                     Latitude = place.Latitude.ToString("0.000000", CultureInfo.InvariantCulture),
                     Website = place.Website,
-                    Phone = place.Phone,
-                    Menus = place.Menus ?? new List<Menu>()
+                    Phone = place.Phone
                 })
                 .SingleOrDefault();
             if (model == null)
@@ -308,9 +306,20 @@ namespace FlexTemplate.Controllers
                 .SingleOrDefault(p => p.Id == id);
             if (city != null)
                 model.City = city.Street.City.Name;
-            var menus = context.Places.Include(p => p.Menus).ThenInclude(m => m.Products).SingleOrDefault(p => p.Id == id);
-            if (menus != null)
-                model.Menus = menus.Menus;
+            model.Menus = context.Places.Include(p => p.Menus).ThenInclude(m => m.Products).Where(p => p.Id == id)
+                .SelectMany(p => p.Menus.Select(m => new EditPlaceMenuViewModel { Id = m.Id, Name = m.Name })).ToList();
+            model.Menus.ForEach(
+                menu => menu.Products = context.Products.Where(prod => prod.MenuId == menu.Id)
+                    .Select(prod =>
+                        new EditPlaceProductViewModel
+                        {
+                            Description = prod.Description,
+                            Id = prod.Id,
+                            Price = prod.Price,
+                            Title = prod.Title,
+                            HasPhoto = System.IO.File.Exists($"wwwroot/Resources/Products/{prod.Id}.jpg")
+                        })
+                    .ToList());
             return View(model);
         }
 

@@ -36,6 +36,23 @@ namespace FlexTemplate.ViewModels.HomeController
         public TimeSpan SaturdayTo { get; set; }
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
-        public List<Menu> Menus { get; set; }
+        public List<EditPlaceMenuViewModel> Menus { get; set; }
+    }
+
+    public class EditPlaceMenuViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<EditPlaceProductViewModel> Products { get; set; } 
+    }
+
+    public class EditPlaceProductViewModel
+    {
+        public int Id { get; set; }
+        public Guid Guid { get; set; }
+        public bool HasPhoto { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
     }
 }

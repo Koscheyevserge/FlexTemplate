@@ -58,14 +58,15 @@ jQuery(function($) {
                         return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                     }
                 });
-                if (self.hasClass("food-menu-image-exsisting")) {
-                    debugger;
-                    var mockFile = { name: "test.jpg", size: 12345 };
-                    Dropzone.options.addedfile.call(Dropzone, mockFile);
-                    Dropzone.options.thumbnail.call(Dropzone, mockFile, window.location.origin + "/Resources/Products/1.jpg");
-                }
             }
-			
+            arrayFoodMenuImage = $(".food-menu-image-exsisting");
+	        for (let i = 0; i < arrayFoodMenuImage.length; i++) {
+	            let self = $(arrayFoodMenuImage[i]);
+	            debugger;
+	            var mockFile = { name: "test.jpg", size: 12345 };
+	            Dropzone.options.addedfile.call(Dropzone, mockFile);
+	            Dropzone.options.thumbnail.call(Dropzone, mockFile, window.location.origin + "/Resources/Products/1.jpg");
+	        }
 			$("#new-place").dropzone({
 			    url: "/api/upload/newplace/" + $(this).find(".file_descriptor").val()
 			});
