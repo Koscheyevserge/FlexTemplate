@@ -98,11 +98,11 @@
                                                     <span aria-hidden="true">&laquo;</span>
                                                 </a>
                                             </li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
+                                            <li class="active"><a href="blogs1">1</a></li>
+                                            <li><a href="blogs/2">2</a></li>
+                                            <li><a href="blogs/3">3</a></li>
+                                            <li><a href="blogs/4">4</a></li>
+                                            <li><a href="blogs/5">5</a></li>
                                             <li>
                                                 <a href="#" aria-label="Next">
                                                     <span aria-hidden="true">&raquo;</span>
@@ -121,13 +121,13 @@
 
                 </div>
 
-                @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blogs });
+               @*@ @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blogs })*@
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
-<!-- end Main Wrapper -->
+    <!-- end Main Wrapper -->

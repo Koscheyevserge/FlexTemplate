@@ -6,6 +6,7 @@ using FlexTemplate.Database;
 using Microsoft.AspNetCore.Mvc;
 using FlexTemplate.Entities;
 using FlexTemplate.ViewModels.HomeController;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlexTemplate.ViewComponents.HomeController
 {
@@ -18,9 +19,11 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(IEnumerable<Blog> item)
+        public IViewComponentResult Invoke(Blog item)
         {
-            return View(new BlogsFeedViewModel { Blogs = item });
+            return View(new BlogsFeedViewModel {
+
+                Blogs = _context.Blogs.Include(blog => blog.Comments).Except(new List<Blog>(){ item }).Take(4).ToList()});
         }
     }
 }

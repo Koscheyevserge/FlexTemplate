@@ -146,7 +146,7 @@
 
                
 
-                @await Component.InvokeAsync("BlogsFeed");
+                @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blog });
                 </div>
 
             </div>

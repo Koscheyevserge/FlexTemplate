@@ -95,16 +95,20 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Blogs()
+        public IActionResult Blogs(int id = 1)
         {
             ViewData["Title"] = "Blogs";
             ViewData["BodyClasses"] = "full-width-container";
+            id--;
             var model = new HomeBlogsViewModel
             {
-               Blogs = context.Blogs.Include(a => a.Author)
+                Blogs = context.Blogs.Include(a => a.Author)
                .Include(c => c.Comments)
-               .Take(4)
+               .Skip(6 * id)
+               .Take(6)
+               .AsEnumerable(),
             };
+            var x = model;
             return View(model);
         }
 
