@@ -9,6 +9,7 @@ namespace FlexTemplate.ViewModels.HomeController
 {
     public class EditPlaceViewModel
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int[] Categories { get; set; }
@@ -51,7 +52,7 @@ namespace FlexTemplate.ViewModels.HomeController
         public int Id { get; set; }
         public Guid Guid { get; set; }
         public bool HasPhoto { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
     }

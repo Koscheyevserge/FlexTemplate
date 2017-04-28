@@ -37,6 +37,10 @@ namespace FlexTemplate.Controllers
         [Route("/api/upload/producthead/{fileDescriptor}")]
         public void UploadProductHeadPhoto(string fileDescriptor)
         {
+            if (!HttpContext.Request.Form.Files.Any())
+            {
+                return;
+            }
             var file = HttpContext.Request.Form.Files[0];
             var path = $@"wwwroot\Resources\Products\{fileDescriptor}.tmp";
             if (!System.IO.File.Exists(@"wwwroot\Resources\Products\"))
@@ -54,6 +58,10 @@ namespace FlexTemplate.Controllers
         [Route("/api/upload/newplace/{fileDescriptor}")]
         public void UploadNewPlacePhoto(string fileDescriptor)
         {
+            if (!HttpContext.Request.Form.Files.Any())
+            {
+                return;
+            }
             var file = HttpContext.Request.Form.Files[0];
             var filename = Guid.NewGuid() + ".jpg";
             var path = $@"wwwroot\Resources\Places\{fileDescriptor}\";

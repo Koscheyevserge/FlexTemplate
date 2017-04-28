@@ -147,8 +147,6 @@ namespace FlexTemplate.Controllers
         [HttpPost]
         public IActionResult NewPlace(NewPlacePostViewModel item)
         {
-            ViewData["Title"] = "NewPlace";
-            ViewData["BodyClasses"] = "full-width-container";
             var possibleCities =
                 context.Cities.Where(
                     c => c.Name.Contains(item.City) || c.Aliases.Any(a => a.Text.Contains(item.City)));
@@ -260,6 +258,8 @@ namespace FlexTemplate.Controllers
 
         public IActionResult EditPlace(int id)
         {
+            ViewData["Title"] = "EditPlace";
+            ViewData["BodyClasses"] = "full-width-container";
             var model = context.Places
                 .Include(p => p.Street).ThenInclude(s => s.City)
                 .Include(p => p.Menus).ThenInclude(s => s.Products)
@@ -267,6 +267,7 @@ namespace FlexTemplate.Controllers
                 .Where(p => p.Id == id)
                 .Select(place => new EditPlaceViewModel
                 {
+                    Id = place.Id,
                     Street = place.Street != null ? place.Street.Name : string.Empty,
                     Name = place.Name,
                     Address = place.Address,
@@ -323,7 +324,7 @@ namespace FlexTemplate.Controllers
                             Description = prod.Description,
                             Id = prod.Id,
                             Price = prod.Price,
-                            Title = prod.Title,
+                            Name = prod.Title,
                             HasPhoto = System.IO.File.Exists($"wwwroot/Resources/Products/{prod.Id}.jpg")
                         })
                     .ToList());
@@ -331,9 +332,128 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditPlace(string test)
+        public IActionResult EditPlacePost(EditPlaceViewModel item)
         {
-            return null;
+            var place = context.Places.Include(p => p.Menus).ThenInclude(m => m.Products).SingleOrDefault(p => p.Id == item.Id);
+            if (place == null)
+            {
+                return NotFound();
+            }
+            var possibleCities =
+                context.Cities.Where(
+                    c => c.Name.Contains(item.City) || c.Aliases.Any(a => a.Text.Contains(item.City)));
+            var chosenCity = possibleCities.Any()
+                ? possibleCities.FirstOrDefault()
+                : new City { Name = item.City, Country = context.Countries.FirstOrDefault() };
+            var possibleStreets =
+                context.Streets.Where(
+                    s => s.Name.Contains(item.Street) || s.Aliases.Any(a => a.Text.Contains(item.Street)));
+            var chosenStreet = possibleStreets.Any()
+                ? possibleStreets.FirstOrDefault()
+                : new Street { Name = item.Street, City = chosenCity };
+            var placeCategories = context.Categories.Where(c => item.Categories.Contains(c.Id)).Select(c => new PlaceCategory { Category = c }).ToList();
+            place.Address = item.Address;
+            place.Description = item.Description;
+            place.Name = item.Name;
+            place.Email = item.Email;
+            place.Website = item.Website;
+            place.Phone = item.Phone;
+            place.Latitude = double.Parse(item.Latitude ?? "50.5", CultureInfo.InvariantCulture);
+            place.Longitude = double.Parse(item.Longitude ?? "30.5", CultureInfo.InvariantCulture);
+            place.Street = chosenStreet;
+            place.PlaceCategories = placeCategories;
+            if (!(item.MondayFrom == TimeSpan.Zero && item.MondayTo == TimeSpan.Zero
+                && item.TuesdayFrom == TimeSpan.Zero && item.TuesdayTo == TimeSpan.Zero
+                && item.WednesdayFrom == TimeSpan.Zero && item.WednesdayTo == TimeSpan.Zero
+                && item.ThurstdayFrom == TimeSpan.Zero && item.ThurstdayTo == TimeSpan.Zero
+                && item.FridayFrom == TimeSpan.Zero && item.FridayTo == TimeSpan.Zero
+                && item.SaturdayFrom == TimeSpan.Zero && item.SaturdayTo == TimeSpan.Zero
+                && item.SundayFrom == TimeSpan.Zero && item.SundayTo == TimeSpan.Zero)
+                && item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
+                && item.WednesdayFrom <= item.WednesdayTo && item.ThurstdayFrom <= item.ThurstdayTo
+                && item.FridayFrom <= item.FridayTo && item.SaturdayFrom <= item.SaturdayTo && item.SundayFrom <= item.SundayTo)
+            {
+                place.Schedule = new Schedule
+                {
+                    MondayFrom = item.MondayFrom,
+                    MondayTo = item.MondayTo,
+                    TuesdayFrom = item.TuesdayFrom,
+                    TuesdayTo = item.TuesdayTo,
+                    WednesdayFrom = item.WednesdayFrom,
+                    WednesdayTo = item.WednesdayTo,
+                    ThurstdayFrom = item.ThurstdayFrom,
+                    ThurstdayTo = item.ThurstdayTo,
+                    FridayFrom = item.FridayFrom,
+                    FridayTo = item.FridayTo,
+                    SaturdayFrom = item.SaturdayFrom,
+                    SaturdayTo = item.SaturdayTo,
+                    SundayFrom = item.SundayFrom,
+                    SundayTo = item.SundayTo
+                };
+            }
+            var nonExsistingMenus = place.Menus.Where(menu => !item.Menus.Select(m => m.Id).Contains(menu.Id));
+            context.Menus.RemoveRange(nonExsistingMenus);
+            var nonExsistingProducts = new List<Product>();
+            foreach (var menu in place.Menus.Except(nonExsistingMenus))
+            {
+                var newMenu = item.Menus.First(m => m.Id == menu.Id);
+                nonExsistingProducts.AddRange(menu.Products.Where(product => !newMenu.Products.Select(p => p.Id).Contains(product.Id)));
+            }
+            context.Products.RemoveRange(nonExsistingProducts);
+            foreach (var menu in item.Menus)
+            {
+                var exsistingMenu = place.Menus.SingleOrDefault(m => m.Id == menu.Id);
+                if (exsistingMenu == null)
+                {
+                    exsistingMenu = new Menu {Name = menu.Name, Products = new List<Product>()};
+                    foreach (var product in menu.Products.Where(product => product.Price > 0 && !string.IsNullOrEmpty(product.Name)))
+                    {
+                        exsistingMenu.Products.Add(new Product {Description = product.Description, Title = product.Name, Price = product.Price});
+                    }
+                    place.Menus.Add(exsistingMenu);
+                }
+                else
+                {
+                    foreach (var product in menu.Products)
+                    {
+                        var exsistingProduct = exsistingMenu.Products.SingleOrDefault(p => p.Id == product.Id);
+                        if (exsistingProduct == null)
+                        {
+                            exsistingMenu.Products.Add(new Product { Description = product.Description, Title = product.Name, Price = product.Price });
+                        }
+                        else
+                        {
+                            exsistingProduct.Description = product.Description;
+                            exsistingProduct.Title = product.Name;
+                            exsistingProduct.Price = product.Price;
+                        }
+                    }
+                }
+            }
+            context.Places.Update(place);
+            context.SaveChanges();
+            foreach (var menu in place.Menus)
+            {
+                foreach (var product in menu.Products)
+                {
+                    var entity = item.Menus.SelectMany(m => m.Products)
+                        .FirstOrDefault(p => p.Description == product.Description && Math.Abs(p.Price - product.Price) < 0.1 && p.Name == product.Title);
+                    var uid = entity?.Guid;
+                    if (uid == null || uid == Guid.Empty)
+                        continue;
+                    string sourceDirectory = $@"wwwroot\Resources\Products\{uid}.tmp";
+                    if (System.IO.File.Exists(sourceDirectory))
+                    {
+                        string destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
+                        if (System.IO.File.Exists(destinationDirectory))
+                        {
+                            Directory.Delete(destinationDirectory, true);
+                        }
+                        System.IO.File.Move(sourceDirectory, destinationDirectory);
+                    }
+                }
+            }
+            return RedirectToAction("Place", "Home", new {id = place.Id});
         }
 
         public IActionResult ChangeUserLanguage(string redirect, int languageId)

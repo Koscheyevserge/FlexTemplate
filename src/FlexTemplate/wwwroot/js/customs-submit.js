@@ -47,6 +47,13 @@ jQuery(function($) {
                     url: "/api/upload/producthead/" + self.find(".file_descriptor").val(),
                     addRemoveLinks: true,
                     maxFiles: 1,
+                    init: function() {
+                        if (self.hasClass("food-menu-image-exsisting")) {
+                            var mockFile = { name: self.find(".file_descriptor").val() + ".jpg", size: 0, type: 'image/jpeg' };
+                            this.addFile.call(this, mockFile);
+                            this.options.thumbnail.call(this, mockFile, "../../Resources/Products/" + self.find(".file_descriptor").val() + ".jpg");
+                        }
+                    },
                     removedfile: function(file) {
                         $.ajax({
                             type: 'DELETE',
@@ -58,26 +65,29 @@ jQuery(function($) {
                         return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
                     }
                 });
-                debugger;
-                if (self.hasClass("food-menu-image-exsisting")) {
-                    var mockFile = { name: "test.jpg", size: 12345 };
-                    Dropzone.options.addedfile.call(Dropzone, mockFile);
-                    Dropzone.options.thumbnail.call(Dropzone, mockFile, window.location.origin + "/Resources/Products/1.jpg");
-                }
             }
-            arrayFoodMenuImage = $(".food-menu-image-exsisting");
-	        for (let i = 0; i < arrayFoodMenuImage.length; i++) {
-	            let self = $(arrayFoodMenuImage[i]);
-	            debugger;
-	            var mockFile = { name: "test.jpg", size: 12345 };
-	            Dropzone.options.addedfile.call(Dropzone, mockFile);
-	            Dropzone.options.thumbnail.call(Dropzone, mockFile, window.location.origin + "/Resources/Products/1.jpg");
-	        }
+			$("#edit-place").dropzone({
+			    url: "/api/upload/newplace/" + $("#edit-place").find(".file_descriptor").val(),
+			    init: function () {
+			        var dropzone = this;
+			        var url = window.location.href.split("/").pop();
+			        if (!Number.isNaN(url) && window.location.href.indexOf('lace') > -1) {
+			            $.get(window.location.origin + "/api/resources/photo-detail/" + url, function (data) {
+			                for (let i = 0; i < data.length; i++) {
+			                    var file = data[i].replace("wwwroot", "../..");
+			                    var mockFile = { name: file.split("/").pop(), size: 0, type: 'image/jpeg' };
+			                    dropzone.addFile.call(dropzone, mockFile);
+			                    dropzone.options.thumbnail.call(dropzone, mockFile, file);
+			                }
+			            });
+			        }
+			    }
+			});
 			$("#new-place").dropzone({
-			    url: "/api/upload/newplace/" + $(this).find(".file_descriptor").val()
+			    url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val()
 			});
 	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + $(this).find(".file_descriptor").val(),
+	            url: "/api/upload/head/" + $("#head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
