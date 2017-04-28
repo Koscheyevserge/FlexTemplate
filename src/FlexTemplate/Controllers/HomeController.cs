@@ -130,6 +130,13 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
+        public IActionResult NewBlog()
+        {
+            ViewData["Title"] = "NewBlog";
+            ViewData["BodyClasses"] = "full-width-container";
+            return View();
+        }
+
         public IActionResult NewPlace()
         {
             ViewData["Title"] = "NewPlace";
