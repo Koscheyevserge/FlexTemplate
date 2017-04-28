@@ -355,7 +355,7 @@
                                                  </div>
 
                                                  <div class="image-upload">
-                                                     <div class=@(Model.Menus[i].Products[j].HasPhoto ? "dropzone food-menu-image food-menu-image-exsisting" : "dropzone food-menu-image")>
+                                                     <div class='@(Model.Menus[i].Products[j].HasPhoto ? "dropzone food-menu-image food-menu-image-exsisting" : "dropzone food-menu-image")'>
                                                          <input name="file" type="file">
                                                          <input type="hidden" name="Menus[@i].Products[@j].Guid" value="@Model.Menus[i].Products[j].Id"/>
                                                          <div class="dz-default dz-message"><span>Click or Drop<br />Images Here<br /><small class="font-italic text-muted font400 mt-5 block">2MB max file</small></span></div>
