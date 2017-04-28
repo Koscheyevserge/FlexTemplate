@@ -81,8 +81,11 @@ namespace FlexTemplate.Controllers
         public void DeleteProductHead(string fileDescriptor)
         {
             Guid fileName;
-            var extention = Guid.TryParse(fileDescriptor, out fileName) ? "tmp" : "jpg";
-            var path = $@"wwwroot\Resources\Products\{fileDescriptor}.{extention}";
+            var path = $@"wwwroot\Resources\Products\{fileDescriptor}.jpg";
+            if (Guid.TryParse(fileDescriptor, out fileName))
+                if (System.IO.File.Exists(path))
+                    System.IO.File.Delete(path);
+            path = $@"wwwroot\Resources\Products\{fileDescriptor}.tmp";
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);
         }

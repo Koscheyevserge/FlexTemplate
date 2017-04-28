@@ -438,9 +438,11 @@ namespace FlexTemplate.Controllers
                 {
                     var entity = item.Menus.SelectMany(m => m.Products)
                         .FirstOrDefault(p => p.Description == product.Description && Math.Abs(p.Price - product.Price) < 0.1 && p.Name == product.Title);
-                    var uid = entity?.Guid;
-                    if (uid == null || uid == Guid.Empty)
+                    if(entity == null)
                         continue;
+                    var uid = entity.Guid.ToString();
+                    if (uid == Guid.Empty.ToString())
+                        uid = entity.Id.ToString();
                     string sourceDirectory = $@"wwwroot\Resources\Products\{uid}.tmp";
                     if (System.IO.File.Exists(sourceDirectory))
                     {
