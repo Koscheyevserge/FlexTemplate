@@ -109,7 +109,7 @@ jQuery(function($) {
 			    }
 			});
 	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + $("#head-update").find(".file_descriptor").val(),
+	            url: "/api/upload/head/" + $("#head-update").prev(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
