@@ -402,7 +402,7 @@ namespace FlexTemplate.Controllers
             foreach (var menu in place.Menus.Except(nonExsistingMenus))
             {
                 var newMenu = item.Menus.First(m => m.Id == menu.Id);
-                nonExsistingProducts.AddRange(menu.Products.Where(product => !newMenu.Products.Select(p => p.Id).Contains(product.Id) || product.Price > 0 && !string.IsNullOrEmpty(product.Title)));
+                nonExsistingProducts.AddRange(menu.Products.Where(product => !newMenu.Products.Select(p => p.Id).Contains(product.Id) || product.Price == 0 || string.IsNullOrEmpty(product.Title)));
             }
             context.Products.RemoveRange(nonExsistingProducts);
             foreach (var menu in item.Menus)
