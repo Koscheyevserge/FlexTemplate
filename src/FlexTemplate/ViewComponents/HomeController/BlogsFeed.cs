@@ -19,11 +19,9 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(Blog item)
+        public IViewComponentResult Invoke(IEnumerable<Blog> exceptBlogs)
         {
-            return View(new BlogsFeedViewModel {
-
-                Blogs = _context.Blogs.Include(blog => blog.Comments).Except(new List<Blog>(){ item }).Take(4).ToList()});
+            return View(new BlogsFeedViewModel {Blogs = _context.Blogs.Include(blog => blog.Comments).Except(exceptBlogs).Take(4)});
         }
     }
 }

@@ -77,14 +77,24 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpDelete]
+        [Route("/api/upload/newplace/{fileDescriptor}")]
+        public void DeletePlacePhoto(string fileDescriptor)
+        {
+            var path = $@"wwwroot\Resources\Places\{fileDescriptor}.jpg";
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+            path = $@"wwwroot\Resources\Places\{fileDescriptor}.tmp";
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+        }
+
+        [HttpDelete]
         [Route("/api/upload/producthead/{fileDescriptor}")]
         public void DeleteProductHead(string fileDescriptor)
         {
-            Guid fileName;
             var path = $@"wwwroot\Resources\Products\{fileDescriptor}.jpg";
-            if (Guid.TryParse(fileDescriptor, out fileName))
-                if (System.IO.File.Exists(path))
-                    System.IO.File.Delete(path);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
             path = $@"wwwroot\Resources\Products\{fileDescriptor}.tmp";
             if (System.IO.File.Exists(path))
                 System.IO.File.Delete(path);

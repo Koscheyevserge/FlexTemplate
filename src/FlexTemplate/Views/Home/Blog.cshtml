@@ -146,14 +146,12 @@
 
                
 
-                @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blog });
+                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = new List<FlexTemplate.Entities.Blog>() {Model.Blog }});
                 </div>
 
             </div>
 
         </div>
-
-    </div>
 
 </div>
 <!-- end Main Wrapper -->

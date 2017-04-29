@@ -121,7 +121,7 @@
 
                 </div>
 
-               @*@ @await Component.InvokeAsync("BlogsFeed", new { item = Model.Blogs })*@
+                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = Model.Blogs })
 
                 </div>
 

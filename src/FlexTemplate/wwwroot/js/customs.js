@@ -538,7 +538,18 @@ function initSlider() {
           parent.remove();
       }
   });
-
+  $("body").on('click', ".change-to-grid", function () {
+      $("#listType").val("grid");
+      $(".btn-form").trigger("click");
+  });
+  $("body").on('click', ".change-to-list", function () {
+      $("#listType").val("list");
+      $(".btn-form").trigger("click");
+  }); 
+  $("body").on('click', ".places-pagination > li", function () {
+      $("#currentPage").val($(this).find("a").attr("data-id"));
+      $(".btn-form").trigger("click");
+  });
   $(document).ready(function () {
       $('*[class*=required]:visible').each(function() {
           $(this).prop('required', true);

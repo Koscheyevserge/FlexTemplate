@@ -19,7 +19,7 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(int[] cities, int[] categories, string input)
+        public IViewComponentResult Invoke(int[] cities, int[] categories, string input, int currentPage, string listType = "")
         {
             var places = _context.Places.AsNoTracking();
             if (cities != null && cities.Any())
@@ -33,8 +33,10 @@ namespace FlexTemplate.ViewComponents.HomeController
                 .Include(p => p.Aliases)
                 .Include(p => p.Street).ThenInclude(s => s.Aliases)
                 .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases);
-            var model = new ThisPlacesListViewModel {Places = places.AsEnumerable()};
-            return View(model);
+            var thisPagePlaces = places.AsEnumerable().Skip(9 * (currentPage - 1)).Take(9);
+            var model = new ThisPlacesListViewModel {Places = thisPagePlaces, Pages = (int)Math.Ceiling((decimal)places.Count() / 9), CurrentPage = currentPage, TotalFoundPlacesCount = places.Count()};
+            var type = listType.ToLower() == "grid" ? "Grid" : "List";
+            return View(type, model);
         }
     }
 }

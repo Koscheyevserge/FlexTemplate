@@ -68,6 +68,17 @@ jQuery(function($) {
             }
 			$("#edit-place").dropzone({
 			    url: "/api/upload/newplace/" + $("#edit-place").find(".file_descriptor").val(),
+			    addRemoveLinks: true,
+			    removedfile: function(file) {
+			        $.ajax({
+			            type: 'DELETE',
+			            url: '/api/upload/newplace/' + $("#edit-place").find(".file_descriptor").val(),
+			            data: "",
+			            dataType: 'text'
+			        });
+			        var _ref;
+			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+			    },
 			    init: function () {
 			        var dropzone = this;
 			        var url = window.location.href.split("/").pop();
@@ -84,7 +95,18 @@ jQuery(function($) {
 			    }
 			});
 			$("#new-place").dropzone({
-			    url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val()
+			    url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val(),
+			    addRemoveLinks: true,
+			    removedfile: function (file) {
+			        $.ajax({
+			            type: 'DELETE',
+			            url: '/api/upload/newplace/' + $("#new-place").find(".file_descriptor").val(),
+			            data: "",
+			            dataType: 'text'
+			        });
+			        var _ref;
+			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+			    }
 			});
 	        $("#head-update").dropzone({
 	            url: "/api/upload/head/" + $("#head-update").find(".file_descriptor").val(),
@@ -95,6 +117,9 @@ jQuery(function($) {
 	                  $("#head-update").hide();
 	              });
 	            } 
+	        });
+	        $("#file-submit").dropzone({
+	            url: "/api/upload/newplace/" + window.location.href.split("/").pop()
 	        });
 	}
 

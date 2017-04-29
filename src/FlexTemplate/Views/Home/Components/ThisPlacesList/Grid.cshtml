@@ -1,0 +1,75 @@
+﻿@using System.Linq
+@using FlexTemplate.Entities
+@model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
+
+    <div class="restaurant-grid-wrapper mb-30">
+
+        <div class="GridLex-gap-30">
+
+            <div class="GridLex-grid-noGutter-equalHeight">
+                @foreach (Place place in Model.Places)
+                {
+                    <div class="GridLex-col-4_sm-6_xs-6_xss-12">
+
+                        <div class="restaurant-grid-item">
+                            <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">
+                                <div class="image">
+                                    <img src="../../Resources/Places/@place.Id/head.jpg" alt="Image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';"/>
+                                </div>
+                                <div class="content">
+                                    <h5>@place.Name</h5>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name
+                                    </p>
+                                    <div class="rating-wrapper">
+                                        <div class="rating-item">
+                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="3.5"/>
+                                        </div>
+                                        <span class="texting"> (@place.Reviews.Count відгуків)</span>
+                                    </div>
+                                    <p class="cuisine">
+                                        Кухня:
+                                        @foreach (Category category in place.PlaceCategories.Select(pc => pc?.Category))
+                                        {
+                                            <span>@category.Name</span>
+                                        }
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="pagination-wrapper">
+        <input id="currentPage" type="hidden" name="currentPage" value="" />
+        <div class="GridLex-grid-middle GridLex-grid-noGutter">
+            <div class="GridLex-col-6_sm-12_xs-12">
+            </div>
+            <div class="GridLex-col-6_sm-12_xs-12">
+                <nav>
+                    <ul class="places-pagination pagination pagination-text-center-sm mb-5-xs">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li><a data-id="@(Model.CurrentPage - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                        }
+                        @for (var i = 1; i <= Model.Pages; i++)
+                        {
+                            <li class="@(Model.CurrentPage == i ? "active" : string.Empty)"><a data-id="@i">@i</a></li>
+                        }
+                        @if (Model.CurrentPage < Model.Pages)
+                        {
+                            <li><a data-id="@(Model.CurrentPage + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                        }
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+
+    </div>

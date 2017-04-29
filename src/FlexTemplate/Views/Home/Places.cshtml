@@ -46,8 +46,53 @@
 
             <div class="row">
                 @await Component.InvokeAsync("ThisPlacesFilters", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
+                <div class="col-sm-8 col-md-9">
+                    <div class="sort-by-wrapper clearfix">
 
-                @await Component.InvokeAsync("ThisPlacesList", new { cities = Model.Cities, input = Model.Input, categories = Model.Categories })
+                        <div class="row gap-5">
+
+                            <div class="col-sm-10">
+
+                                <div class="text-holder bg-primary">Sort By:</div>
+                                <ul class="sort-by">
+                                    <li>
+                                        <button class="btn active">Offer <i class="ti-angle-up"></i></button>
+                                    </li>
+                                    <li>
+                                        <button class="btn">Name</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn">Rating</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn">Price</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn">Cuisine</button>
+                                    </li>
+                                    <li>
+                                        <button class="btn">Location</button>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <div class="col-sm-2">
+                                <input id="listType" type="hidden" name="listType" value="@Model.ListType.ToLower()" />
+                                <ul class="layout-option">
+                                    <li class='change-to-grid btn @(Model.ListType.ToLower() == "grid" ? "active" : string.Empty)'><a><i class="ti-view-grid"></i></a></li>
+                                    <li class='change-to-list btn @(Model.ListType.ToLower() != "grid" ? "active" : string.Empty)'><a><i class="ti-view-list-alt"></i></a></li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                    @await Component.InvokeAsync("ThisPlacesList", new {cities = Model.Cities, input = Model.Input, categories = Model.Categories, currentPage = Model.CurrentPage, listType = Model.ListType})
+                </div>
             </div>
 
         </div>

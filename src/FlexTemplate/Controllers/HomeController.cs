@@ -55,11 +55,15 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Places(int[] cities, int[]categories, string input)
+        public IActionResult Places(int[] cities, int[]categories, string input, int currentPage = 1, string listType = "")
         {
+            if (listType == null)
+            {
+                listType = String.Empty;
+            }
             ViewData["Title"] = "Places";
             ViewData["BodyClasses"] = "full-width-container";
-            return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input});
+            return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input, CurrentPage = currentPage, ListType = listType});
         }
 
         public IActionResult Place(int id)
@@ -99,14 +103,17 @@ namespace FlexTemplate.Controllers
         {
             ViewData["Title"] = "Blogs";
             ViewData["BodyClasses"] = "full-width-container";
-            id--;
+            var total = context.Blogs.Count();
             var model = new HomeBlogsViewModel
             {
                 Blogs = context.Blogs.Include(a => a.Author)
                .Include(c => c.Comments)
-               .Skip(6 * id)
+               .Skip(6 * (id - 1))
                .Take(6)
-               .AsEnumerable()
+               .AsEnumerable(),
+                CurrentPage = id,
+                Pages = (int)Math.Ceiling((decimal)total / 6),
+                TotalFoundBlogsCount = total
             };
             return View(model);
         }
@@ -286,6 +293,7 @@ namespace FlexTemplate.Controllers
             var entity = context.Places
                 .Include(p => p.Street).ThenInclude(s => s.City)
                 .Include(p => p.Menus).ThenInclude(s => s.Products)
+                .Include(p => p.Schedule)
                 .AsNoTracking()
                 .SingleOrDefault(p => p.Id == id);
             if (entity != null)
@@ -334,7 +342,10 @@ namespace FlexTemplate.Controllers
         [HttpPost]
         public IActionResult EditPlacePost(EditPlaceViewModel item)
         {
-            var place = context.Places.Include(p => p.Menus).ThenInclude(m => m.Products).SingleOrDefault(p => p.Id == item.Id);
+            var place = context.Places
+                .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category)
+                .SingleOrDefault(p => p.Id == item.Id);
             if (place == null)
             {
                 return NotFound();
@@ -361,15 +372,9 @@ namespace FlexTemplate.Controllers
             place.Latitude = double.Parse(item.Latitude ?? "50.5", CultureInfo.InvariantCulture);
             place.Longitude = double.Parse(item.Longitude ?? "30.5", CultureInfo.InvariantCulture);
             place.Street = chosenStreet;
+            context.PlaceCategories.RemoveRange(place.PlaceCategories);
             place.PlaceCategories = placeCategories;
-            if (!(item.MondayFrom == TimeSpan.Zero && item.MondayTo == TimeSpan.Zero
-                && item.TuesdayFrom == TimeSpan.Zero && item.TuesdayTo == TimeSpan.Zero
-                && item.WednesdayFrom == TimeSpan.Zero && item.WednesdayTo == TimeSpan.Zero
-                && item.ThurstdayFrom == TimeSpan.Zero && item.ThurstdayTo == TimeSpan.Zero
-                && item.FridayFrom == TimeSpan.Zero && item.FridayTo == TimeSpan.Zero
-                && item.SaturdayFrom == TimeSpan.Zero && item.SaturdayTo == TimeSpan.Zero
-                && item.SundayFrom == TimeSpan.Zero && item.SundayTo == TimeSpan.Zero)
-                && item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
+            if (item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
                 && item.WednesdayFrom <= item.WednesdayTo && item.ThurstdayFrom <= item.ThurstdayTo
                 && item.FridayFrom <= item.FridayTo && item.SaturdayFrom <= item.SaturdayTo && item.SundayFrom <= item.SundayTo)
             {
@@ -397,7 +402,7 @@ namespace FlexTemplate.Controllers
             foreach (var menu in place.Menus.Except(nonExsistingMenus))
             {
                 var newMenu = item.Menus.First(m => m.Id == menu.Id);
-                nonExsistingProducts.AddRange(menu.Products.Where(product => !newMenu.Products.Select(p => p.Id).Contains(product.Id)));
+                nonExsistingProducts.AddRange(menu.Products.Where(product => !newMenu.Products.Select(p => p.Id).Contains(product.Id) || product.Price > 0 && !string.IsNullOrEmpty(product.Title)));
             }
             context.Products.RemoveRange(nonExsistingProducts);
             foreach (var menu in item.Menus)
@@ -410,7 +415,10 @@ namespace FlexTemplate.Controllers
                     {
                         exsistingMenu.Products.Add(new Product {Description = product.Description, Title = product.Name, Price = product.Price});
                     }
-                    place.Menus.Add(exsistingMenu);
+                    if (exsistingMenu.Products.Any())
+                    {
+                        place.Menus.Add(exsistingMenu);
+                    }
                 }
                 else
                 {
@@ -419,7 +427,15 @@ namespace FlexTemplate.Controllers
                         var exsistingProduct = exsistingMenu.Products.SingleOrDefault(p => p.Id == product.Id);
                         if (exsistingProduct == null)
                         {
-                            exsistingMenu.Products.Add(new Product { Description = product.Description, Title = product.Name, Price = product.Price });
+                            if (product.Price > 0 && !string.IsNullOrEmpty(product.Name))
+                            {
+                                exsistingMenu.Products.Add(new Product
+                                {
+                                    Description = product.Description,
+                                    Title = product.Name,
+                                    Price = product.Price
+                                });
+                            }
                         }
                         else
                         {

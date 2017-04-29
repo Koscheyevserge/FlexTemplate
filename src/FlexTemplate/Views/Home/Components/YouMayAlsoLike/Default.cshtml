@@ -22,7 +22,7 @@
             {
                 <div class="GridLex-col-3_sm-4_xs-6_xss-12">
                     <div class="restaurant-grid-item">
-                        <a href="#">
+                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">
                             <div class="image">
                                 <img src="../../Resources/Places/@(place.Id)/head.jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';" alt="Image" />
                             </div>

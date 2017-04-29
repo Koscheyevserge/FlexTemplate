@@ -10,5 +10,7 @@ namespace FlexTemplate.ViewModels.HomeController
         public int[] Cities { get; set; }
         public int[] Categories { get; set; }
         public string Input { get; set; }
+        public string ListType { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

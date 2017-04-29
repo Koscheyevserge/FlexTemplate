@@ -2066,7 +2066,7 @@ ul.open-time-list li.day-close .time {
 
 .restaurant-grid-item a {
     color: #636363;
-    display: block;
+    display: inline-block;
 }
 .restaurant-grid-item .image {
     overflow: hidden;
