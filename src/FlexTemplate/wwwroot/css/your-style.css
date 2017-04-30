@@ -165,3 +165,19 @@ Created:        24/10/2016
 .search-margin-top {
   margin-top: -25px;
 }
+
+.mrg-content {
+    display: inline-block;
+}
+
+.mrg-content-address {
+    margin-bottom: 10px;
+}
+
+.mrg-content-phone {
+    margin-top: 10px;
+}
+
+.mrg-content-email {
+    margin-top: 10px;
+}
