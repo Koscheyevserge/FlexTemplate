@@ -167,6 +167,17 @@ namespace FlexTemplate.Controllers
                 ? possibleStreets.FirstOrDefault()
                 : new Street {Name = item.Street, City = chosenCity };
             var placeCategories = context.Categories.Where(c => item.Categories.Contains(c.Id)).Select(c => new PlaceCategory { Category = c }).ToList();
+            var placeFeatures = new List<PlaceFeature>();
+            for (var i = 0; i < item.Features.Length; i++)
+            {
+                for (var j = 0; j < item.Features[i].Length; j++)
+                {
+                    if (!string.IsNullOrEmpty(item.Features[i][j]))
+                    {
+                        placeFeatures.Add(new PlaceFeature {Name = item.Features[i][j], Row = i + 1, Column = j + 1});
+                    }
+                }
+            }
             var newPlace = new Place
             {
                 Address = item.Address,
@@ -178,7 +189,8 @@ namespace FlexTemplate.Controllers
                 Latitude = double.Parse(item.Latitude ?? "50.5", CultureInfo.InvariantCulture),
                 Longitude = double.Parse(item.Longitude ?? "30.5", CultureInfo.InvariantCulture),
                 Street = chosenStreet,
-                PlaceCategories = placeCategories
+                PlaceCategories = placeCategories,
+                PlaceFeatures = placeFeatures
             };
             if (!(item.MondayFrom == TimeSpan.Zero && item.MondayTo == TimeSpan.Zero
                 && item.TuesdayFrom == TimeSpan.Zero && item.TuesdayTo == TimeSpan.Zero
@@ -254,7 +266,7 @@ namespace FlexTemplate.Controllers
             if (Directory.Exists(sourceDirectory))
             {
                 destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
-                if (System.IO.File.Exists(destinationDirectory))
+                if (Directory.Exists(destinationDirectory))
                 {
                     Directory.Delete(destinationDirectory, true);
                 }
