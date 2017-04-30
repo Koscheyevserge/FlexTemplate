@@ -494,10 +494,20 @@
                             </div>
                         </div>
                         <div class="submite-list-box">
+                            <div id="head-update" class="dropzone">
+                                <input type="file">
+                                <input class="file_descriptor" type="hidden" value="@Model.Id" />
+                                <div class="dz-default dz-message"><span>Головна фотографія</span></div>
+                            </div>
+                            <div id="banner-update" class="dropzone">
+                                <input type="file">
+                                <input class="file_descriptor" type="hidden" value="@Model.Id" />
+                                <div class="dz-default dz-message"><span>Баннер</span></div>
+                            </div>
                             <div id="edit-place" class="dropzone">
                                 <input name="files" type="file" multiple>
-                                <input class="file_descriptor" type="hidden" name="uid" value="@Model.Id" />
-                                <div class="dz-default dz-message"><span>Натисніть або перетяніть сюди зображення</span></div>
+                                <input class="file_descriptor" type="hidden" name="uid" value="@Model.Id"/>
+                                <div class="dz-default dz-message"><span>Галерея</span></div>
                             </div>
                         </div>
                         <!--End Фотографії-->
