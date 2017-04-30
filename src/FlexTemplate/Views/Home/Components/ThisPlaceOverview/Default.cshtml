@@ -9,8 +9,25 @@
     && Model.Place.Schedule.SundayFrom == TimeSpan.Zero && Model.Place.Schedule.SundayTo == TimeSpan.Zero);
 }
 
-@if(Model != null)
+@if (Model != null)
 {
+    <style>
+        .mrg-content {
+            display: inline-block;
+        }
+
+        .mrg-content-address {
+            margin-bottom: 10px;
+        }
+
+        .mrg-content-phone {
+            margin-top: 10px;
+        }
+
+        .mrg-content-email {
+            margin-top: 10px;
+        }
+    </style>
     <div class="detail-content-section clearfix">
 
     <div class="section-title-02">
@@ -39,20 +56,20 @@
                         <i class="ti-home"></i>
                     </div>
 
-                    <div class="content">
-                        <p>@Model.Place.Street.Name @Model.Place.Address,<br/>@Model.Place.Street.City.Name</p>
+                    <div class="content mrg-content">
+                        <p class="mrg-content-address">@Model.Place.Street.Name @Model.Place.Address,<br/>@Model.Place.Street.City.Name</p>
                     </div>
 
                 </li>
-
+               
                 <li>
 
                     <div class="icon">
                         <i class="ti-mobile"></i>
                     </div>
 
-                    <div class="content">
-                        <p>@Model.Place.Phone <br /> <br /></p>
+                    <div class="content mrg-content">
+                        <p class="mrg-content-phone">@Model.Place.Phone <br /> <br /></p>
                     </div>
 
                 </li>
@@ -63,8 +80,8 @@
                         <i class="ti-email"></i>
                     </div>
 
-                    <div class="content">
-                        <p>@Model.Place.Email<br /> <br /></p>
+                    <div class="content mrg-content">
+                        <p class="mrg-content-email">@Model.Place.Email<br /> <br /></p>
                     </div>
 
                 </li>

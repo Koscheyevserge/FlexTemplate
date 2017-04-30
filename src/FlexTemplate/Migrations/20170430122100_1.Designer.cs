@@ -8,8 +8,8 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170427130747_test")]
-    partial class test
+    [Migration("20170430122100_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -389,6 +389,26 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("PlaceId");
 
                     b.ToTable("PlaceCategories");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Column");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<int>("Row");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceFeature");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
@@ -834,6 +854,13 @@ namespace FlexTemplate.Migrations
                         .WithMany("PlaceCategories")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceFeature", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Place", "Place")
+                        .WithMany("PlaceFeatures")
+                        .HasForeignKey("PlaceId");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>

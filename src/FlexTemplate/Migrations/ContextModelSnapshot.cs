@@ -390,6 +390,26 @@ namespace FlexTemplate.Migrations
                     b.ToTable("PlaceCategories");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("Column");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<int>("Row");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceFeature");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
                 {
                     b.Property<int>("Id")
@@ -833,6 +853,13 @@ namespace FlexTemplate.Migrations
                         .WithMany("PlaceCategories")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.PlaceFeature", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Place", "Place")
+                        .WithMany("PlaceFeatures")
+                        .HasForeignKey("PlaceId");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>

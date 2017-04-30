@@ -49,5 +49,9 @@ namespace FlexTemplate.Entities
         /// Расписание заведения
         /// </summary>
         public virtual List<Menu> Menus { get; set; }
+        /// <summary>
+        /// Фичи заведения
+        /// </summary>
+        public virtual List<PlaceFeature> PlaceFeatures { get; set; }
     }
 }
