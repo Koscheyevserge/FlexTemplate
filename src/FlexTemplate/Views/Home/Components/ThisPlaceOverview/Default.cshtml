@@ -56,19 +56,21 @@
                     </div>
 
                 </li>
+                @if(!string.IsNullOrEmpty(Model.Place.Email))
+                {
+                    <li>
 
-                <li>
+                        <div class="icon">
+                            <i class="ti-email"></i>
+                        </div>
 
-                    <div class="icon">
-                        <i class="ti-email"></i>
-                    </div>
+                        <div class="content mrg-content">
+                            <p class="mrg-content-email">@Model.Place.Email<br/> <br/>
+                            </p>
+                        </div>
 
-                    <div class="content mrg-content">
-                        <p class="mrg-content-email">@Model.Place.Email<br /> <br /></p>
-                    </div>
-
-                </li>
-
+                    </li>
+                }
             </ul>
 
             <a href="#detail-content-sticky-nav-04" class="btn btn-primary btn-sm anchor-alt">See map &amp; get route</a>
