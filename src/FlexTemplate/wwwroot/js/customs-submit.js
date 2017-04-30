@@ -109,14 +109,18 @@ jQuery(function($) {
 			    }
 			});
 	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + $("#head-update").prev(".file_descriptor").val(),
+	            url: "/api/upload/head/" + $("#head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
-	              this.on("success", function() {
-	                  $("#head-update").hide();
-	              });
 	            } 
+	        });
+	        $("#banner-update").dropzone({
+	            url: "/api/upload/banner/" + $("#banner-update").find(".file_descriptor").val(),
+	            addRemoveLinks: true,
+	            maxFiles: 1,
+	            init: function () {
+	            }
 	        });
 	        $("#file-submit").dropzone({
 	            url: "/api/upload/newplace/" + window.location.href.split("/").pop()

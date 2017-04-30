@@ -10,6 +10,5 @@ namespace FlexTemplate.ViewModels.HomeController
     {
         public Place Place { get; set; }
         public double Stars { get; set; }
-        public string HeadPhoto { get; set; }
     }
 }

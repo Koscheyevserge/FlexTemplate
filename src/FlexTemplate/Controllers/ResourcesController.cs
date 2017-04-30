@@ -7,6 +7,7 @@ using FlexTemplate.Database;
 using FlexTemplate.ViewModels;
 using FlexTemplate.ViewModels.HomeController;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlexTemplate.Controllers
 {
@@ -25,6 +26,12 @@ namespace FlexTemplate.Controllers
                 Directory.CreateDirectory(path);
             var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" });
             return result;
+        }
+
+        [Route("api/resources/cities")]
+        public IEnumerable<string> GetCitieNames()
+        {
+            return context.Cities.Select(c => c.Name).Union(context.CityAliases.Select(ca => ca.Text));
         }
     }
 }

@@ -19,9 +19,35 @@ namespace FlexTemplate.Controllers
         [Route("/api/upload/head/{id}")]
         public void UploadHeadPhoto(string id)
         {
+            if (!HttpContext.Request.Form.Files.Any())
+            {
+                return;
+            }
             var file = HttpContext.Request.Form.Files[0];
             var path = $@"wwwroot\Resources\Places\{id}\";
             var filename = "head.jpg";
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+            if (file.Length > 0)
+            {
+                using (var stream = new FileStream(path + filename, FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("/api/upload/banner/{id}")]
+        public void UploadBannerPhoto(string id)
+        {
+            if (!HttpContext.Request.Form.Files.Any())
+            {
+                return;
+            }
+            var file = HttpContext.Request.Form.Files[0];
+            var path = $@"wwwroot\Resources\Places\{id}\";
+            var filename = "banner.jpg";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             if (file.Length > 0)
