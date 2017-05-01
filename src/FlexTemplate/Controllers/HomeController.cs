@@ -94,8 +94,13 @@ namespace FlexTemplate.Controllers
                         .Include(p => p.Schedule)
                         .Include(p => p.Menus)
                         .ThenInclude(m => m.Products)
+                        .Include(p => p.PlaceFeatures)
                         .SingleOrDefault(item => item.Id == id)
             };
+            if (model.Place == null)
+            {
+                return NotFound();
+            }
             return View(model);
         }
 
@@ -282,6 +287,7 @@ namespace FlexTemplate.Controllers
             var model = context.Places
                 .Include(p => p.Street).ThenInclude(s => s.City)
                 .Include(p => p.Menus).ThenInclude(s => s.Products)
+                .Include(p => p.PlaceFeatures)
                 .AsNoTracking()
                 .Where(p => p.Id == id)
                 .Select(place => new EditPlaceViewModel
@@ -295,7 +301,8 @@ namespace FlexTemplate.Controllers
                     Longitude = place.Longitude.ToString("0.000000", CultureInfo.InvariantCulture),
                     Latitude = place.Latitude.ToString("0.000000", CultureInfo.InvariantCulture),
                     Website = place.Website,
-                    Phone = place.Phone
+                    Phone = place.Phone,
+                    Features = place.PlaceFeatures.OrderBy(pf => pf.Row).GroupBy(pf => pf.Row).Select(ig => ig.OrderBy(f => f.Column).Select(f => f.Name).ToArray()).ToArray()
                 })
                 .SingleOrDefault();
             if (model == null)
@@ -408,6 +415,19 @@ namespace FlexTemplate.Controllers
                     SundayTo = item.SundayTo
                 };
             }
+            var placeFeatures = new List<PlaceFeature>();
+            context.PlaceFeatures.RemoveRange(context.PlaceFeatures.Where(f => f.PlaceId == place.Id));
+            for (var i = 0; i < item.Features.Length; i++)
+            {
+                for (var j = 0; j < item.Features[i].Length; j++)
+                {
+                    if (!string.IsNullOrEmpty(item.Features[i][j]))
+                    {
+                        placeFeatures.Add(new PlaceFeature { Name = item.Features[i][j], Row = i + 1, Column = j + 1 });
+                    }
+                }
+            }
+            place.PlaceFeatures = placeFeatures;
             var nonExsistingMenus = place.Menus.Where(menu => !item.Menus.Select(m => m.Id).Contains(menu.Id));
             context.Menus.RemoveRange(nonExsistingMenus);
             var nonExsistingProducts = new List<Product>();

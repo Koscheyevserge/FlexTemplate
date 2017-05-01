@@ -399,7 +399,7 @@ namespace FlexTemplate.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PlaceId");
+                    b.Property<int>("PlaceId");
 
                     b.Property<int>("Row");
 
@@ -407,7 +407,7 @@ namespace FlexTemplate.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceFeature");
+                    b.ToTable("PlaceFeatures");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
@@ -859,7 +859,8 @@ namespace FlexTemplate.Migrations
                 {
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
                         .WithMany("PlaceFeatures")
-                        .HasForeignKey("PlaceId");
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>

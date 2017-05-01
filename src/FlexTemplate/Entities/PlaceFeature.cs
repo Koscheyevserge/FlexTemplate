@@ -14,6 +14,8 @@ namespace FlexTemplate.Entities
         /// Заведение
         /// </summary>
         public Place Place { get; set; }
+
+        public int PlaceId { get; set; }
         /// <summary>
         /// Название фичи
         /// </summary>

@@ -34,6 +34,7 @@ namespace FlexTemplate.Database
         public DbSet<Schedule> Schedules { get; set; } 
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Product> Products { get; set; } 
+        public DbSet<PlaceFeature> PlaceFeatures { get; set; } 
         public Context(DbContextOptions<Context> options) : base(options)
         {
             

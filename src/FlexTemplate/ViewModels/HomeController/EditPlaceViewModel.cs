@@ -13,6 +13,7 @@ namespace FlexTemplate.ViewModels.HomeController
         public string Name { get; set; }
         public string Description { get; set; }
         public int[] Categories { get; set; }
+        public string[][] Features { get; set; }
         public IEnumerable<Category> CurrentCategories { get; set; }
         public IEnumerable<Category> AllCategories { get; set; }
         public string City { get; set; }

@@ -44,18 +44,21 @@
                     </div>
 
                 </li>
-               
-                <li>
+               @if (!string.IsNullOrEmpty(Model.Place.Phone))
+               {
+                   <li>
 
-                    <div class="icon">
-                        <i class="ti-mobile"></i>
-                    </div>
+                       <div class="icon">
+                           <i class="ti-mobile"></i>
+                       </div>
 
-                    <div class="content mrg-content">
-                        <p class="mrg-content-phone">@Model.Place.Phone <br /> <br /></p>
-                    </div>
+                       <div class="content mrg-content">
+                           <p class="mrg-content-phone">@Model.Place.Phone <br/> <br/>
+                           </p>
+                       </div>
 
-                </li>
+                   </li>
+               }
                 @if(!string.IsNullOrEmpty(Model.Place.Email))
                 {
                     <li>
@@ -297,37 +300,35 @@
         </div>
     }
     </div>
-    <!--
-    <h5 class="text-primary">More about J'AIME by Jean-Michel Lorain</h5>
+    <h5 class="text-primary">Особливості:</h5>
 
     <div class="row">
 
         <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Good for</h6>
-            <p>- Drink <br>- People watching</p>
+            <h6 class="mb-5">Колонка особливостей 1</h6>
+            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 1).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
         </div>
 
         <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Feature</h6>
-            <p>- Outdoor seating <br>- 47" digital HDTV</p>
+            <h6 class="mb-5">Колонка особливостей 2</h6>
+            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 2).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
         </div>
 
         <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Food &amp; Drink</h6>
-            <p>- Breakfast, Lunch, and Dinner <br>- Take-out</p>
+            <h6 class="mb-5">Колонка особливостей 3</h6>
+            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 3).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
         </div>
 
         <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Higtlight</h6>
-            <p>- Creamy Pasta Carbonara <br>- Dutch Indonesian Chicken</p>
+            <h6 class="mb-5">Колонка особливостей 4</h6>
+            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 4).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
         </div>
 
         <div class="col-xss-12 col-xs-12 col-sm-12 col-md-12 mb-15">
-            <h6 class="mb-5">Payment accepted</h6>
-            <p>- Visa, Master card, American Express, UnionPay</p>
+            <h6 class="mb-5">Кухні:</h6>
+            <p>- @string.Join(", ", Model.Place.PlaceCategories.Select(pc => pc.Category.Name))</p>
         </div>
 
     </div>
-    -->
     </div>
 }

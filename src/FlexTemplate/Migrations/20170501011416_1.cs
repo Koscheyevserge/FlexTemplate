@@ -675,25 +675,25 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlaceFeature",
+                name: "PlaceFeatures",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Column = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    PlaceId = table.Column<int>(nullable: true),
+                    PlaceId = table.Column<int>(nullable: false),
                     Row = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaceFeature", x => x.Id);
+                    table.PrimaryKey("PK_PlaceFeatures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlaceFeature_Places_PlaceId",
+                        name: "FK_PlaceFeatures_Places_PlaceId",
                         column: x => x.PlaceId,
                         principalTable: "Places",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -874,8 +874,8 @@ namespace FlexTemplate.Migrations
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaceFeature_PlaceId",
-                table: "PlaceFeature",
+                name: "IX_PlaceFeatures_PlaceId",
+                table: "PlaceFeatures",
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
@@ -980,7 +980,7 @@ namespace FlexTemplate.Migrations
                 name: "PlaceCategories");
 
             migrationBuilder.DropTable(
-                name: "PlaceFeature");
+                name: "PlaceFeatures");
 
             migrationBuilder.DropTable(
                 name: "PlaceReviews");
