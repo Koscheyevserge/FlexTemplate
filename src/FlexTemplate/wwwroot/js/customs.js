@@ -559,25 +559,20 @@ function initSlider() {
 
 
     /*City Autocomplete*/
-  $(function () {
-      var availableTags = [
-        "Kiev",
-        "Lviv",
-        "Harkov",
-        "Odessa",
-        "Dnipro",
-        "Київ",
-        "Львів",
-        "Харків",
-        "Одеса",
-        "Дніпро"
-      ];
-      
-
-      $("#city-tags").autocomplete({
-          source: availableTags
+  if($("#city-tags").length > 0) {
+      $.ajax({
+          datatype: 'json',
+          url: URL_DOMAIN + "/api/resources/cities",
+          data: "",
+          success: function (data) {
+              if (data) {
+                  $("#city-tags").autocomplete({
+                      source: data
+                  });
+              }
+          }
       });
-  });
+  };
 
   /*
   * CKEditor config
