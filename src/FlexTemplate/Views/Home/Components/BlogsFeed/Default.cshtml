@@ -1,5 +1,6 @@
 ﻿@using System.Linq
 @using FlexTemplate.Entities
+@using FlexTemplate.ViewModels.HomeController
 @model FlexTemplate.ViewModels.HomeController.BlogsFeedViewModel
 <div class="col-sm-4 col-md-3 col-xs-12">
 
@@ -114,7 +115,7 @@
         <div class="sidebar-module clearfix">
 
             <ul class="sidebar-post">
-                @foreach (Blog blog in Model.Blogs)
+                @foreach (BlogsFeedItem blog in Model.Blogs)
                 {
 
                     <li class="clearfix">
@@ -124,13 +125,11 @@
                             </div>
                             <div class="content">
                                 <h6>@blog.Caption</h6>
-                                <p class="recent-post-sm-meta"><i class="fa fa-comments mr-5"></i>@blog.Comments.Count()</p>
+                                <p class="recent-post-sm-meta"><i class="fa fa-comments mr-5"></i>@blog.CommentsCount</p>
                             </div>
                         </a>
                     </li>
                 }
-                    
-               
             </ul>
 
 

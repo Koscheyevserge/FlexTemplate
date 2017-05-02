@@ -8,6 +8,13 @@ namespace FlexTemplate.ViewModels.HomeController
 {
     public class BlogsFeedViewModel
     {
-        public virtual IEnumerable<Blog> Blogs { get; set; }
+        public virtual IEnumerable<BlogsFeedItem> Blogs { get; set; }
+    }
+
+    public class BlogsFeedItem
+    {
+        public int Id { get; set; }
+        public string Caption { get; set; }
+        public int CommentsCount { get; set; }
     }
 }

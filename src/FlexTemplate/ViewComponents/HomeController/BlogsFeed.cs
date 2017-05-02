@@ -21,7 +21,7 @@ namespace FlexTemplate.ViewComponents.HomeController
 
         public IViewComponentResult Invoke(IEnumerable<Blog> exceptBlogs)
         {
-            return View(new BlogsFeedViewModel {Blogs = _context.Blogs.Include(blog => blog.Comments).Except(exceptBlogs).Take(4)});
+            return View(new BlogsFeedViewModel {Blogs = _context.Blogs.Include(blog => blog.Comments).Where(b => exceptBlogs.ToList().Select(eb => eb.Id).Contains(b.Id)).Select(b => new BlogsFeedItem {Caption = b.Caption, Id = b.Id, CommentsCount = b.Comments.Count}).Take(4)});
         }
     }
 }
