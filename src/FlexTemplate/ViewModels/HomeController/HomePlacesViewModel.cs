@@ -12,5 +12,7 @@ namespace FlexTemplate.ViewModels.HomeController
         public string Input { get; set; }
         public string ListType { get; set; }
         public int CurrentPage { get; set; }
+        public string OrderBy { get; set; }
+        public bool IsDescending { get; set; }
     }
 }

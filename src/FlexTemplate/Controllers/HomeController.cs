@@ -55,15 +55,15 @@ namespace FlexTemplate.Controllers
             return View();
         }
 
-        public IActionResult Places(int[] cities, int[]categories, string input, int currentPage = 1, string listType = "")
+        public IActionResult Places(int[] cities, int[]categories, string input, int currentPage = 1, string listType = "", string orderBy = "", bool isDescending = false)
         {
             if (listType == null)
             {
-                listType = String.Empty;
+                listType = string.Empty;
             }
             ViewData["Title"] = "Places";
             ViewData["BodyClasses"] = "full-width-container";
-            return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input, CurrentPage = currentPage, ListType = listType});
+            return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input, CurrentPage = currentPage, ListType = listType, OrderBy = orderBy, IsDescending = isDescending});
         }
 
         public IActionResult Place(int id)

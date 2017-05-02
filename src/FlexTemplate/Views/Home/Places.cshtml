@@ -54,24 +54,23 @@
                             <div class="col-sm-10">
 
                                 <div class="text-holder bg-primary">Sort By:</div>
+                                <input id="orderBy" type="hidden" name="orderBy">
+                                <input id="isDescending" type="hidden" name="isDescending">
                                 <ul class="sort-by">
                                     <li>
-                                        <button class="btn active">Offer <i class="ti-angle-up"></i></button>
+                                        <button id="nameOrderBy" class="btn @(Model.OrderBy == "name" ? "active" : string.Empty)">Назва @Html.Raw(Model.OrderBy == "name" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
                                     </li>
                                     <li>
-                                        <button class="btn">Name</button>
+                                        <button id="ratingOrderBy" class="btn @(Model.OrderBy == "rating" ? "active" : string.Empty)">Рейтинг @Html.Raw(Model.OrderBy == "rating" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
                                     </li>
                                     <li>
-                                        <button class="btn">Rating</button>
+                                        <button id="priceOrderBy" class="btn @(Model.OrderBy == "price" ? "active" : string.Empty)">Ціна @Html.Raw(Model.OrderBy == "price" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
                                     </li>
                                     <li>
-                                        <button class="btn">Price</button>
+                                        <button id="categoryOrderBy" class="btn @(Model.OrderBy == "category" ? "active" : string.Empty)">Кухня @Html.Raw(Model.OrderBy == "category" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
                                     </li>
                                     <li>
-                                        <button class="btn">Cuisine</button>
-                                    </li>
-                                    <li>
-                                        <button class="btn">Location</button>
+                                        <button id="cityOrderBy" class="btn @(Model.OrderBy == "city" ? "active" : string.Empty)">Місто @Html.Raw(Model.OrderBy == "city" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
                                     </li>
                                 </ul>
 
@@ -91,7 +90,7 @@
 
 
                     </div>
-                    @await Component.InvokeAsync("ThisPlacesList", new {cities = Model.Cities, input = Model.Input, categories = Model.Categories, currentPage = Model.CurrentPage, listType = Model.ListType})
+                    @await Component.InvokeAsync("ThisPlacesList", new {cities = Model.Cities, input = Model.Input, categories = Model.Categories, currentPage = Model.CurrentPage, listType = Model.ListType, orderBy = Model.OrderBy, isDescending = Model.IsDescending})
                 </div>
             </div>
 

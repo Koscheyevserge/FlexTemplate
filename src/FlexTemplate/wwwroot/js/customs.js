@@ -574,6 +574,26 @@ function initSlider() {
       });
   };
 
+    function setOrderBy(orderBy, isDescending) {
+        $("#orderBy").val(orderBy);
+        $("#isDescending").val(isDescending);
+        $(".btn-form").trigger("click");
+    }
+    $("body").on("click", "#nameOrderBy", function () {
+        setOrderBy("name", $("#nameOrderBy").find(".ti-angle-down").length > 0);
+    });
+    $("body").on("click", "#ratingOrderBy", function () {
+        setOrderBy("rating", $("#ratingOrderBy").find(".ti-angle-down").length > 0);
+    });
+    $("body").on("click", "#priceOrderBy", function () {
+        setOrderBy("price", $("#priceOrderBy").find(".ti-angle-down").length > 0);
+    });
+    $("body").on("click", "#categoryOrderBy", function () {
+        setOrderBy("category", $("#categoryOrderBy").find(".ti-angle-down").length > 0);
+    });
+    $("body").on("click", "#cityOrderBy", function () {
+        setOrderBy("city", $("#cityOrderBy").find(".ti-angle-down").length > 0);
+    });
   /*
   * CKEditor config
   */
