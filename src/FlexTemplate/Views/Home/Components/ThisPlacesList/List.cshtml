@@ -47,7 +47,7 @@
                                         <span class="texting"> (@place.Reviews.Count відгуків)</span>
                                     </div>
                                     <div class="right-bottom">
-                                        <div class="price">Середній чек: <span>65 - 78 грн</span></div>
+                                        <div class="price">Середня ціна: <span>@(place.Menus.Any() ? (int)Math.Ceiling(place.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0)) : 0) грн</span></div>
                                         <div class="clear"></div>
                                         <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Деталі</a>
                                     </div>
