@@ -2,6 +2,23 @@ jQuery(function($) {
 
   "use strict";
   
+
+
+  $("#timepicker_open").change(function () {
+
+      var value = $(this).val();
+
+      $('input#time_open').val(value);
+
+  });
+
+  $("#timepicker_close").change(function () {
+
+      var value = $(this).val();
+
+      $('input#time_close').val(value);
+
+  });
   /**
    * introLoader - Preloader
    */
@@ -639,3 +656,4 @@ function initSlider() {
     }
   };
 }
+
