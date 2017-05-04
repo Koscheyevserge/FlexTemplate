@@ -24,13 +24,13 @@
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group form-group-lg">
                                         <label>Назва блогу:</label>
-                                        <input id="required" type="text" class="form-control" name="Name" />
+                                        <input type="text" class="form-control required" name="Name" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group bootstrap3-wysihtml5-wrapper">
-                                        <label>Iнформація про блог(преамбула):</label>
-                                        <textarea id="required" name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
+                                        <label>Текст 1</label>
+                                        <textarea name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                         <div class="submite-list-box">
-                            <div id="new-place" class="dropzone">
+                            <div id="new-blog" class="dropzone">
                                 <input name="files" type="file" multiple>
                                 <input class="file_descriptor" type="hidden" name="uid" value="@Guid.NewGuid().ToString()" />
                                 <div class="dz-default dz-message"><span>Натисніть або перетяніть сюди зображення</span></div>
@@ -55,26 +55,16 @@
                         <!--End Фотографії-->
                         <div class="col-xs-12 col-sm-12">
                             <div class="form-group bootstrap3-wysihtml5-wrapper">
-                                <label>Iнформація про фото:</label>
-                                <textarea id="required" name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
+                                <label>Текст 2:</label>
+                                <textarea name="Description" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
                             </div>
                         </div>
-                        <div class="c-categories container admin">
-                                <div class="categories">
-                                        <div class="category">
-                                            <h3><span>Теги</span></h3>
-                                            <div class="aliases">
-                                                    <div class="alias">
-                                                        <input class="form-control" type="text" value="Тег">
-                                                        <button class="btn btn-primary btn-form admin-button-alias-remove">Видалити тег</button>
-                                                    </div>
-                                                <div class="buttons">
-                                                    <button class="btn btn-primary btn-form admin-button-add-alias">Додати тег</button>
-                                                    <button class="btn btn-primary btn-form admin-button-category-save">Зберегти</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
+                        <div class="col-xs-12 col-sm-6 col-md-7 xs-mb">
+                            <div class="tag-cloud clearfix mt-0">
+                                <span><i class="fa fa-tags"></i> Теги: </span>
+                                <a href="#" class="tag-item">HTML5</a> <a href="#" class="tag-item">CSS3</a> <a href="#" class="tag-item">jQuery</a>
+                                <a href="#" class="tag-item">Creative</a>
+                            </div>
                         </div>
                         <!--Submit-->
                         <input type="submit" class="btn btn-primary mt-15" value="Відправити" />

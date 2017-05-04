@@ -183,6 +183,7 @@ Created:        24/10/2016
 }
 .ui-autocomplete{
     background: #fff;
-    color: #000;
+    color: #555;
     width: 100px;
+    border: 1px solid #ccc;
 }
