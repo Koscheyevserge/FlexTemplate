@@ -13,22 +13,34 @@ jQuery(function($) {
 	 * Tokenfield for Bootstrap
 	 * http://sliptree.github.io/bootstrap-tokenfield/
 	 */
-	 
-	$('.tokenfield').tokenfield()
+	const URL_DOMAIN = window.location.origin;
+	$('.tokenfield').tokenfield();
 
-	// Autocomplete Tagging
-	var engine = new Bloodhound({
-		local: [{value: 'Italian'}, {value: 'Seafood'}, {value: 'Bistro'} , {value: 'Western'}, {value: 'French'}, {value: 'Thai'}, {value: 'Japanese'}, {value: 'Sushi'}, {value: 'Arabic'}],
-		datumTokenizer: function(d) {
-			return Bloodhound.tokenizers.whitespace(d.value);
-		},
-		queryTokenizer: Bloodhound.tokenizers.whitespace
-	});
-	engine.initialize();
-	$('#autocompleteTagging').tokenfield({
-		typeahead: [null, { source: engine.ttAdapter() }]
-	});
-	
+    // Autocomplete Tagging
+	if ($('#autocompleteTagging').length > 0) {
+	    $.ajax({
+	        datatype: 'json',
+	        url: URL_DOMAIN + "/api/resources/tags",
+	        data: "",
+	        success: function (data) {
+	            if (data) {
+	                var engine = new Bloodhound({
+	                    local: data.map(function(item) {
+	                        return { value: item };
+	                    }),
+	                    datumTokenizer: function (d) {
+	                        return Bloodhound.tokenizers.whitespace(d.value);
+	                    },
+	                    queryTokenizer: Bloodhound.tokenizers.whitespace
+	                });
+	                engine.initialize();
+	                $('#autocompleteTagging').tokenfield({
+	                    typeahead: [null, { source: engine.ttAdapter() }]
+	                });
+	            }
+	        }
+	    });
+    }
 	//  Dropzone -----------------------------------------------------------------------------------------------------------
 
 	if ($('.dropzone').length > 0) {
@@ -108,18 +120,46 @@ jQuery(function($) {
 			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
 			    }
 			});
-	        $("#head-update").dropzone({
-	            url: "/api/upload/head/" + $("#head-update").find(".file_descriptor").val(),
+	        $("#place-head-update").dropzone({
+	            url: "/api/upload/placehead/" + $("#place-head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
 	            } 
 	        });
-	        $("#banner-update").dropzone({
-	            url: "/api/upload/banner/" + $("#banner-update").find(".file_descriptor").val(),
+	        $("#blog-head-update").dropzone({
+	            url: "/api/upload/bloghead/" + $("#blog-head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
+	            }
+	        });
+	        $("#place-banner-update").dropzone({
+	            url: "/api/upload/placebanner/" + $("#place-banner-update").find(".file_descriptor").val(),
+	            addRemoveLinks: true,
+	            maxFiles: 1,
+	            init: function () {
+	            }
+	        });
+	        $("#blog-banner-update").dropzone({
+	            url: "/api/upload/blogbanner/" + $("#blog-banner-update").find(".file_descriptor").val(),
+	            addRemoveLinks: true,
+	            maxFiles: 1,
+	            init: function () {
+	            }
+	        });
+	        $("#new-blog").dropzone({
+	            url: "/api/upload/newblog/" + $("#new-blog").find(".file_descriptor").val(),
+	            addRemoveLinks: true,
+	            removedfile: function (file) {
+	                $.ajax({
+	                    type: 'DELETE',
+	                    url: '/api/upload/newblog/' + $("#new-blog").find(".file_descriptor").val(),
+	                    data: "",
+	                    dataType: 'text'
+	                });
+	                var _ref;
+	                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
 	            }
 	        });
 	        $("#file-submit").dropzone({

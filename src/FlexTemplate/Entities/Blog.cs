@@ -12,5 +12,6 @@ namespace FlexTemplate.Entities
         public string Preamble { get; set; }
         public string Text { get; set; }
         public bool IsModerated { get; set; }
+        public virtual List<BlogTag> BlogTags { get; set; } 
     }
 }

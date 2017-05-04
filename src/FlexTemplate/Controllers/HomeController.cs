@@ -26,12 +26,14 @@ namespace FlexTemplate.Controllers
     {
         private SignInManager<User> _signInManager { get; set; }
         private IHostingEnvironment _environment { get; set; }
+        private UserManager<User> _userManager { get; set; } 
 
-        public HomeController(Context Context, SignInManager<User> signInManager, IHostingEnvironment env) : base(Context)
+        public HomeController(Context Context, SignInManager<User> signInManager, IHostingEnvironment env, UserManager<User> userManager) : base(Context)
         {
             context = Context;
             _signInManager = signInManager;
             _environment = env;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -134,6 +136,7 @@ namespace FlexTemplate.Controllers
             var model = new HomeBlogViewModel
             {
                 Blog = context.Blogs.Include(blog => blog.Author)
+                .Include(blog => blog.BlogTags).ThenInclude(blogTag => blogTag.Tag).ThenInclude(tag => tag.TagAliases)
                 .SingleOrDefault(blog => blog.Id == id),
 
                 Comments = context.BlogComments.Where(com => com.BlogId == id)
@@ -147,6 +150,33 @@ namespace FlexTemplate.Controllers
             ViewData["Title"] = "NewBlog";
             ViewData["BodyClasses"] = "full-width-container";
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewBlog(NewBlogViewModel model)
+        {
+            var user = _userManager.GetUserAsync(HttpContext.User);
+            var inputTags = model.Tags.Any() ? model.Tags.Split(',').Select(tag => tag.Trim()).ToList() : new List<string>{""};
+            var tags =
+                context.Tags.Where(
+                    tag =>
+                        inputTags.Contains(tag.Name) ||
+                        inputTags.Intersect(tag.TagAliases.Select(ta => ta.Text)).Any())
+                        .Select(tag => new BlogTag {Tag = tag}).ToList();
+            var newBlog = new Blog {Caption = model.Name, Preamble = model.Preamble, Text = model.Text, Author = user.Result, BlogTags = tags, CreatedOn = DateTime.Now};
+            context.Blogs.Add(newBlog);
+            context.SaveChanges();
+            var sourceDirectory = $@"wwwroot\Resources\Places\{model.Guid}\";
+            if (Directory.Exists(sourceDirectory))
+            {
+                var destinationDirectory = $@"wwwroot\Resources\Places\{newBlog.Id}\";
+                if (Directory.Exists(destinationDirectory))
+                {
+                    Directory.Delete(destinationDirectory, true);
+                }
+                Directory.Move(sourceDirectory, destinationDirectory);
+            }
+            return RedirectToAction("Blog", "Home", new {id = newBlog.Id});
         }
 
         public IActionResult NewPlace()

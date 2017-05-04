@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170501011416_1")]
+    [Migration("20170504173058_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,24 @@ namespace FlexTemplate.Migrations
                     b.HasIndex("BlogId");
 
                     b.ToTable("BlogComments");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.BlogTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlogId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BlogTags");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.Category", b =>
@@ -529,6 +547,38 @@ namespace FlexTemplate.Migrations
                     b.ToTable("StreetAliases");
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.TagAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int>("TagId");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("TagAliases");
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.User", b =>
                 {
                     b.Property<string>("Id");
@@ -721,6 +771,19 @@ namespace FlexTemplate.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.Entities.BlogTag", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Blog", "Blog")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Tag", "Tag")
+                        .WithMany("BlogTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("FlexTemplate.Entities.CategoryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.Category", "Category")
@@ -902,6 +965,19 @@ namespace FlexTemplate.Migrations
                     b.HasOne("FlexTemplate.Entities.Street", "Street")
                         .WithMany("Aliases")
                         .HasForeignKey("StreetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.Entities.TagAlias", b =>
+                {
+                    b.HasOne("FlexTemplate.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.Tag", "Tag")
+                        .WithMany("TagAliases")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

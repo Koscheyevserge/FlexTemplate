@@ -106,6 +106,19 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -250,6 +263,33 @@ namespace FlexTemplate.Migrations
                         name: "FK_Containers_Panel_PanelId",
                         column: x => x.PanelId,
                         principalTable: "Panel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TagAliases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LanguageId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TagAliases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TagAliases_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TagAliases_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -514,6 +554,32 @@ namespace FlexTemplate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogTags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlogId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogTags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogTags_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlogTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Places",
                 columns: table => new
                 {
@@ -773,6 +839,16 @@ namespace FlexTemplate.Migrations
                 column: "BlogId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogTags_BlogId",
+                table: "BlogTags",
+                column: "BlogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogTags_TagId",
+                table: "BlogTags",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryAliases_CategoryId",
                 table: "CategoryAliases",
                 column: "CategoryId");
@@ -909,6 +985,16 @@ namespace FlexTemplate.Migrations
                 column: "StreetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TagAliases_LanguageId",
+                table: "TagAliases",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TagAliases_TagId",
+                table: "TagAliases",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -959,6 +1045,9 @@ namespace FlexTemplate.Migrations
                 name: "BlogComments");
 
             migrationBuilder.DropTable(
+                name: "BlogTags");
+
+            migrationBuilder.DropTable(
                 name: "CategoryAliases");
 
             migrationBuilder.DropTable(
@@ -992,6 +1081,9 @@ namespace FlexTemplate.Migrations
                 name: "StreetAliases");
 
             migrationBuilder.DropTable(
+                name: "TagAliases");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -1023,6 +1115,9 @@ namespace FlexTemplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "Languages");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

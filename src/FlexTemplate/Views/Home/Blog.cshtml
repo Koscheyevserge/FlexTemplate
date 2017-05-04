@@ -1,4 +1,5 @@
-﻿@model FlexTemplate.ViewModels.HomeController.HomeBlogViewModel
+﻿@using FlexTemplate.Entities
+@model FlexTemplate.ViewModels.HomeController.HomeBlogViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
@@ -36,61 +37,60 @@
 
                             <div class="meta clearfix">
                                 <div class="date-posted">@Model.Blog.CreatedOn</div>
-                                <div>by: @Model.Blog.Author.Name @Model.Blog.Author.Surname</div>
+                                <div>by: @(Model.Blog.Author == null ? string.Empty : $"{Model.Blog.Author.Name} {Model.Blog.Author.Surname}")</div>
                                 <div>in: Review Trip</div>
                             </div>
 
                         </div>
-
                         <div class="content blog-entry">
-
-                            <img src="images/post-grid/01.jpg" alt="image" />
+                            <p>@Model.Blog.Preamble</p>
+                            <img src="../../Resources/Blogs/@(Model.Blog.Id).jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
                             <p>@Model.Blog.Text</p>
-
                         </div>
 
                         <div class="blog-extra">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-7 xs-mb">
                                     <div class="tag-cloud clearfix mt-0">
-                                        <span><i class="fa fa-tags"></i> tags: </span>
-                                        <a href="#" class="tag-item">HTML5</a> <a href="#" class="tag-item">CSS3</a> <a href="#" class="tag-item">jQuery</a>
-                                        <a href="#" class="tag-item">Creative</a>
+                                        <span><i class="fa fa-tags"></i> Теги: </span>
+                                        @foreach (Tag tag in Model.Blog.BlogTags.Select(t => t.Tag))
+                                        {
+                                            <a href="#" class="tag-item">@tag.Name</a>
+                                        }
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-5 xs-mb">
-                                    <ul class="social-share-sm mt-5 pull-right pull-left-xs mt-20-xs">
+                                @*<div class="col-xs-12 col-sm-6 col-md-5 xs-mb">
+                                        <ul class="social-share-sm mt-5 pull-right pull-left-xs mt-20-xs">
 
-                                        <li><span><i class="fa fa-share-square"></i> share</span></li>
-                                        <li class="the-label"><a href="#">Facebook</a></li>
-                                        <li class="the-label"><a href="#">Twitter</a></li>
-                                        <li class="the-label"><a href="#">Google Plus</a></li>
+                                            <li><span><i class="fa fa-share-square"></i> share</span></li>
+                                            <li class="the-label"><a href="#">Facebook</a></li>
+                                            <li class="the-label"><a href="#">Twitter</a></li>
+                                            <li class="the-label"><a href="#">Google Plus</a></li>
 
-                                    </ul>
-                                </div>
-                                <div class="clear"></div>
+                                        </ul>
+                                    </div>
+                                    <div class="clear"></div>*@
                             </div>
                         </div>
 
                         <h4>Про автора</h4>
                         <div class="blog-author clearfix">
                             <div class="author-label">
-                                <img src="images/man/01.jpg" alt="author image" />
+                                <img src="@(Model.Blog.Author == null ? "../../Resources/Defaults/user.jpg" : $"../../Resources/Users/{Model.Blog.Author.Id}.jpg" )" alt="@(Model.Blog.Author == null ? string.Empty : $"{Model.Blog.Author.Name} {Model.Blog.Author.Surname}")" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" />
                             </div>
                             <div class="author-details">
-
-                                <h6><a href="#" class="inverse">@Model.Blog.Author.Name @Model.Blog.Author.Surname</a></h6>
-                                <p>Prepared do an dissuade be so whatever steepest. Yet her beyond looked either day wished nay. By doubtful disposed do juvenile an. Now curiosity you explained immediate why behaviour. An dispatched impossible of of melancholy favourable. </p>
-
-                                <div class="social">
-                                    <a href="#" class="bottomtip" title="Twitter"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" class="bottomtip" title="Facebook"><i class="fa fa-facebook"></i></a>
-                                    <a href="#" class="bottomtip" title="Dribbble"><i class="fa fa-dribbble"></i></a>
-                                    <a href="#" class="bottomtip" title="Youtube"><i class="fa fa-youtube"></i></a>
-                                    <a href="#" class="bottomtip" title="RSS"><i class="fa fa-rss"></i></a>
-                                </div><!-- end social -->
-
+                                <h6><a class="inverse">@(Model.Blog.Author == null ? string.Empty : $"{Model.Blog.Author.Name} {Model.Blog.Author.Surname}")</a></h6>
+                                @*
+                                    <p>Prepared do an dissuade be so whatever steepest. Yet her beyond looked either day wished nay. By doubtful disposed do juvenile an. Now curiosity you explained immediate why behaviour. An dispatched impossible of of melancholy favourable. </p>
+                                    <div class="social">
+                                        <a href="#" class="bottomtip" title="Twitter"><i class="fa fa-twitter"></i></a>
+                                        <a href="#" class="bottomtip" title="Facebook"><i class="fa fa-facebook"></i></a>
+                                        <a href="#" class="bottomtip" title="Dribbble"><i class="fa fa-dribbble"></i></a>
+                                        <a href="#" class="bottomtip" title="Youtube"><i class="fa fa-youtube"></i></a>
+                                        <a href="#" class="bottomtip" title="RSS"><i class="fa fa-rss"></i></a>
+                                    </div>
+                                *@
                             </div>
 
                         </div>
@@ -99,12 +99,12 @@
 
                     <div class="clear mb-40"></div>
 
-                    <h4>9 Comments</h4>
-                    @foreach (FlexTemplate.Entities.BlogComment comment in Model.Comments)
+                    <h4>@Model.Comments.Count() Комментарів</h4>
+                    @foreach (BlogComment comment in Model.Comments)
                     {
-                        @await Component.InvokeAsync("BlogComments", new {item = comment})
+                        await Component.InvokeAsync("BlogComments", new {item = comment});
                     }
-                  <!-- End Comment -->
+                    <!-- End Comment -->
 
                     <div class="clear mb-40"></div>
 
@@ -140,18 +140,13 @@
                             </div>
                         </div>
                     </form>
-
-
                 </div>
-
-               
-
-                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = new List<FlexTemplate.Entities.Blog>() {Model.Blog }});
-                </div>
-
+                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = new List<Blog> { Model.Blog } });
             </div>
 
         </div>
+
+    </div>
 
 </div>
 <!-- end Main Wrapper -->

@@ -35,6 +35,9 @@ namespace FlexTemplate.Database
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Product> Products { get; set; } 
         public DbSet<PlaceFeature> PlaceFeatures { get; set; } 
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<BlogTag> BlogTags { get; set; } 
+        public DbSet<TagAlias> TagAliases { get; set; } 
         public Context(DbContextOptions<Context> options) : base(options)
         {
             

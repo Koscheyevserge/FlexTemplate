@@ -29,9 +29,15 @@ namespace FlexTemplate.Controllers
         }
 
         [Route("api/resources/cities")]
-        public IEnumerable<string> GetCitieNames()
+        public IEnumerable<string> GetCities()
         {
             return context.Cities.Select(c => c.Name).Union(context.CityAliases.Select(ca => ca.Text));
+        }
+
+        [Route("api/resources/tags")]
+        public IEnumerable<string> GetTags()
+        {
+            return context.Tags.Select(c => c.Name).Union(context.TagAliases.Select(ca => ca.Text));
         }
     }
 }
