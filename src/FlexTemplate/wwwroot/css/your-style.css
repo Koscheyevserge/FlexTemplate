@@ -181,3 +181,8 @@ Created:        24/10/2016
 .mrg-content-email {
     margin-top: 10px;
 }
+.ui-autocomplete{
+    background: #fff;
+    color: #000;
+    width: 100px;
+}
