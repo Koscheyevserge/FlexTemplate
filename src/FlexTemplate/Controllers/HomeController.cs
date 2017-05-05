@@ -166,16 +166,7 @@ namespace FlexTemplate.Controllers
             var newBlog = new Blog {Caption = model.Name, Preamble = model.Preamble, Text = model.Text, Author = user.Result, BlogTags = tags, CreatedOn = DateTime.Now};
             context.Blogs.Add(newBlog);
             context.SaveChanges();
-            var sourceDirectory = $@"wwwroot\Resources\Places\{model.Guid}\";
-            if (Directory.Exists(sourceDirectory))
-            {
-                var destinationDirectory = $@"wwwroot\Resources\Places\{newBlog.Id}\";
-                if (Directory.Exists(destinationDirectory))
-                {
-                    Directory.Delete(destinationDirectory, true);
-                }
-                Directory.Move(sourceDirectory, destinationDirectory);
-            }
+            FilesProvider.MoveFolder($@"wwwroot\Resources\Blogs\{model.Guid}\", $@"wwwroot\Resources\Blogs\{newBlog.Id}\");
             return RedirectToAction("Blog", "Home", new {id = newBlog.Id});
         }
 
@@ -274,8 +265,6 @@ namespace FlexTemplate.Controllers
                 }).ToList();
             context.Places.Add(newPlace);
             context.SaveChanges();
-            string destinationDirectory = null;
-            string sourceDirectory = null;
             foreach (var menu in newPlace.Menus)
             {
                 foreach (var product in menu.Products)
@@ -285,28 +274,10 @@ namespace FlexTemplate.Controllers
                     var uid = entity?.Guid;
                     if(uid == null)
                         continue;
-                    sourceDirectory = $@"wwwroot\Resources\Products\{uid}.tmp";
-                    if (System.IO.File.Exists(sourceDirectory))
-                    {
-                        destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
-                        if (System.IO.File.Exists(destinationDirectory))
-                        {
-                            Directory.Delete(destinationDirectory, true);
-                        }
-                        System.IO.File.Move(sourceDirectory, destinationDirectory);
-                    }
+                    FilesProvider.MoveFile($@"wwwroot\Resources\Products\{uid}.tmp", $@"wwwroot\Resources\Products\{product.Id}.jpg");
                 }
             }
-            sourceDirectory = $@"wwwroot\Resources\Places\{item.Uid}\";
-            if (Directory.Exists(sourceDirectory))
-            {
-                destinationDirectory = $@"wwwroot\Resources\Places\{newPlace.Id}\";
-                if (Directory.Exists(destinationDirectory))
-                {
-                    Directory.Delete(destinationDirectory, true);
-                }
-                Directory.Move(sourceDirectory, destinationDirectory);
-            }
+            FilesProvider.MoveFolder($@"wwwroot\Resources\Places\{item.Uid}\", $@"wwwroot\Resources\Places\{newPlace.Id}\");
             return RedirectToAction("Place", new {id = newPlace.Id});
         }
 
@@ -521,16 +492,7 @@ namespace FlexTemplate.Controllers
                     var uid = entity.Guid.ToString();
                     if (uid == Guid.Empty.ToString())
                         uid = entity.Id.ToString();
-                    string sourceDirectory = $@"wwwroot\Resources\Products\{uid}.tmp";
-                    if (System.IO.File.Exists(sourceDirectory))
-                    {
-                        string destinationDirectory = $@"wwwroot\Resources\Products\{product.Id}.jpg";
-                        if (System.IO.File.Exists(destinationDirectory))
-                        {
-                            Directory.Delete(destinationDirectory, true);
-                        }
-                        System.IO.File.Move(sourceDirectory, destinationDirectory);
-                    }
+                    FilesProvider.MoveFile($@"wwwroot\Resources\Products\{uid}.tmp", $@"wwwroot\Resources\Products\{product.Id}.jpg");                
                 }
             }
             return RedirectToAction("Place", "Home", new {id = place.Id});

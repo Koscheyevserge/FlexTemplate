@@ -112,7 +112,7 @@ jQuery(function($) {
 			    removedfile: function (file) {
 			        $.ajax({
 			            type: 'DELETE',
-			            url: '/api/upload/newplace/' + $("#new-place").find(".file_descriptor").val(),
+			            url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val(),
 			            data: "",
 			            dataType: 'text'
 			        });
