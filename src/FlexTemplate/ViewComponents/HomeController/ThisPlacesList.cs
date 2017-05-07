@@ -44,7 +44,7 @@ namespace FlexTemplate.ViewComponents.HomeController
                     places = isDescending ? places.OrderByDescending(p => p.Menus.Any() ? p.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0) : 0) : places.OrderBy(p => p.Menus.Any() ? p.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0) : 0);
                     break;
                 case "rating":
-                    places = isDescending ? places.OrderByDescending(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0) : places.OrderBy(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0);
+                    places = !isDescending ? places.OrderByDescending(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0) : places.OrderBy(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0);
                     break;
                 case "city":
                     places = isDescending ? places.OrderByDescending(p => p.Street.City.Name) : places.OrderBy(p => p.Street.City.Name);

@@ -269,12 +269,13 @@ namespace FlexTemplate.Controllers
             {
                 foreach (var product in menu.Products)
                 {
-                    var entity = item.Menus.SelectMany(m => m.Products)
+                    var entity = item.Menus.Where(m => m.Name == menu.Name).SelectMany(m => m.Products)
                         .FirstOrDefault(p => p.Description == product.Description && Math.Abs(p.Price - product.Price) < 0.1 && p.Name == product.Title);
                     var uid = entity?.Guid;
-                    if(uid == null)
-                        continue;
-                    FilesProvider.MoveFile($@"wwwroot\Resources\Products\{uid}.tmp", $@"wwwroot\Resources\Products\{product.Id}.jpg");
+                    if (uid != null)
+                    {
+                        FilesProvider.MoveFile($@"wwwroot\Resources\Products\{uid}.tmp", $@"wwwroot\Resources\Products\{product.Id}.jpg");
+                    }
                 }
             }
             FilesProvider.MoveFolder($@"wwwroot\Resources\Places\{item.Uid}\", $@"wwwroot\Resources\Places\{newPlace.Id}\");

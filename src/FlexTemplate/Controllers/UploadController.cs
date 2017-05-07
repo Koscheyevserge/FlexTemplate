@@ -60,16 +60,15 @@ namespace FlexTemplate.Controllers
 
         #region PlaceGallery
         [HttpPost]
-        [Route("/api/upload/newplace/{fileDescriptor}")]
-        public string UploadNewPlacePhoto(string fileDescriptor)
+        [Route("/api/upload/newplace/{placeId}")]
+        public string UploadNewPlacePhoto(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return null;
             }
             var filename = Guid.NewGuid().ToString();
-            var filenameExtention = filename + ".jpg";
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{fileDescriptor}\", filenameExtention);
+            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", filename + ".jpg");
             return filename;
         }
         [HttpDelete]
@@ -82,6 +81,7 @@ namespace FlexTemplate.Controllers
             FilesProvider.DeleteFile(path);
         }
         #endregion
+
 
         #endregion
 

@@ -32,15 +32,14 @@
     </div>
 
     <div class="sidebar-module">
-        <h5>Місто</h5>
-        <div class="form-group mb-0">
-            <select class="custom-select" id="cities">
-                @foreach (City city in Model.Cities)
-                {
-                    <option value="@city.Id">@city.Name</option>
-                }
-            </select>
-        </div>
+        <h5>Міста</h5>
+        @foreach (City city in Model.Cities)
+        {
+            <div class="checkbox-block font-icon-checkbox">
+                <input id="filter_cities-@city.Id" name="cities" value="@city.Id" type="checkbox" class="checkbox" checked="@Model.SelectedCities.Contains(city.Id)" />
+                <label class="" for="filter_cities-@city.Id">@city.Name</label>
+            </div>
+        }
     </div>
 
     <!--<div class="sidebar-module">

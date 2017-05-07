@@ -84,12 +84,15 @@ jQuery(function($) {
 			    removedfile: function(file) {
 			        $.ajax({
 			            type: 'DELETE',
-			            url: '/api/upload/newplace/' + $("#edit-place").find(".file_descriptor").val(),
+			            url: '/api/upload/newplace/' + $("#edit-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
 			            data: "",
 			            dataType: 'text'
 			        });
 			        var _ref;
 			        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+			    },
+                success: function(file){
+                    $(file.previewElement).attr("realFilename", file.xhr.response);
 			    },
 			    init: function () {
 			        var dropzone = this;
@@ -98,7 +101,8 @@ jQuery(function($) {
 			            $.get(window.location.origin + "/api/resources/photo-detail/" + url, function (data) {
 			                for (let i = 0; i < data.length; i++) {
 			                    var file = data[i].replace("wwwroot", "../..");
-			                    var mockFile = { name: file.split("/").pop(), size: 0, type: 'image/jpeg' };
+			                    file = file.split("/").pop();
+			                    var mockFile = { name: file, size: 0, type: 'image/jpeg' };
 			                    dropzone.addFile.call(dropzone, mockFile);
 			                    dropzone.options.thumbnail.call(dropzone, mockFile, file);
 			                }
@@ -109,10 +113,13 @@ jQuery(function($) {
 			$("#new-place").dropzone({
 			    url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val(),
 			    addRemoveLinks: true,
+			    success: function(file) {
+			        $(file.previewElement).attr("realFilename", file.xhr.response);
+			    },
 			    removedfile: function (file) {
 			        $.ajax({
 			            type: 'DELETE',
-			            url: "/api/upload/newplace/" + $("#new-place").find(".file_descriptor").val(),
+			            url: '/api/upload/newplace/' + $("#new-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
 			            data: "",
 			            dataType: 'text'
 			        });
@@ -125,13 +132,33 @@ jQuery(function($) {
 	            addRemoveLinks: true,
 	            maxFiles:1,
 	            init: function() {
-	            } 
+	            },
+	            removedfile: function (file) {
+	                $.ajax({
+	                    type: 'DELETE',
+	                    url: '/api/upload/placehead/' + $("#place-head-update").find(".file_descriptor").val(),
+	                    data: "",
+	                    dataType: 'text'
+	                });
+	                var _ref;
+	                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+	            }
 	        });
 	        $("#blog-head-update").dropzone({
 	            url: "/api/upload/bloghead/" + $("#blog-head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
+	            },
+	            removedfile: function (file) {
+	                $.ajax({
+	                    type: 'DELETE',
+	                    url: '/api/upload/bloghead/' + $("#blog-head-update").find(".file_descriptor").val(),
+	                    data: "",
+	                    dataType: 'text'
+	                });
+	                var _ref;
+	                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
 	            }
 	        });
 	        $("#place-banner-update").dropzone({
@@ -139,6 +166,16 @@ jQuery(function($) {
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
+	            },
+	            removedfile: function (file) {
+	                $.ajax({
+	                    type: 'DELETE',
+	                    url: '/api/upload/placebanner/' + $("#place-banner-update").find(".file_descriptor").val(),
+	                    data: "",
+	                    dataType: 'text'
+	                });
+	                var _ref;
+	                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
 	            }
 	        });
 	        $("#blog-banner-update").dropzone({
@@ -146,15 +183,11 @@ jQuery(function($) {
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
-	            }
-	        });
-	        $("#new-blog").dropzone({
-	            url: "/api/upload/newblog/" + $("#new-blog").find(".file_descriptor").val(),
-	            addRemoveLinks: true,
+	            },
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: '/api/upload/newblog/' + $("#new-blog").find(".file_descriptor").val(),
+	                    url: '/api/upload/blogbanner/' + $("#blog-banner-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });

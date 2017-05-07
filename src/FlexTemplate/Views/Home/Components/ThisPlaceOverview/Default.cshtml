@@ -27,8 +27,6 @@
 
             <h5 class="text-primary">Contact Information</h5>
 
-            <p>Unfeeling so rapturous discovery he exquisite. Reasonably so middletons or impression by terminated. Old pleasure required removing elegance him had.</p>
-
             <ul class="contact-list">
 
                 <li>
@@ -46,32 +44,46 @@
                {
                    <li>
 
-                       <div class="icon">
-                           <i class="ti-mobile"></i>
-                       </div>
-
-                       <div class="content mrg-content">
-                           <p class="mrg-content-phone">@Model.Place.Phone <br/> <br/>
-                           </p>
-                       </div>
-
-                   </li>
-               }
-                @if(!string.IsNullOrEmpty(Model.Place.Email))
-                {
-                    <li>
-
                         <div class="icon">
-                            <i class="ti-email"></i>
+                            <i class="ti-mobile"></i>
                         </div>
 
                         <div class="content mrg-content">
-                            <p class="mrg-content-email">@Model.Place.Email<br/> <br/>
+                            <p class="mrg-content-phone">@Model.Place.Phone <br/> <br/>
                             </p>
                         </div>
 
                     </li>
                 }
+                @if(!string.IsNullOrEmpty(Model.Place.Email))
+                {
+                    <li>
+
+                       <div class="icon">
+                           <i class="ti-email"></i>
+                       </div>
+
+                       <div class="content mrg-content">
+                           <p class="mrg-content-email">@Model.Place.Email<br/> <br/>
+                               </p>
+                       </div>
+
+                   </li>
+               }
+               @if (!string.IsNullOrEmpty(Model.Place.Website))
+               {
+                   <li>
+
+                       <div class="icon">
+                           <i class="ti-email"></i>
+                       </div>
+                       <div class="content mrg-content">
+                           <p class="mrg-content-email"><a href="@Model.Place.Website">Офіційний вебсайт</a><br/> <br/>
+                           </p>
+                       </div>
+
+                   </li>
+               }
             </ul>
 
             <a href="#detail-content-sticky-nav-04" class="btn btn-primary btn-sm anchor-alt">See map &amp; get route</a>
