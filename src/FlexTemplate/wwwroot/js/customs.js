@@ -4,7 +4,7 @@ jQuery(function($) {
   
 
 
-  $("#timepicker_open").change(function () {
+  /*$("#timepicker_open").change(function () {
 
       var value = $(this).val();
 
@@ -18,7 +18,7 @@ jQuery(function($) {
 
       $('input#time_close').val(value);
 
-  });
+  });*/
   /**
    * introLoader - Preloader
    */
