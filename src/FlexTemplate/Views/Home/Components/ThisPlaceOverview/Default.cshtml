@@ -78,7 +78,7 @@
                            <i class="ti-email"></i>
                        </div>
                        <div class="content mrg-content">
-                           <p class="mrg-content-email"><a href="@Model.Place.Website">Офіційний вебсайт</a><br/> <br/>
+                           <p class="mrg-content-email"><a target="_blank" href="@(Model.Place.Website.Trim().Contains("http://www.") ? Model.Place.Website.Trim() : "http://www." + Model.Place.Website.Trim())">@Model.Place.Website</a><br/> <br/>
                            </p>
                        </div>
 

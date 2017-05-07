@@ -25,7 +25,7 @@
         @foreach (Category category in Model.Categories)
         {
             <div class="checkbox-block font-icon-checkbox">
-                <input id="filter_categories-@category.Id" name="categories" value="@category.Id" type="checkbox" class="checkbox" checked="@Model.SelectedCategories.Contains(category.Id)" />
+                <input id="filter_categories-@category.Id" name="categories" value="@category.Id" type="checkbox" class="checkbox instant-checkbox-filter" checked="@Model.SelectedCategories.Contains(category.Id)" />
                 <label class="" for="filter_categories-@category.Id">@category.Name</label>
             </div>
         }
@@ -36,7 +36,7 @@
         @foreach (City city in Model.Cities)
         {
             <div class="checkbox-block font-icon-checkbox">
-                <input id="filter_cities-@city.Id" name="cities" value="@city.Id" type="checkbox" class="checkbox" checked="@Model.SelectedCities.Contains(city.Id)" />
+                <input id="filter_cities-@city.Id" name="cities" value="@city.Id" type="checkbox" class="checkbox instant-checkbox-filter" checked="@Model.SelectedCities.Contains(city.Id)" />
                 <label class="" for="filter_cities-@city.Id">@city.Name</label>
             </div>
         }
@@ -46,5 +46,5 @@
         <h5>Sidebar Text</h5>
         <p>Attachment apartments in delightful by motionless it no. And now she burst sir learn total. Hearing hearted shewing own ask. Solicitude uncommonly use her motionless not collecting age. The properly servants required mistaken outlived bed and.</p>
     </div>-->
-
+    <button class="btn btn-primary btn-form">Знайти</button>
 </div>

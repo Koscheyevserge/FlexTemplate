@@ -611,6 +611,9 @@ function initSlider() {
     $("body").on("click", "#cityOrderBy", function () {
         setOrderBy("city", $("#cityOrderBy").find(".ti-angle-down").length > 0);
     });
+    $("body").on("change", ".instant-checkbox-filter", function () {
+        $(".btn-form").trigger("click");
+    });
   /*
   * CKEditor config
   */
