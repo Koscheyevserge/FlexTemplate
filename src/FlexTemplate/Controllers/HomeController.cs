@@ -106,19 +106,30 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Blogs(int id = 1)
+        public IActionResult Blogs(int tag, int year, int month, string input, int currentPage = 1)
         {
             ViewData["Title"] = "Blogs";
             ViewData["BodyClasses"] = "full-width-container";
-            var total = context.Blogs.Count();
+            var blogs = context.Blogs.Include(b => b.Author)
+                .Include(b => b.Comments)
+                .Include(b => b.BlogTags)
+                .AsQueryable();
+            if (tag > 0)
+            {
+                blogs = blogs.Where(b => b.BlogTags.Any(t => t.TagId == tag));
+            }
+            if (!string.IsNullOrEmpty(input))
+            {
+                blogs = blogs.Where(b => b.Caption.ToLower().Contains(input.ToLower()));
+            }
+            var total = blogs.Count();
             var model = new HomeBlogsViewModel
             {
-                Blogs = context.Blogs.Include(a => a.Author)
-               .Include(c => c.Comments)
-               .Skip(6 * (id - 1))
-               .Take(6)
-               .AsEnumerable(),
-                CurrentPage = id,
+                Blogs = blogs
+                .Skip(6 * (currentPage - 1))
+                .Take(6)
+                .AsEnumerable(),
+                CurrentPage = currentPage,
                 Pages = (int)Math.Ceiling((decimal)total / 6),
                 TotalFoundBlogsCount = total
             };

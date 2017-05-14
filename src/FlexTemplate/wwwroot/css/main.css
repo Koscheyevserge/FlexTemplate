@@ -2209,7 +2209,7 @@ a.link-alt:hover {
     position: relative;
     padding-right: 10px;
 }
-.section-title-02 h4 span:after {
+/*.section-title-02 h4 span:after {
     content: "";
     position: absolute;
     top: 50%;
@@ -2218,7 +2218,7 @@ a.link-alt:hover {
     margin-top: 0px;
     height: 3px;
     border-top: 3px double #D9D8D7;
-}
+}*/
 .section-title-02 h5 {
     text-transform: uppercase;
     margin: 0;

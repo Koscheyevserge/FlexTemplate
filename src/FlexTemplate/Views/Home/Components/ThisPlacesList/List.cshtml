@@ -24,7 +24,7 @@
                                 <div class="content">
                                     <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
                                     <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
-                                    <p class="short-info">@Html.Raw(place.Description)</p>
+                                    <p class="short-info">@Html.Raw(place.Description?.Replace("<p>", String.Empty).Replace("</p>", String.Empty).Substring(0, place.Description.Length > 87 ? 80 : place.Description.Length) ?? String.Empty)...</p>
                                     <p class="text-primary offer">-30% від меню «а ля карт»! * </p>
                                     <p class="cuisine">
                                         Кухня:
