@@ -202,7 +202,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
             },
              new Blog
              {
@@ -212,10 +213,11 @@ namespace FlexTemplate.Services
                  Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
                  Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                  Comments = new List<BlogComment>
-               {
-                 new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
-                 new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+                   {
+                     new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
+                     new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
+                   },
+                 CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
              },
               new Blog
               {
@@ -225,10 +227,11 @@ namespace FlexTemplate.Services
                   Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
                   Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                   Comments = new List<BlogComment>
-               {
-                 new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
-                 new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+                   {
+                     new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
+                     new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
+                   },
+                  CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
               },
                new Blog
                {
@@ -238,10 +241,11 @@ namespace FlexTemplate.Services
                    Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
                    Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                    Comments = new List<BlogComment>
-               {
-                 new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
-                 new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+                   {
+                     new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
+                     new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
+                   },
+                   CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                },
                 new Blog
                 {
@@ -251,10 +255,11 @@ namespace FlexTemplate.Services
                     Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
                     Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                     Comments = new List<BlogComment>
-               {
-                 new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
-                 new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+                   {
+                     new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
+                     new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
+                   },
+                    CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                 },
                  new Blog
                  {
@@ -264,10 +269,11 @@ namespace FlexTemplate.Services
                      Preamble = "Веганство іноді називають 'суворим вегетаріанством', оскільки поряд з відмовою від м'ясної їжі вегани також виключають зі свого раціону всі інші продукти тваринного походження, скажімо, молочні продукти.",
                      Text = "Приблизно так само виглядає християнський пост, але на відміну від тих, хто поститься, вегани дотримуються такої дієти круглий рік, через що ставлення до них в нашому суспільстві кілька неоднозначне. Воно, це ставлення, поширюється і на будь-які вегетаріанські та веганські рецепти.",
                      Comments = new List<BlogComment>
-               {
-                 new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
-                 new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+                       {
+                         new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
+                         new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
+                       },
+                     CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                  },
                   new Blog
                   {
@@ -280,7 +286,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                      CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                   },
                    new Blog
                    {
@@ -293,7 +300,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                       CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                    },
                     new Blog
                     {
@@ -319,7 +327,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                         CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                      },
                       new Blog
                       {
@@ -332,7 +341,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                          CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                       },
                        new Blog
                        {
@@ -345,7 +355,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                           CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                        },
                         new Blog
                         {
@@ -358,7 +369,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                            CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                         },
                          new Blog
                          {
@@ -371,7 +383,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                             CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                          },
                           new Blog
                           {
@@ -384,7 +397,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                              CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                           },
                            new Blog
                            {
@@ -397,7 +411,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                               CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                            },
                             new Blog
                             {
@@ -410,7 +425,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                                CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                             },
                              new Blog
                              {
@@ -423,7 +439,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                                 CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                              },
                               new Blog
                               {
@@ -436,7 +453,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Заманчиво, но страшно)) Вдруг не получится?!"},
                  new BlogComment { Author = user2, Text = "Конечно, может не получиться. Но если не попробовать – точно не получится." }
-               }
+               },
+                                  CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
                               },
 
            new Blog
@@ -450,7 +468,8 @@ namespace FlexTemplate.Services
                {
                  new BlogComment {  Author = user1, Text = "Очень хорошая статья- как всегда- ни убавить ни прибавить. Будучи уверенной в том, что ни капли желтка не должно попасть в белок, так и делала. "},
                  new BlogComment { Author = user2, Text = "Очень интересно! Историю не знала. Весьма познавательно и красиво оформлена статья. Спасибо. )" }
-               }
+               },
+               CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
            },
 
            new Blog
@@ -464,7 +483,8 @@ namespace FlexTemplate.Services
                 {
                  new BlogComment {  Author = user1, Text = "Я, конечно, не могу претендовать на столь изысканный вкус, коим, несомненно, обладает уважаемый автор статьи, но абхазское вино (уж не знаю, какое продают в тех краях, где гурман проживает) совсем не новоявленное, а “Лыхны” (настоящее) ничуть не хуже, если не лучше Божоле и, как минимум, в 1,5 раза дешевле (хорошего Божоле, конечно, потому что в бутылках с этой наклейкой тоже можно купить, что угодно).  "},
                  new BlogComment { Author = user2, Text = "Не соглашусь с фразой, что вина из сорта Гамэ не предназначены для долгого хранения. То, что новое – да, оно и изготавливается особым способом, и выпускается на рынок раньше всех вин нового года, его и пьют в течение 3-4 месяцев." }
-                }
+                },
+               CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
            },
 
             new Blog
@@ -478,7 +498,8 @@ namespace FlexTemplate.Services
                    {
                      new BlogComment {  Author = user1, Text = "Отличная статья, узнал много нового!"},
                      new BlogComment { Author = user2, Text = "Работать с техникой станет значительно проще после прочтения данного материала." }
-                   }
+                   },
+                CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
             },
 
              new Blog
@@ -491,7 +512,8 @@ namespace FlexTemplate.Services
                       {
                          new BlogComment {  Author = user1, Text = "Интересное интервью, еще и все строго по делу, без всякой воды, благодарю."},
                          new BlogComment { Author = user2, Text = "Оказалось очень интересный человек и действительно заслуживает уважения. Пока не прочитал даже не подозревал о таких фактах." }
-                      }
+                      },
+                 CreatedOn = new DateTime(2017, 2, 2, 2, 2, 2, DateTimeKind.Local)
              });
 
             var kievStreet1 = new Street { Name = "Оболонський проспект", City = kiev };

@@ -120,7 +120,8 @@ namespace FlexTemplate.Controllers
             }
             if (!string.IsNullOrEmpty(input))
             {
-                blogs = blogs.Where(b => b.Caption.ToLower().Contains(input.ToLower()));
+                input = input.Trim();
+                blogs = blogs.Where(b => b.Caption.ToLower().Contains(input.ToLower()) || b.Preamble.ToLower().Contains(input.ToLower()));
             }
             var total = blogs.Count();
             var model = new HomeBlogsViewModel
