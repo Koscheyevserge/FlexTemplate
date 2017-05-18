@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FlexTemplate.Services
@@ -20,5 +21,13 @@ namespace FlexTemplate.Services
         /// Продолжительность жизни куки (20 минут)
         /// </summary>
         public const long COOKIE_LIFETIME_MILLISECONDS = 1200000;
+    }
+
+    public static class Extentions
+    {
+        public static string StripHtml(string input)
+        {
+            return Regex.Replace(input, "<.*?>", string.Empty);
+        }
     }
 }

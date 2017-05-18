@@ -16,6 +16,19 @@ namespace FlexTemplate.Controllers
             context = Context;
         }
 
+        #region Page
+        [HttpPost]
+        [Route("/api/upload/pagephoto/{pageName}")]
+        public void UploadPagePhoto(string pageName)
+        {
+            if (!HttpContext.Request.Form.Files.Any())
+            {
+                return;
+            }
+            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Pages\", $"{pageName}.jpg");
+        }
+        #endregion
+
         #region Place
 
         #region PlaceHead

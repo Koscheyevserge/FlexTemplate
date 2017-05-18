@@ -19,7 +19,7 @@ namespace FlexTemplate.ViewComponents.HomeController
             _context = context;
         }
 
-        public IViewComponentResult Invoke(IEnumerable<Blog> exceptBlogs)
+        public IViewComponentResult Invoke()
         {
             return View(new BlogsFeedViewModel
             {
@@ -34,24 +34,12 @@ namespace FlexTemplate.ViewComponents.HomeController
                         }),
                 Blogs = _context.Blogs
                 .Include(blog => blog.Comments)
-                .Where(b => exceptBlogs.ToList()
-                    .Select(eb => eb.Id).Contains(b.Id))
-                    .Select(b => 
-                        new BlogsFeedItem
-                        {
-                            Caption = b.Caption,
-                            Id = b.Id,
-                            CommentsCount = b.Comments.Count
-                        })
+                .Select(b => new BlogsFeedItem { Caption = b.Caption, Id = b.Id, CommentsCount = b.Comments.Count })
                 .OrderByDescending(b => b.CommentsCount)
                 .Take(4),
-                LatestBlogs = _context.Blogs.OrderByDescending(b => b.CreatedOn).Select(b =>
-                        new BlogsFeedLatestItem
-                        {
-                            Caption = b.Caption,
-                            Id = b.Id,
-                            CreatedOn = b.CreatedOn.ToShortDateString()
-                        }).Take(5)
+                LatestBlogs = _context.Blogs.OrderByDescending(b => b.CreatedOn)
+                .Select(b =>new BlogsFeedLatestItem{Caption = b.Caption,Id = b.Id,CreatedOn = b.CreatedOn.ToShortDateString()})
+                .Take(5)
             });
         }
     }

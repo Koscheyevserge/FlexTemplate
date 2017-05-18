@@ -4,7 +4,7 @@
 <div class="main-wrapper scrollspy-container">
 
     <!-- start hero-header -->
-    <div class="hero hero-breadcrumb" style="background-image:url('images/hero-header/02.jpg');">
+    <div class="hero hero-breadcrumb" style="background-image: url('../../resources/blogs/@Model.Blog.Id/banner.jpg');">
 
         <div class="container">
 
@@ -18,7 +18,7 @@
 
         <div class="breadcrumb-wrapper">
             <ol class="breadcrumb">
-                <li><a href="#">Головна</a></li>
+                <li><a asp-controller="Home" asp-action="Blogs">Блоги</a></li>
                 <li class="active">@Model.Blog.Caption</li>
             </ol>
         </div>
@@ -43,9 +43,9 @@
 
                         </div>
                         <div class="content blog-entry">
-                            <p>@Model.Blog.Preamble</p>
+                            <p>@Html.Raw(Model.Blog.Preamble)</p>
                             <img src="../../Resources/Blogs/@(Model.Blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
-                            <p>@Model.Blog.Text</p>
+                            <p>@Html.Raw(Model.Blog.Text)</p>
                         </div>
 
                         <div class="blog-extra">
@@ -74,7 +74,7 @@
                             </div>
                         </div>
 
-                        <h4>Про автора</h4>
+                        <h4>Автор</h4>
                         <div class="blog-author clearfix">
                             <div class="author-label">
                                 <img src="@(Model.Blog.Author == null ? "../../Resources/Defaults/user.jpg" : $"../../Resources/Users/{Model.Blog.Author.Id}.jpg" )" alt="@(Model.Blog.Author == null ? string.Empty : $"{Model.Blog.Author.Name} {Model.Blog.Author.Surname}")" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" />
@@ -108,7 +108,7 @@
 
                     <div class="clear mb-40"></div>
 
-                    <h4>Вiдправити комментар</h4>
+                    <h4>Додати комментар</h4>
 
                     <form method="post" id="contactForm" action="post" class="comment-form">
                         <div class="row">
@@ -141,7 +141,7 @@
                         </div>
                     </form>
                 </div>
-                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = new List<Blog> { Model.Blog } });
+                @await Component.InvokeAsync("BlogsFeed");
             </div>
 
         </div>

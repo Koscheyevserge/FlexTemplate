@@ -100,7 +100,7 @@ jQuery(function($) {
 			        if (!Number.isNaN(url) && window.location.href.indexOf('lace') > -1) {
 			            $.get(window.location.origin + "/api/resources/photo-detail/" + url, function (data) {
 			                for (let i = 0; i < data.length; i++) {
-			                    var file = data[i].replace("wwwroot", "../..");
+			                    var file = data[i].replace("wwwroot", "..\\..\\");
 			                    file = file.split("/").pop();
 			                    var mockFile = { name: file, size: 0, type: 'image/jpeg' };
 			                    dropzone.addFile.call(dropzone, mockFile);

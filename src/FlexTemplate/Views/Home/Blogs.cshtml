@@ -40,47 +40,54 @@
                                 {
 
 
-                                <div class="GridLex-col-6_sm-12_xs-12_xss-12">
+                                    <div class="GridLex-col-6_sm-12_xs-12_xss-12">
 
-                                    <div class="recent-post-item mb-40">
+                                        <div class="recent-post-item mb-40">
 
-                                        <div class="image">
+                                            <div class="image">
 
-                                            <div class="overlay-box">
+                                                <div class="overlay-box">
 
-                                                <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">
-                                                    <img src="../../Resources/Blogs/@(blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';"/>
-                                                    <div class="image-overlay">
-                                                        <div class="overlay-content">
-                                                            <div class="overlay-icon"><i class="pe-7s-link"></i></div>
+                                                    <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">
+                                                        <img src="../../Resources/Blogs/@(blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
+                                                        <div class="image-overlay">
+                                                            <div class="overlay-content">
+                                                                <div class="overlay-icon"><i class="pe-7s-link"></i></div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+
+                                                </div>
+
+                                                <div class="recent-post-meta clearfix">
+                                                    <div class="date-posted">@blog.CreatedOn</div>
+                                                    <div>by: @(blog.Author != null ? $"{blog.Author.Name} {blog.Author.Surname}" : string.Empty)</div>
+                                                    <div>in: Review Trip</div>
+                                                </div>
 
                                             </div>
 
-                                            <div class="recent-post-meta clearfix">
-                                                <div class="date-posted">@blog.CreatedOn</div>
-                                                <div>by: @(blog.Author != null ? $"{blog.Author.Name} {blog.Author.Surname}" : string.Empty)</div>
-                                                <div>in: Review Trip</div>
+                                            <div class="content">
+
+                                                <h4><a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">@blog.Caption</a></h4>
+                                                @{
+                                                    var preamble = FlexTemplate.Services.Extentions.StripHtml(blog.Preamble ?? string.Empty);
+                                                    var needDots = preamble.Length > 120;
+                                                    var cutLength = needDots ? 120 : preamble.Length;
+                                                    preamble = preamble.Substring(0, cutLength);
+                                                    preamble += needDots ? "..." : string.Empty;
+                                                }
+                                                <p class="recent-post-entry">@preamble</p>
+
+                                                <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id" class="btn btn-primary btn-inverse btn-sm">Read more <i class="fa fa-long-arrow-right"></i></a>
+
                                             </div>
-
-                                        </div>
-
-                                        <div class="content">
-
-                                            <h4><a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">@blog.Caption</a></h4>
-                                            <p class="recent-post-entry">@blog.Preamble</p>
-
-                                            <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id" class="btn btn-primary btn-inverse btn-sm">Read more <i class="fa fa-long-arrow-right"></i></a>
 
                                         </div>
 
                                     </div>
 
-                                </div>
-
-                                }
+                                                    }
 
                             </div>
 
@@ -117,13 +124,13 @@
 
                 </div>
 
-                @await Component.InvokeAsync("BlogsFeed", new { exceptBlogs = Model.Blogs })
-
-                </div>
+                @await Component.InvokeAsync("BlogsFeed")
 
             </div>
 
         </div>
 
     </div>
-    <!-- end Main Wrapper -->
+
+</div>
+<!-- end Main Wrapper -->

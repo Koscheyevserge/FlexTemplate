@@ -24,7 +24,7 @@ namespace FlexTemplate.Controllers
             var path = $@"wwwroot\Resources\Places\{id}\";
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
-            var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" });
+            var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" , $@"wwwroot\Resources\Places\{id}\banner.jpg" });
             return result;
         }
 

@@ -165,19 +165,18 @@ namespace FlexTemplate.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewBlog(NewBlogViewModel model)
+        public async Task<IActionResult> NewBlog(NewBlogViewModel model)
         {
-            var user = _userManager.GetUserAsync(HttpContext.User);
-            var inputTags = model.Tags.Any() ? model.Tags.Split(',').Select(tag => tag.Trim()).ToList() : new List<string>{""};
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var inputTags = model.Tags != null && model.Tags.Any() ? model.Tags.Split(',').Select(tag => tag.Trim()).ToList() : new List<string>{""};
             var tags =
                 context.Tags.Where(
                     tag =>
-                        inputTags.Contains(tag.Name) ||
-                        inputTags.Intersect(tag.TagAliases.Select(ta => ta.Text)).Any())
-                        .Select(tag => new BlogTag {Tag = tag}).ToList();
-            var newBlog = new Blog {Caption = model.Name, Preamble = model.Preamble, Text = model.Text, Author = user.Result, BlogTags = tags, CreatedOn = DateTime.Now};
+                        inputTags.Contains(tag.Name) || inputTags.Intersect(tag.TagAliases.Select(ta => ta.Text)).Any())
+                            .Select(tag => new BlogTag {Tag = tag}).ToList();
+            var newBlog = new Blog {Caption = model.Name, Preamble = model.Preamble, Text = model.Text, Author = user, BlogTags = tags, CreatedOn = DateTime.Now};
             context.Blogs.Add(newBlog);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             FilesProvider.MoveFolder($@"wwwroot\Resources\Blogs\{model.Guid}\", $@"wwwroot\Resources\Blogs\{newBlog.Id}\");
             return RedirectToAction("Blog", "Home", new {id = newBlog.Id});
         }
