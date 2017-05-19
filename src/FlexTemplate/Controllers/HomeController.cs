@@ -63,6 +63,10 @@ namespace FlexTemplate.Controllers
             {
                 listType = string.Empty;
             }
+            if (string.IsNullOrEmpty(input))
+            {
+                input = null;
+            }
             ViewData["Title"] = "Places";
             ViewData["BodyClasses"] = "full-width-container";
             return View(new HomePlacesViewModel {Categories = categories, Cities = cities, Input = input, CurrentPage = currentPage, ListType = listType, OrderBy = orderBy, IsDescending = isDescending});

@@ -27,6 +27,7 @@ namespace FlexTemplate.Controllers
             ViewData["HeaderTemplate"] = "Solid";
             CurrentUserLanguage = context.Languages.FirstOrDefault(uc => uc.ShortName == CookieProvider.GetLanguage(HttpContext)) ?? context.Languages.FirstOrDefault(l => l.IsDefault);
             ViewBag.HeaderViewModel = new HeaderViewModel{Languages = context.Languages.AsNoTracking(), CurrentLanguage = CurrentUserLanguage ?? new Language()};
+            ViewBag.Query = Request.Query.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
             base.OnActionExecuting(_context);
         }
     }

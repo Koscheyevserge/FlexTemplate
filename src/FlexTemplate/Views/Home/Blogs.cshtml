@@ -1,6 +1,12 @@
-﻿@using System.Linq
-@using FlexTemplate.Entities
+﻿@using FlexTemplate.Entities
 @model FlexTemplate.ViewModels.HomeController.HomeBlogsViewModel
+@{
+    object tag;
+    if (!ViewBag.Query.TryGetValue("tag", out tag))
+    {
+        tag = 0;
+    }
+}
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
@@ -98,18 +104,18 @@
                                 <div class="GridLex-col GridLex-col-12_sm-12_xs-12 pb-0">
 
                                     <nav>
-                                        <ul class="blogs-pagination pagination pagination-text-center-sm mb-5-xs">
+                                        <ul class="pagination pagination-text-center-sm mb-5-xs">
                                             @if (Model.CurrentPage > 1)
                                             {
-                                                <li><a data-id="@(Model.CurrentPage - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                                                <li><a asp-controller="Home" asp-action="Blogs" asp-route-tag="@tag" asp-route-currentpage="@(Model.CurrentPage - 1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
                                             }
                                             @for (var i = 1; i <= Model.Pages; i++)
                                             {
-                                                <li class="@(Model.CurrentPage == i ? "active" : string.Empty)"><a data-id="@i">@i</a></li>
+                                                <li class="@(Model.CurrentPage == i ? "active" : string.Empty)"><a asp-controller="Home" asp-action="Blogs" asp-route-tag="@tag" asp-route-currentpage="@i">@i</a></li>
                                             }
                                             @if (Model.CurrentPage < Model.Pages)
                                             {
-                                                <li><a data-id="@(Model.CurrentPage + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                                                <li><a asp-controller="Home" asp-action="Blogs" asp-route-tag="@tag" asp-route-currentpage="@(Model.CurrentPage + 1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
                                             }
                                         </ul>
                                     </nav>
