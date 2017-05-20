@@ -5,11 +5,21 @@
 
         <div class="image">
 
-            <img src="../../Resources/User/@(Model.Review.User.Id).jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" alt="images" />
+            <img src="../../Resources/User/@(Model.Review.User != null ? Model.Review.User.Id : string.Empty).jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" alt="images" />
 
         </div>
-
-        <h6>@Model.Review.User.Name @Model.Review.User.Surname</h6> 
+        @{
+            var userName = "Гість";
+            if (Model.Review.User != null)
+            {
+                userName = Model.Review.User.Name + " " + Model.Review.User.Surname;
+                if (string.IsNullOrEmpty(userName.Trim()))
+                {
+                    userName = Model.Review.User.UserName;
+                }
+            }
+        }
+        <h6>@userName</h6> 
 
     </div>
 
@@ -33,7 +43,7 @@
                 </div>
             </div>
 
-            розглянуті на Jan 16, 2016
+            @Model.Review.CreatedOn
 
         </div>
 

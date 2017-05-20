@@ -107,6 +107,7 @@ namespace FlexTemplate.Controllers
             {
                 return NotFound();
             }
+            model.Place.Reviews = model.Place.Reviews.OrderByDescending(r => r.CreatedOn).ToList();
             return View(model);
         }
 
@@ -199,7 +200,7 @@ namespace FlexTemplate.Controllers
         public async Task<IActionResult> NewPlaceReview(NewPlaceReviewViewModel model)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var newPlaceReview = new PlaceReview { PlaceId = model.PlaceId, Author = user, CreatedOn = DateTime.Now, Text = model.Text };
+            var newPlaceReview = new PlaceReview { PlaceId = model.PlaceId, User = user, CreatedOn = DateTime.Now, Text = model.Text };
             context.PlaceReviews.Add(newPlaceReview);
             await context.SaveChangesAsync();
             return RedirectToAction("Place", new { id = model.PlaceId });

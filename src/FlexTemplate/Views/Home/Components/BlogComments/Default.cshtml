@@ -13,7 +13,6 @@
                 @*<a href="#" class="comment-reply">відповісти</a>*@
                 @{
                     var userName = "Гість";
-
                     if (comment.Author != null)
                     {
                         userName = comment.Author.Name + " " + comment.Author.Surname;
@@ -30,5 +29,5 @@
                 <p>@comment.Text</p>
             </div>
         </li>
-                    }
+    }
 </ul>
