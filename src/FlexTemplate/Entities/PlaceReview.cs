@@ -31,5 +31,8 @@ namespace FlexTemplate.Entities
         /// Место, к которому оставили отзыв
         /// </summary>
         public Place Place { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public int AuthorId { get; set; }
+        public User Author { get; set; }
     }
 }

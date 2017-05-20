@@ -309,12 +309,7 @@ jQuery(function($) {
     $modalRegister.modal('hide');
 
     $('body').modalmanager('loading');
-
-    setTimeout(function() {
-      $modal.load('ajax-login-modal-login.html', '', function() {
-        $modal.modal();
-      });
-    }, 1000);
+    $modal.modal();
   });
 
   /** for Register Ajax Modal */
@@ -327,12 +322,7 @@ jQuery(function($) {
     $modalForgotPassword.modal('hide');
 
     $('body').modalmanager('loading');
-
-    setTimeout(function() {
-      $modalRegister.load('ajax-login-modal-register.html', '', function() {
-        $modalRegister.modal();
-      });
-    }, 1000);
+    $modalRegister.modal();
   });
 
   /** for Forgot Password Ajax Modal */
@@ -346,13 +336,9 @@ jQuery(function($) {
 
     $('body').modalmanager('loading');
 
-    setTimeout(function() {
-
-      $modalForgotPassword.load('ajax-login-modal-forgot-password.html', '', function() {
+    $modalForgotPassword.load('ajax-login-modal-forgot-password.html', '', function() {
         $modalForgotPassword.modal();
-      });
-
-    }, 1000);
+    });
 
   });
 

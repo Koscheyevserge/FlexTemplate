@@ -100,18 +100,17 @@
                     <div class="clear mb-40"></div>
 
                     <h4>@Model.Comments.Count() Комментарів</h4>
-                    @foreach (BlogComment comment in Model.Comments)
-                    {
-                        await Component.InvokeAsync("BlogComments", new {item = comment});
-                    }
+                    
+                    @await Component.InvokeAsync("BlogComments", new {item = Model.Comments})
+                    
                     <!-- End Comment -->
 
                     <div class="clear mb-40"></div>
 
                     <h4>Додати комментар</h4>
 
-                    <form method="post" id="contactForm" action="post" class="comment-form">
-                        <div class="row">
+                    <form method="post" id="contactForm" asp-controller="Home" asp-action="NewBlogComment" asp-route-blogid="@Model.Blog.Id" class="comment-form">
+                        @*<div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <label for="comment-name">Ваше ім'я <span class="text-danger">*</span></label>
@@ -124,13 +123,13 @@
                                     <input type="text" class="form-control" id="comment-email">
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="clear"></div>
                         <div class="row">
                             <div class="col-md-12 mb-20">
                                 <div class="form-group">
-                                    <label for="comment-message">Повідомлення <span class="text-danger">*</span></label>
-                                    <textarea name="message" id="comment-message" class="form-control" rows="8"></textarea>
+                                    <label for="comment-message">Комментар</label>
+                                    <textarea name="text" id="comment-message" class="form-control" rows="4"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +140,7 @@
                         </div>
                     </form>
                 </div>
-                @await Component.InvokeAsync("BlogsFeed");
+                @await Component.InvokeAsync("BlogsFeed")
             </div>
 
         </div>

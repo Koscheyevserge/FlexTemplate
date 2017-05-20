@@ -3851,7 +3851,7 @@ ul.pagination {
 }
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
-    padding-right: 0;
+    padding-right: 15px;
     border-right: 0;
 }
 .pagination > li.active > a,

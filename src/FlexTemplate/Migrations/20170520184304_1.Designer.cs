@@ -8,7 +8,7 @@ using FlexTemplate.Database;
 namespace FlexTemplate.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20170504173058_1")]
+    [Migration("20170520184304_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -434,6 +434,12 @@ namespace FlexTemplate.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AuthorId");
+
+                    b.Property<string>("AuthorId1");
+
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<int>("PlaceId");
 
                     b.Property<int>("Star");
@@ -445,6 +451,8 @@ namespace FlexTemplate.Migrations
                     b.Property<string>("UserId1");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId1");
 
                     b.HasIndex("PlaceId");
 
@@ -929,6 +937,10 @@ namespace FlexTemplate.Migrations
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceReview", b =>
                 {
+                    b.HasOne("FlexTemplate.Entities.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId1");
+
                     b.HasOne("FlexTemplate.Entities.Place", "Place")
                         .WithMany("Reviews")
                         .HasForeignKey("PlaceId")

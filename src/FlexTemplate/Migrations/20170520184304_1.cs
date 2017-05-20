@@ -768,6 +768,9 @@ namespace FlexTemplate.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AuthorId = table.Column<int>(nullable: false),
+                    AuthorId1 = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
                     Star = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
@@ -777,6 +780,12 @@ namespace FlexTemplate.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlaceReviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaceReviews_AspNetUsers_AuthorId1",
+                        column: x => x.AuthorId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PlaceReviews_Places_PlaceId",
                         column: x => x.PlaceId,
@@ -953,6 +962,11 @@ namespace FlexTemplate.Migrations
                 name: "IX_PlaceFeatures_PlaceId",
                 table: "PlaceFeatures",
                 column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlaceReviews_AuthorId1",
+                table: "PlaceReviews",
+                column: "AuthorId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaceReviews_PlaceId",

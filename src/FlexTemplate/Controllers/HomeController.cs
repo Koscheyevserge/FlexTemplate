@@ -185,6 +185,26 @@ namespace FlexTemplate.Controllers
             return RedirectToAction("Blog", "Home", new {id = newBlog.Id});
         }
 
+        [HttpPost]
+        public async Task<IActionResult> NewBlogComment(NewBlogCommentViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var newBlogComment = new BlogComment { BlogId = model.BlogId, Author = user, CreatedOn = DateTime.Now, Text = model.Text };
+            context.BlogComments.Add(newBlogComment);
+            await context.SaveChangesAsync();
+            return RedirectToAction("Blog", new {id = model.BlogId});
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewPlaceReview(NewPlaceReviewViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var newPlaceReview = new PlaceReview { PlaceId = model.PlaceId, Author = user, CreatedOn = DateTime.Now, Text = model.Text };
+            context.PlaceReviews.Add(newPlaceReview);
+            await context.SaveChangesAsync();
+            return RedirectToAction("Place", new { id = model.PlaceId });
+        }
+
         public IActionResult NewPlace()
         {
             ViewData["Title"] = "NewPlace";
