@@ -134,7 +134,7 @@
                     @await Component.InvokeAsync("ThisPlaceReview", new { item = review });
                 }
             </ul>
-            <h4>Додати комментар</h4>
+            <h4>Додати коментар</h4>
 
             <form method="post" id="contactForm" asp-controller="Home" asp-action="NewPlaceReview" asp-route-placeid="@Model.Place.Id" class="comment-form">
 
@@ -142,7 +142,7 @@
                 <div class="row">
                     <div class="col-md-12 mb-20">
                         <div class="form-group">
-                            <label for="comment-message">Комментар</label>
+                            <label for="comment-message">Коментар</label>
                             <textarea name="text" id="comment-message" class="form-control" rows="4"></textarea>
                         </div>
                     </div>

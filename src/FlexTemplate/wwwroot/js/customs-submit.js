@@ -69,7 +69,7 @@ jQuery(function($) {
                     removedfile: function(file) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/api/upload/producthead/' + self.find(".file_descriptor").val(),
+                            url: window.location.origin + '/api/upload/producthead/' + self.find(".file_descriptor").val(),
                             data: "",
                             dataType: 'text'
                         });
@@ -84,7 +84,7 @@ jQuery(function($) {
 			    removedfile: function(file) {
 			        $.ajax({
 			            type: 'DELETE',
-			            url: '/api/upload/newplace/' + $("#edit-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
+			            url: window.location.origin + '/api/upload/newplace/' + $("#edit-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
 			            data: "",
 			            dataType: 'text'
 			        });
@@ -119,7 +119,7 @@ jQuery(function($) {
 			    removedfile: function (file) {
 			        $.ajax({
 			            type: 'DELETE',
-			            url: '/api/upload/newplace/' + $("#new-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
+			            url: window.location.origin + '/api/upload/newplace/' + $("#new-place").find(".file_descriptor").val() + "/" + $(file.previewElement).attr("realFilename"),
 			            data: "",
 			            dataType: 'text'
 			        });
@@ -136,7 +136,7 @@ jQuery(function($) {
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: '/api/upload/placehead/' + $("#place-head-update").find(".file_descriptor").val(),
+	                    url: window.location.origin + '/api/upload/placehead/' + $("#place-head-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });
@@ -153,7 +153,7 @@ jQuery(function($) {
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: '/api/upload/bloghead/' + $("#blog-head-update").find(".file_descriptor").val(),
+	                    url: window.location.origin + '/api/upload/bloghead/' + $("#blog-head-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });
@@ -170,7 +170,7 @@ jQuery(function($) {
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: '/api/upload/placebanner/' + $("#place-banner-update").find(".file_descriptor").val(),
+	                    url: window.location.origin + '/api/upload/placebanner/' + $("#place-banner-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });
@@ -187,7 +187,7 @@ jQuery(function($) {
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: '/api/upload/blogbanner/' + $("#blog-banner-update").find(".file_descriptor").val(),
+	                    url: window.location.origin + '/api/upload/blogbanner/' + $("#blog-banner-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });

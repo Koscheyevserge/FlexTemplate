@@ -132,7 +132,7 @@ namespace FlexTemplate.Controllers
             FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "banner.jpg");
         }
         [HttpDelete]
-        [Route("/api/upload/bloghead/{blogId}")]
+        [Route("/api/upload/blogbanner/{blogId}")]
         public void DeleteBlogBannerPhoto(string blogId)
         {
             var path = $@"wwwroot\Resources\Blogs\{blogId}\banner.jpg";
