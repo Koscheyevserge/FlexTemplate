@@ -10,5 +10,6 @@ namespace FlexTemplate.ViewModels
     {
         public IEnumerable<Language> Languages { get; set; } 
         public Language CurrentLanguage { get; set; }
+        public User CurrentUser { get; internal set; }
     }
 }

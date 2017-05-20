@@ -15,7 +15,6 @@ namespace FlexTemplate.Controllers
     public abstract class BaseController : Controller
     {
         protected Context context { get; set; }
-        protected Language CurrentUserLanguage { get; set; }
 
         protected BaseController(Context Context)
         {
@@ -25,8 +24,6 @@ namespace FlexTemplate.Controllers
         public override void OnActionExecuting(ActionExecutingContext _context)
         {
             ViewData["HeaderTemplate"] = "Solid";
-            CurrentUserLanguage = context.Languages.FirstOrDefault(uc => uc.ShortName == CookieProvider.GetLanguage(HttpContext)) ?? context.Languages.FirstOrDefault(l => l.IsDefault);
-            ViewBag.HeaderViewModel = new HeaderViewModel{Languages = context.Languages.AsNoTracking(), CurrentLanguage = CurrentUserLanguage ?? new Language()};
             ViewBag.Query = Request.Query.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
             base.OnActionExecuting(_context);
         }
