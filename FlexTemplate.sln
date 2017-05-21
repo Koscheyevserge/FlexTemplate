@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3592C08C-8643-4EA9-A5B9-FC94011D042D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1B14AEDA-AA47-4C3B-864F-58072406DB29}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FlexTemplate", "src\FlexTemplate\FlexTemplate.xproj", "{871F221B-954F-4284-BD97-D4215821C117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexTemplate", "src\FlexTemplate\FlexTemplate.csproj", "{871F221B-954F-4284-BD97-D4215821C117}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
