@@ -50,7 +50,20 @@ namespace FlexTemplate.Database
 
         public bool HasNoRows()
         {
-            return !Languages.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any() && !PlaceReviews.Any();
+            var result = false;
+            try
+            {
+                result = !Languages.Any() && !Countries.Any() && !Cities.Any() && !Streets.Any() && !Categories.Any() && !Places.Any() && !PlaceCategories.Any() && !PlaceAliases.Any() && !PlaceReviews.Any();
+            }
+            catch (Exception ex)
+            {
+                if (ex is System.Data.SqlClient.SqlException)
+                {
+                    Database.Migrate();
+                    result = HasNoRows();
+                }
+            }
+            return result;
         }
     }
 }
