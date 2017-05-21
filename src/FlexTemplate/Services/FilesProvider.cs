@@ -9,7 +9,7 @@ namespace FlexTemplate.Services
 {
     public static class FilesProvider
     {
-        public static bool SaveFile(IFormFile file, string folder, string filename)
+        public static async Task<bool> SaveFileAsync(IFormFile file, string folder, string filename)
         {
             var result = true;
             if (!folder.EndsWith("/") && !folder.EndsWith("\\") && !filename.StartsWith("/") && !filename.StartsWith("\\"))
@@ -24,7 +24,7 @@ namespace FlexTemplate.Services
                 {
                     using (var stream = new FileStream(folder + filename, FileMode.Create, FileAccess.Write))
                     {
-                        file.CopyTo(stream);
+                        await file.CopyToAsync(stream);
                     }
                 }
             }

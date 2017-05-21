@@ -19,13 +19,13 @@ namespace FlexTemplate.Controllers
         #region Page
         [HttpPost]
         [Route("/api/upload/pagephoto/{pageName}")]
-        public void UploadPagePhoto(string pageName)
+        public async Task UploadPagePhoto(string pageName)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Pages\", $"{pageName}.jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Pages\", $"{pageName}.jpg");
         }
         #endregion
 
@@ -34,13 +34,13 @@ namespace FlexTemplate.Controllers
         #region PlaceHead
         [HttpPost]
         [Route("/api/upload/placehead/{placeId}")]
-        public void UploadPlaceHeadPhoto(string placeId)
+        public async Task UploadPlaceHeadPhoto(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "head.jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "head.jpg");
         }
         [HttpDelete]
         [Route("/api/upload/placehead/{placeId}")]
@@ -54,13 +54,13 @@ namespace FlexTemplate.Controllers
         #region PlaceBanner
         [HttpPost]
         [Route("/api/upload/placebanner/{placeId}")]
-        public void UploadBannerPhoto(string placeId)
+        public async Task UploadBannerPhoto(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "banner.jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "banner.jpg");
         }
         [HttpDelete]
         [Route("/api/upload/placebanner/{placeId}")]
@@ -74,14 +74,14 @@ namespace FlexTemplate.Controllers
         #region PlaceGallery
         [HttpPost]
         [Route("/api/upload/newplace/{placeId}")]
-        public string UploadNewPlacePhoto(string placeId)
+        public async Task<string> UploadNewPlacePhoto(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return null;
             }
             var filename = Guid.NewGuid().ToString();
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", filename + ".jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", filename + ".jpg");
             return filename;
         }
         [HttpDelete]
@@ -103,13 +103,13 @@ namespace FlexTemplate.Controllers
         #region BlogHead
         [HttpPost]
         [Route("/api/upload/bloghead/{blogId}")]
-        public void UploadBlogHeadPhoto(string blogId)
+        public async Task UploadBlogHeadPhoto(string blogId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "head.jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "head.jpg");
         }
         [HttpDelete]
         [Route("/api/upload/bloghead/{blogId}")]
@@ -123,13 +123,13 @@ namespace FlexTemplate.Controllers
         #region BlogBanner
         [HttpPost]
         [Route("/api/upload/blogbanner/{blogId}")]
-        public void UploadBlogBannerPhoto(string blogId)
+        public async Task UploadBlogBannerPhoto(string blogId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "banner.jpg");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "banner.jpg");
         }
         [HttpDelete]
         [Route("/api/upload/blogbanner/{blogId}")]
@@ -147,13 +147,13 @@ namespace FlexTemplate.Controllers
         #region ProductHead
         [HttpPost]
         [Route("/api/upload/producthead/{fileDescriptor}")]
-        public void UploadProductHeadPhoto(string fileDescriptor)
+        public async Task UploadProductHeadPhoto(string fileDescriptor)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            FilesProvider.SaveFile(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Products\", $"{fileDescriptor}.tmp");
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Products\", $"{fileDescriptor}.tmp");
         }
         [HttpDelete]
         [Route("/api/upload/producthead/{fileDescriptor}")]

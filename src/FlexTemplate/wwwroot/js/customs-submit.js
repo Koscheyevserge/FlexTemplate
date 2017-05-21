@@ -42,7 +42,16 @@ jQuery(function($) {
 	    });
     }
 	//  Dropzone -----------------------------------------------------------------------------------------------------------
-
+	function urlExists(url, callback) {
+	    var http = new XMLHttpRequest();
+	    http.open('HEAD', url);
+        http.onload = function(e) {
+            if (this.status != 404) {
+                callback.call();
+            }
+        }
+	    http.send();
+	}
 	if ($('.dropzone').length > 0) {
 			Dropzone.autoDiscover = false;
 
@@ -131,7 +140,18 @@ jQuery(function($) {
 	            url: "/api/upload/placehead/" + $("#place-head-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles:1,
-	            init: function() {
+	            init: function () {
+	                var dropzone = this;
+	                var url = window.location.href.split("/").pop();
+	                if (!Number.isNaN(url) && window.location.href.indexOf('lace') > -1) {
+	                    var file = "..\\..\\Resources\\Places\\" + url + "\\head.jpg";
+	                    urlExists(file, function() {
+	                            //file = file.split("/").pop();
+	                            var mockFile = { name: file, size: 0, type: 'image/jpeg' };
+	                            this.addFile.call(this, mockFile);
+	                            this.options.thumbnail.call(this, mockFile, file);
+	                        }.bind(dropzone));
+	                }
 	            },
 	            removedfile: function (file) {
 	                $.ajax({
@@ -166,6 +186,17 @@ jQuery(function($) {
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
+	                var dropzone = this;
+	                var url = window.location.href.split("/").pop();
+	                if (!Number.isNaN(url) && window.location.href.indexOf('lace') > -1) {
+	                    var file = "..\\..\\Resources\\Places\\" + url + "\\banner.jpg";
+	                    urlExists(file, function () {
+                            //file = file.split("/").pop();
+                            var mockFile = { name: file, size: 0, type: 'image/jpeg' };
+                            this.addFile.call(this, mockFile);
+                            this.options.thumbnail.call(this, mockFile, file);
+                        }.bind(dropzone));
+	                }
 	            },
 	            removedfile: function (file) {
 	                $.ajax({
