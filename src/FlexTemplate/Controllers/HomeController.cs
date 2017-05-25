@@ -142,12 +142,13 @@ namespace FlexTemplate.Controllers
             return View(model);
         }
 
-        public IActionResult Blog(int id)
+        public async Task<IActionResult> Blog(int id)
         {
             if (id == 0)
             {
                 return NotFound();
             }
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             ViewData["Title"] = "Blog";
             ViewData["BodyClasses"] = "full-width-container";
             var model = new HomeBlogViewModel
@@ -159,6 +160,7 @@ namespace FlexTemplate.Controllers
                 Comments = context.BlogComments.Where(com => com.BlogId == id)
                 .Include(a => a.Author),
             };
+            model.IsAuthor = model.Blog.Author != null && currentUser != null && model.Blog.Author.Id == currentUser.Id;
             return View(model);
         }
 
@@ -316,6 +318,30 @@ namespace FlexTemplate.Controllers
             }
             FilesProvider.MoveFolder($@"wwwroot\Resources\Places\{item.Uid}\", $@"wwwroot\Resources\Places\{newPlace.Id}\");
             return RedirectToAction("Place", new {id = newPlace.Id});
+        }
+
+        public async Task<IActionResult> EditBlog(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            ViewData["Title"] = "EditBlog";
+            ViewData["BodyClasses"] = "full-width-container";
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+            var blogs = context.Blogs.Where(b => b.Author == currentUser && b.Id == id).Select(b => new EditBlogViewModel { Id = b.Id, Preamble = b.Preamble, Name = b.Caption}).ToList();
+            if (blogs.Count > 1 || blogs.Count == 0)
+            {
+                return NotFound();
+            }
+            return View(blogs.Single());
+        }
+
+        [HttpPost]
+        public IActionResult EditBlogPost(EditBlogViewModel item)
+        {
+            var blog = context.Blogs.SingleOrDefault(b => b.Id == item.Id);
+            return RedirectToAction("Blog", "Home", new { id = blog.Id });
         }
 
         public IActionResult EditPlace(int id)

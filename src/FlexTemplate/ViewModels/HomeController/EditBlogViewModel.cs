@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FlexTemplate.Entities;
 
 namespace FlexTemplate.ViewModels.HomeController
 {
-    public class HomePlaceViewModel
+    public class EditBlogViewModel
     {
-        public Place Place { get; set; }
-        public bool CanEdit { get; set; }
+        public int Id { get; set; }
+        public string Preamble { get; set; }
+        public string Name { get; set; }
     }
 }

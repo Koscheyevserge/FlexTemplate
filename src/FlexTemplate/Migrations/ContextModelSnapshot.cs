@@ -13,7 +13,7 @@ namespace FlexTemplate.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1")
+                .HasAnnotation("ProductVersion", "1.0.3")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("FlexTemplate.Entities.AvailableContainer", b =>
@@ -264,7 +264,7 @@ namespace FlexTemplate.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("ShortName")
-                        .HasAnnotation("MaxLength", 2);
+                        .HasMaxLength(2);
 
                     b.HasKey("Id");
 
@@ -358,6 +358,10 @@ namespace FlexTemplate.Migrations
 
                     b.Property<int>("StreetId");
 
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
+
                     b.Property<string>("Website");
 
                     b.HasKey("Id");
@@ -366,6 +370,8 @@ namespace FlexTemplate.Migrations
                         .IsUnique();
 
                     b.HasIndex("StreetId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Places");
                 });
@@ -590,7 +596,7 @@ namespace FlexTemplate.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -601,10 +607,10 @@ namespace FlexTemplate.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -619,7 +625,7 @@ namespace FlexTemplate.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -641,10 +647,10 @@ namespace FlexTemplate.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -756,7 +762,7 @@ namespace FlexTemplate.Migrations
             modelBuilder.Entity("FlexTemplate.Entities.Blog", b =>
                 {
                     b.HasOne("FlexTemplate.Entities.User", "Author")
-                        .WithMany()
+                        .WithMany("Blogs")
                         .HasForeignKey("AuthorId");
                 });
 
@@ -892,6 +898,10 @@ namespace FlexTemplate.Migrations
                         .WithMany()
                         .HasForeignKey("StreetId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.Entities.User", "User")
+                        .WithMany("Places")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("FlexTemplate.Entities.PlaceAlias", b =>

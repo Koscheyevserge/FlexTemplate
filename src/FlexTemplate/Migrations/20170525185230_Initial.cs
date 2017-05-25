@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlexTemplate.Migrations
 {
-    public partial class _1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -594,6 +594,8 @@ namespace FlexTemplate.Migrations
                     Phone = table.Column<string>(nullable: true),
                     ScheduleId = table.Column<int>(nullable: true),
                     StreetId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    UserId1 = table.Column<string>(nullable: true),
                     Website = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -611,6 +613,12 @@ namespace FlexTemplate.Migrations
                         principalTable: "Streets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Places_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -931,6 +939,11 @@ namespace FlexTemplate.Migrations
                 column: "StreetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Places_UserId1",
+                table: "Places",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlaceAliases_LanguageId",
                 table: "PlaceAliases",
                 column: "LanguageId");
@@ -1124,9 +1137,6 @@ namespace FlexTemplate.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Containers");
 
             migrationBuilder.DropTable(
@@ -1140,6 +1150,9 @@ namespace FlexTemplate.Migrations
 
             migrationBuilder.DropTable(
                 name: "Streets");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Cities");

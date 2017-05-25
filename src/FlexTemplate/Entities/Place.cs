@@ -53,5 +53,7 @@ namespace FlexTemplate.Entities
         /// Фичи заведения
         /// </summary>
         public virtual List<PlaceFeature> PlaceFeatures { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

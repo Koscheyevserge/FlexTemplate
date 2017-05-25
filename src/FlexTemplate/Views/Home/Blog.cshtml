@@ -7,9 +7,7 @@
     <div class="hero hero-breadcrumb" style="background-image: url('../../resources/blogs/@Model.Blog.Id/banner.jpg');">
 
         <div class="container">
-
-            <h1>Блог</h1>
-
+                        
         </div>
 
     </div>
@@ -34,13 +32,18 @@
                         <div class="heading">
 
                             <h3>@Model.Blog.Caption</h3>
-
+                            
                             <div class="meta clearfix">
                                 <div class="date-posted">@Model.Blog.CreatedOn</div>
                                 <div>by: @(Model.Blog.Author == null ? string.Empty : $"{Model.Blog.Author.Name} {Model.Blog.Author.Surname}")</div>
-                                <div>in: Review Trip</div>
+                                <div>in: Review Trip</div>                                
                             </div>
-
+                            @if (Model.IsAuthor)
+                            {
+                            <span class="btn-holder">
+                                <a asp-controller="Home" asp-action="EditBlog" asp-route-id="@Model.Blog.Id" class="btn btn-primary anchor-alt">Правити статтю</a>
+                            </span>
+                            }
                         </div>
                         <div class="content blog-entry">
                             <p>@Html.Raw(Model.Blog.Preamble)</p>

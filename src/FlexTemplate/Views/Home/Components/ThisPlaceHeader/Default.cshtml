@@ -26,14 +26,17 @@
                             </div>
 
                         </div>
-                        <div class="GridLex-col-4_sm-4_xs-12_xss-12">
-                            <div class="text-right text-left-xs">
-                                <a href="#" class="fav-like"><i class="fa fa-heart"></i></a>
-                                <div class="btn-holder mt-5">
-                                    <a asp-controller="Home" asp-action="EditPlace" asp-route-id="@Model.Place.Id" class="btn btn-primary anchor-alt">Правити заклад</a>
+                        @if (Model.CanEdit)
+                        {
+                            <div class="GridLex-col-4_sm-4_xs-12_xss-12">
+                                <div class="text-right text-left-xs">
+                                    <a href="#" class="fav-like"><i class="fa fa-heart"></i></a>
+                                    <div class="btn-holder mt-5">
+                                        <a asp-controller="Home" asp-action="EditPlace" asp-route-id="@Model.Place.Id" class="btn btn-primary anchor-alt">Правити заклад</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>

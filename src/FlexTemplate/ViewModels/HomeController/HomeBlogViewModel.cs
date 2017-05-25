@@ -10,5 +10,6 @@ namespace FlexTemplate.ViewModels.HomeController
     {
         public Blog Blog { get; set; }
         public virtual IEnumerable<BlogComment> Comments { get; set; }
+        public bool IsAuthor { get; set; }
     }
 }
