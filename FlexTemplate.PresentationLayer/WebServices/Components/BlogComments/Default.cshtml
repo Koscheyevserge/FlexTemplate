@@ -1,0 +1,33 @@
+﻿@using FlexTemplate.Entities
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model FlexTemplate.ViewModels.HomeController.HomeBlogCommentsViewModel
+<h4>@Model.Comments.Count() Комментарів</h4>
+<ul class="comment-item">
+    @foreach (BlogComment comment in Model.Comments.OrderByDescending(c => c.CreatedOn))
+    {
+        <li class="clearfix">
+            <div class="comment-avatar">
+                <img src="images/man/03.jpg" alt="author image" />
+            </div>
+            <div class="comment-header">
+                @*<a href="#" class="comment-reply">відповісти</a>*@
+                @{
+                    var userName = "Гість";
+                    if (comment.Author != null)
+                    {
+                        userName = comment.Author.Name + " " + comment.Author.Surname;
+                        if (string.IsNullOrEmpty(userName.Trim()))
+                        {
+                            userName = comment.Author.UserName;
+                        }
+                    }
+                }
+                <a href="#" class="font700 text-uppercase">@(userName)</a>
+                <span class="comment-time">@comment.CreatedOn</span>
+            </div>
+            <div class="comment-content">
+                <p>@comment.Text</p>
+            </div>
+        </li>
+    }
+</ul>

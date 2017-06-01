@@ -1,0 +1,184 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Home.Place.ViewModel
+<!-- start Main Wrapper -->
+<div class="main-wrapper scrollspy-container">
+
+    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceHeader.PlaceHeader), new { placeId = Model.Id })
+
+    <div class="container pt-10 pb-50">
+
+    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.Breadcrumbs))
+
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-8 col-md-9 mb-30">
+
+                <div class="multiple-sticky for-detail-page">
+
+                    <div class="multiple-sticky-inner">
+
+                        <div class="multiple-sticky-container container">
+
+                            <div class="multiple-sticky-item clearfix">
+
+                                <ul id="top-menu" class="multiple-sticky-nav clearfix">
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-00">Огляд</a>
+                                    </li>
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-01">Меню</a>
+                                    </li>
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-02">Огляд</a>
+                                    </li>
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-03">Фото</a>
+                                    </li>
+                                    <li>
+                                        <a href="#detail-content-sticky-nav-04">Місцезнаходження</a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="clear mb-40"></div>
+
+                <div class="detail-content-for-sticky-menu for-detail-page">
+
+                    @await Component.InvokeAsync("ThisPlaceOverview", new {item = Model.Place})
+                    @await Component.InvokeAsync("ThisPlaceMenu", new { item = Model.Place })
+                    @await Component.InvokeAsync("ThisPlaceReviews", new { item = Model.Place })
+                    @await Component.InvokeAsync("ThisPlacePhoto", new { item = Model.Place })
+                    @await Component.InvokeAsync("ThisPlaceLocation", new { item = Model.Place })
+
+                </div>
+
+                <div class="multiple-sticky">
+                    <div class="hidden">використовуються для зупинки кількох</div>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-4 col-md-3">
+
+                <div class="deal-sm clearfix mt-10">
+
+                    <div class="deal-sm-inner">
+
+                        <h5>Пропозиції &amp;</h5>
+                        <p class="texting text-primary">30% від загальної суми рахунків</p>
+
+                        <p class="text-underline mb-5">Правила та умови</p>
+                        <ul>
+                            <li>Necessary up knowledge it tolerably.</li>
+                            <li>Unwilling departure education is be dashwoods.</li>
+                            <li>Easy mind life fact with see has bore ten.</li>
+                        </ul>
+
+                        <p class="text-underline mb-5">Use when?</p>
+                        <p class="text-primary font700">Mon - Sun 11:00 AM to 10:30 PM</p>
+
+                    </div>
+
+                </div>
+
+                <div class="reserve-box mt-30">
+
+                    <h5>Reserve your table</h5>
+
+                    <div class="form-wrapper">
+
+                        <form>
+
+                            <div class="row">
+
+                                <div class="col-xs-12 col-sm-12">
+
+                                    <div class="input-group mb-15">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input type="text" placeholder="Full Name" class="form-control" />
+                                    </div>
+
+                                    <div class="input-group mb-15">
+                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                        <input type="email" placeholder="Email Address" class="form-control" />
+                                    </div>
+
+                                    <div class="input-group mb-15">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                        <input type="text" placeholder="Phone Number" class="form-control" />
+                                    </div>
+
+                                    <div class="input-group mb-15">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        <input type="text" placeholder="dd/mm/yyyy" class="form-control" />
+                                    </div>
+
+                                    <div class="row gap-15">
+
+                                        <div class="col-xs-6 col-sm-6">
+
+                                            <div class="input-group mb-15">
+                                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                                <input type="text" placeholder="hh-mm" class="form-control" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-xs-6 col-sm-6">
+
+                                            <div class="input-group mb-15">
+                                                <span class="input-group-addon"><i class="fa fa-male"></i></span>
+                                                <input type="text" placeholder="hh-mm" class="form-control" />
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button class="btn btn-primary btn-block">Забронювати зараз</button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="call-reserve-box mt-30">
+
+                    <div class="icon">
+                        <i class="ti-mobile"></i>
+                    </div>
+
+                    <div class="content">
+                        <h5>Телефонуйте для бронювання</h5>
+                        <p>Кожен день, крім неділі, з 10 ранку до 8 вечора</p>
+                        <p class="phone-number">
+                            <span class="font-italic text-muted">Номер резерва: </span>
+                            <span class="number">+66-85-658-8754</span>
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @await  Component.InvokeAsync("YouMayAlsoLike", new { item = Model.Place })
+
+    </div>
+
+</div>
+<!-- end Main Wrapper -->

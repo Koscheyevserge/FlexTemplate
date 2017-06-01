@@ -1,0 +1,162 @@
+﻿@model BlogsFeedViewModel
+
+<div class="col-sm-4 col-md-3 col-xs-12">
+
+    <aside class="sidebar-wrapper for-blog">
+        <form asp-action="Blogs">
+            <div class="sidebar-module">
+                <div class="sidebar-module-inner">
+                    <div class="sidebar-mini-search">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" name="input" placeholder="Шукати...">
+                            <span class="input-group-btn">
+                                <button onclick="this.form.submit();" class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="clear"></div>
+
+        <div class="section-title-02">
+            <h4><span>Теги</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <ul class="sidebar-category">
+                @foreach (var tag in Model.Tags)
+                {
+                    <li><a asp-controller="Home" asp-action="Blogs" asp-route-tag="@tag.Id">@tag.Caption<span>(@tag.BlogsCount)</span></a></li>
+                }
+            </ul>
+
+        </div>
+
+        <div class="section-title-02">
+            <h4><span>Останні повідомлення</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <ul class="sidebar-post">
+                @foreach (var blog in Model.LatestBlogs)
+                {
+                    <li class="clearfix">
+
+                        <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">
+                            <div class="image">
+                                <img src="../../Resources/Blogs/@(blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
+                            </div>
+                            <div class="content">
+                                <h6>@blog.Caption</h6>
+                                <p class="recent-post-sm-meta">
+                                    <i class="fa fa-clock-o mr-5"></i>@blog.CreatedOn
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+
+        </div>
+
+        <div class="section-title-02">
+            <h4><span>Популярні повідомлення</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <ul class="sidebar-post">
+                @foreach (BlogsFeedItem blog in Model.Blogs)
+                {
+
+                    <li class="clearfix">
+                        <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">
+                            <div class="image">
+                                <img src="../../Resources/Blogs/@(blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
+                            </div>
+                            <div class="content">
+                                <h6>@blog.Caption</h6>
+                                <p class="recent-post-sm-meta"><i class="fa fa-comments mr-5"></i>@blog.CommentsCount</p>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+
+
+        </div>
+
+        @*<div class="section-title-02">
+            <h4><span>Архів</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <ul class="sidebar-archives">
+                <li><a href="#">January 2015<span>(25)</span></a></li>
+                <li class="active"><a href="#">February 2015<span>(2)</span></a></li>
+                <li><a href="#">March 2015<span>(14)</span></a></li>
+                <li><a href="#">April 2015<span>(157)</span></a></li>
+                <li><a href="#">June 2015<span>(87)</span></a></li>
+            </ul>
+
+        </div>
+
+        <div class="section-title-02">
+            <h4><span>Теги</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <div class="tag-cloud clearfix">
+                <a href="#" class="tag-item">HTML5</a> <a href="#" class="tag-item">CSS3</a> <a href="#" class="tag-item">jQuery</a>
+                <a href="#" class="tag-item">Creative</a> <a href="#" class="tag-item">Design</a> <a href="#" class="tag-item">iOS</a>
+                <a href="#" class="tag-item">Android</a> <a href="#" class="tag-item">Video</a> <a href="#" class="tag-item">Markup</a>
+                <a href="#" class="tag-item">Programming</a> <a href="#" class="tag-item">SEO</a>
+            </div>
+
+        </div>
+
+        <div class="section-title-02">
+            <h4><span>Sidebar Text Widget</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+
+            <div class="sidebar-text-widget">
+                <p>
+                    In alteration insipidity impression by travelling reasonable up motionless. Of regard warmth by unable sudden garden ladies. No kept hung am size spot no. Likewise led and dissuade <a href="#">rejoiced</a> welcomed husbands boy.
+                </p>
+                <ul>
+                    <li>Eat imagine you chiefly few end ferrars compass</li>
+                    <li>Be visitor females am ferrars inquiry</li>
+                    <li>Latter law remark two lively thrown</li>
+                    <li>Spot set they know rest its</li>
+                    <li>Raptures law diverted believed jennings</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="section-title-02">
+            <h4><span>Meta</span></h4>
+        </div>
+
+        <div class="sidebar-module clearfix">
+            <ul class="sidebar-list mb-0">
+                <li><a href="#">Log in</a></li>
+                <li><a href="#">Entries RSS</a></li>
+                <li><a href="#">Comments RSS</a></li>
+                <li><a href="#">WordPress.org</a></li>
+            </ul>
+        </div>*@
+
+
+    </aside>
+</div>

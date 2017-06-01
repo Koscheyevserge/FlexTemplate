@@ -1,0 +1,50 @@
+﻿@using System.Collections
+@model FlexTemplate.PresentationLayer.WebServices.Home.Places.ViewModel
+<!-- start Main Wrapper -->
+<div class="main-wrapper scrollspy-container">
+    <!-- start hero-header -->
+    <div class="hero hero-sm" style="background-image:url('@Model.PlacesPagePhotoPath');">
+        <div class="container">
+
+            <div class="home-search-form">
+                <form asp-controller="Home" asp-action="Places" method="GET">
+                    <div class="form-group location-form">
+                        <input name="input" type="text" class="form-control" value="@Model.Input">
+                    </div>
+                    <button onclick="this.form.submit()" class="btn btn-primary btn-form">Знайти</button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- end hero-header -->
+
+    <div class="container pt-10 pb-30">
+
+    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.Breadcrumbs))))
+
+        <div class="row mb-10">
+
+            <div class="col-md-8">
+
+                <div class="section-title-02">
+
+                    <h3><span>Ресторани<small class="ml-10">/ 253 ресторанів</small></span></h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.PlacesFilters))
+            <div class="col-sm-8 col-md-9">
+                @await Component.InvokeAsync("ThisPlacesList")
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- end Main Wrapper -->
