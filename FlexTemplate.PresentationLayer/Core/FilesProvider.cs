@@ -103,5 +103,10 @@ namespace FlexTemplate.PresentationLayer.Core
             }
             return result;
         }
+
+        public static bool FileExsists(string path)
+        {
+            return File.Exists(path);
+        }
     }
 }

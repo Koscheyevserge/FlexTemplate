@@ -7,6 +7,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.Search
     {
         public IViewComponentResult Invoke(string templateName)
         {
+            var model = new ViewModel();
             /*var categories = _context.Categories.ToList();
             var cities = _context.Cities.ToList();
             var photoPath = new List<string>{ "images/2.jpg"};

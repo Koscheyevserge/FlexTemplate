@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.DataAccessLayer.DataAccessObjects;
 using FlexTemplate.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFramework.Plus;
 
 namespace FlexTemplate.DataAccessLayer.Services
 {
@@ -17,6 +19,33 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             Context = context;
             UserManager = userManager;
+        }
+
+        public async Task<SearchViewComponentDao> GetSearchViewComponentDao(ClaimsPrincipal httpContextUser, string componentName)
+        {
+            var user = await UserManager.GetUserAsync(httpContextUser);
+            var userLanguage = user.Language;
+            var categories = Context.PlaceCategories.Select(pc => new KeyValuePair<int, string>(pc.Id, pc.Name))
+                .Future();
+            var cities = Context.Cities.Select(pc => new KeyValuePair<int, string>(pc.Id, pc.Name))
+                .Future();
+            var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
+            var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
+            var strings = Context.ContainerLocalizableStrings
+                .Where(cls => cls.Container == container && (cls.Language == defaultLanguage || cls.Language == userLanguage))
+                .GroupBy(cls => cls.Tag)
+                .Select(cls => cls.Any(c => c.Language == userLanguage) ? cls.FirstOrDefault(c => c.Language == userLanguage) : cls.FirstOrDefault(c => c.Language == defaultLanguage))
+                .Future();
+
+            var titleFirstLabelCaption = strings.SingleOrDefault(s => s.Tag == "TitleFirstLabelCaption").Text;
+            var result = new SearchViewComponentDao
+            {
+                Categories = categories,
+                Cities = cities,
+                BackgroundImagePath = "",
+                TitleFirstLabelCaption = titleFirstLabelCaption
+            };
+            return result;
         }
 
         public PageContainersHierarchyDao GetPageContainersHierarchy(int pageContainerTemplateId)

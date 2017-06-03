@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Components.Search
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
-    public class ViewModel
+    public class SearchViewComponentDao
     {
         public string BackgroundImagePath { get; set; }
         public string TitleFirstLabelCaption { get; set; }
