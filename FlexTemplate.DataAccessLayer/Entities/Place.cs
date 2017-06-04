@@ -23,7 +23,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// <summary>
         /// Категория заведения
         /// </summary>
-        public virtual List<PlacePlaceCategory> PlaceCategories { get; set; }
+        public virtual List<PlacePlaceCategory> PlacePlaceCategories { get; set; }
         /// <summary>
         /// Алиасы
         /// </summary>

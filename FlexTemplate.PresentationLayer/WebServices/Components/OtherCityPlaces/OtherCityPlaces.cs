@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
+using FlexTemplate.PresentationLayer.Core;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.OtherCityPlaces
 {
-    public class OtherCityPlaces : ViewComponent
+    public class OtherCityPlaces : FlexViewComponent
     {
-        public IViewComponentResult Invoke(int id)
+        private ComponentsServices ComponentsServices { get; }
+
+        public OtherCityPlaces(ComponentsServices componentsServices)
         {
-            return View();
-            /*var photoPath = "images/3.jpg";
-            var city = _context.Cities.FirstOrDefault(c => c.Id == id);
-            var cityName = city != null ? city.Name : string.Empty;
-            var placesCount = _context.Places.Include(place => place.Street).Count(place => place.Street.CityId == id);
-            var placeDescription = "закладів";
-            var model = new OtherCityPlacesViewModel { CityId = city.Id, PhotoPath = photoPath, CityName = cityName, PlacesCount = placesCount, PlaceDescriptor = placeDescription };
-            return View(model);*/
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int cityId)
+        {
+            var model = await ComponentsServices.GetOtherCityPlacesViewComponentDtoAsync(HttpContext.User, GetType().Name, cityId);
+            return View(model.To<ViewModel>());
         }
     }
 }

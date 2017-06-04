@@ -1,31 +1,30 @@
-﻿@model FlexTemplate.ViewModels.HomeController.OtherCitiesPlacesViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.OtherCitiesPlaces.ViewModel
 @if (Model != null)
 {
-<section class="c-other-cities-places">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="section-title-02">
-          <h3>
-            @Html.Raw(Model.Strings["TitleLabelCaption"])
-          </h3>
-          <div class="subtitle">
-            @Html.Raw(Model.Strings["SubtitleLabelCaption"])
+    <section class="c-other-cities-places">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="section-title-02">
+              <h3>
+                @Model.TitleLabelCaption
+              </h3>
+              <div class="subtitle">
+                @Model.SubtitleLabelCaption
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="destination-grid-wrapper-02">
+          <div class="GridLex-gap-30 GridLex-gap-20-mdd GridLex-gap-10-xs">
+            <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
+            @foreach (var cityId in Model.OtherCitiesPlacesIds)
+            {
+                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.OtherCityPlaces.OtherCityPlaces), new { cityId = cityId});
+            }
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="destination-grid-wrapper-02">
-      <div class="GridLex-gap-30 GridLex-gap-20-mdd GridLex-gap-10-xs">
-        <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
-        @foreach (var cityId in Model.OtherCitiesPlacesIds)
-        {
-            @await Component.InvokeAsync("OtherCityPlaces", new {id = cityId})
-            ;
-        }
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 }

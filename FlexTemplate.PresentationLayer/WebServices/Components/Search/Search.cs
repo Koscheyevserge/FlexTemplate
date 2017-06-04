@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
+using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.Search
 {
-    public class Search : ViewComponent
+    public class Search : FlexViewComponent
     {
-        public IViewComponentResult Invoke(string templateName)
+        private ComponentsServices ComponentsServices { get; }
+
+        public Search(ComponentsServices componentsServices)
         {
-            var model = new ViewModel();
-            /*var categories = _context.Categories.ToList();
-            var cities = _context.Cities.ToList();
-            var photoPath = new List<string>{ "images/2.jpg"};
-            var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
-            var model = new SearchViewModel { Categories = categories, Cities = cities, Images = photoPath, Strings = strings};
-            return View(template, model);*/
-            return View(templateName);
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(string templateName)
+        {
+            var dto = await ComponentsServices.GetSearchViewComponentDtoAsync(HttpContext.User, GetType().Name);
+            var model = dto.To<ViewModel>();
+            return View(templateName, model);
         }
     }
 }

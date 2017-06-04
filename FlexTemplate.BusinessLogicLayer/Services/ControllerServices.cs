@@ -24,13 +24,13 @@ namespace FlexTemplate.BusinessLogicLayer.Services
 
         public Task<bool> CanEditVisuals(ClaimsPrincipal httpContextUser)
         {
-            var canEditVisualsTask = DalServices.CanEditVisuals(httpContextUser);
+            var canEditVisualsTask = DalServices.CanEditVisualsAsync(httpContextUser);
             return canEditVisualsTask;
         }
 
         public Task<bool> IsAuthor<T>(ClaimsPrincipal httpContextUser, int placeId) where T: BaseAuthorfullEntity
         {
-            var isPlaceAuthorTask = DalServices.IsAuthor<T>(httpContextUser, placeId);
+            var isPlaceAuthorTask = DalServices.IsAuthorAsync<T>(httpContextUser, placeId);
             return isPlaceAuthorTask;
         }
     }

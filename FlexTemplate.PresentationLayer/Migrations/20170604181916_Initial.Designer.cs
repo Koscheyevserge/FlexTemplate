@@ -8,7 +8,7 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170531201407_Initial")]
+    [Migration("20170604181916_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,13 +76,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Blogs");
                 });
@@ -465,15 +463,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("StreetId");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("StreetId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Places");
                 });
@@ -643,15 +639,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PlaceId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PlaceReviews");
                 });
@@ -1024,7 +1018,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
                         .WithMany("Blogs")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogBlogCategory", b =>
@@ -1163,7 +1157,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
                         .WithMany("Places")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceAlias", b =>
@@ -1229,7 +1223,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
-                        .WithMany("PlaceCategories")
+                        .WithMany("PlacePlaceCategories")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1243,7 +1237,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceSchedule", b =>

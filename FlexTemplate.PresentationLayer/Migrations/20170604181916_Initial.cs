@@ -463,15 +463,14 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Blogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Blogs_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Blogs_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -743,8 +742,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     StreetId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -756,8 +754,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Places_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Places_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -932,8 +930,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     PlaceId = table.Column<int>(nullable: false),
                     Star = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -945,8 +942,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlaceReviews_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_PlaceReviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1055,9 +1052,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "PageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Blogs_UserId1",
+                name: "IX_Blogs_UserId",
                 table: "Blogs",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogBlogCategories_BlogCategoryId",
@@ -1160,9 +1157,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "StreetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Places_UserId1",
+                name: "IX_Places_UserId",
                 table: "Places",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaceAliases_LanguageId",
@@ -1220,9 +1217,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaceReviews_UserId1",
+                name: "IX_PlaceReviews_UserId",
                 table: "PlaceReviews",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaceSchedules_PlaceId",

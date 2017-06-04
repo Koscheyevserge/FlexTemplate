@@ -40,9 +40,7 @@ namespace FlexTemplate.PresentationLayer
         
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddEntityFrameworkSqlServer()
-                .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(connection));
+            services.AddEntityFrameworkSqlServer().AddDbContext<FlexTemplateContext>();
             services.AddIdentity<User, IdentityRole>(o => 
             {
                 o.Password.RequireDigit = false;

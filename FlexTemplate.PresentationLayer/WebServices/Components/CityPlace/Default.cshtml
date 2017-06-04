@@ -1,16 +1,15 @@
-﻿@using FlexTemplate.Entities
-@model FlexTemplate.ViewModels.HomeController.ThisCityPlaceViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.CityPlace.ViewModel
 @if (Model != null)
 {    
     <div class="GridLex-col-3_sm-4_xs-6_xss-12">
         <div dataId="@Model.PlaceId" class="restaurant-grid-item">
-            <a href="@Url.Action("Place", "Home", new {id = Model.PlaceId})">
+            <a asp-action="Place" asp-controller="Home" asp-route-id="@Model.PlaceId">
                 <div class="image">
                     <img src="@Model.PhotoPath" alt="Image" />
                 </div>
             </a>
             <div class="content">
-                <a href="@Url.Action("Place", "Home", new {id = Model.PlaceId})">
+                <a asp-action="Place" asp-controller="Home" asp-route-id="@Model.PlaceId">
                     <h5>@Model.Name</h5>
                 </a>
                 <p class="location"><i class="fa fa-map-marker"></i>@Model.Address</p>
@@ -18,14 +17,14 @@
                     <div class="rating-item">
                         <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@Model.Stars"/>
                     </div>
-                    <span class="texting">(@Model.ReviewsCount reviews)</span>
+                    <span class="texting">(@Model.ReviewsCount @Model.ReviewsDescriptor)</span>
                 </div>
 
                 <p class="cuisine">Кухні:
-                    @foreach (Category category in Model.Categories)
+                    @foreach (var category in Model.Categories)
                     {
-                        <a href="@Url.Action("Places", "Home", new {categories = new int[]{category.Id}})">
-                            <span>@category.Name</span>
+                        <a asp-action="Places" asp-controller="Home" asp-route-categories="@category.Key">
+                            <span>@category.Value</span>
                         </a>
                     }
                 </p>

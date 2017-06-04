@@ -1,19 +1,11 @@
 ﻿namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class PlaceReview : BaseEntity
+    public class PlaceReview : BaseAuthorfullEntity
     {
         /// <summary>
         /// Текст отзыва
         /// </summary>
         public string Text { get; set; }
-        /// <summary>
-        /// Id пользователя, который оставил отзыв
-        /// </summary>
-        public int UserId { get; set; }
-        /// <summary>
-        /// Пользователь оставивший отзыв
-        /// </summary>
-        public User User { get; set; }
         /// <summary>
         /// Оценка заведения
         /// </summary>

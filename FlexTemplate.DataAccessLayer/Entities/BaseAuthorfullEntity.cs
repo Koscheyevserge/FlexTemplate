@@ -11,13 +11,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
     /// </summary>
     public class BaseAuthorfullEntity : BaseEntity
     {
-        /// <summary>
-        /// Идентификатор автора
-        /// </summary>
-        public int UserId { get; set; }
-        /// <summary>
-        /// Автор
-        /// </summary>
         public User User { get; set; }
     }
 }

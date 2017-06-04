@@ -1,4 +1,4 @@
-﻿@model FlexTemplate.ViewModels.HomeController.ThisCityPlacesViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.CityPlaces.ViewModel
 @if (Model != null)
 {
     <section class="c-this-city-places bg-white">
@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="section-title-02">
-                        <h3>@Html.Raw(Model.Strings["TitleLabelCaption"])</h3>
-                        @Html.Raw(Model.Strings["SubtitleLabelCaption"])
+                        <h3>@Model.TitleLabelCaption</h3>
+                        @Model.SubtitleLabelCaption
                     </div>
                 </div>
             </div>
@@ -16,11 +16,11 @@
                     <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
                         @foreach (var placeId in Model.ThisCityPlaceIds)
                         {
-                            @await Component.InvokeAsync("ThisCityPlace", new {id = placeId});
+                            @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.CityPlace.CityPlace), new { placeId = placeId});
                         }
                     </div>
                     <div class="text-center">
-                        @Html.Raw(Model.Strings["MorePlacesButtonCaption"])
+                        @Model.MorePlacesButtonCaption
                     </div>
                 </div>
             </div>

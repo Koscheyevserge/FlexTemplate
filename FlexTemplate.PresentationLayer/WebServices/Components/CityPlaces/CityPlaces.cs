@@ -1,16 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.CityPlaces
 {
     public class CityPlaces : ViewComponent
     {
-        public IViewComponentResult Invoke(string template)
+        private ComponentsServices ComponentsServices { get; }
+
+        public CityPlaces(ComponentsServices componentsServices)
         {
-            return View();
-            //var ids = _context.Places.Select(p => p.Id).Take(8);
-            //var strings = LocalizableStringsProvider.GetStrings(_context, GetType().Name, User.IsInRole("Supervisor"));
-            //var model = new ThisCityPlacesViewModel {ThisCityPlaceIds = ids.ToList(), Strings = strings};
-            //return View(template, model);
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(string template)
+        {
+            var model = await ComponentsServices.GetCityPlacesViewComponentDtoAsync(HttpContext.User, GetType().Name);
+            return View(template, model.To<ViewModel>());
         }
     }
 }

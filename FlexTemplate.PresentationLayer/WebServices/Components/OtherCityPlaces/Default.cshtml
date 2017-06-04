@@ -1,7 +1,7 @@
-﻿@model FlexTemplate.ViewModels.HomeController.OtherCityPlacesViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.OtherCityPlaces.ViewModel
 <div class="GridLex-col-3_sm-6_xs-6_xss-12">
     <div class="destination-grid-item-02">
-        <a href="@Url.Action("Places", "Home", new {cities = new int[]{Model.CityId}})">
+        <a asp-controller="Home" asp-action="Places" asp-route-cities="@Model.CityId">
             <div class="image">
                 <img src=@Model.PhotoPath alt="Hot Item">
             </div>

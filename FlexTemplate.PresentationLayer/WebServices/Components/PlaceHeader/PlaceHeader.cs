@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.PlaceHeader
 {
-    public class PlaceHeader : ViewComponent
+    public class PlaceHeader : FlexViewComponent
     {
         public IViewComponentResult Invoke(int placeId)
         {

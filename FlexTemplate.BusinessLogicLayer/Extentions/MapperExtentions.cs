@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Html;
 using AutoMapper;
 
 namespace FlexTemplate.BusinessLogicLayer.Extentions
@@ -16,6 +17,7 @@ namespace FlexTemplate.BusinessLogicLayer.Extentions
                 Mapper.Initialize(cfg =>
                 {
                     cfg.RecognizePostfixes("Dto", "Dao", "ViewModel", "VM", "PostModel");
+                    cfg.CreateMap<string, HtmlString>().ConvertUsing(s => new HtmlString(s));
                     cfg.CreateMissingTypeMaps = true;
                 });
                 Initialized = true;
