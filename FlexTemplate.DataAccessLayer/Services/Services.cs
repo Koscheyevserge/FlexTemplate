@@ -234,13 +234,22 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<bool> CanEditVisualsAsync(ClaimsPrincipal httpContextUser)
         {
             var user = await UserManager.GetUserAsync(httpContextUser);
-            return user != null && await UserManager.IsInRoleAsync(user, "Supervisor");
+            if (user == null)
+            {
+                return false;
+            }
+            var isSupervisor = await UserManager.IsInRoleAsync(user, "Supervisor");
+            return isSupervisor;
         }
 
         public async Task<bool> IsAuthorAsync<T>(ClaimsPrincipal httpContextUser, int placeId) where T : BaseAuthorfullEntity
         {
             var user = await UserManager.GetUserAsync(httpContextUser);
-            return Context.GetSet<T>().Any(p => user != null && p.User == user && p.Id == placeId);
+            if (user == null)
+            {
+                return false;
+            }
+            return Context.GetSet<T>().Any(p => p.User == user && p.Id == placeId);
         }
     }
 }
