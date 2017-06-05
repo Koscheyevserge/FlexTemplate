@@ -38,9 +38,19 @@ namespace FlexTemplate.PresentationLayer
 
         public IConfigurationRoot Configuration { get; }
         
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
         {
-            services.AddEntityFrameworkSqlServer().AddDbContext<FlexTemplateContext>();
+            string connectionString = null;
+            if (env.IsDevelopment())
+            {
+                connectionString = Configuration.GetConnectionString("Test");
+            }
+            else
+            {
+                connectionString = Configuration.GetConnectionString("Dev");
+            }
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(connectionString));
             services.AddIdentity<User, IdentityRole>(o => 
             {
                 o.Password.RequireDigit = false;

@@ -8,7 +8,7 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170604181916_Initial")]
+    [Migration("20170605055314_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

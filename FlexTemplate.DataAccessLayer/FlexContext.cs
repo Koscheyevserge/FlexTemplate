@@ -11,8 +11,6 @@ namespace FlexTemplate.DataAccessLayer
 {
     public abstract class FlexContext : IdentityDbContext<User>
     {
-        protected string ConnectionString { get; set; } =
-            "Server=(localdb)\\mssqllocaldb;Database=FlexTemplateDB;Trusted_Connection=True;MultipleActiveResultSets=true";
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<PlaceCategory> PlaceCategories { get; set; }
@@ -59,7 +57,6 @@ namespace FlexTemplate.DataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
             base.OnConfiguring(optionsBuilder);
         }
 
