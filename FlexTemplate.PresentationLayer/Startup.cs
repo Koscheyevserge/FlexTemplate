@@ -34,20 +34,22 @@ namespace FlexTemplate.PresentationLayer
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+            Environment = env;
         }
 
+        public IHostingEnvironment Environment { get; set; }
         public IConfigurationRoot Configuration { get; }
         
-        public void ConfigureServices(IServiceCollection services, IHostingEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = null;
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
-                connectionString = Configuration.GetConnectionString("Test");
+                connectionString = Configuration.GetConnectionString("Dev");
             }
             else
             {
-                connectionString = Configuration.GetConnectionString("Dev");
+                connectionString = Configuration.GetConnectionString("Test");
             }
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(connectionString));
@@ -82,12 +84,12 @@ namespace FlexTemplate.PresentationLayer
             services.AddScoped<FlexContext, FlexTemplateContext>();
         }
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
