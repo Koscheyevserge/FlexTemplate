@@ -1,67 +1,68 @@
 ﻿@*@using System.Collections
-    @using System.Linq
-    @using FlexTemplate.Entities
-    @using Microsoft.EntityFrameworkCore.Metadata.Internal
-    @model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
-    @{
-        object buffer;
-        if (!ViewBag.Query.TryGetValue("categories", out buffer))
-        {
-            buffer = null;
-        }
-        IEnumerable<string> categories = new List<string>();
-        if (buffer is IEnumerable)
-        {
-            categories = buffer as IEnumerable<string>;
-        }
-        IEnumerable<string> cities = new List<string>();
-        if (!ViewBag.Query.TryGetValue("cities", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            cities = buffer as IEnumerable<string>;
-        }
-        var listType = "list";
-        if (!ViewBag.Query.TryGetValue("listType", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            listType = ((IEnumerable<string>)buffer).FirstOrDefault();
-        }
-        string orderBy = null;
-        if (!ViewBag.Query.TryGetValue("orderBy", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            orderBy = ((IEnumerable<string>)buffer).FirstOrDefault();
-        }
-        var isDescending = false;
-        if (!ViewBag.Query.TryGetValue("isDescending", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            var isDescendingStr = ((IEnumerable<string>)buffer).FirstOrDefault();
-            bool.TryParse(isDescendingStr, out isDescending);
-        }
-        string input = null;
-        if (!ViewBag.Query.TryGetValue("input", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            input = ((IEnumerable<string>)buffer).FirstOrDefault();
-            input = string.IsNullOrEmpty(input) ? null : input;
-        }
+@using System.Linq
+@using FlexTemplate.Entities
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model FlexTemplate.ViewModels.HomeController.ThisPlacesListViewModel
+@{
+    object buffer;
+    if (!ViewBag.Query.TryGetValue("categories", out buffer))
+    {
+        buffer = null;
     }
+    IEnumerable<string> categories = new List<string>();
+    if (buffer is IEnumerable)
+    {
+        categories = buffer as IEnumerable<string>;
+    }
+    IEnumerable<string> cities = new List<string>();
+    if (!ViewBag.Query.TryGetValue("cities", out buffer))
+    {
+        buffer = null;
+    }
+    if (buffer is IEnumerable)
+    {
+        cities = buffer as IEnumerable<string>;
+    }
+    var listType = "list";
+    if (!ViewBag.Query.TryGetValue("listType", out buffer))
+    {
+        buffer = null;
+    }
+    if (buffer is IEnumerable)
+    {
+        listType = ((IEnumerable<string>)buffer).FirstOrDefault();
+    }
+    string orderBy = null;
+    if (!ViewBag.Query.TryGetValue("orderBy", out buffer))
+    {
+        buffer = null;
+    }
+    if (buffer is IEnumerable)
+    {
+        orderBy = ((IEnumerable<string>)buffer).FirstOrDefault();
+    }
+    var isDescending = false;
+    if (!ViewBag.Query.TryGetValue("isDescending", out buffer))
+    {
+        buffer = null;
+    }
+    if (buffer is IEnumerable)
+    {
+        var isDescendingStr = ((IEnumerable<string>)buffer).FirstOrDefault();
+        bool.TryParse(isDescendingStr, out isDescending);
+    }
+    string input = null;
+    if (!ViewBag.Query.TryGetValue("input", out buffer))
+    {
+        buffer = null;
+    }
+    if (buffer is IEnumerable)
+    {
+        input = ((IEnumerable<string>)buffer).FirstOrDefault();
+        input = string.IsNullOrEmpty(input) ? null : input;
+    }
+}
+<div class="col-sm-8 col-md-9">
     <div class="restaurant-grid-wrapper mb-30">
 
         <div class="GridLex-gap-30">
@@ -137,4 +138,5 @@
             </div>
         </div>
 
-    </div>*@
+    </div>
+</div>*@

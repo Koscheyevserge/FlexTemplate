@@ -20,27 +20,33 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
         {
             var model = new Index.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User)
+                Hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName),
+                CanEditVisuals = await BllServices.CanEditVisualsAsync(HttpContext.User)
             };
             return View(model);
         }
-        /*
+        
         public IActionResult Error()
         {
             return View();
         }
-
-        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, string listType = "", string orderBy = "", bool isDescending = false)
+        
+        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, int listType = 1, int orderBy = 1, bool isDescending = false)
         {
+            var hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName);
+            var canEdit = await BllServices.CanEditVisualsAsync(HttpContext.User);
+            var placesOnPageIds = await BllServices.GetPlacesAsync(cities, categories, input, currentPage, orderBy, isDescending);
+            var placesTotal = await BllServices.GetPlacesCountAsync(cities, categories, input);
             var model = new Places.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User)
+                Hierarchy = hierarchy,
+                CanEditVisuals = canEdit,
+                PlacesOnPageIds = placesOnPageIds,
+                PlacesTotal = placesTotal
             };
             return View(model);
         }
-
+        /*
         public async Task<IActionResult> Place(int id)
         {
             if (id == 0)

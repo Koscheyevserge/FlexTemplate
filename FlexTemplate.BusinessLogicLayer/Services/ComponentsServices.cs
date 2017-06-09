@@ -21,7 +21,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         public PageContainersHierarchyDto GetPageContainersHierarchy(int pageContainerTemplateId)
         {
             var result =
-                DalServices.GetPageContainersHierarchy(pageContainerTemplateId).To<PageContainersHierarchyDto>();
+                DalServices.GetPageContainersHierarchyAsync(pageContainerTemplateId).To<PageContainersHierarchyDto>();
             return result;
         }
 

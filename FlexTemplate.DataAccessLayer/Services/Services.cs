@@ -31,7 +31,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             return strings;
         }
 
-        private async Task<Language> GetUserLanguage(ClaimsPrincipal claimsPrincipal)
+        private async Task<Language> GetUserLanguageAsync(ClaimsPrincipal claimsPrincipal)
         {
             var user = await UserManager.GetUserAsync(claimsPrincipal);
             if (user == null)
@@ -77,7 +77,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<SearchViewComponentDao> GetSearchViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName)
         {
-            var userLanguage = await GetUserLanguage(httpContextUser);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var categories = Context.PlaceCategories.Select(pc => new KeyValuePair<int, string>(pc.Id, pc.Name))
                 .Future();
             var cities = Context.Cities.Select(pc => new KeyValuePair<int, string>(pc.Id, pc.Name))
@@ -105,7 +105,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<OtherCitiesPlacesViewComponentDao> GetOtherCitiesPlacesViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName)
         {
-            var userLanguage = await GetUserLanguage(httpContextUser);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var cities = Context.Places.GroupBy(c => c.Street.CityId)
                 .OrderByDescending(ig => ig.Count()).Select(ig => ig.Key).Take(4);
             var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
@@ -124,7 +124,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<OtherCityPlacesViewComponentDao> GetOtherCityPlacesViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName, int cityId)
         {
-            var userLanguage = await GetUserLanguage(httpContextUser);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
             var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
@@ -145,7 +145,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<CityPlacesViewComponentDao> GetCityPlacesViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName)
         {
-            var userLanguage = await GetUserLanguage(httpContextUser);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
             var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
@@ -170,7 +170,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<CityPlaceViewComponentDao> GetCityPlaceViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName, int placeId)
         {
-            var userLanguage = await GetUserLanguage(httpContextUser);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
             var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
@@ -197,9 +197,9 @@ namespace FlexTemplate.DataAccessLayer.Services
             return result;
         }
 
-        public PageContainersHierarchyDao GetPageContainersHierarchy(int pageContainerTemplateId)
+        public async Task<PageContainersHierarchyDao> GetPageContainersHierarchyAsync(int pageContainerTemplateId)
         {
-            var containers = Context.PageContainerTemplates
+            var containers = await Context.PageContainerTemplates
                 .Include(pct => pct.ContainerTemplate).ThenInclude(ct => ct.Container).Include(pct => pct.Page)
                 .Where(pct => pct.ParentId == pageContainerTemplateId).OrderBy(pct => pct.Position)
                 .Select(pct =>
@@ -209,14 +209,14 @@ namespace FlexTemplate.DataAccessLayer.Services
                         ContainerName = pct.ContainerTemplate.Container.Name,
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
                         ParentId = pct.ParentId
-                    });
+                    }).ToListAsync();
             var hierarchy = new PageContainersHierarchyDao { Containers = containers };
             return hierarchy;
         }
 
-        public PageContainersHierarchyDao GetPageContainersHierarchy(string pageName)
+        public async Task<PageContainersHierarchyDao> GetPageContainersHierarchy(string pageName)
         {
-            var containers = Context.PageContainerTemplates
+            var containers = await Context.PageContainerTemplates
                 .Include(pct => pct.ContainerTemplate).ThenInclude(ct => ct.Container).Include(pct => pct.Page)
                 .Where(pct => pct.Page.Name == pageName && pct.ParentId == 0).OrderBy(pct => pct.Position)
                 .Select(pct =>
@@ -226,9 +226,26 @@ namespace FlexTemplate.DataAccessLayer.Services
                         ContainerName = pct.ContainerTemplate.Container.Name,
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
                         ParentId = pct.ParentId
-                    });
+                    }).ToListAsync();
             var hierarchy = new PageContainersHierarchyDao {Containers = containers};
             return hierarchy;
+        }
+
+        public async Task<List<CachedPlaceDao>> GetPlacesAsync()
+        {
+            var places = await Context.Places
+                .Include(p => p.Street)
+                .Include(p => p.PlacePlaceCategories)
+                .Select(p => 
+                new CachedPlaceDao
+                {
+                    Name = p.Name,
+                    Id = p.Id,
+                    CityId = p.Street.CityId,
+                    Aliases = p.Aliases.Select(a => a.Text),
+                    CategoriesIds = p.PlacePlaceCategories.Select(ppc => ppc.PlaceCategoryId)
+                }).ToListAsync();
+            return places;
         }
 
         public async Task<bool> CanEditVisualsAsync(ClaimsPrincipal httpContextUser)

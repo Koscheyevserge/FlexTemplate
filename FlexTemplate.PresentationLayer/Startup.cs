@@ -82,6 +82,7 @@ namespace FlexTemplate.PresentationLayer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
+            services.AddMemoryCache();
         }
         
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
