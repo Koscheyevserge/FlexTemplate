@@ -2,7 +2,7 @@
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class Blog : BaseAuthorfullEntity
+    public class Blog : BaseAuthorfullViewableEntity
     {
         public string Caption { get; set; }
         public virtual List<BlogComment> Comments { get; set; }

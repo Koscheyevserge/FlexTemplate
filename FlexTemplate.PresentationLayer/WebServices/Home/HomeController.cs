@@ -31,11 +31,11 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             return View();
         }
         
-        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, int listType = 1, int orderBy = 1, bool isDescending = false)
+        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int page = 1, int listType = 1, int orderBy = 1, bool isDescending = false)
         {
             var hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName);
             var canEdit = await BllServices.CanEditVisualsAsync(HttpContext.User);
-            var placesOnPageIds = await BllServices.GetPlacesAsync(cities, categories, input, currentPage, orderBy, isDescending);
+            var placesOnPageIds = await BllServices.GetPlacesAsync(HttpContext.User, cities, categories, input, page, orderBy, isDescending);
             var placesTotal = await BllServices.GetPlacesCountAsync(cities, categories, input);
             var model = new Places.ViewModel
             {

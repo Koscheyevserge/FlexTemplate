@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlexTemplate.PresentationLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -463,7 +463,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    ViewsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -742,7 +743,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     StreetId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true),
+                    ViewsCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

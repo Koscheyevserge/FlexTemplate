@@ -8,8 +8,8 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170605055314_Initial")]
-    partial class Initial
+    [Migration("20170610195348_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,6 +77,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<string>("Text");
 
                     b.Property<string>("UserId");
+
+                    b.Property<int>("ViewsCount");
 
                     b.HasKey("Id");
 
@@ -464,6 +466,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("StreetId");
 
                     b.Property<string>("UserId");
+
+                    b.Property<int>("ViewsCount");
 
                     b.HasKey("Id");
 

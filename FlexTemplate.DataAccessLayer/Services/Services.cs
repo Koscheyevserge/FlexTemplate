@@ -234,8 +234,9 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<List<CachedPlaceDao>> GetPlacesAsync()
         {
             var places = await Context.Places
-                .Include(p => p.Street)
-                .Include(p => p.PlacePlaceCategories)
+                .Include(p => p.Street).ThenInclude(s => s.City)
+                .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
+                .Include(p => p.Reviews)
                 .Select(p => 
                 new CachedPlaceDao
                 {
@@ -243,7 +244,10 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Id = p.Id,
                     CityId = p.Street.CityId,
                     Aliases = p.Aliases.Select(a => a.Text),
-                    CategoriesIds = p.PlacePlaceCategories.Select(ppc => ppc.PlaceCategoryId)
+                    Categories = p.PlacePlaceCategories.Select(ppc => new KeyValuePair<int, string>(ppc.PlaceCategoryId, ppc.PlaceCategory.Name)),
+                    CityName = p.Street.City.Name,
+                    ViewsCount = p.ViewsCount,
+                    Rating = p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0
                 }).ToListAsync();
             return places;
         }
@@ -267,6 +271,18 @@ namespace FlexTemplate.DataAccessLayer.Services
                 return false;
             }
             return Context.GetSet<T>().Any(p => p.User == user && p.Id == placeId);
+        }
+
+        public async Task<UserDao> GetUserAsync(ClaimsPrincipal httpContextUser)
+        {
+            var user = await UserManager.GetUserAsync(httpContextUser);
+            var defaultLanguage = await Context.Languages.SingleAsync(l => l.IsDefault);
+            if (user == null)
+            {
+                return null;
+            }
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            return new UserDao { DefaultLanguageId = defaultLanguage.Id, UserLanguageId = userLanguage.Id};
         }
     }
 }

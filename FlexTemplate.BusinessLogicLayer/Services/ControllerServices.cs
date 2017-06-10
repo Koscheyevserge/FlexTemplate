@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.BusinessLogicLayer.DataTransferObjects;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.DataAccessLayer.Entities;
+using FlexTemplate.BusinessLogicLayer.Enums;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlexTemplate.BusinessLogicLayer.Services
@@ -14,6 +16,11 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         private readonly IMemoryCache _memoryCache;
         private DataAccessLayer.Services.Services DalServices { get; }
         private const string PlacesCacheKey = "PLACES_CACHE";
+
+        private int GetPlacesPerPageCount()
+        {
+            return 12;//TODO реализовать как системную настройку
+        }
 
         public ControllerServices(DataAccessLayer.Services.Services dalServices, IMemoryCache memoryCache)
         {
@@ -28,32 +35,78 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return pageContainersHierarchyDto.To<PageContainersHierarchyDto>();
         }
 
-        public async Task<IEnumerable<int>> GetPlacesAsync(int[] cities, int[] categories, string input,
-            int currentPage = 1, int orderBy = 1, bool isDescending = false)
+        public async Task<IEnumerable<int>> GetPlacesAsync(ClaimsPrincipal httpContextUser, int[] cities,
+            int[] categories, string input, int page = 1, int orderBy = 1, bool isDescending = false)
         {
-            var placesPerPage = 12;//TODO сохранить как системную настройку
             var inputNormalized = input.Trim().ToUpper();
+            var userDao = await DalServices.GetUserAsync(httpContextUser);
             if (!_memoryCache.TryGetValue(PlacesCacheKey, out IEnumerable<CachedPlaceDto> places))
             {
-                places = (await DalServices.GetPlacesAsync()).To<IEnumerable<CachedPlaceDto>>();
+                var placesDao = await DalServices.GetPlacesAsync();
+                places = placesDao.To<IEnumerable<CachedPlaceDto>>();
                 _memoryCache.Set(PlacesCacheKey, places);
             }
+            //TODO оставить лишь алиасы с нужными языками
             if (cities.Any())
             {
-                places = places.Where(p => cities.Contains(p.CityId)).ToList();
+                places = places.Where(p => cities.Contains(p.City.Id)).ToList();
             }
             if (categories.Any())
             {
-                places = places.Where(p => p.CategoriesIds
-                    .Intersect(categories).Any());
+                places = places.Where(p => p.Categories.Select(c => c.Id)
+                    .Intersect(categories).Any()).ToList();
             }
             if (string.IsNullOrEmpty(inputNormalized))
             {
-                places = places.Where(p => p.Name.ToUpper().Contains(inputNormalized) ||
-                                           p.Aliases.Any(a => a.ToUpper().Contains(inputNormalized)));
+                places = places.Where(p => p.Names.Any(a => a.Name.ToUpper().Contains(inputNormalized))).ToList();
             }
-            //TODO добавить сортировку по orderBy и isDescending
-            places = places.Take(placesPerPage);
+            var user = userDao.To<UserDto>();
+            foreach (var place in places)
+            {
+                place.City.Names = place.City.Names
+                    .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId);
+                place.Names = place.Names
+                    .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId);
+                foreach (var category in place.Categories)
+                {
+                    category.Names = category.Names
+                        .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId);
+                }
+            }
+            switch ((PlaceOrderByEnum)orderBy)
+            {
+                case PlaceOrderByEnum.Name:
+                    places = isDescending
+                        ? places.OrderByDescending(p => p.Names.OrderByDescending(n => n).FirstOrDefault()).ToList()
+                        : places.OrderBy(p => p.Names.OrderBy(n => n).FirstOrDefault()).ToList();
+                    break;
+                case PlaceOrderByEnum.Category:
+                    places = isDescending
+                        ? places.OrderByDescending(p =>
+                            p.Categories.SelectMany(c => c.Names.Select(n => n.Name))
+                                .OrderByDescending(n => n).FirstOrDefault()).ToList()
+                        : places.OrderBy(p => 
+                            p.Categories.SelectMany(c => c.Names.Select(n => n.Name))
+                                .OrderBy(n => n).FirstOrDefault()).ToList();
+                    break;
+                case PlaceOrderByEnum.Location:
+                    places = isDescending
+                        ? places.OrderByDescending(p => p.City.Names.OrderByDescending(n => n.Name).First().Name).ToList()
+                        : places.OrderBy(p => p.City.Names.OrderBy(n => n.Name).First().Name).ToList();
+                    break;
+                case PlaceOrderByEnum.Popularity:
+                    places = isDescending
+                        ? places.OrderByDescending(p => p.ViewsCount).ToList()
+                        : places.OrderBy(p => p.ViewsCount).ToList();
+                    break;
+                case PlaceOrderByEnum.Rating:
+                    places = isDescending
+                        ? places.OrderByDescending(p => p.Rating).ToList()
+                        : places.OrderBy(p => p.Rating).ToList();
+                    break;
+            }
+            var placesPerPageCount = GetPlacesPerPageCount();
+            places = places.Skip((page - 1) * placesPerPageCount).Take(placesPerPageCount).ToList();
             return places.Select(p => p.Id);
         }
 
@@ -67,17 +120,16 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             }
             if (cities.Any())
             {
-                places = places.Where(p => cities.Contains(p.CityId)).ToList();
+                places = places.Where(p => cities.Contains(p.City.Id)).ToList();
             }
             if (categories.Any())
             {
-                places = places.Where(p => p.CategoriesIds
+                places = places.Where(p => p.Categories.Select(c => c.Id)
                     .Intersect(categories).Any());
             }
             if (string.IsNullOrEmpty(inputNormalized))
             {
-                places = places.Where(p => p.Name.ToUpper().Contains(inputNormalized) ||
-                                           p.Aliases.Any(a => a.ToUpper().Contains(inputNormalized)));
+                places = places.Where(p => p.Names.Any(n => n.Name.ToUpper().Contains(inputNormalized)));
             }
             return places.Count();
         }

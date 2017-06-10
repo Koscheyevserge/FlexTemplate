@@ -5,7 +5,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
     /// <summary>
     /// Заведение
     /// </summary>
-    public class Place : BaseAuthorfullEntity
+    public class Place : BaseAuthorfullViewableEntity
     {
         /// <summary>
         /// Название заведения

@@ -77,6 +77,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("UserId");
 
+                    b.Property<int>("ViewsCount");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -463,6 +465,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("StreetId");
 
                     b.Property<string>("UserId");
+
+                    b.Property<int>("ViewsCount");
 
                     b.HasKey("Id");
 
