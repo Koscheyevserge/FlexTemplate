@@ -60,5 +60,36 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             var result = await DalServices.GetHeaderViewComponentDaoAsync(httpContextUser, componentName);
             return result.To<HeaderViewComponentDto>();
         }
+
+        public async Task<IEnumerable<CityChecklistItemDto>> GetCityChecklistItems(ClaimsPrincipal httpContextUser, IEnumerable<int> checkedCities)
+        {
+            var result = await DalServices.GetCityChecklistItemsAsync(httpContextUser, checkedCities);
+            return result.To<IEnumerable<CityChecklistItemDto>>();
+        }
+
+        public async Task<IEnumerable<PlaceCategoryChecklistItemDto>> GetPlaceCategoriesChecklistItems(ClaimsPrincipal httpContextUser, IEnumerable<int> checkedCategories)
+        {
+            var result = await DalServices.GetPlaceCategoriesChecklistItemsAsync(httpContextUser, checkedCategories);
+            return result.To<IEnumerable<PlaceCategoryChecklistItemDto>>();
+        }
+
+        public async Task<IEnumerable<PlaceListItemDto>> GetPlacesListAsync(ClaimsPrincipal httpContextUser, IEnumerable<int> placesIds)
+        {
+            var result = await DalServices.GetPlacesListAsync(httpContextUser, placesIds);
+            return result.To<IEnumerable<PlaceListItemDto>>();
+        }
+
+        public async Task<PaginationDto> GetPlacesPaginationAsync(int placesCount, int currentPage)
+        {
+            var placesPerPage = await CommonServices.GetPlacesPerPageCountAsync();
+            var totalPages = (int) Math.Ceiling(placesCount / (double)placesPerPage);
+            var result = new PaginationDto
+            {
+                HasNextPage = currentPage < totalPages,
+                HasPreviousPage = currentPage > 1,
+                TotalPagesCount = totalPages
+            };
+            return result;
+        }
     }
 }

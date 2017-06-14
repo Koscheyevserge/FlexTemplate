@@ -17,11 +17,6 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         private DataAccessLayer.Services.Services DalServices { get; }
         private const string PlacesCacheKey = "PLACES_CACHE";
 
-        private int GetPlacesPerPageCount()
-        {
-            return 12;//TODO реализовать как системную настройку
-        }
-
         public ControllerServices(DataAccessLayer.Services.Services dalServices, IMemoryCache memoryCache)
         {
             DalServices = dalServices;
@@ -38,7 +33,8 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         public async Task<IEnumerable<int>> GetPlacesAsync(ClaimsPrincipal httpContextUser, int[] cities,
             int[] categories, string input, int page = 1, int orderBy = 1, bool isDescending = false)
         {
-            var inputNormalized = input.Trim().ToUpper();
+            var placesPerPageCount = await CommonServices.GetPlacesPerPageCountAsync();
+            var inputNormalized = input?.Trim().ToUpper();
             var userDao = await DalServices.GetUserAsync(httpContextUser);
             if (!_memoryCache.TryGetValue(PlacesCacheKey, out IEnumerable<CachedPlaceDto> places))
             {
@@ -105,14 +101,13 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                         : places.OrderBy(p => p.Rating).ToList();
                     break;
             }
-            var placesPerPageCount = GetPlacesPerPageCount();
             places = places.Skip((page - 1) * placesPerPageCount).Take(placesPerPageCount).ToList();
             return places.Select(p => p.Id);
         }
 
         public async Task<int> GetPlacesCountAsync(int[] cities, int[] categories, string input)
         {
-            var inputNormalized = input.Trim().ToUpper();
+            var inputNormalized = input?.Trim().ToUpper();
             if (!_memoryCache.TryGetValue(PlacesCacheKey, out IEnumerable<CachedPlaceDto> places))
             {
                 places = (await DalServices.GetPlacesAsync()).To<IEnumerable<CachedPlaceDto>>();

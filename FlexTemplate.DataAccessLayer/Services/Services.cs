@@ -7,6 +7,7 @@ using FlexTemplate.DataAccessLayer.DataAccessObjects;
 using FlexTemplate.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Remotion.Linq.Clauses;
 using Z.EntityFramework.Plus;
 
 namespace FlexTemplate.DataAccessLayer.Services
@@ -20,6 +21,132 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             Context = context;
             UserManager = userManager;
+        }
+
+        public async Task<IEnumerable<CityChecklistItemDao>> GetCityChecklistItemsAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCities)
+        {
+            var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var aliasesGroups = Context.CityAliases.GroupBy(ca => ca.CityId);
+            var aliases = new List<KeyValuePair<int, string>>();
+            foreach (var aliasesGroup in aliasesGroups)
+            {
+                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
+                aliases.Add(new KeyValuePair<int, string>(alias.CityId, alias.Text));
+            }
+            var result = Context.Cities.Select(c => new CityChecklistItemDao
+                {
+                    Id = c.Id,
+                    Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
+                    Checked = checkedCities.Contains(c.Id),
+                    CitiesWithoutThisIds = checkedCities.Where(checkedCity => checkedCity != c.Id)
+                });
+            return result;
+        }
+
+        public async Task<IEnumerable<PlaceCategoryChecklistItemDao>> GetPlaceCategoriesChecklistItemsAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCategories)
+        {
+            var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var aliasesGroups = Context.PlaceCategoryAliases.GroupBy(ca => ca.PlaceCategoryId);
+            var aliases = new List<KeyValuePair<int, string>>();
+            foreach (var aliasesGroup in aliasesGroups)
+            {
+                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
+                aliases.Add(new KeyValuePair<int, string>(alias.PlaceCategoryId, alias.Text));
+            }
+            var result = Context.Cities.Select(c => new PlaceCategoryChecklistItemDao
+            {
+                Id = c.Id,
+                Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
+                Checked = checkedCategories.Contains(c.Id),
+                CategoriesWithoutThisIds = checkedCategories.Where(checkedCity => checkedCity != c.Id)
+            });
+            return result;
+        }
+
+        public async Task<IEnumerable<PlaceListItemDao>> GetPlacesListAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> placesIds)
+        {
+            var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var aliasesGroups = Context.PlaceAliases.GroupBy(ca => ca.PlaceId);
+            var aliases = new List<KeyValuePair<int, string>>();
+            foreach (var aliasesGroup in aliasesGroups)
+            {
+                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
+                aliases.Add(new KeyValuePair<int, string>(alias.PlaceId, alias.Text));
+            }
+            var categories = Context.Places
+                .Include(p => p.PlacePlaceCategories)
+                .ThenInclude(ppc => ppc.PlaceCategory)
+                .ThenInclude(pc => pc.Aliases)
+                .ThenInclude(a => a.Language)
+                .Select(p => new GetPlacesListItemPlaceDao
+                {
+                    PlaceId = p.Id,
+                    Categories = p.PlacePlaceCategories.Select(ppc => new GetPlacesListItemPlaceCategoryDao
+                    {
+                        CategoryId = ppc.PlaceCategoryId,
+                        CategoryAlias = ppc.PlaceCategory.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
+                                        ?? ppc.PlaceCategory.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
+                        CategoryName = ppc.PlaceCategory.Name
+                    })
+                }).Select(getPlacesListItemPlaceDao => new KeyValuePair<int, IEnumerable<KeyValuePair<int, string>>>
+                    (
+                        getPlacesListItemPlaceDao.PlaceId, 
+                        getPlacesListItemPlaceDao.Categories.Select
+                        (
+                            cat => new KeyValuePair<int, string>
+                            (
+                                cat.CategoryId,
+                                cat.CategoryAlias != null ? cat.CategoryAlias.Text : cat.CategoryName
+                            )
+                        )
+                    )
+                );
+            var getPlacesListItemAddressDaos = Context.Places
+                .Include(p => p.Street)
+                .ThenInclude(p => p.City)
+                .ThenInclude(c => c.Aliases)
+                .Include(p => p.Street)
+                .ThenInclude(s => s.Aliases)
+                .Select(p => new GetPlacesListItemAddressDao
+                    { 
+                        PlaceId = p.Id,
+                        Address = p.Address,
+                        CityName = p.Street.City.Name,
+                        StreetName = p.Street.Name,
+                        CityAlias = p.Street.City.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
+                            ?? p.Street.City.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
+                        StreetAlias = p.Street.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
+                                    ?? p.Street.Aliases.FirstOrDefault(a => a.Language == defaultLanguage)
+                }
+                );
+            var addresses = getPlacesListItemAddressDaos.Select(a => new KeyValuePair<int, string>
+                (
+                    a.PlaceId,
+                    string.Format("{0} {1}, {2}", 
+                    a.Address, 
+                    a.StreetAlias != null ? a.StreetAlias.Text : a.StreetName,
+                    a.CityAlias != null ? a.CityAlias.Text : a.CityName)
+                )
+            );
+            var result = Context.Places
+                .Include(p => p.Reviews)
+                .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Select(p => new PlaceListItemDao
+            {
+                Id = p.Id,
+                Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? p.Name,
+                Categories = categories.SingleOrDefault(a => a.Key == p.Id).Value,
+                Stars = (int) Math.Ceiling(p.Reviews.Average(r => r.Star)),
+                ReviewsCount = p.Reviews.Count,
+                Address = addresses.Single(a => a.Key == p.Id).Value,
+                HeadPhoto = "",
+                AveragePrice = p.Menus.Average(m => m.Products.Average(prod => prod.Price)),
+                Description = p.Description
+            });
+            return result;
         }
 
         private IQueryable<ContainerLocalizableString> GetLocalizableStrings(Container container, Language defaultLanguage, Language userLanguage)
@@ -40,6 +167,12 @@ namespace FlexTemplate.DataAccessLayer.Services
             var languageClaim = claims.FirstOrDefault(c => c.Type == "language");
             var userLanguage = Context.Languages.SingleOrDefault(l => l.ShortName == languageClaim.Value);
             return userLanguage;
+        }
+
+        private async Task<Language> GetDefaultLanguageAsync()
+        {
+            var result = await Context.Languages.SingleOrDefaultAsync(l => l.IsDefault);
+            return result;
         }
 
         public async Task<HeaderViewComponentDao> GetHeaderViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName)

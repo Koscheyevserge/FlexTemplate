@@ -1,69 +1,4 @@
-﻿@using System.Collections
-@using FlexTemplate.Entities
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@model FlexTemplate.ViewModels.HomeController.ThisPlacesFiltersViewModel
-@{
-    object buffer;
-    if (!ViewBag.Query.TryGetValue("categories", out buffer))
-    {
-        buffer = null;
-    }
-    IEnumerable<string> categories = new List<string>();
-    if (buffer is IEnumerable)
-    {
-        categories = buffer as IEnumerable<string>;
-    }
-    IEnumerable<string> cities = new List<string>();
-    if (!ViewBag.Query.TryGetValue("cities", out buffer))
-    {
-        buffer = null;
-    }
-    if (buffer is IEnumerable)
-    {
-        cities = buffer as IEnumerable<string>;
-    }
-    var listType = "list";
-    if (!ViewBag.Query.TryGetValue("listType", out buffer))
-    {
-        buffer = null;
-    }
-    if (buffer is IEnumerable)
-    {
-        listType = ((IEnumerable<string>)buffer).FirstOrDefault();
-    }
-    string orderBy = null;
-    if (!ViewBag.Query.TryGetValue("orderBy", out buffer))
-    {
-        buffer = null;
-    }
-    if (buffer is IEnumerable)
-    {
-        orderBy = ((IEnumerable<string>)buffer).FirstOrDefault();
-    }
-    var isDescending = false;
-    if (!ViewBag.Query.TryGetValue("isDescending", out buffer))
-    {
-        buffer = null;
-    }
-    if (buffer is IEnumerable)
-    {
-        var isDescendingStr = ((IEnumerable<string>)buffer).FirstOrDefault();
-        bool.TryParse(isDescendingStr, out isDescending);
-    }
-    string input = null;
-    if (!ViewBag.Query.TryGetValue("input", out buffer))
-    {
-        buffer = null;
-    }
-    if (buffer is IEnumerable)
-    {
-        input = ((IEnumerable<string>)buffer).FirstOrDefault();
-        input = string.IsNullOrEmpty(input) ? null : input;
-    }
-    var contains = false;
-    var routeCities = new List<string>();
-    var routeCategories = new List<string>();
-}
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.ViewModel
 <div class="col-sm-4 col-md-3">
 
     <div class="section-title-02">
@@ -86,33 +21,10 @@
 
     <div class="sidebar-module">
         <h5>Категорії</h5>
-        @foreach (Category category in Model.Categories)
+        @foreach (var category in Model.AllCategories)
         {
             <div class="checkbox-block font-icon-checkbox">
-                @{
-                    contains = false;
-                    routeCategories = new List<string>();
-                    routeCities = new List<string>();
-                    routeCities.AddRange(cities);
-                    if (categories.Any())
-                    {
-                        contains = categories.Contains(category.Id.ToString());
-                        routeCategories.AddRange(categories);
-                        if (contains)
-                        {
-                            routeCategories.Remove(category.Id.ToString());
-                        }
-                        else
-                        {
-                            routeCategories.Add(category.Id.ToString());
-                        }
-                    }
-                    else
-                    {
-                        routeCategories.Add(category.Id.ToString());
-                    }
-                }
-                <input id="filter_categories-@category.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = routeCategories, cities = routeCities, input = input, isDescending = isDescending, orderBy = orderBy })'" type="checkbox" class="checkbox" checked="@contains" />
+                <input id="filter_categories-@category.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { listType = Model.ListType, categories = category.CategoriesWithoutThisIds, cities = Model.Cities, input = Model.Input, isDescending = Model.IsDescending, orderBy = Model.OrderBy })'" type="checkbox" class="checkbox" checked="@category.Checked" />
                 <label for="filter_categories-@category.Id">@category.Name</label>
             </div>
         }
@@ -120,33 +32,10 @@
 
     <div class="sidebar-module">
         <h5>Міста</h5>
-        @foreach (City city in Model.Cities)
+        @foreach (var city in Model.AllCities)
         {
             <div class="checkbox-block font-icon-checkbox">
-                @{
-                    contains = false;
-                    routeCategories = new List<string>();
-                    routeCities = new List<string>();
-                    routeCategories.AddRange(categories);
-                    if (cities.Any())
-                    {
-                        contains = cities.Contains(city.Id.ToString());
-                        routeCities.AddRange(cities);
-                        if (contains)
-                        {
-                            routeCities.Remove(city.Id.ToString());
-                        }
-                        else
-                        {
-                            routeCities.Add(city.Id.ToString());
-                        }
-                    }
-                    else
-                    {
-                        routeCities.Add(city.Id.ToString());
-                    }
-                }
-                <input id="filter_cities-@city.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { categories = routeCategories, listType = listType, cities = routeCities, input = input, isDescending = isDescending, orderBy = orderBy })'" type="checkbox" class="checkbox" checked="@contains" />
+                <input id="filter_cities-@city.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { listType = Model.ListType, categories = Model.Categories, cities = city.CitiesWithoutThisIds, input = Model.Input, isDescending = Model.IsDescending, orderBy = Model.OrderBy })'" type="checkbox" class="checkbox" checked="@city.Checked" />
                 <label for="filter_cities-@city.Id">@city.Name</label>
             </div>
         }
