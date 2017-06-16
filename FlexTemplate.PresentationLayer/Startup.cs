@@ -98,7 +98,9 @@ namespace FlexTemplate.PresentationLayer
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
 
             app.UseStaticFiles();
