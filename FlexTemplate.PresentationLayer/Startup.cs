@@ -104,10 +104,10 @@ namespace FlexTemplate.PresentationLayer
             }
 
             app.UseStaticFiles();
+            
+            app.UseMiddleware<FlexContextInitializer>();
 
             app.UseIdentity();
-
-            app.UseMiddleware<FlexContextInitializer>();
 
             app.UseMvc(routes =>
             {
