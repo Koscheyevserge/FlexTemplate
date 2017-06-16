@@ -28,13 +28,13 @@ namespace FlexTemplate.DataAccessLayer
 
         public async Task Invoke(HttpContext httpContext)
         {
-            await FlexContext.Database.MigrateAsync();
             await SeedBeforeUsers();
             await _next.Invoke(httpContext);
         }
 
         private async Task SeedBeforeUsers()
         {
+            FlexContext.Database.Migrate();
             if (FlexContext.Settings.Any(s => s.Code == "IsInitialized" && s.BoolValue == true))
             {
                 return;
