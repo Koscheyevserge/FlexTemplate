@@ -17,8 +17,8 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters
 
         public async Task<IViewComponentResult> InvokeAsync([FromQuery] string input, [FromQuery] int orderBy, [FromQuery] int[] cities, [FromQuery] int[] categories, [FromQuery] bool isDescending, [FromQuery] int listType)
         {
-            var allCategories = await ComponentsServices.GetCityChecklistItems(HttpContext.User, categories ?? new int[] { });
-            var allCities = await ComponentsServices.GetPlaceCategoriesChecklistItems(HttpContext.User, cities ?? new int[] { });
+            var allCategories = await ComponentsServices.GetPlaceCategoriesChecklistItems(HttpContext.User, categories ?? new int[] { });
+            var allCities = await ComponentsServices.GetCityChecklistItems(HttpContext.User, cities ?? new int[] { });
             var model = new ViewModel
             {
                 Input = input,

@@ -7,12 +7,11 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
     public class CachedPlaceDao
     {
         public int Id { get; set; }
-        public int CityId { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<string> Aliases { get; set; }
-        public IEnumerable<KeyValuePair<int, string>> Categories { get; set; }
-        public string CityName { get; set; }
+        public IEnumerable<CachedCategoryDao> Categories { get; set; }
+        public IEnumerable<CachedPlaceNameDao> Names { get; set; }
+        public CachedCityDao City { get; set; }
         public int ViewsCount { get; set; }
         public double Rating { get; set; }
+        public string Name { get; set; }
     }
 }

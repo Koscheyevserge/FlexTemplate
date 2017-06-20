@@ -411,8 +411,9 @@ namespace FlexTemplate.DataAccessLayer
                 var asianCuisine = new PlaceCategory {Name = "Азіатська"};
                 var italianCuisine = new PlaceCategory {Name = "Італійська"};
                 //Places
+                var supervisor = FlexContext.Users.SingleOrDefault(u => u.UserName == "Supervisor");
                 FlexContext.AddRange(
-                    /*new Place
+                    new Place
                     {
                         User = supervisor,
                         Name = "Пузата хата",
@@ -466,7 +467,7 @@ namespace FlexTemplate.DataAccessLayer
                             SundayFrom = new TimeSpan(0, 0, 0),
                             SundayTo = new TimeSpan(0, 0, 0)
                         }
-                    },
+                    }/*,
                     new Place
                     {
                         UserId = supervisor.Id,

@@ -12,5 +12,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
         public CachedCityDto City { get; set; }
         public int ViewsCount { get; set; }
         public double Rating { get; set; }
+        public string Name { get; set; }
     }
 }

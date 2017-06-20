@@ -7,7 +7,6 @@ using FlexTemplate.DataAccessLayer.DataAccessObjects;
 using FlexTemplate.DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Remotion.Linq.Clauses;
 using Z.EntityFramework.Plus;
 
 namespace FlexTemplate.DataAccessLayer.Services
@@ -31,10 +30,12 @@ namespace FlexTemplate.DataAccessLayer.Services
             var aliases = new List<KeyValuePair<int, string>>();
             foreach (var aliasesGroup in aliasesGroups)
             {
-                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
+                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) 
+                    ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
                 aliases.Add(new KeyValuePair<int, string>(alias.CityId, alias.Text));
             }
-            var result = Context.Cities.Select(c => new CityChecklistItemDao
+            var result = Context.Cities.Select(c => 
+                new CityChecklistItemDao
                 {
                     Id = c.Id,
                     Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
@@ -55,12 +56,12 @@ namespace FlexTemplate.DataAccessLayer.Services
                 var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
                 aliases.Add(new KeyValuePair<int, string>(alias.PlaceCategoryId, alias.Text));
             }
-            var result = Context.Cities.Select(c => new PlaceCategoryChecklistItemDao
+            var result = Context.PlaceCategories.Select(c => new PlaceCategoryChecklistItemDao
             {
                 Id = c.Id,
                 Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
                 Checked = checkedCategories.Contains(c.Id),
-                CategoriesWithoutThisIds = checkedCategories.Where(checkedCity => checkedCity != c.Id)
+                CategoriesWithoutThisIds = checkedCategories.Where(checkedCategory => checkedCategory != c.Id)
             });
             return result;
         }
@@ -73,7 +74,8 @@ namespace FlexTemplate.DataAccessLayer.Services
             var aliases = new List<KeyValuePair<int, string>>();
             foreach (var aliasesGroup in aliasesGroups)
             {
-                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
+                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) 
+                    ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
                 aliases.Add(new KeyValuePair<int, string>(alias.PlaceId, alias.Text));
             }
             var categories = Context.Places
@@ -81,22 +83,27 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .ThenInclude(ppc => ppc.PlaceCategory)
                 .ThenInclude(pc => pc.Aliases)
                 .ThenInclude(a => a.Language)
-                .Select(p => new GetPlacesListItemPlaceDao
+                .Select(p => 
+                new GetPlacesListItemPlaceDao
                 {
                     PlaceId = p.Id,
-                    Categories = p.PlacePlaceCategories.Select(ppc => new GetPlacesListItemPlaceCategoryDao
+                    Categories = p.PlacePlaceCategories.Select(ppc => 
+                    new GetPlacesListItemPlaceCategoryDao
                     {
                         CategoryId = ppc.PlaceCategoryId,
                         CategoryAlias = ppc.PlaceCategory.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
                                         ?? ppc.PlaceCategory.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
                         CategoryName = ppc.PlaceCategory.Name
                     })
-                }).Select(getPlacesListItemPlaceDao => new KeyValuePair<int, IEnumerable<KeyValuePair<int, string>>>
+                })
+                .Select(getPlacesListItemPlaceDao => 
+                    new KeyValuePair<int, IEnumerable<KeyValuePair<int, string>>>
                     (
                         getPlacesListItemPlaceDao.PlaceId, 
                         getPlacesListItemPlaceDao.Categories.Select
                         (
-                            cat => new KeyValuePair<int, string>
+                            cat => 
+                            new KeyValuePair<int, string>
                             (
                                 cat.CategoryId,
                                 cat.CategoryAlias != null ? cat.CategoryAlias.Text : cat.CategoryName
@@ -110,17 +117,20 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .ThenInclude(c => c.Aliases)
                 .Include(p => p.Street)
                 .ThenInclude(s => s.Aliases)
-                .Select(p => new GetPlacesListItemAddressDao
+                .Select(p => 
+                    new GetPlacesListItemAddressDao
                     { 
                         PlaceId = p.Id,
                         Address = p.Address,
                         CityName = p.Street.City.Name,
                         StreetName = p.Street.Name,
-                        CityAlias = p.Street.City.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
-                            ?? p.Street.City.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
-                        StreetAlias = p.Street.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
-                                    ?? p.Street.Aliases.FirstOrDefault(a => a.Language == defaultLanguage)
-                }
+                        CityAlias = p.Street.City.Aliases
+                            .FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
+                                ?? p.Street.City.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
+                        StreetAlias = p.Street.Aliases
+                            .FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
+                                ?? p.Street.Aliases.FirstOrDefault(a => a.Language == defaultLanguage)
+                    }
                 );
             var addresses = getPlacesListItemAddressDaos.Select(a => new KeyValuePair<int, string>
                 (
@@ -134,18 +144,26 @@ namespace FlexTemplate.DataAccessLayer.Services
             var result = Context.Places
                 .Include(p => p.Reviews)
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
-                .Select(p => new PlaceListItemDao
-            {
-                Id = p.Id,
-                Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? p.Name,
-                Categories = categories.SingleOrDefault(a => a.Key == p.Id).Value,
-                Stars = (int) Math.Ceiling(p.Reviews.Average(r => r.Star)),
-                ReviewsCount = p.Reviews.Count,
-                Address = addresses.Single(a => a.Key == p.Id).Value,
-                HeadPhoto = "",
-                AveragePrice = p.Menus.Average(m => m.Products.Average(prod => prod.Price)),
-                Description = p.Description
-            });
+                .Select(p => 
+                new PlaceListItemDao
+                {
+                    Id = p.Id,
+                    Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() 
+                        ?? p.Name,
+                    Categories = categories.Any() 
+                        ? categories.SingleOrDefault(a => a.Key == p.Id).Value
+                        : new List<KeyValuePair<int, string>>(),
+                    Stars = p.Reviews.Any() 
+                        ? (int) Math.Ceiling(p.Reviews.Average(r => r.Star))
+                        : 0,
+                    ReviewsCount = p.Reviews.Count,
+                    //TODO Address = addresses.Single(a => a.Key == p.Id).Value,
+                    HeadPhoto = "",
+                    AveragePrice = p.Menus.Any() 
+                        ? p.Menus.Where(m => m.Products.Any()).Average(m => m.Products.Average(prod => prod.Price)) 
+                        : 0,
+                    Description = p.Description
+                });
             return result;
         }
 
@@ -154,7 +172,9 @@ namespace FlexTemplate.DataAccessLayer.Services
             var strings = Context.ContainerLocalizableStrings
                 .Where(cls => cls.Container == container && (cls.Language == defaultLanguage || (userLanguage != null && cls.Language == userLanguage)))
                 .GroupBy(cls => cls.Tag)
-                .Select(cls => userLanguage != null && cls.Any(c => c.Language == userLanguage) ? cls.FirstOrDefault(c => c.Language == userLanguage) : cls.FirstOrDefault(c => c.Language == defaultLanguage));
+                .Select(cls => userLanguage != null && cls.Any(c => c.Language == userLanguage) 
+                    ? cls.FirstOrDefault(c => c.Language == userLanguage) 
+                    : cls.FirstOrDefault(c => c.Language == defaultLanguage));
             return strings;
         }
 
@@ -193,7 +213,9 @@ namespace FlexTemplate.DataAccessLayer.Services
             var userName = string.Empty;
             if (isLogined)
             {
-                userName = user.Name != null && user.Surname != null ? $"{user.Name} {user.Surname}" : user.UserName;
+                userName = user.Name != null && user.Surname != null 
+                    ? $"{user.Name} {user.Surname}" 
+                    : user.UserName;
             }
             //TODO реализовать вычитку текущего типа хедера из настроек
             var templateName = "Solid";
@@ -367,20 +389,46 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<List<CachedPlaceDao>> GetPlacesAsync()
         {
             var places = await Context.Places
-                .Include(p => p.Street).ThenInclude(s => s.City)
-                .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
+                .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
+                .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
                 .Include(p => p.Reviews)
+                .Include(p => p.Aliases)
                 .Select(p => 
                 new CachedPlaceDao
                 {
-                    Name = p.Name,
                     Id = p.Id,
-                    CityId = p.Street.CityId,
-                    Aliases = p.Aliases.Select(a => a.Text),
-                    Categories = p.PlacePlaceCategories.Select(ppc => new KeyValuePair<int, string>(ppc.PlaceCategoryId, ppc.PlaceCategory.Name)),
-                    CityName = p.Street.City.Name,
-                    ViewsCount = p.ViewsCount,
-                    Rating = p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0
+                    City = new CachedCityDao
+                    {
+                        Id = p.Street.CityId,
+                        Name = p.Street.City.Name,
+                        Names = p.Street.City.Aliases.Select(ca => 
+                        new CachedCityNameDao
+                        {
+                            Name = ca.Text,
+                            LanguageId = ca.LanguageId
+                        })
+                    },
+                    Name = p.Name,
+                    Names = p.Aliases.Select(pa => 
+                    new CachedPlaceNameDao
+                    {
+                        Name = pa.Text,
+                        LanguageId = pa.LanguageId
+                    }),
+                    Categories = p.PlacePlaceCategories.Select(ppc => 
+                    new CachedCategoryDao
+                    {
+                        Id = ppc.PlaceCategoryId,
+                        Name = ppc.PlaceCategory.Name,
+                        Names = ppc.PlaceCategory.Aliases.Select(a => 
+                        new CachedCategoryNameDao
+                        {
+                            Name = a.Text,
+                            LanguageId = a.LanguageId
+                        })
+                    }),
+                    Rating = p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0,
+                    ViewsCount = p.ViewsCount
                 }).ToListAsync();
             return places;
         }
