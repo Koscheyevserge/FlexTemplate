@@ -14,5 +14,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination
         public string Input { get; set; }
         public bool IsDescending { get; set; }
         public int OrderBy { get; set; }
+        public int PlacesCount { get; set; }
     }
 }

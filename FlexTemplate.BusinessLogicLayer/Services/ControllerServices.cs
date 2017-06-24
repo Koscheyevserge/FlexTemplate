@@ -57,30 +57,52 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 places = places.Where(p => p.Names.Any(a => a.Name.ToUpper().Contains(inputNormalized))).ToList();
             }
             var user = userDao.To<UserDto>();
+            var userLanguage = user?.UserLanguageId ?? -1;
+            var defaultLanguage = user?.DefaultLanguageId ?? -1;
             foreach (var place in places)
             {
-                var placesCityNames = user != null 
-                    ? place.City.Names
-                    .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId)
-                    .ToList()
-                    : new List<CachedCityNameDto>();
-                placesCityNames.Add(new CachedCityNameDto {Name = place.City.Name});
+                var placesCityNames = place.City.Names
+                    .Where(n => n.LanguageId == userLanguage)
+                    .ToList();
+                if (!placesCityNames.Any())
+                {
+                    placesCityNames.AddRange(place.City.Names
+                        .Where(n => n.LanguageId == defaultLanguage));
+                }
+                if (!placesCityNames.Any())
+                {
+                    placesCityNames.Add(new CachedCityNameDto {Name = place.City.Name});
+                }
                 place.City.Names = placesCityNames;
-                var placesNames = user != null
-                    ? place.Names
-                    .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId)
-                    .ToList()
-                    : new List<CachedPlaceNameDto>();
-                placesNames.Add(new CachedPlaceNameDto { Name = place.Name });
+
+                var placesNames = place.Names
+                    .Where(n => n.LanguageId == userLanguage)
+                    .ToList();
+                if (!placesNames.Any())
+                {
+                    placesNames.AddRange(place.Names
+                        .Where(n => n.LanguageId == defaultLanguage));
+                }
+                if (!placesNames.Any())
+                {
+                    placesNames.Add(new CachedPlaceNameDto { Name = place.Name });
+                }
                 place.Names = placesNames;
+
                 foreach (var category in place.Categories)
                 {
-                    var categoryNames = user != null
-                        ? category.Names
-                        .Where(n => n.LanguageId == user.DefaultLanguageId || n.LanguageId == user.UserLanguageId)
-                        .ToList()
-                        : new List<CachedCategoryNameDto>();
-                    categoryNames.Add(new CachedCategoryNameDto { Name = category.Name });
+                    var categoryNames = category.Names
+                        .Where(n => n.LanguageId == userLanguage)
+                        .ToList();
+                    if (!categoryNames.Any())
+                    {
+                        categoryNames.AddRange(category.Names
+                            .Where(n => n.LanguageId == defaultLanguage));
+                    }
+                    if (!categoryNames.Any())
+                    {
+                        categoryNames.Add(new CachedCategoryNameDto { Name = category.Name });
+                    }
                     category.Names = categoryNames;
                 }
             }
@@ -110,11 +132,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                         ? places.OrderByDescending(p => p.Rating).ToList()
                         : places.OrderBy(p => p.Rating).ToList();
                     break;
+                //TODO PlaceOrderByEnum.Price
                 case PlaceOrderByEnum.Name:
                 default:
                     places = isDescending
-                        ? places.OrderByDescending(p => p.Names.OrderByDescending(n => n).FirstOrDefault()).ToList()
-                        : places.OrderBy(p => p.Names.OrderBy(n => n).FirstOrDefault()).ToList();
+                        ? places.OrderByDescending(p => p.Names.Select(n => n.Name).OrderByDescending(n => n).FirstOrDefault()).ToList()
+                        : places.OrderBy(p => p.Names.Select(n => n.Name).OrderBy(n => n).FirstOrDefault()).ToList();
                     break;
             }
             places = places.Skip((page - 1) * placesPerPageCount).Take(placesPerPageCount).ToList();

@@ -111,7 +111,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                         )
                     )
                 );
-            var getPlacesListItemAddressDaos = Context.Places
+            var addresses = Context.Places
                 .Include(p => p.Street)
                 .ThenInclude(p => p.City)
                 .ThenInclude(c => c.Aliases)
@@ -131,16 +131,23 @@ namespace FlexTemplate.DataAccessLayer.Services
                             .FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
                                 ?? p.Street.Aliases.FirstOrDefault(a => a.Language == defaultLanguage)
                     }
-                );
-            var addresses = getPlacesListItemAddressDaos.Select(a => new KeyValuePair<int, string>
-                (
-                    a.PlaceId,
-                    string.Format("{0} {1}, {2}", 
-                    a.Address, 
-                    a.StreetAlias != null ? a.StreetAlias.Text : a.StreetName,
-                    a.CityAlias != null ? a.CityAlias.Text : a.CityName)
                 )
-            );
+                .Select(a =>
+                    new GetPlacesListItemAddressDao
+                    {
+                        PlaceId = a.PlaceId,
+                        Address = a.Address,
+                        CityName = a.CityAlias != null ? a.CityAlias.Text : a.CityName,
+                        StreetName = a.StreetAlias != null ? a.StreetAlias.Text : a.StreetName
+                    }
+                )
+                .Select(a => 
+                    new KeyValuePair<int, string>
+                    (
+                        a.PlaceId,
+                        $"{a.StreetName} {a.Address}, {a.CityName}"
+                    )
+                );
             var result = Context.Places
                 .Include(p => p.Reviews)
                 .Include(p => p.Menus).ThenInclude(m => m.Products)

@@ -6,6 +6,7 @@
         Rating = 2,
         Category = 3,
         Location = 4,
-        Popularity = 5
+        Popularity = 5,
+        Price = 6
     }
 }

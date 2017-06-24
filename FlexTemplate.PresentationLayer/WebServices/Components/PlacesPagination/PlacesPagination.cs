@@ -26,6 +26,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination
             var paginationVM = serviceResult.To<PaginationViewModel>();
             var model = new ViewModel
             {
+                PlacesCount = placesCount,
                 OrderBy = orderBy,
                 Cities = cities,
                 Categories = categories,
