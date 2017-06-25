@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="row">
-            @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.PlacesFilters), new { placesIds = Model.PlacesOnPageIds })
+            @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.PlacesFilters))
             <div class="col-sm-8 col-md-9">
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesSorting.PlacesSorting))
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.PlacesList))

@@ -20,9 +20,16 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination
             ComponentsServices = componentsServices;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync([FromQuery] int currentPage, [FromQuery] string input, [FromQuery] int orderBy, [FromQuery] int[] cities, [FromQuery] int[] categories, [FromQuery] bool isDescending, [FromQuery] int listType, int placesCount)
+        public async Task<IViewComponentResult> InvokeAsync(int placesCount)
         {
+            int.TryParse(Request.Query["currentPage"], out int currentPage);
             var serviceResult = await ComponentsServices.GetPlacesPaginationAsync(placesCount, currentPage);
+            var input = Request.Query["input"].ToString();
+            int.TryParse(Request.Query["orderBy"], out int orderBy);
+            var cities = Request.Query["cities"].ToArray().Select(int.Parse);
+            var categories = Request.Query["categories"].ToArray().Select(int.Parse);
+            bool.TryParse(Request.Query["isDescending"], out bool isDescending);
+            int.TryParse(Request.Query["listType"], out int listType);
             var paginationVM = serviceResult.To<PaginationViewModel>();
             var model = new ViewModel
             {

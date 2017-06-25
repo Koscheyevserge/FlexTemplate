@@ -16,8 +16,9 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesList
             ComponentsServices = componentsServices;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync([FromQuery] int listType, IEnumerable<int> placesIds)
+        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<int> placesIds)
         {
+            int.TryParse(Request.Query["listType"], out int listType);
             var places = await ComponentsServices.GetPlacesListAsync(HttpContext.User, placesIds);
             var model = new ViewModel
             {

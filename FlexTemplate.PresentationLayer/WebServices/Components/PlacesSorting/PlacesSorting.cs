@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FlexTemplate.BusinessLogicLayer.Enums;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
@@ -16,8 +17,15 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesSorting
             ComponentsServices = componentsServices;
         }
 
-        public IViewComponentResult Invoke([FromQuery] int currentPage, [FromQuery] string input, [FromQuery] int[] cities, [FromQuery] int[] categories, [FromQuery] bool isDescending, int placesCount, [FromQuery] int orderBy = 1, [FromQuery] int listType = 1)
+        public IViewComponentResult Invoke(int placesCount)
         {
+            int.TryParse(Request.Query["currentPage"], out int currentPage);
+            var input = Request.Query["input"].ToString();
+            int.TryParse(Request.Query["orderBy"], out int orderBy);
+            var cities = Request.Query["cities"].ToArray().Select(int.Parse);
+            var categories = Request.Query["categories"].ToArray().Select(int.Parse);
+            bool.TryParse(Request.Query["isDescending"], out bool isDescending);
+            int.TryParse(Request.Query["listType"], out int listType);
             var model = new ViewModel
             {
                 OrderBy = (PlaceOrderByEnum)orderBy,

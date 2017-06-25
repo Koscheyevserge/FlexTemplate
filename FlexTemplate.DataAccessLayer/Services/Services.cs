@@ -40,7 +40,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Id = c.Id,
                     Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
                     Checked = checkedCities.Contains(c.Id),
-                    CitiesWithoutThisIds = checkedCities.Where(checkedCity => checkedCity != c.Id)
+                    CitiesWithoutThisIds = checkedCities.Contains(c.Id) ? checkedCities.Where(checkedCity => checkedCity != c.Id) : checkedCities.Concat(new List<int>{c.Id})
                 });
             return result;
         }
@@ -61,7 +61,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 Id = c.Id,
                 Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
                 Checked = checkedCategories.Contains(c.Id),
-                CategoriesWithoutThisIds = checkedCategories.Where(checkedCategory => checkedCategory != c.Id)
+                CategoriesWithoutThisIds = checkedCategories.Contains(c.Id) ? checkedCategories.Where(checkedCategory => checkedCategory != c.Id) : checkedCategories.Concat(new List<int>{c.Id})
             });
             return result;
         }
