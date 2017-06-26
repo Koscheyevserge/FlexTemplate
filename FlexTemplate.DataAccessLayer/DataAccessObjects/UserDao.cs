@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlexTemplate.DataAccessLayer.DataAccessObjects
+﻿namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
     public class UserDao
     {

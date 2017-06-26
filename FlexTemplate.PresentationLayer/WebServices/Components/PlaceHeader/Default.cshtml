@@ -1,12 +1,7 @@
-﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceHeaderViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceHeader.ViewModel
 <!-- start hero-header -->
 <div class="c-this-place-header">
-    <!--<input class="file_descriptor" type="hidden" value="@Model.Place.Id" />
-    <div id="head-update" class="dropzone">
-        <input type="file">
-        <div class="dz-default dz-message"><span>Змінити головну фотографію закладу</span></div>
-    </div>-->
-    <div class="hero hero-detail" style="background-image: url(../../Resources/Places/@Model.Place.Id/banner.jpg);">
+    <div class="hero hero-detail" style="background-image: url(@Model.PlaceBannerPath);">
         <div class="container">
             <div class="hero-detail-inner">
                 <div id="detail-content-sticky-nav-00" class="hero-detail-bottom">
@@ -14,13 +9,13 @@
                         <div class="GridLex-col-8_sm-7_xs-12_xss-12">
                             <div class="detail-header">
                                 <div class="detail-header-inner">
-                                    <h3>@Model.Place.Name</h3>
-                                    <p class="location"><i class="fa fa-map-marker"></i> @Model.Place.Street.Name @Model.Place.Address, @Model.Place.Street.City.Name</p>
+                                    <h3>@Model.PlaceName</h3>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @Model.PlaceLocation</p>
                                     <div class="rating-wrapper">
                                         <div class="rating-item">
                                             <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@Model.Stars"/>
                                         </div>
-                                        <span class="texting"> based on @Model.Place.Reviews.Count() reviews</span>
+                                        <span class="texting"> based on @Model.ReviewsCount reviews</span>
                                     </div>
                                 </div>
                             </div>
@@ -32,7 +27,7 @@
                                 <div class="text-right text-left-xs">
                                     <a href="#" class="fav-like"><i class="fa fa-heart"></i></a>
                                     <div class="btn-holder mt-5">
-                                        <a asp-controller="Home" asp-action="EditPlace" asp-route-id="@Model.Place.Id" class="btn btn-primary anchor-alt">Правити заклад</a>
+                                        <a asp-controller="Home" asp-action="EditPlace" asp-route-id="@Model.PlaceId" class="btn btn-primary anchor-alt">Правити заклад</a>
                                     </div>
                                 </div>
                             </div>

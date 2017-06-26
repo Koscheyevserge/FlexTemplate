@@ -8,7 +8,7 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170610195348_1")]
+    [Migration("20170626203125_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -563,7 +563,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceCommunication");
+                    b.ToTable("PlaceCommunications");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceFeature", b =>
@@ -598,6 +598,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("PlaceId");
+
+                    b.Property<int>("Position");
 
                     b.HasKey("Id");
 
@@ -681,9 +683,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<TimeSpan>("SundayTo");
 
-                    b.Property<TimeSpan>("ThurstdayFrom");
+                    b.Property<TimeSpan>("ThursdayFrom");
 
-                    b.Property<TimeSpan>("ThurstdayTo");
+                    b.Property<TimeSpan>("ThursdayTo");
 
                     b.Property<TimeSpan>("TuesdayFrom");
 

@@ -30,9 +30,11 @@ namespace FlexTemplate.DataAccessLayer.Services
             var aliases = new List<KeyValuePair<int, string>>();
             foreach (var aliasesGroup in aliasesGroups)
             {
-                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) 
-                    ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
-                aliases.Add(new KeyValuePair<int, string>(alias.CityId, alias.Text));
+                aliases.Add(new KeyValuePair<int, string>
+                (
+                    aliasesGroup.Key, 
+                    GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
+                );
             }
             var result = Context.Cities.Select(c => 
                 new CityChecklistItemDao
@@ -40,7 +42,9 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Id = c.Id,
                     Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
                     Checked = checkedCities.Contains(c.Id),
-                    CitiesWithoutThisIds = checkedCities.Contains(c.Id) ? checkedCities.Where(checkedCity => checkedCity != c.Id) : checkedCities.Concat(new List<int>{c.Id})
+                    CitiesWithoutThisIds = checkedCities.Contains(c.Id) 
+                        ? checkedCities.Where(checkedCity => checkedCity != c.Id) 
+                        : checkedCities.Concat(new List<int>{c.Id})
                 });
             return result;
         }
@@ -53,8 +57,11 @@ namespace FlexTemplate.DataAccessLayer.Services
             var aliases = new List<KeyValuePair<int, string>>();
             foreach (var aliasesGroup in aliasesGroups)
             {
-                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
-                aliases.Add(new KeyValuePair<int, string>(alias.PlaceCategoryId, alias.Text));
+                aliases.Add(new KeyValuePair<int, string>
+                (
+                    aliasesGroup.Key,
+                    GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
+                );
             }
             var result = Context.PlaceCategories.Select(c => new PlaceCategoryChecklistItemDao
             {
@@ -74,9 +81,11 @@ namespace FlexTemplate.DataAccessLayer.Services
             var aliases = new List<KeyValuePair<int, string>>();
             foreach (var aliasesGroup in aliasesGroups)
             {
-                var alias = aliasesGroup.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage) 
-                    ?? aliasesGroup.FirstOrDefault(a => a.Language == defaultLanguage);
-                aliases.Add(new KeyValuePair<int, string>(alias.PlaceId, alias.Text));
+                aliases.Add(new KeyValuePair<int, string>
+                (
+                    aliasesGroup.Key,
+                    GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
+                );
             }
             var categories = Context.Places
                 .Include(p => p.PlacePlaceCategories)
@@ -84,29 +93,16 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .ThenInclude(pc => pc.Aliases)
                 .ThenInclude(a => a.Language)
                 .Select(p => 
-                new GetPlacesListItemPlaceDao
-                {
-                    PlaceId = p.Id,
-                    Categories = p.PlacePlaceCategories.Select(ppc => 
-                    new GetPlacesListItemPlaceCategoryDao
-                    {
-                        CategoryId = ppc.PlaceCategoryId,
-                        CategoryAlias = ppc.PlaceCategory.Aliases.FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
-                                        ?? ppc.PlaceCategory.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
-                        CategoryName = ppc.PlaceCategory.Name
-                    })
-                })
-                .Select(getPlacesListItemPlaceDao => 
                     new KeyValuePair<int, IEnumerable<KeyValuePair<int, string>>>
                     (
-                        getPlacesListItemPlaceDao.PlaceId, 
-                        getPlacesListItemPlaceDao.Categories.Select
+                        p.Id, 
+                        p.PlacePlaceCategories.Select
                         (
-                            cat => 
+                            ppc => 
                             new KeyValuePair<int, string>
                             (
-                                cat.CategoryId,
-                                cat.CategoryAlias != null ? cat.CategoryAlias.Text : cat.CategoryName
+                                ppc.PlaceCategoryId,
+                                GetProperAlias(ppc.PlaceCategory.Aliases, ppc.PlaceCategory.Name, defaultLanguage, userLanguage)
                             )
                         )
                     )
@@ -118,34 +114,13 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .Include(p => p.Street)
                 .ThenInclude(s => s.Aliases)
                 .Select(p => 
-                    new GetPlacesListItemAddressDao
-                    { 
-                        PlaceId = p.Id,
-                        Address = p.Address,
-                        CityName = p.Street.City.Name,
-                        StreetName = p.Street.Name,
-                        CityAlias = p.Street.City.Aliases
-                            .FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
-                                ?? p.Street.City.Aliases.FirstOrDefault(a => a.Language == defaultLanguage),
-                        StreetAlias = p.Street.Aliases
-                            .FirstOrDefault(a => userLanguage != null && a.Language == userLanguage)
-                                ?? p.Street.Aliases.FirstOrDefault(a => a.Language == defaultLanguage)
-                    }
-                )
-                .Select(a =>
-                    new GetPlacesListItemAddressDao
-                    {
-                        PlaceId = a.PlaceId,
-                        Address = a.Address,
-                        CityName = a.CityAlias != null ? a.CityAlias.Text : a.CityName,
-                        StreetName = a.StreetAlias != null ? a.StreetAlias.Text : a.StreetName
-                    }
-                )
-                .Select(a => 
                     new KeyValuePair<int, string>
                     (
-                        a.PlaceId,
-                        $"{a.StreetName} {a.Address}, {a.CityName}"
+                        p.Id,
+                        GetAddress(
+                            GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage), 
+                            GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage), 
+                            p.Address)
                     )
                 );
             var result = Context.Places
@@ -155,14 +130,11 @@ namespace FlexTemplate.DataAccessLayer.Services
                 new PlaceListItemDao
                 {
                     Id = p.Id,
-                    Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() 
-                        ?? p.Name,
+                    Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? p.Name,
                     Categories = categories.Any() 
                         ? categories.SingleOrDefault(a => a.Key == p.Id).Value
                         : new List<KeyValuePair<int, string>>(),
-                    Stars = p.Reviews.Any() 
-                        ? (int) Math.Ceiling(p.Reviews.Average(r => r.Star))
-                        : 0,
+                    Stars = GetPlaceStars(p.Reviews),
                     ReviewsCount = p.Reviews.Count,
                     //TODO Address = addresses.Single(a => a.Key == p.Id).Value,
                     HeadPhoto = "",
@@ -217,13 +189,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
             var languages = Context.Languages.Select(l => new KeyValuePair<int, string>(l.Id, l.Name));
             var isLogined = user != null;
-            var userName = string.Empty;
-            if (isLogined)
-            {
-                userName = user.Name != null && user.Surname != null 
-                    ? $"{user.Name} {user.Surname}" 
-                    : user.UserName;
-            }
+            var userName = isLogined ? GetUsername(user) : string.Empty;
             //TODO реализовать вычитку текущего типа хедера из настроек
             var templateName = "Solid";
             var result = new HeaderViewComponentDao
@@ -397,7 +363,8 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             var places = await Context.Places
                 .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
-                .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
+                .Include(p => p.PlacePlaceCategories)
+                .ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
                 .Include(p => p.Reviews)
                 .Include(p => p.Aliases)
                 .Select(p => 
@@ -454,11 +421,7 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<bool> IsAuthorAsync<T>(ClaimsPrincipal httpContextUser, int placeId) where T : BaseAuthorfullEntity
         {
             var user = await UserManager.GetUserAsync(httpContextUser);
-            if (user == null)
-            {
-                return false;
-            }
-            return Context.GetSet<T>().Any(p => p.User == user && p.Id == placeId);
+            return user != null && Context.GetSet<T>().Any(p => p.User == user && p.Id == placeId);
         }
 
         public async Task<UserDao> GetUserAsync(ClaimsPrincipal httpContextUser)
@@ -472,5 +435,249 @@ namespace FlexTemplate.DataAccessLayer.Services
             var userLanguage = await GetUserLanguageAsync(httpContextUser);
             return new UserDao { DefaultLanguageId = defaultLanguage.Id, UserLanguageId = userLanguage.Id};
         }
+
+        public async Task<PlaceHeaderComponentDao> GetPlaceHeaderAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            if (placeId == 0)
+            {
+                return null;
+            }
+            var canEdit = await IsAuthorAsync<Place>(httpContextUser, placeId);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var result = Context.Places
+                .Include(p => p.Reviews)
+                .Where(p => p.Id == placeId)
+                .Select(p => new PlaceHeaderComponentDao
+                {
+                    PlaceId = p.Id,
+                    Stars = GetPlaceStars(p.Reviews),
+                    ReviewsCount = p.Reviews.Count,
+                    PlaceName = GetProperAlias(p.Aliases, p.Name, defaultLanguage, userLanguage),
+                    PlaceLocation = GetAddress(
+                        GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
+                        GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
+                        p.Address),
+                    PlaceBannerPath = "",
+                    CanEdit = canEdit
+                }).SingleOrDefault();
+            return result;
+        }
+
+        public async Task<PlaceLocationComponentDao> GetPlaceLocationAsync(int placeId)
+        {
+            var result = await Context.Places.Where(p => p.Id == placeId).Select(p =>
+                new PlaceLocationComponentDao
+                {
+                    Latitude = p.Latitude,
+                    Longitude = p.Longitude
+                }).SingleOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<PlaceReviewComponentDao> GetPlaceReviewAsync(int reviewId)
+        {
+            var result = await Context.PlaceReviews.Where(pr => pr.Id == reviewId).Select(pr =>
+                new PlaceReviewComponentDao
+                {
+                    UserPhotoPath = "",
+                    Text = pr.Text,
+                    Stars = pr.Star,
+                    UserName = GetUsername(pr.User),
+                    CreatedOn = pr.CreatedOn
+                }).SingleOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
+        {
+            var result = await Context.Places
+                .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Where(p => p.Id == placeId).Select(p =>
+                new PlaceMenuComponentDao
+                {
+                    Menus = p.Menus.Select(m =>
+                    new PlaceMenuComponentMenuDao
+                    {
+                        Id = m.Id,
+                        Name = m.Name,
+                        Products = m.Products.Select(prod =>
+                        new PlaceMenuComponentProductDao
+                        {
+                            Price = prod.Price,
+                            Description = prod.Description,
+                            PhotoPath = "",
+                            Title = prod.Title
+                        })
+                    })
+                }).SingleOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<PlaceOverviewComponentDao> GetPlaceOverviewAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var result = await Context.Places
+                .Include(p => p.Communications)
+                .ThenInclude(pc => pc.CommunicationType)
+                .Include(p => p.PlacePlaceCategories)
+                .ThenInclude(ppc => ppc.PlaceCategory)
+                .ThenInclude(pc => pc.Aliases)
+                .Where(p => p.Id == placeId)
+                .Select(p => 
+                new PlaceOverviewComponentDao
+                {
+                    Address = p.Address,
+                    Description = p.Description,
+                    Schedule = p.Schedule != null 
+                    ? new PlaceOverviewComponentScheduleDao
+                    {
+                        MondayOpenTime = $"{p.Schedule.MondayFrom:hh\\:mm} - {p.Schedule.MondayTo:hh\\:mm}",
+                        TuesdayOpenTime = $"{p.Schedule.TuesdayFrom:hh\\:mm} - {p.Schedule.TuesdayTo:hh\\:mm}",
+                        WednesdayOpenTime = $"{p.Schedule.WednesdayFrom:hh\\:mm} - {p.Schedule.WednesdayTo:hh\\:mm}",
+                        ThursdayOpenTime = $"{p.Schedule.ThursdayFrom:hh\\:mm} - {p.Schedule.ThursdayTo:hh\\:mm}",
+                        FridayOpenTime = $"{p.Schedule.FridayFrom:hh\\:mm} - {p.Schedule.FridayTo:hh\\:mm}",
+                        SaturdayOpenTime = $"{p.Schedule.SaturdayFrom:hh\\:mm} - {p.Schedule.SaturdayTo:hh\\:mm}",
+                        SundayOpenTime = $"{p.Schedule.SundayFrom:hh\\:mm} - {p.Schedule.SundayTo:hh\\:mm}"
+                    } 
+                    : null,
+                    Email = p.Communications.Any(c => c.CommunicationType.Name == "Email") 
+                    ? p.Communications.First(c => c.CommunicationType.Name == "Email").Number
+                    : null,
+                    HasSchedule = p.Schedule != null && 
+                    !(p.Schedule.MondayFrom == TimeSpan.Zero && p.Schedule.MondayTo == TimeSpan.Zero &&
+                     p.Schedule.TuesdayFrom == TimeSpan.Zero && p.Schedule.TuesdayTo == TimeSpan.Zero &&
+                     p.Schedule.WednesdayFrom == TimeSpan.Zero && p.Schedule.WednesdayTo == TimeSpan.Zero &&
+                     p.Schedule.ThursdayFrom == TimeSpan.Zero && p.Schedule.ThursdayTo == TimeSpan.Zero &&
+                     p.Schedule.FridayFrom == TimeSpan.Zero && p.Schedule.FridayTo == TimeSpan.Zero &&
+                     p.Schedule.SaturdayFrom == TimeSpan.Zero && p.Schedule.SaturdayTo == TimeSpan.Zero &&
+                     p.Schedule.SundayFrom == TimeSpan.Zero && p.Schedule.SundayTo == TimeSpan.Zero),
+                    Phone = p.Communications.Any(c => c.CommunicationType.Name == "Phone") 
+                    ? p.Communications.First(c => c.CommunicationType.Name == "Phone").Number
+                    : null,
+                    PlaceCategoriesEnumerated = string.Join(",", p.PlacePlaceCategories
+                        .Select(ppc => 
+                            GetProperAlias(ppc.PlaceCategory.Aliases, 
+                            ppc.PlaceCategory.Name, 
+                            defaultLanguage, 
+                            userLanguage))),
+                    RowsOfFeatures = p.FeatureColumns.OrderBy(fc => fc.Position).Select(fc => string.Join(",", fc.Features.OrderBy(f => f.Row).Select(f => f.Name))).ToArray(),
+                    Website = p.Communications.Any(c => c.CommunicationType.Name == "Website") 
+                    ? p.Communications.First(c => c.CommunicationType.Name == "Website").Number
+                    : null
+                }).SingleOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<PlaceReviewsComponentDao> GetPlaceReviewsAsync(int placeId)
+        {
+            var result = await Context.Places
+                .Where(p => p.Id == placeId)
+                .Select(p =>
+                    new PlaceReviewsComponentDao
+                    {
+                        Reviews = p.Reviews.OrderBy(r => r.CreatedOn).Select(r => r.Id)
+                    }).SingleOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<YouMayAlsoLikeComponentDao> GetYouMayAlsoLikeAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var result = new YouMayAlsoLikeComponentDao
+            {
+                Places = Context.Places.Include(p => p.PlacePlaceCategories)
+                    .ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
+                    .Include(p => p.Reviews).Include(p => p.Street).ThenInclude(s => s.Aliases)
+                    .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
+                    .Where(p => p.Id != placeId)//TODO сделать фильтр выбора заведений "вам может быть интересно"
+                    .Select(p =>
+                    new YouMayAlsoLikeComponentPlaceDao
+                    {
+                        Id = p.Id,
+                        Name = GetProperAlias(p.Aliases, p.Name, defaultLanguage, userLanguage),
+                        Address = GetAddress(
+                            GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
+                            GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
+                            p.Address),
+                        Stars = GetPlaceStars(p.Reviews),
+                        Categories = p.PlacePlaceCategories.Select(ppc => 
+                        new YouMayAlsoLikeComponentCategoryDao
+                        {
+                            Name = GetProperAlias(ppc.PlaceCategory.Aliases, ppc.PlaceCategory.Name, defaultLanguage, userLanguage)
+                        }),
+                        ReviewsCount = p.Reviews.Count,
+                        PhotoPath = ""
+                    }).Take(4)
+            };
+            return result;
+        }
+
+        public int GetPlaceStars(IEnumerable<PlaceReview> reviews)
+        {
+            return reviews != null && reviews.Any() ? (int) Math.Ceiling(reviews.Average(r => r.Star)) : 0;
+        }
+
+        public string GetAddress(string cityName, string streetName, string address)
+        {
+            return $"{streetName} {address}, {cityName}";
+        }
+
+        public string GetUsername(User user)
+        {
+            if (user == null)
+            {
+                return string.Empty;
+            }
+            return user.Name != null && user.Surname != null ? $"{user.Name} {user.Surname}" : user.UserName;
+        }
+
+        #region AliasesServices
+        private IEnumerable<string> GetProperAliases<T>(IEnumerable<T> aliases, Language defaultLanguage, Language userLanguage) where T : BaseAlias
+        {
+            return GetProperAliases(aliases, defaultLanguage?.Id ?? 0, userLanguage?.Id ?? 0);
+        }
+        private IEnumerable<string> GetProperAliases<T>(IEnumerable<T> aliases, string name, Language defaultLanguage, Language userLanguage) where T : BaseAlias
+        {
+            return GetProperAliases(aliases, name, defaultLanguage?.Id ?? 0, userLanguage?.Id ?? 0);
+        }
+        private string GetProperAlias<T>(IEnumerable<T> aliases, string name, Language defaultLanguage, Language userLanguage) where T : BaseAlias
+        {
+            return GetProperAlias(aliases, name, defaultLanguage?.Id ?? 0, userLanguage?.Id ?? 0);
+        }
+        private string GetProperAlias<T>(IEnumerable<T> aliases, Language defaultLanguage, Language userLanguage) where T : BaseAlias
+        {
+            return GetProperAlias(aliases, defaultLanguage?.Id ?? 0, userLanguage?.Id ?? 0);
+        }
+        private IEnumerable<string> GetProperAliases<T>(IEnumerable<T> aliases, int defaultLanguageId, int userLanguageId) where T : BaseAlias
+        {
+            var result = new List<string>();
+            result.AddRange(aliases.Where(a => a.LanguageId == userLanguageId).Select(a => a.Text));
+            if (!result.Any())
+            {
+                result.AddRange(aliases.Where(a => a.LanguageId == defaultLanguageId).Select(a => a.Text));
+            }
+            return result;
+        }
+        private IEnumerable<string> GetProperAliases<T>(IEnumerable<T> aliases, string name, int defaultLanguageId, int userLanguageId) where T : BaseAlias
+        {
+            var result = GetProperAliases(aliases, defaultLanguageId, userLanguageId).ToList();
+            if (!result.Any())
+            {
+                result.Add(name);
+            }
+            return result;
+        }
+        private string GetProperAlias<T>(IEnumerable<T> aliases, string name, int defaultLanguageId, int userLanguageId) where T : BaseAlias
+        {
+            return GetProperAliases(aliases, name, defaultLanguageId, userLanguageId).FirstOrDefault();
+        }
+        private string GetProperAlias<T>(IEnumerable<T> aliases, int defaultLanguageId, int userLanguageId) where T : BaseAlias
+        {
+            return GetProperAliases(aliases, defaultLanguageId, userLanguageId).FirstOrDefault();
+        }
+        #endregion
     }
 }

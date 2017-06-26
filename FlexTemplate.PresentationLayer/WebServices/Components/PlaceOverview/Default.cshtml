@@ -1,14 +1,4 @@
-﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceOverviewViewModel
-@{
-    bool hasSchedule = Model.Place.Schedule != null && !(Model.Place.Schedule.MondayFrom == TimeSpan.Zero && Model.Place.Schedule.MondayTo == TimeSpan.Zero
-    && Model.Place.Schedule.TuesdayFrom == TimeSpan.Zero && Model.Place.Schedule.TuesdayTo == TimeSpan.Zero
-    && Model.Place.Schedule.WednesdayFrom == TimeSpan.Zero && Model.Place.Schedule.WednesdayTo == TimeSpan.Zero
-    && Model.Place.Schedule.ThurstdayFrom == TimeSpan.Zero && Model.Place.Schedule.ThurstdayTo == TimeSpan.Zero
-    && Model.Place.Schedule.FridayFrom == TimeSpan.Zero && Model.Place.Schedule.FridayTo == TimeSpan.Zero
-    && Model.Place.Schedule.SaturdayFrom == TimeSpan.Zero && Model.Place.Schedule.SaturdayTo == TimeSpan.Zero
-    && Model.Place.Schedule.SundayFrom == TimeSpan.Zero && Model.Place.Schedule.SundayTo == TimeSpan.Zero);
-}
-
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceOverview.ViewModel
 @if (Model != null)
 {
     <div class="detail-content-section clearfix">
@@ -17,11 +7,11 @@
         <h3><span>Overview</span></h3>
     </div>
 
-    <p class="font500">@Html.Raw(Model.Place.Description)</p>
+    <p class="font500">@Model.Description</p>
 
     <div class="row">
 
-    <div class="col-xs-12 @(hasSchedule ? "col-sm-6" : "col-sm-12") mb-20">
+    <div class="col-xs-12 @(Model.HasSchedule ? "col-sm-6" : "col-sm-12") mb-20">
 
         <div class="contact-box">
 
@@ -36,11 +26,11 @@
                     </div>
 
                     <div class="content mrg-content">
-                        <p class="mrg-content-address">@Model.Place.Street.Name @Model.Place.Address,<br/>@Model.Place.Street.City.Name</p>
+                        <p class="mrg-content-address">@Model.Address</p>
                     </div>
 
                 </li>
-               @if (!string.IsNullOrEmpty(Model.Place.Phone))
+               @if (!string.IsNullOrEmpty(Model.Phone))
                {
                    <li>
 
@@ -49,13 +39,13 @@
                         </div>
 
                         <div class="content mrg-content">
-                            <p class="mrg-content-phone">@Model.Place.Phone <br/> <br/>
+                            <p class="mrg-content-phone">@Model.Phone <br/> <br/>
                             </p>
                         </div>
 
                     </li>
                 }
-                @if(!string.IsNullOrEmpty(Model.Place.Email))
+                @if(!string.IsNullOrEmpty(Model.Email))
                 {
                     <li>
 
@@ -64,13 +54,13 @@
                        </div>
 
                        <div class="content mrg-content">
-                           <p class="mrg-content-email">@Model.Place.Email<br/> <br/>
+                           <p class="mrg-content-email">@Model.Email<br/> <br/>
                                </p>
                        </div>
 
                    </li>
                }
-               @if (!string.IsNullOrEmpty(Model.Place.Website))
+               @if (!string.IsNullOrEmpty(Model.Website))
                {
                    <li>
 
@@ -78,7 +68,7 @@
                            <i class="ti-email"></i>
                        </div>
                        <div class="content mrg-content">
-                           <p class="mrg-content-email"><a target="_blank" href="@(Model.Place.Website.Trim().Contains("http://www.") ? Model.Place.Website.Trim() : "http://www." + Model.Place.Website.Trim())">@Model.Place.Website</a><br/> <br/>
+                           <p class="mrg-content-email"><a target="_blank" href="@(Model.Website)">@Model.Website</a><br/> <br/>
                            </p>
                        </div>
 
@@ -90,7 +80,7 @@
         </div>
 
     </div>
-    @if (hasSchedule)
+    @if (Model.HasSchedule)
     {
         <div class="col-xs-12 col-sm-6">
 
@@ -111,18 +101,9 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.MondayFrom == TimeSpan.Zero && Model.Place.Schedule.MondayTo == TimeSpan.Zero)
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                    вихідний
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                    @Model.Place.Schedule.MondayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.MondayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.MondayOpenTime
+                                </span>
                             </div>
 
                         </div>
@@ -140,18 +121,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.TuesdayFrom == TimeSpan.Zero && Model.Place.Schedule.TuesdayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.TuesdayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.TuesdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.TuesdayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -169,18 +143,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.WednesdayFrom == TimeSpan.Zero && Model.Place.Schedule.WednesdayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.WednesdayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.WednesdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.WednesdayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -198,18 +165,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.ThurstdayFrom == TimeSpan.Zero && Model.Place.Schedule.ThurstdayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.ThursdayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.ThurstdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.ThurstdayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -227,18 +187,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.FridayFrom == TimeSpan.Zero && Model.Place.Schedule.FridayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.FridayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.FridayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.FridayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -256,18 +209,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.SaturdayFrom == TimeSpan.Zero && Model.Place.Schedule.SaturdayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.SaturdayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.SaturdayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.SaturdayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -285,18 +231,11 @@
                             </div>
 
                             <div class="col-xs-6 col-sm-6">
-                                @if (Model.Place.Schedule.SundayFrom == TimeSpan.Zero && Model.Place.Schedule.SundayTo == TimeSpan.Zero)
-                                {
+                                <div class="col-xs-6 col-sm-6">
                                     <span class="time text-uppercase font700 spacing-2">
-                                        вихідний
+                                        @Model.Schedule.SundayOpenTime
                                     </span>
-                                }
-                                else
-                                {
-                                    <span class="time text-uppercase font700 spacing-2">
-                                        @Model.Place.Schedule.SundayFrom.ToString("hh\\:mm") - @Model.Place.Schedule.SundayTo.ToString("hh\\:mm")
-                                    </span>
-                                }
+                                </div>
                             </div>
 
                         </div>
@@ -313,30 +252,16 @@
     <h5 class="text-primary">Особливості:</h5>
 
     <div class="row">
-
-        <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Колонка особливостей 1</h6>
-            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 1).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
-        </div>
-
-        <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Колонка особливостей 2</h6>
-            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 2).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
-        </div>
-
-        <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Колонка особливостей 3</h6>
-            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 3).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
-        </div>
-
-        <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
-            <h6 class="mb-5">Колонка особливостей 4</h6>
-            <p>@Html.Raw(string.Join("<br>", Model.Place.PlaceFeatures.Where(pf => pf.Column == 4).OrderBy(pf => pf.Row).Select(pf => "- " + pf.Name)))</p>
-        </div>
-
+        @foreach (var row in Model.RowsOfFeatures)
+        {
+            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
+                <h6 class="mb-5">Колонка особливостей 1</h6>
+                <p>@row</p>
+            </div>
+        }
         <div class="col-xss-12 col-xs-12 col-sm-12 col-md-12 mb-15">
             <h6 class="mb-5">Кухні:</h6>
-            <p>- @string.Join(", ", Model.Place.PlaceCategories.Select(pc => pc.Category.Name))</p>
+            <p>- @Model.PlaceCategoriesEnumerated</p>
         </div>
 
     </div>

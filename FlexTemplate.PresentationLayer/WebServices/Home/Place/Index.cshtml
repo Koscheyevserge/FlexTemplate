@@ -2,7 +2,7 @@
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
 
-    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceHeader.PlaceHeader), new { placeId = Model.Id })
+    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceHeader.PlaceHeader))
 
     <div class="container pt-10 pb-50">
 
@@ -50,11 +50,11 @@
 
                 <div class="detail-content-for-sticky-menu for-detail-page">
 
-                    @await Component.InvokeAsync("ThisPlaceOverview", new {item = Model.Place})
-                    @await Component.InvokeAsync("ThisPlaceMenu", new { item = Model.Place })
-                    @await Component.InvokeAsync("ThisPlaceReviews", new { item = Model.Place })
-                    @await Component.InvokeAsync("ThisPlacePhoto", new { item = Model.Place })
-                    @await Component.InvokeAsync("ThisPlaceLocation", new { item = Model.Place })
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceOverview.PlaceOverview))
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceMenu.PlaceMenu))
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceReviews.PlaceReviews))
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacePhoto.PlacePhoto))
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceLocation.PlaceLocation))
 
                 </div>
 
@@ -176,7 +176,7 @@
 
         </div>
 
-        @await  Component.InvokeAsync("YouMayAlsoLike", new { item = Model.Place })
+        @await  Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.YouMayAlsoLike.YouMayAlsoLike))
 
     </div>
 

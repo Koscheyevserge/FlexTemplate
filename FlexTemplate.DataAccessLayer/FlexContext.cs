@@ -44,6 +44,7 @@ namespace FlexTemplate.DataAccessLayer
         public DbSet<BlogTag> BlogTags { get; set; }
         public DbSet<TagAlias> TagAliases { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<PlaceCommunication> PlaceCommunications { get; set; }
 
         public FlexContext(DbContextOptions options) : base(options)
         {

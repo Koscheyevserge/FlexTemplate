@@ -46,7 +46,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             };
             return View(model);
         }
-        /*
+        
         public async Task<IActionResult> Place(int id)
         {
             if (id == 0)
@@ -55,13 +55,13 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             }
             var model = new Place.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User),
-                IsAuthor = await BllServices.IsAuthor<DataAccessLayer.Entities.Place>(HttpContext.User, id)
+                Hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName),
+                CanEditVisuals = await BllServices.CanEditVisualsAsync(HttpContext.User),
+                IsAuthor = await BllServices.IsAuthorAsync<DataAccessLayer.Entities.Place>(HttpContext.User, id)
             };
             return View(model);
         }
-
+        /*
         public IActionResult Blogs(int tag, int category, string input, int currentPage = 1)
         {
             var blogs = context.Blogs.Include(b => b.Author)

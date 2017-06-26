@@ -1,4 +1,4 @@
-﻿@model FlexTemplate.Entities.Place
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceMenu.ViewModel
 @if (Model != null && Model.Menus != null && Model.Menus.Any())
 {
     <div id="detail-content-sticky-nav-01" class="detail-content-section clearfix">
@@ -8,7 +8,7 @@
     </div>
 
     <div class="panel-group bootstarp-accordion pb-0 mt-0 pb-0 mb-0" id="accordion" role="tablist" aria-multiselectable="true">
-    @foreach (FlexTemplate.Entities.Menu menu in Model.Menus)
+    @foreach (var menu in Model.Menus)
     {
         <div class="panel">
             <div class="panel-heading" role="tab" id="heading-@menu.Id">
@@ -23,7 +23,7 @@
                     <div class="food-menu-wrapper">
 
                         <div class="GridLex-gap-30">
-                            @foreach (FlexTemplate.Entities.Product product in menu.Products)
+                            @foreach (var product in menu.Products)
                             {
                                 <div class="GridLex-grid-noGutter-equalHeight">
 
@@ -32,7 +32,7 @@
                                         <div class="food-menu-item clearfix">
 
                                             <div class="image">
-                                                <img src="../../Resources/Products/@(product.Id).jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/product.jpg';" alt="image"/>
+                                                <img src="@product.PhotoPath" onerror="this.onerror = null; this.src = '../../Resources/Defaults/product.jpg';" alt="image"/>
                                             </div>
 
                                             <div class="content">

@@ -91,5 +91,47 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             };
             return result;
         }
+
+        public async Task<PlaceHeaderComponentDto> GetPlaceHeaderAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetPlaceHeaderAsync(httpContextUser, placeId);
+            return result.To<PlaceHeaderComponentDto>();
+        }
+
+        public async Task<PlaceLocationComponentDto> GetPlaceLocationAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceLocationAsync(placeId);
+            return result.To<PlaceLocationComponentDto>();
+        }
+
+        public async Task<PlaceReviewComponentDto> GetPlaceReviewAsync(int reviewId)
+        {
+            var result = await DalServices.GetPlaceReviewAsync(reviewId);
+            return result.To<PlaceReviewComponentDto>();
+        }
+
+        public async Task<PlaceMenuComponentDto> GetPlaceMenusAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceMenusAsync(placeId);
+            return result.To<PlaceMenuComponentDto>();
+        }
+
+        public async Task<PlaceOverviewComponentDto> GetPlaceOverviewAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetPlaceOverviewAsync(httpContextUser, placeId);
+            return result.To<PlaceOverviewComponentDto>();
+        }
+
+        public async Task<PlaceReviewsComponentDto> GetPlaceReviewsAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceReviewsAsync(placeId);
+            return result.To<PlaceReviewsComponentDto>();
+        }
+
+        public async Task<YouMayAlsoLikeComponentDto> GetYouMayAlsoLikeAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetYouMayAlsoLikeAsync(httpContextUser, placeId);
+            return result.To<YouMayAlsoLikeComponentDto>();
+        }
     }
 }

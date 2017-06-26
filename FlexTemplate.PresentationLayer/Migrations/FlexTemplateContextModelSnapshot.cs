@@ -562,7 +562,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceCommunication");
+                    b.ToTable("PlaceCommunications");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceFeature", b =>
@@ -597,6 +597,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("PlaceId");
+
+                    b.Property<int>("Position");
 
                     b.HasKey("Id");
 
@@ -680,9 +682,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<TimeSpan>("SundayTo");
 
-                    b.Property<TimeSpan>("ThurstdayFrom");
+                    b.Property<TimeSpan>("ThursdayFrom");
 
-                    b.Property<TimeSpan>("ThurstdayTo");
+                    b.Property<TimeSpan>("ThursdayTo");
 
                     b.Property<TimeSpan>("TuesdayFrom");
 

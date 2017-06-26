@@ -1,47 +1,38 @@
-﻿@model FlexTemplate.ViewModels.HomeController.YouMayAlsoLikeViewModel
-@if (Model != null)
-{
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.YouMayAlsoLike.ViewModel
+@if (Model != null){
     <div class="row mt-30">
-
         <div class="col-md-12">
-
             <div class="section-title-02">
-
                 <h3><span>Вам також може сподобатися:</span></h3>
-
             </div>
-
         </div>
-
     </div>
-
     <div class="GridLex-gap-30">
-
         <div class="GridLex-grid-noGutter-equalHeight">
-            @foreach (FlexTemplate.Entities.Place place in Model.Places)
+            @foreach (var place in Model.Places)
             {
                 <div class="GridLex-col-3_sm-4_xs-6_xss-12">
                     <div class="restaurant-grid-item">
                         <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">
                             <div class="image">
-                                <img src="../../Resources/Places/@(place.Id)/head.jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';" alt="Image" />
+                                <img src="@place.PhotoPath" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';" alt="Image" />
                             </div>
                             <div class="content">
                                 <h5>@place.Name</h5>
                                 <p class="location">
-                                    <i class="fa fa-map-marker"></i> @place.Address @place.Street.Name, @place.Street.City.Name
+                                    <i class="fa fa-map-marker"></i> @place.Address
                                 </p>
                                 <div class="rating-wrapper">
                                     <div class="rating-item">
-                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@(place.Reviews != null && place.Reviews.Any() ? place.Reviews.Average(r => r.Star) : 0)" />
+                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@place.Stars" />
                                     </div>
-                                    <span class="texting"> (@(place.Reviews?.Count() ?? 0) відгуків)</span>
+                                    <span class="texting"> (@place.ReviewsCount відгуків</span>
                                 </div>
                                 <p class="cuisine">
                                     Кухня:
-                                    @foreach (FlexTemplate.Entities.PlaceCategory category in place.PlaceCategories)
+                                    @foreach (var category in place.Categories)
                                     {
-                                        <span>@category.Category.Name</span>
+                                        <span>@category.Name</span>
                                     }
                                 </p>
                             </div>
@@ -50,6 +41,5 @@
                 </div>
             }
         </div>
-
     </div>
 }

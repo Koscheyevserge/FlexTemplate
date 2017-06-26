@@ -12,11 +12,5 @@ namespace FlexTemplate.PresentationLayer.Core
         {
             BllServices = services;
         }
-
-        public override void OnActionExecuting(ActionExecutingContext context)
-        {
-            ViewBag.Query = Request.Query.ToDictionary(kvp => kvp.Key, kvp => (object)kvp.Value);
-            base.OnActionExecuting(context);
-        }
     }
 }

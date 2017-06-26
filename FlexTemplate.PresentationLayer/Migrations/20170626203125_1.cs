@@ -844,7 +844,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlaceCommunication",
+                name: "PlaceCommunications",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -857,15 +857,15 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlaceCommunication", x => x.Id);
+                    table.PrimaryKey("PK_PlaceCommunications", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PlaceCommunication_CommunicationType_CommunicationTypeId",
+                        name: "FK_PlaceCommunications_CommunicationType_CommunicationTypeId",
                         column: x => x.CommunicationTypeId,
                         principalTable: "CommunicationType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PlaceCommunication_Places_PlaceId",
+                        name: "FK_PlaceCommunications_Places_PlaceId",
                         column: x => x.PlaceId,
                         principalTable: "Places",
                         principalColumn: "Id",
@@ -880,7 +880,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
-                    PlaceId = table.Column<int>(nullable: false)
+                    PlaceId = table.Column<int>(nullable: false),
+                    Position = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -968,8 +969,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     SaturdayTo = table.Column<TimeSpan>(nullable: false),
                     SundayFrom = table.Column<TimeSpan>(nullable: false),
                     SundayTo = table.Column<TimeSpan>(nullable: false),
-                    ThurstdayFrom = table.Column<TimeSpan>(nullable: false),
-                    ThurstdayTo = table.Column<TimeSpan>(nullable: false),
+                    ThursdayFrom = table.Column<TimeSpan>(nullable: false),
+                    ThursdayTo = table.Column<TimeSpan>(nullable: false),
                     TuesdayFrom = table.Column<TimeSpan>(nullable: false),
                     TuesdayTo = table.Column<TimeSpan>(nullable: false),
                     WednesdayFrom = table.Column<TimeSpan>(nullable: false),
@@ -1184,13 +1185,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "PlaceCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaceCommunication_CommunicationTypeId",
-                table: "PlaceCommunication",
+                name: "IX_PlaceCommunications_CommunicationTypeId",
+                table: "PlaceCommunications",
                 column: "CommunicationTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaceCommunication_PlaceId",
-                table: "PlaceCommunication",
+                name: "IX_PlaceCommunications_PlaceId",
+                table: "PlaceCommunications",
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
@@ -1336,7 +1337,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "PlaceCategoryAliases");
 
             migrationBuilder.DropTable(
-                name: "PlaceCommunication");
+                name: "PlaceCommunications");
 
             migrationBuilder.DropTable(
                 name: "PlaceFeatures");

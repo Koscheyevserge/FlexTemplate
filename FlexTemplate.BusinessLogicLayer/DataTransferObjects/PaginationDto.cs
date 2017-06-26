@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
+﻿namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
     public class PaginationDto
     {
