@@ -17,6 +17,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         private readonly IMemoryCache _memoryCache;
         private DataAccessLayer.Services.Services DalServices { get; }
         private const string PlacesCacheKey = "PLACES_CACHE";
+        private const string BlogsCacheKey = "BLOGS_CACHE";
 
         public ControllerServices(DataAccessLayer.Services.Services dalServices, IMemoryCache memoryCache)
         {
@@ -178,6 +179,18 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             var isPlaceAuthorTask = await DalServices.IsAuthorAsync<T>(httpContextUser, placeId);
             return isPlaceAuthorTask;
+        }
+
+        public async Task<CachedBlogDto> GetBlogsAsync(int[] tags, int[] categories, string input, int currentPage = 1)
+        {
+            var blogs = await DalServices.GetBlogsAsync(tags, categories, input, currentPage, await CommonServices.GetBlogsPerPageCountAsync());
+            var result = new CachedBlogDto
+            {
+                HeaderPhotoPath = "",
+                BlogsCount = await DalServices.GetBlogsCountAsync(tags, categories, input),
+                Blogs = blogs.To<IEnumerable<CachedBlogItemDto>>()
+            };
+            return result;
         }
     }
 }

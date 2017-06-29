@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -61,36 +58,13 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             };
             return View(model);
         }
-        /*
-        public IActionResult Blogs(int tag, int category, string input, int currentPage = 1)
+        
+        public async Task<IActionResult> Blogs(int[] tags, int[] categories, string input, int currentPage = 1)
         {
-            var blogs = context.Blogs.Include(b => b.Author)
-                .Include(b => b.Comments)
-                .Include(b => b.BlogTags)
-                .AsQueryable();
-            if (tag > 0)
-            {
-                blogs = blogs.Where(b => b.BlogTags.Any(t => t.TagId == tag));
-            }
-            if (!string.IsNullOrEmpty(input))
-            {
-                input = input.Trim();
-                blogs = blogs.Where(b => b.Caption.ToLower().Contains(input.ToLower()) || b.Preamble.ToLower().Contains(input.ToLower()));
-            }
-            var total = blogs.Count();
-            var model = new Blogs.ViewModel
-            {
-                Blogs = blogs
-                .Skip(6 * (currentPage - 1))
-                .Take(6)
-                .AsEnumerable(),
-                CurrentPage = currentPage,
-                Pages = (int)Math.Ceiling((decimal)total / 6),
-                TotalFoundBlogsCount = total
-            };
-            return View(model);
+            var getBlogsAsync = await BllServices.GetBlogsAsync(tags, categories, input, currentPage);
+            return View(getBlogsAsync.To<Blogs.ViewModel>());
         }
-
+        /*
         public async Task<IActionResult> Blog(int id)
         {
             if (id == 0)

@@ -133,5 +133,34 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             var result = await DalServices.GetYouMayAlsoLikeAsync(httpContextUser, placeId);
             return result.To<YouMayAlsoLikeComponentDto>();
         }
+
+        public async Task<PaginationDto> GetBlogsPaginationAsync(int blogsCount, int currentPage)
+        {
+            var blogsPerPage = await CommonServices.GetBlogsPerPageCountAsync();
+            var totalPages = (int)Math.Ceiling(blogsCount / (double)blogsPerPage);
+            var result = new PaginationDto
+            {
+                HasNextPage = currentPage < totalPages,
+                HasPreviousPage = currentPage > 1,
+                TotalPagesCount = totalPages
+            };
+            return result;
+        }
+
+        public async Task<BlogsFeedComponentDto> GetBlogsFeedAsync(ClaimsPrincipal user, IEnumerable<int> tags, IEnumerable<int> categories, string input)
+        {
+            var blogsDto = await DalServices.GetBlogsFeedPopularBlogsAsync();
+            var tagsDto = await DalServices.GetBlogsFeedTags(user, tags, input);
+            var categoriesDto = await DalServices.GetBlogsFeedCategories(user, categories, input);
+            var latestBlogsDto = await DalServices.GetBlogsFeedLatestBlogs();
+            var result = new BlogsFeedComponentDto
+            {
+                Blogs = blogsDto.To<IEnumerable<BlogsFeedComponentPopularBlogDto>>(),
+                Categories = categoriesDto.To<IEnumerable<BlogsFeedComponentCategoryDto>>(),
+                Tags = tagsDto.To<IEnumerable<BlogsFeedComponentTagDto>>(),
+                LatestBlogs = latestBlogsDto.To<IEnumerable<BlogsFeedComponentLatestBlogDto>>()
+            };
+            return result;
+        }
     }
 }

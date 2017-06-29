@@ -13,5 +13,10 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             return 12;//TODO реализовать как системную настройку
         }
+
+        public static async Task<int> GetBlogsPerPageCountAsync()
+        {
+            return 12;//TODO реализовать как системную настройку
+        }
     }
 }

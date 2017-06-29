@@ -1,5 +1,6 @@
 ﻿@model FlexTemplate.PresentationLayer.WebServices.Components.YouMayAlsoLike.ViewModel
-@if (Model != null){
+@if (Model != null)
+{
     <div class="row mt-30">
         <div class="col-md-12">
             <div class="section-title-02">
@@ -26,7 +27,7 @@
                                     <div class="rating-item">
                                         <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@place.Stars" />
                                     </div>
-                                    <span class="texting"> (@place.ReviewsCount відгуків</span>
+                                    <span class="texting"> (@place.ReviewsCount відгуків)</span>
                                 </div>
                                 <p class="cuisine">
                                     Кухня:

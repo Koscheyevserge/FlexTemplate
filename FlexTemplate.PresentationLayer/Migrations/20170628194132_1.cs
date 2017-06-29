@@ -681,6 +681,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     AuthorId = table.Column<string>(nullable: true),
                     BlogId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
+                    IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -929,6 +930,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedOn = table.Column<DateTime>(nullable: false),
+                    IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
                     Star = table.Column<int>(nullable: false),

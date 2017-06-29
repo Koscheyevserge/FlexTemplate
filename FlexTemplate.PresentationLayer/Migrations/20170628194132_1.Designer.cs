@@ -8,7 +8,7 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170626203125_1")]
+    [Migration("20170628194132_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("BlogId");
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsModerated");
 
                     b.Property<DateTime>("ModifiedOn");
 
@@ -636,6 +638,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsModerated");
 
                     b.Property<DateTime>("ModifiedOn");
 

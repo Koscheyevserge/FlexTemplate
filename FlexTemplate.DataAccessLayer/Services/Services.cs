@@ -137,7 +137,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Stars = GetPlaceStars(p.Reviews),
                     ReviewsCount = p.Reviews.Count,
                     //TODO Address = addresses.Single(a => a.Key == p.Id).Value,
-                    HeadPhoto = "",
+                    HeadPhoto = "",//TODO получить фото
                     AveragePrice = p.Menus.Any() 
                         ? p.Menus.Where(m => m.Products.Any()).Average(m => m.Products.Average(prod => prod.Price)) 
                         : 0,
@@ -458,40 +458,40 @@ namespace FlexTemplate.DataAccessLayer.Services
                         GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
                         GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
                         p.Address),
-                    PlaceBannerPath = "",
+                    PlaceBannerPath = "",//TODO получить фото
                     CanEdit = canEdit
                 }).SingleOrDefault();
             return result;
         }
 
-        public async Task<PlaceLocationComponentDao> GetPlaceLocationAsync(int placeId)
+        public Task<PlaceLocationComponentDao> GetPlaceLocationAsync(int placeId)
         {
-            var result = await Context.Places.Where(p => p.Id == placeId).Select(p =>
+            return Context.Places.Where(p => p.Id == placeId).Select(p =>
                 new PlaceLocationComponentDao
                 {
                     Latitude = p.Latitude,
                     Longitude = p.Longitude
                 }).SingleOrDefaultAsync();
-            return result;
         }
 
-        public async Task<PlaceReviewComponentDao> GetPlaceReviewAsync(int reviewId)
+        public Task<PlaceReviewComponentDao> GetPlaceReviewAsync(int reviewId)
         {
-            var result = await Context.PlaceReviews.Where(pr => pr.Id == reviewId).Select(pr =>
+            return Context.PlaceReviews
+                .Where(pr => pr.Id == reviewId)
+                .Select(pr =>
                 new PlaceReviewComponentDao
                 {
-                    UserPhotoPath = "",
+                    UserPhotoPath = "",//TODO получить фото
                     Text = pr.Text,
                     Stars = pr.Star,
                     UserName = GetUsername(pr.User),
                     CreatedOn = pr.CreatedOn
                 }).SingleOrDefaultAsync();
-            return result;
         }
 
-        public async Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
+        public Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
         {
-            var result = await Context.Places
+            return Context.Places
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
                 .Where(p => p.Id == placeId).Select(p =>
                 new PlaceMenuComponentDao
@@ -506,12 +506,11 @@ namespace FlexTemplate.DataAccessLayer.Services
                         {
                             Price = prod.Price,
                             Description = prod.Description,
-                            PhotoPath = "",
+                            PhotoPath = "",//TODO получить фото
                             Title = prod.Title
                         })
                     })
                 }).SingleOrDefaultAsync();
-            return result;
         }
 
         public async Task<PlaceOverviewComponentDao> GetPlaceOverviewAsync(ClaimsPrincipal httpContextUser, int placeId)
@@ -570,16 +569,15 @@ namespace FlexTemplate.DataAccessLayer.Services
             return result;
         }
 
-        public async Task<PlaceReviewsComponentDao> GetPlaceReviewsAsync(int placeId)
+        public Task<PlaceReviewsComponentDao> GetPlaceReviewsAsync(int placeId)
         {
-            var result = await Context.Places
+            return Context.Places
                 .Where(p => p.Id == placeId)
                 .Select(p =>
                     new PlaceReviewsComponentDao
                     {
                         Reviews = p.Reviews.OrderBy(r => r.CreatedOn).Select(r => r.Id)
                     }).SingleOrDefaultAsync();
-            return result;
         }
 
         public async Task<YouMayAlsoLikeComponentDao> GetYouMayAlsoLikeAsync(ClaimsPrincipal httpContextUser, int placeId)
@@ -609,10 +607,117 @@ namespace FlexTemplate.DataAccessLayer.Services
                             Name = GetProperAlias(ppc.PlaceCategory.Aliases, ppc.PlaceCategory.Name, defaultLanguage, userLanguage)
                         }),
                         ReviewsCount = p.Reviews.Count,
-                        PhotoPath = ""
+                        PhotoPath = ""//TODO получить фото
                     }).Take(4)
             };
             return result;
+        }
+
+        public Task<int> GetBlogsCountAsync(int[] tags, int[] categories, string input)
+        {
+            var blogs = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories).AsQueryable();
+            if (tags != null && tags.Any())
+            {
+                blogs = blogs.Where(b => b.BlogTags.Select(bt => bt.TagId).Intersect(tags).Any());
+            }
+            if (categories != null && categories.Any())
+            {
+                blogs = blogs.Where(b => b.BlogBlogCategories.Select(bbc => bbc.BlogCategoryId)
+                    .Intersect(categories).Any());
+            }
+            if (!string.IsNullOrEmpty(input))
+            {
+                var inputNormalized = input.Trim().ToUpperInvariant();
+                blogs = blogs.Where(b => !string.IsNullOrEmpty(b.Caption))
+                    .Where(b => b.Caption.Trim().ToUpper().Contains(inputNormalized));
+            }
+            return blogs.CountAsync();
+        }
+
+        public Task<List<CachedBlogItemDao>> GetBlogsAsync(int[] tags, int[] categories, string input, int page, int blogsPerPage)
+        {
+            var result = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories).AsQueryable();
+            if (tags != null && tags.Any())
+            {
+                result = result.Where(b => b.BlogTags.Select(bt => bt.TagId).Intersect(tags).Any());
+            }
+            if (categories != null && categories.Any())
+            {
+                result = result.Where(b => b.BlogBlogCategories
+                    .Select(bt => bt.BlogCategoryId).Intersect(categories).Any());
+            }
+            if (!string.IsNullOrEmpty(input))
+            {
+                var inputNormalized = input.Trim().ToUpperInvariant();
+                result = result.Where(b => b.Caption.ToUpperInvariant().Contains(inputNormalized) 
+                    || b.Text.ToUpperInvariant().Contains(inputNormalized));
+            }
+            return result.Select(b =>
+                new CachedBlogItemDao
+                {
+                    Id = b.Id,
+                    Caption = b.Caption,
+                    CreatedOn = b.CreatedOn,
+                    AuthorName = GetUsername(b.User),
+                    HeadPhotoPath = "",//TODO получить фото
+                    IsModerated = b.IsModerated,
+                    Preable = ""//TODO извлечь преамбулу
+                }).Skip((page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
+        }
+
+        public Task<List<BlogsFeedComponentPopularBlogDao>> GetBlogsFeedPopularBlogsAsync()
+        {
+            return Context.Blogs.OrderBy(b => b.ViewsCount)
+                .Select(b => 
+                    new BlogsFeedComponentPopularBlogDao
+                    {
+                        Id = b.Id,
+                        Caption = b.Caption,
+                        CommentsCount = b.Comments.Count,
+                        HeadPhotoPath = ""//TODO извлечь преамбулу
+                    }).Take(4).ToListAsync();
+        }
+
+        public async Task<List<BlogsFeedComponentTagDao>> GetBlogsFeedTags(ClaimsPrincipal httpContextUser, IEnumerable<int> tags, string input)
+        {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var result = await Context.Tags.Include(t => t.TagAliases)
+                .Select(t =>
+                    new BlogsFeedComponentTagDao
+                    {
+                        Name = GetProperAlias(t.TagAliases, t.Name, defaultLanguage, userLanguage),
+                        WithoutThisIds = tags.Contains(t.Id) ? tags.Where(tag => tag != t.Id) : tags.Concat(new List<int>{t.Id})
+                    }).ToListAsync();
+            return result;
+        }
+
+        public async Task<List<BlogsFeedComponentCategoryDao>> GetBlogsFeedCategories(ClaimsPrincipal httpContextUser, IEnumerable<int> categories, string input)
+        {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var result = await Context.BlogCategories.Include(bc => bc.Aliases)
+                .Select(bc =>
+                    new BlogsFeedComponentCategoryDao
+                    {
+                        Caption = GetProperAlias(bc.Aliases, bc.Name, defaultLanguage, userLanguage),
+                        BlogsCount = bc.BlogBlogCategories.Count,
+                        WithoutThisIds = categories.Contains(bc.Id) ? categories.Where(tag => tag != bc.Id) : categories.Concat(new List<int> { bc.Id })
+                    }).ToListAsync();
+            return result;
+        }
+
+        public Task<List<BlogsFeedComponentLatestBlogDao>> GetBlogsFeedLatestBlogs()
+        {
+            return Context.Blogs.OrderByDescending(b => b.CreatedOn)
+                .Select(b =>
+                    new BlogsFeedComponentLatestBlogDao
+                    {
+                        Id = b.Id,
+                        Caption = b.Caption,
+                        CreatedOn = b.CreatedOn,
+                        HeadPhotoPath = ""//TODO извлечь преамбулу
+                    }).Take(4).ToListAsync();
         }
 
         public int GetPlaceStars(IEnumerable<PlaceReview> reviews)

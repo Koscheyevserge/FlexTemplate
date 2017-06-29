@@ -159,6 +159,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<bool>("IsModerated");
+
                     b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Text");
@@ -635,6 +637,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsModerated");
 
                     b.Property<DateTime>("ModifiedOn");
 

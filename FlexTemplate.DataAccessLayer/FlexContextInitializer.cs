@@ -127,6 +127,7 @@ namespace FlexTemplate.DataAccessLayer
             using (var transaction = FlexContext.Database.BeginTransaction())
             {
                 var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "UA");
+                var english = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "EN");
                 //Components&ComponentTemplates
                 var blogComments = new Container {Name = "BlogComments"};
                 var blogCommentsDefault = new ContainerTemplate {Container = blogComments, TemplateName = "Default"};
@@ -2250,8 +2251,446 @@ namespace FlexTemplate.DataAccessLayer
                     }
                 );
                 //BlogCategories
+                var blogCategory1 = new BlogCategory
+                {
+                    Name = "Рецепти",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Recipes"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
+                var blogCategory2 = new BlogCategory
+                {
+                    Name = "Акції",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Actions"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
+                var blogCategory3 = new BlogCategory
+                {
+                    Name = "Новини",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "News"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
                 //BlogTags
+                var blogTag1 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Знижки",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Discounts"
+                        }
+                    }
+                };
+                var blogTag2 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Українська кухня",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Ukrainian cuisine"
+                        }
+                    }
+                };
+                var blogTag3 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Італійська кухня",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Italian cuisine"
+                        }
+                    }
+                };
                 //Blogs
+                FlexContext.AddRange
+                (
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    }
+                );
                 FlexContext.SaveChanges();
                 transaction.Commit();
             }
