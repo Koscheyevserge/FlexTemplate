@@ -15,7 +15,6 @@ using Microsoft.Extensions.Logging;
 using FlexTemplate.PresentationLayer.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using React.AspNet;
 
 namespace FlexTemplate.PresentationLayer
 {
@@ -83,7 +82,6 @@ namespace FlexTemplate.PresentationLayer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
-            services.AddReact();
         }
         
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -101,8 +99,6 @@ namespace FlexTemplate.PresentationLayer
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseReact(config => { });
 
             app.UseStaticFiles();
 
