@@ -1,125 +1,55 @@
-﻿@*@using System.Collections
-    @using System.Linq
-    @using FlexTemplate.PresentationLayer.Core
-    @{
-        object buffer;
-        if (!ViewBag.Query.TryGetValue("categories", out buffer))
-        {
-            buffer = null;
-        }
-        IEnumerable<string> categories = new List<string>();
-        if (buffer is IEnumerable)
-        {
-            categories = buffer as IEnumerable<string>;
-        }
-        IEnumerable<string> cities = new List<string>();
-        if (!ViewBag.Query.TryGetValue("cities", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            cities = buffer as IEnumerable<string>;
-        }
-        var listType = "list";
-        if (!ViewBag.Query.TryGetValue("listType", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            listType = ((IEnumerable<string>)buffer).FirstOrDefault();
-        }
-        string orderBy = null;
-        if (!ViewBag.Query.TryGetValue("orderBy", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            orderBy = ((IEnumerable<string>)buffer).FirstOrDefault();
-        }
-        var isDescending = false;
-        if (!ViewBag.Query.TryGetValue("isDescending", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            var isDescendingStr = ((IEnumerable<string>)buffer).FirstOrDefault();
-            bool.TryParse(isDescendingStr, out isDescending);
-        }
-        string input = null;
-        if (!ViewBag.Query.TryGetValue("input", out buffer))
-        {
-            buffer = null;
-        }
-        if (buffer is IEnumerable)
-        {
-            input = ((IEnumerable<string>)buffer).FirstOrDefault();
-            input = string.IsNullOrEmpty(input) ? null : input;
-        }
-    }
-    <div class="restaurant-list-item-wrapper no-last-bb">
-        @foreach (Place place in Model.Places)
-        {
-            <div class="restaurant-list-item clearfix">
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.ViewModel
+<div class="restaurant-list-item-wrapper no-last-bb">
+    @foreach (var place in Model.Places)
+    {
+        <div class="restaurant-list-item clearfix">
 
-                <div class="GridLex-grid-noGutter-equalHeight">
+            <div class="GridLex-grid-noGutter-equalHeight">
 
-                    <div class="GridLex-col-3_sm-3_xss-12">
-                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">
-                            <div class="image">
-                                <img src="../../Resources/Places/@place.Id/head.jpg" alt="Image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';" />
-                            </div>
-                        </a>
-                    </div>
+                <div class="GridLex-col-3_sm-3_xss-12">
+                    <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">
+                        <div class="image">
+                            <img src="@place.HeadPhoto" alt="Image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';" />
+                        </div>
+                    </a>
+                </div>
 
-                    <div class="GridLex-col-9_sm-9_xss-12">
+                <div class="GridLex-col-9_sm-9_xss-12">
 
-                        <div class="GridLex-grid-noGutter-equalHeight">
+                    <div class="GridLex-grid-noGutter-equalHeight">
 
-                            <div class="GridLex-col-9_sm-12 content-wrapper">
+                        <div class="GridLex-col-9_sm-12 content-wrapper">
 
-                                <div class="content">
-                                    <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
-                                    <p class="location"><i class="fa fa-map-marker"></i> @place.Address @place.Street?.Name, @place.Street?.City?.Name</p>
-                                    @{
-                                        var description = Extentions.StripHtml(place.Description ?? string.Empty);
-                                        var needDots = description.Length > 80;
-                                        var cutLength = needDots ? 80 : description.Length;
-                                        description = description.Substring(0, cutLength);
-                                        description += needDots ? "..." : string.Empty;
+                            <div class="content">
+                                <h5><a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id">@place.Name</a></h5>
+                                <p class="location"><i class="fa fa-map-marker"></i> @place.Address</p>
+                                <p class="short-info">@place.Description</p>
+                                <p class="text-primary offer">-30% від меню «а ля карт»! * </p>
+                                <p class="cuisine">
+                                    Кухня:
+                                    @foreach (var category in place.Categories)
+                                    {
+                                        <span><a asp-controller="Home" asp-action="Places" asp-route-listtype="list" asp-route-categories="@category.Key">@category.Value</a></span>
                                     }
-                                    <p class="short-info">@description</p>
-                                    <p class="text-primary offer">-30% від меню «а ля карт»! * </p>
-                                    <p class="cuisine">
-                                        Кухня:
-                                        @foreach (Category category in place.PlaceCategories.Select(pc => pc?.Category))
-                                        {
-                                            <span><a asp-controller="Home" asp-action="Places" asp-route-listtype="list" asp-route-categories="@category.Id">@category.Name</a></span>
-                                        }
-                                    </p>
-                                </div>
-
+                                </p>
                             </div>
 
-                            <div class="GridLex-col-3_sm-12 meta-wrapper">
+                        </div>
 
-                                <div class="meta">
-                                    <div class="rating-wrapper">
-                                        <div class="rating-item">
-                                            <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@(place.Reviews.Any() ? Math.Ceiling(place.Reviews.Average(r => r.Star)) : 0))" />
-                                        </div>
-                                        <span class="texting"> (@place.Reviews.Count відгуків)</span>
+                        <div class="GridLex-col-3_sm-12 meta-wrapper">
+
+                            <div class="meta">
+                                <div class="rating-wrapper">
+                                    <div class="rating-item">
+                                        <input type="hidden" class="rating" data-filled="oi oi-star" data-empty="oi oi-star" data-fractions="2" data-readonly value="@place.Stars" />
                                     </div>
-                                    <div class="right-bottom">
-                                        <div class="price">Середня ціна: <span>@(place.Menus.Any() ? (int)Math.Ceiling(place.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0)) : 0) грн</span></div>
-                                        <div class="clear"></div>
-                                        <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Деталі</a>
-                                    </div>
+                                    <span class="texting"> (@place.ReviewsCount відгуків)</span>
                                 </div>
-
+                                <div class="right-bottom">
+                                    <div class="price">Середня ціна: <span>@place.AveragePrice грн</span></div>
+                                    <div class="clear"></div>
+                                    <a asp-controller="Home" asp-action="Place" asp-route-id="@place.Id" class="btn btn-primary btn-sm btn-block">Деталі</a>
+                                </div>
                             </div>
 
                         </div>
@@ -129,33 +59,7 @@
                 </div>
 
             </div>
-        }
-    </div>
 
-    <div class="pagination-wrapper">
-        <div class="GridLex-grid-middle GridLex-grid-noGutter">
-            <div class="GridLex-col-6_sm-12_xs-12">
-                <div class="text-right text-center-sm mb-10-sm">Показано з 1 по 24 з 253 ресторанів </div>
-            </div>
-            <div class="GridLex-col-6_sm-12_xs-12">
-                <nav>
-                    <ul class="places-pagination pagination pagination-text-center-sm mb-5-xs">
-                        @if (Model.CurrentPage > 1)
-                        {
-                            <li><a href="@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = input, currentPage = Model.CurrentPage - 1, isDescending = isDescending, orderBy = orderBy})" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                        }
-                        @for (var i = 1; i <= Model.Pages; i++)
-                        {
-                            <li class="@(Model.CurrentPage == i ? "active" : string.Empty)"><a href="@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = input, currentPage = i, isDescending = isDescending, orderBy = orderBy})">@i</a></li>
-                        }
-                        @if (Model.CurrentPage < Model.Pages)
-                        {
-                            <li><a href="@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = input, currentPage = Model.CurrentPage + 1, isDescending = isDescending, orderBy = orderBy})" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                        }
-                    </ul>
-                </nav>
-
-            </div>
         </div>
-
-    </div>*@
+    }
+</div>

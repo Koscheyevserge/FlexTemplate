@@ -1,51 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Enums;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesList
 {
     public class PlacesList : ViewComponent
     {
-        public IViewComponentResult Invoke(int[] cities, int[] categories, string input, int currentPage, string listType = "", string orderBy = "name", bool isDescending = false)
+        private ComponentsServices ComponentsServices { get; }
+
+        public PlacesList(ComponentsServices componentsServices)
         {
-            /*var places = _context.Places.AsNoTracking();
-            if (cities != null && cities.Any())
-                places = places.Where(p => cities.Contains(p.Street.CityId));
-            if (categories != null && categories.Any())
-                places = places.Where(p => categories.Intersect(p.PlaceCategories.Select(pc => pc.CategoryId)).Any());
-            if (!string.IsNullOrEmpty(input))
-                places = places.Where(p => p.Name.Contains(input));
-            places = places
-                .Include(p => p.PlaceCategories).ThenInclude(pc => pc.Category).ThenInclude(c => c.Aliases)
-                .Include(p => p.Reviews)
-                .Include(p => p.Aliases)
-                .Include(p => p.Street).ThenInclude(s => s.Aliases)
-                .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
-                .Include(p => p.Menus).ThenInclude(p => p.Products);
-            switch (orderBy)
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<int> placesIds)
+        {
+            int.TryParse(Request.Query["listType"], out int listType);
+            var places = await ComponentsServices.GetPlacesListAsync(HttpContext.User, placesIds);
+            var model = new ViewModel
             {
-                case "name":
-                    places = isDescending ? places.OrderByDescending(p => p.Name) : places.OrderBy(p => p.Name);
+                ListType = listType,
+                Places = places.To<IEnumerable<PlaceViewModel>>()
+            };
+            string template;
+            switch ((ListTypeEnum)listType)
+            {
+                case ListTypeEnum.Grid:
+                    template = "Grid";
                     break;
-                case "price":
-                    places = isDescending ? places.OrderByDescending(p => p.Menus.Any() ? p.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0) : 0) : places.OrderBy(p => p.Menus.Any() ? p.Menus.Average(m => m.Products.Any() ? m.Products.Average(product => product.Price) : 0) : 0);
-                    break;
-                case "rating":
-                    places = !isDescending ? places.OrderByDescending(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0) : places.OrderBy(p => p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0);
-                    break;
-                case "city":
-                    places = isDescending ? places.OrderByDescending(p => p.Street.City.Name) : places.OrderBy(p => p.Street.City.Name);
-                    break;
-                case "category":
-                    places = isDescending ? places.OrderByDescending(p => p.PlaceCategories.Select(pc => pc.Category.Name).OrderBy(name => name).First()) : places.OrderBy(p => p.PlaceCategories.Select(pc => pc.Category.Name).OrderBy(name => name).First());
+                case ListTypeEnum.List:
+                    template = "List";
                     break;
                 default:
-                    places = isDescending ? places.OrderByDescending(p => p.Name) : places.OrderBy(p => p.Name);
+                    template = "List";
                     break;
             }
-            var thisPagePlaces = places.AsEnumerable().Skip(9 * (currentPage - 1)).Take(9);
-            var model = new ThisPlacesListViewModel {Places = thisPagePlaces, Pages = (int)Math.Ceiling((decimal)places.Count() / 9), CurrentPage = currentPage, TotalFoundPlacesCount = places.Count()};
-            var type = listType.ToLower() == "grid" ? "Grid" : "List";
-            return View(type, model);*/
-            return View();
+            return View(template, model);
         }
     }
 }

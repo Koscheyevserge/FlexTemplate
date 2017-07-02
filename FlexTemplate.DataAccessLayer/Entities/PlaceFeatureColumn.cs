@@ -11,6 +11,8 @@ namespace FlexTemplate.DataAccessLayer.Entities
 
         public int PlaceId { get; set; }
 
+        public int Position { get; set; }
+
         public virtual List<PlaceFeature> Features { get; set; }
     }
 }

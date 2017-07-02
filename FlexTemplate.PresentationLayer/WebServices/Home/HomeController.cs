@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -20,27 +17,33 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
         {
             var model = new Index.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User)
+                Hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName),
+                CanEditVisuals = await BllServices.CanEditVisualsAsync(HttpContext.User)
             };
             return View(model);
         }
-        /*
+        
         public IActionResult Error()
         {
             return View();
         }
-
-        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, string listType = "", string orderBy = "", bool isDescending = false)
+        
+        public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, int listType = 1, int orderBy = 1, bool isDescending = false)
         {
+            var hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName);
+            var canEdit = await BllServices.CanEditVisualsAsync(HttpContext.User);
+            var placesOnPageIds = await BllServices.GetPlacesAsync(HttpContext.User, cities, categories, input, currentPage, orderBy, isDescending);
+            var placesTotal = await BllServices.GetPlacesCountAsync(cities, categories, input);
             var model = new Places.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User)
+                Hierarchy = hierarchy,
+                CanEditVisuals = canEdit,
+                PlacesOnPageIds = placesOnPageIds,
+                PlacesTotal = placesTotal
             };
             return View(model);
         }
-
+        
         public async Task<IActionResult> Place(int id)
         {
             if (id == 0)
@@ -49,42 +52,19 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             }
             var model = new Place.ViewModel
             {
-                Hierarchy = BllServices.GetPageContainersHierarchy(ControllerContext.ActionDescriptor.ActionName),
-                CanEditVisuals = await BllServices.CanEditVisuals(HttpContext.User),
-                IsAuthor = await BllServices.IsAuthor<DataAccessLayer.Entities.Place>(HttpContext.User, id)
+                Hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName),
+                CanEditVisuals = await BllServices.CanEditVisualsAsync(HttpContext.User),
+                IsAuthor = await BllServices.IsAuthorAsync<DataAccessLayer.Entities.Place>(HttpContext.User, id)
             };
             return View(model);
         }
-
-        public IActionResult Blogs(int tag, int category, string input, int currentPage = 1)
+        
+        public async Task<IActionResult> Blogs(int[] tags, int[] categories, string input, int currentPage = 1)
         {
-            var blogs = context.Blogs.Include(b => b.Author)
-                .Include(b => b.Comments)
-                .Include(b => b.BlogTags)
-                .AsQueryable();
-            if (tag > 0)
-            {
-                blogs = blogs.Where(b => b.BlogTags.Any(t => t.TagId == tag));
-            }
-            if (!string.IsNullOrEmpty(input))
-            {
-                input = input.Trim();
-                blogs = blogs.Where(b => b.Caption.ToLower().Contains(input.ToLower()) || b.Preamble.ToLower().Contains(input.ToLower()));
-            }
-            var total = blogs.Count();
-            var model = new Blogs.ViewModel
-            {
-                Blogs = blogs
-                .Skip(6 * (currentPage - 1))
-                .Take(6)
-                .AsEnumerable(),
-                CurrentPage = currentPage,
-                Pages = (int)Math.Ceiling((decimal)total / 6),
-                TotalFoundBlogsCount = total
-            };
-            return View(model);
+            var getBlogsAsync = await BllServices.GetBlogsAsync(tags, categories, input, currentPage);
+            return View(getBlogsAsync.To<Blogs.ViewModel>());
         }
-
+        /*
         public async Task<IActionResult> Blog(int id)
         {
             if (id == 0)

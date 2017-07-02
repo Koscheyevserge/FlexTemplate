@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.YouMayAlsoLike
 {
     public class YouMayAlsoLike : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private ComponentsServices ComponentsServices { get; set; }
+
+        public YouMayAlsoLike(ComponentsServices componentsServices)
         {
-            return View();/*
-            return View(new YouMayAlsoLikeViewModel
-            {
-                Places = _context.Places.Except(new List<Place> {item})
-                .Include(p => p.Street)
-                .ThenInclude(s => s.City)
-                .Include(p => p.Reviews)
-                .Include(p => p.PlaceCategories)
-                .ThenInclude(pc => pc.Category)
-                .Take(4)
-            });*/
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            int.TryParse(Request.Query["id"], out int placeId);
+            var model = await ComponentsServices.GetYouMayAlsoLikeAsync(HttpContext.User, placeId);
+            return View(model.To<ViewModel>());
         }
     }
 }

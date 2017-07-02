@@ -1,40 +1,34 @@
-﻿@*<div class="sort-by-wrapper clearfix">
-
-        <div class="row gap-5">
-
-            <div class="col-sm-10">
-
-                <div class="text-holder bg-primary">Sort By:</div>
-                <ul class="sort-by">
-                    <li>
-                        <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = Model.Input, orderBy = "name", isDescending = Model.OrderBy == "name" ? !Model.IsDescending : false })'" class="btn @(Model.OrderBy == "name" ? "active" : string.Empty)">Назва @Html.Raw(Model.OrderBy == "name" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
-                    </li>
-                    <li>
-                        <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = Model.Input, orderBy = "rating", isDescending = Model.OrderBy == "rating" ? !Model.IsDescending : false })'" class="btn @(Model.OrderBy == "rating" ? "active" : string.Empty)">Рейтинг @Html.Raw(Model.OrderBy == "rating" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
-                    </li>
-                    <li>
-                        <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = Model.Input, orderBy = "price", isDescending = Model.OrderBy == "price" ? !Model.IsDescending : false })'" class="btn @(Model.OrderBy == "price" ? "active" : string.Empty)">Ціна @Html.Raw(Model.OrderBy == "price" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
-                    </li>
-                    <li>
-                        <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = Model.Input, orderBy = "category", isDescending = Model.OrderBy == "category" ? !Model.IsDescending : false })'" class="btn @(Model.OrderBy == "category" ? "active" : string.Empty)">Кухня @Html.Raw(Model.OrderBy == "category" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
-                    </li>
-                    <li>
-                        <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = listType, categories = categories, cities = cities, input = Model.Input, orderBy = "city", isDescending = Model.OrderBy == "city" ? !Model.IsDescending : false })'" class="btn @(Model.OrderBy == "city" ? "active" : string.Empty)">Місто @Html.Raw(Model.OrderBy == "city" ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
-                    </li>
-                </ul>
-
-            </div>
-
-            <div class="col-sm-2">
-                <ul class="layout-option">
-                    <li class='btn @(listType.ToLower() == "grid" ? "active" : string.Empty)'><a href="@Url.Action("Places", "Home", new { listType = "grid", categories = categories, cities = cities, input = Model.Input })"><i class="ti-view-grid"></i></a></li>
-                    <li class='btn @(listType.ToLower() != "grid" ? "active" : string.Empty)'><a href="@Url.Action("Places", "Home", new { listType = "list", categories = categories, cities = cities, input = Model.Input })"><i class="ti-view-list-alt"></i></a></li>
-                </ul>
-
-            </div>
+﻿@using FlexTemplate.BusinessLogicLayer.Enums
+@model FlexTemplate.PresentationLayer.WebServices.Components.PlacesSorting.ViewModel
+<div class="sort-by-wrapper clearfix">
+    <div class="row gap-5">
+        <div class="col-sm-10">
+            <div class="text-holder bg-primary">Сортувати по:</div>
+            <ul class="sort-by">
+                <li>
+                    <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = (int)Model.ListType, categories = Model.Categories, cities = Model.Cities, input = Model.Input, orderBy = (int)PlaceOrderByEnum.Name, isDescending = Model.OrderBy == PlaceOrderByEnum.Name && !Model.IsDescending })'" class="btn @(Model.OrderBy == PlaceOrderByEnum.Name ? "active" : string.Empty)">Назва @Html.Raw(Model.OrderBy == PlaceOrderByEnum.Name ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
+                </li>
+                <li>
+                    <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = (int)Model.ListType, categories = Model.Categories, cities = Model.Cities, input = Model.Input, orderBy = (int)PlaceOrderByEnum.Rating, isDescending = Model.OrderBy == PlaceOrderByEnum.Rating && !Model.IsDescending })'" class="btn @(Model.OrderBy == PlaceOrderByEnum.Rating ? "active" : string.Empty)">Рейтинг @Html.Raw(Model.OrderBy == PlaceOrderByEnum.Rating ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
+                </li>
+                <li>
+                    <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = (int)Model.ListType, categories = Model.Categories, cities = Model.Cities, input = Model.Input, orderBy = (int)PlaceOrderByEnum.Price, isDescending = Model.OrderBy == PlaceOrderByEnum.Price && !Model.IsDescending })'" class="btn @(Model.OrderBy == PlaceOrderByEnum.Price ? "active" : string.Empty)">Ціна @Html.Raw(Model.OrderBy == PlaceOrderByEnum.Price ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
+                </li>
+                <li>
+                    <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = (int)Model.ListType, categories = Model.Categories, cities = Model.Cities, input = Model.Input, orderBy = (int)PlaceOrderByEnum.Category, isDescending = Model.OrderBy == PlaceOrderByEnum.Category && !Model.IsDescending })'" class="btn @(Model.OrderBy == PlaceOrderByEnum.Category ? "active" : string.Empty)">Кухня @Html.Raw(Model.OrderBy == PlaceOrderByEnum.Category ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
+                </li>
+                <li>
+                    <button onclick="window.location.href = '@Url.Action("Places", "Home", new { listType = (int)Model.ListType, categories = Model.Categories, cities = Model.Cities, input = Model.Input, orderBy = (int)PlaceOrderByEnum.Location, isDescending = Model.OrderBy == PlaceOrderByEnum.Location && !Model.IsDescending })'" class="btn @(Model.OrderBy == PlaceOrderByEnum.Location ? "active" : string.Empty)">Місто @Html.Raw(Model.OrderBy == PlaceOrderByEnum.Location ? Model.IsDescending ? "<i class='ti-angle-up'></i>" : "<i class='ti-angle-down'></i>" : string.Empty)</button>
+                </li>
+            </ul>
 
         </div>
 
-
-
-    </div>*@
+        <div class="col-sm-2">
+            <ul class="layout-option">
+                <li class='btn @(Model.ListType == ListTypeEnum.Grid ? "active" : string.Empty)'><a href="@Url.Action("Places", "Home", new { listType = (int)ListTypeEnum.Grid, categories = Model.Categories, cities = Model.Cities, input = Model.Input })"><i class="ti-view-grid"></i></a></li>
+                <li class='btn @(Model.ListType == ListTypeEnum.List ? "active" : string.Empty)'><a href="@Url.Action("Places", "Home", new { listType = (int)ListTypeEnum.List, categories = Model.Categories, cities = Model.Cities, input = Model.Input })"><i class="ti-view-list-alt"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>

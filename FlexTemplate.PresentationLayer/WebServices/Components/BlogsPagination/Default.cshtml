@@ -1,0 +1,23 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.BlogsPagination.ViewModel
+<div class="pagination-wrapper mt-40 mb-0">
+    <div class="GridLex-grid-middle GridLex-grid-noGutter">
+        <div class="GridLex-col GridLex-col-12_sm-12_xs-12 pb-0">
+            <nav>
+                <ul class="pagination pagination-text-center-sm mb-5-xs">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li><a href="" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    }
+                    @for (var i = 1; i <= Model.Pages; i++)
+                    {
+                        <li class="@(Model.CurrentPage == i ? "active" : string.Empty)"><a href="">@i</a></li>
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <li><a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

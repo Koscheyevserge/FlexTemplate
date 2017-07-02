@@ -28,7 +28,7 @@ namespace FlexTemplate.DataAccessLayer
 
         public async Task Invoke(HttpContext httpContext)
         {
-            await FlexContext.Database.MigrateAsync();
+            FlexContext.Database.Migrate();
             await SeedBeforeUsers();
             await _next.Invoke(httpContext);
         }
@@ -127,6 +127,7 @@ namespace FlexTemplate.DataAccessLayer
             using (var transaction = FlexContext.Database.BeginTransaction())
             {
                 var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "UA");
+                var english = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "EN");
                 //Components&ComponentTemplates
                 var blogComments = new Container {Name = "BlogComments"};
                 var blogCommentsDefault = new ContainerTemplate {Container = blogComments, TemplateName = "Default"};
@@ -411,8 +412,19 @@ namespace FlexTemplate.DataAccessLayer
                 var asianCuisine = new PlaceCategory {Name = "Азіатська"};
                 var italianCuisine = new PlaceCategory {Name = "Італійська"};
                 //Places
+                var supervisor = FlexContext.Users.SingleOrDefault(u => u.UserName == "Supervisor");
+                var user1 = FlexContext.Users.SingleOrDefault(u => u.UserName == "santon");
+                var user2 = FlexContext.Users.SingleOrDefault(u => u.UserName == "oand12");
+                var user3 = FlexContext.Users.SingleOrDefault(u => u.UserName == "savchuk89");
+                var user4 = FlexContext.Users.SingleOrDefault(u => u.UserName == "iryna.shevchenko");
+                var user5 = FlexContext.Users.SingleOrDefault(u => u.UserName == "knysh");
+                var user6 = FlexContext.Users.SingleOrDefault(u => u.UserName == "santon");
+                var user7 = FlexContext.Users.SingleOrDefault(u => u.UserName == "oand12");
+                var user8 = FlexContext.Users.SingleOrDefault(u => u.UserName == "savchuk89");
+                var user9 = FlexContext.Users.SingleOrDefault(u => u.UserName == "iryna.shevchenko");
+                var user10 = FlexContext.Users.SingleOrDefault(u => u.UserName == "knysh");
                 FlexContext.AddRange(
-                    /*new Place
+                    new Place
                     {
                         User = supervisor,
                         Name = "Пузата хата",
@@ -457,8 +469,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -469,7 +481,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Пузата хата",
                         Street = kyivStreet2,
                         Description =
@@ -502,8 +514,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -514,7 +526,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Il molino",
                         Street = kyivStreet1,
                         Description =
@@ -550,7 +562,7 @@ namespace FlexTemplate.DataAccessLayer
                                 Text =
                                     "Решили отметить день рождения с молодым человеком в данном ресторане. Я забронировала столик за неделю, при этом указав, что у спутника праздник. Поздравления с днем рождения устраивают многие заведения, начиная от простых кафе и заканчивая ресторанами класса люкс",
                                 Star = 5,
-                                UserId = supervisor.Id
+                                User = supervisor
                             }
                         },
                         Schedule = new PlaceSchedule
@@ -561,8 +573,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -573,7 +585,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Banka",
                         Street = kyivStreet3,
                         Description =
@@ -609,7 +621,7 @@ namespace FlexTemplate.DataAccessLayer
                                 Text =
                                     "В январе с друзьями посетили этот ресторан. В Трипе по отзывам искали лучшее место. Придя в 'Банку' несколько не разочаровались.",
                                 Star = 4,
-                                UserId = supervisor.Id
+                                User = supervisor
                             }
                         },
                         Schedule = new PlaceSchedule
@@ -620,8 +632,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -632,7 +644,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Borjomi",
                         Street = kyivStreet4,
                         Description =
@@ -668,7 +680,7 @@ namespace FlexTemplate.DataAccessLayer
                                 Text =
                                     "Вкусно, красиво и спокойно. Мясо действительно очень вкусное и хорошо приготовлено. Рекомендую. Цены конечно высокие, но и ресторан не для каждого дня.",
                                 Star = 5,
-                                UserId = supervisor.Id
+                                User = supervisor
                             }
                         },
                         Schedule = new PlaceSchedule
@@ -679,8 +691,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -691,7 +703,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Rojo Ojo",
                         Street = kyivStreet1,
                         Description =
@@ -727,7 +739,7 @@ namespace FlexTemplate.DataAccessLayer
                                 Text =
                                     "Обслуживание по форме предупредительное, при этом очень неторопливое. Если пришли на обед, имейте в виду, что вряд ли за час управитесь....",
                                 Star = 3,
-                                UserId = supervisor.Id
+                                User = supervisor
                             }
                         },
                         Schedule = new PlaceSchedule
@@ -738,8 +750,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -750,7 +762,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "KFC",
                         Street = kyivStreet1,
                         Description =
@@ -784,21 +796,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user10.Id,
+                                User = user10,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -811,8 +823,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -823,7 +835,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Сушия",
                         Street = kyivStreet1,
                         Description =
@@ -857,21 +869,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -884,8 +896,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -896,7 +908,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Царьград",
                         Street = kyivStreet2,
                         Description =
@@ -930,21 +942,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -957,8 +969,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -969,7 +981,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Buddha-bar",
                         Street = kyivStreet2,
                         Description =
@@ -1003,21 +1015,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -1030,8 +1042,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1042,7 +1054,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "MAFIA",
                         Street = kyivStreet2,
                         Description =
@@ -1076,21 +1088,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -1103,8 +1115,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1115,7 +1127,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Хінкалі",
                         Street = kyivStreet4,
                         Description =
@@ -1145,21 +1157,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -1172,8 +1184,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1184,7 +1196,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "BEEF",
                         Street = kyivStreet4,
                         Description =
@@ -1218,21 +1230,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -1245,8 +1257,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1257,7 +1269,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Нобу",
                         Street = kyivStreet4,
                         Description =
@@ -1287,21 +1299,21 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             }
@@ -1314,8 +1326,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1326,7 +1338,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Nikas Restaurant",
                         Street = kharkivStreet4,
                         Description =
@@ -1356,35 +1368,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Настоящий ресторан в Харькове. Новый современный интерьер. Цены выше среднего. Официанты вышколены. Обслуживание супер. Стильно, дорого, вкусно. Есть деньги - советую, нет денег, тогда только бизнес-ланч около 150 грн."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Был в Харькове у родственников в ноябре, решили провести вечер в этом ресторане. Я там ни разу до этого не был, а они мне расхвалили место, заинтриговав. Порадовало, что заведение находится в самом центре."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "Обстановка замечательная: интерьер новый, музыка приятная, зал просторный. Цены, к слову, не заоблачные, а средние ресторанные. За такой сервис от меня 5 баллов ресторану! Всё очень понравилось, особенно еда и тёплый приём."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "В Харькове была во многих местах, всё как-то однообразно. В Никасе совсем другие ощущения. Была первый раз с мужем в этом ресторане на событии 'Weekend в Nikas' 03.12. Приехали на такси в 17 часов, дорога к нему не загруженная."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Замечательный ресторан в центре Харькова. Гостей встречает приятная, комфортная обстановка. Внутри очень чисто и красиво. Здесь вкусно готовят морепродукты, особенно мне понравился тунец. Цены не выше чем у других."
                             }
@@ -1397,8 +1409,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1409,7 +1421,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Гармата-Мигдаль",
                         Street = kharkivStreet5,
                         Description =
@@ -1439,35 +1451,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1480,8 +1492,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1492,7 +1504,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Наша Дача",
                         Street = kharkivStreet6,
                         Description =
@@ -1522,35 +1534,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1563,8 +1575,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1575,7 +1587,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Мисливський двір",
                         Street = kharkivStreet7,
                         Description =
@@ -1605,35 +1617,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1646,8 +1658,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1658,7 +1670,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Зелений Папуга",
                         Street = kharkivStreet8,
                         Description =
@@ -1688,35 +1700,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1729,8 +1741,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1741,7 +1753,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Шарикоff",
                         Street = kharkivStreet9,
                         Description =
@@ -1771,35 +1783,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1812,8 +1824,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1824,7 +1836,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Osteria il Tartufo",
                         Street = kharkivStreet11,
                         Description =
@@ -1854,35 +1866,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1895,8 +1907,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1907,7 +1919,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Шато",
                         Street = kharkivStreet12,
                         Description =
@@ -1937,35 +1949,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -1978,8 +1990,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -1990,7 +2002,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "MAFIA",
                         Street = kharkivStreet13,
                         Description =
@@ -2020,35 +2032,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -2061,8 +2073,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -2073,7 +2085,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Абажур",
                         Street = kharkivStreet2,
                         Description =
@@ -2103,35 +2115,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user6.Id,
+                                User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user7.Id,
+                                User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user8.Id,
+                                User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user9.Id,
+                                User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -2144,8 +2156,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -2156,7 +2168,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Place
                     {
-                        UserId = supervisor.Id,
+                        User = supervisor,
                         Name = "Кафе Кентавр",
                         Street = lvivStreet1,
                         Description =
@@ -2186,35 +2198,35 @@ namespace FlexTemplate.DataAccessLayer
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user1.Id,
+                                User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user2.Id,
+                                User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user3.Id,
+                                User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user4.Id,
+                                User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
                                 Star = 4,
-                                UserId = user5.Id,
+                                User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
                             }
@@ -2227,8 +2239,8 @@ namespace FlexTemplate.DataAccessLayer
                             TuesdayTo = new TimeSpan(22, 0, 0),
                             WednesdayFrom = new TimeSpan(9, 0, 0),
                             WednesdayTo = new TimeSpan(22, 0, 0),
-                            ThurstdayFrom = new TimeSpan(9, 0, 0),
-                            ThurstdayTo = new TimeSpan(22, 0, 0),
+                            ThursdayFrom = new TimeSpan(9, 0, 0),
+                            ThursdayTo = new TimeSpan(22, 0, 0),
                             FridayFrom = new TimeSpan(9, 0, 0),
                             FridayTo = new TimeSpan(22, 0, 0),
                             SaturdayFrom = new TimeSpan(9, 0, 0),
@@ -2236,11 +2248,449 @@ namespace FlexTemplate.DataAccessLayer
                             SundayFrom = new TimeSpan(0, 0, 0),
                             SundayTo = new TimeSpan(0, 0, 0)
                         }
-                    }*/
+                    }
                 );
                 //BlogCategories
+                var blogCategory1 = new BlogCategory
+                {
+                    Name = "Рецепти",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Recipes"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
+                var blogCategory2 = new BlogCategory
+                {
+                    Name = "Акції",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Actions"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
+                var blogCategory3 = new BlogCategory
+                {
+                    Name = "Новини",
+                    Aliases = new List<BlogCategoryAlias>
+                    {
+                        new BlogCategoryAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "News"
+                        }
+                    },
+                    CreatedOn = DateTime.Now
+                };
                 //BlogTags
+                var blogTag1 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Знижки",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Discounts"
+                        }
+                    }
+                };
+                var blogTag2 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Українська кухня",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Ukrainian cuisine"
+                        }
+                    }
+                };
+                var blogTag3 = new Tag
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Італійська кухня",
+                    TagAliases = new List<TagAlias>
+                    {
+                        new TagAlias
+                        {
+                            Language = english,
+                            CreatedOn = DateTime.Now,
+                            Text = "Italian cuisine"
+                        }
+                    }
+                };
                 //Blogs
+                FlexContext.AddRange
+                (
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    },
+                    new Blog
+                    {
+                        CreatedOn = DateTime.Now,
+                        BlogBlogCategories = new List<BlogBlogCategory>
+                        {
+                            new BlogBlogCategory {BlogCategory = blogCategory1},
+                            new BlogBlogCategory {BlogCategory = blogCategory2},
+                            new BlogBlogCategory {BlogCategory = blogCategory3}
+                        },
+                        BlogTags = new List<BlogTag>
+                        {
+                            new BlogTag {Tag = blogTag1},
+                            new BlogTag {Tag = blogTag2},
+                            new BlogTag {Tag = blogTag3},
+                        },
+                        Caption = "Назва тестової статті",
+                        Comments = new List<BlogComment>
+                        {
+                            new BlogComment {Author = user1, Text = "тестовий коментар"},
+                            new BlogComment {Author = user2, Text = "тестовий коментар"},
+                            new BlogComment {Author = user3, Text = "тестовий коментар"},
+                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                        },
+                        Text = "тестова стаття",
+                        User = supervisor,
+                        ViewsCount = 0
+                    }
+                );
                 FlexContext.SaveChanges();
                 transaction.Commit();
             }

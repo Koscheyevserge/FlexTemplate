@@ -83,7 +83,7 @@ namespace FlexTemplate.PresentationLayer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
-            services.AddReact();
+            services.AddMemoryCache();
         }
         
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -99,22 +99,24 @@ namespace FlexTemplate.PresentationLayer
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
 
             app.UseReact(config => { });
 
             app.UseStaticFiles();
+            
+            app.UseMiddleware<FlexContextInitializer>();
 
             app.UseIdentity();
-
-            app.UseMiddleware<FlexContextInitializer>();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}");
             });
         }
     }

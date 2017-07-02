@@ -1,4 +1,5 @@
-﻿using FlexTemplate.BusinessLogicLayer.Services;
+﻿using System.Collections.Generic;
+using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,11 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs
         
         public IViewComponentResult Invoke(string templateName)
         {
-            return View(templateName, new BreadcrumbViewModel());
+            var model = new ViewModel
+            {
+                Breadcrumbs = new List<BreadcrumbViewModel>()
+            };
+            return View(templateName, model);
         }
     }
 }

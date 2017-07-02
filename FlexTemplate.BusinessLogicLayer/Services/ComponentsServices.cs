@@ -21,7 +21,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         public PageContainersHierarchyDto GetPageContainersHierarchy(int pageContainerTemplateId)
         {
             var result =
-                DalServices.GetPageContainersHierarchy(pageContainerTemplateId).To<PageContainersHierarchyDto>();
+                DalServices.GetPageContainersHierarchyAsync(pageContainerTemplateId).To<PageContainersHierarchyDto>();
             return result;
         }
 
@@ -59,6 +59,108 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             var result = await DalServices.GetHeaderViewComponentDaoAsync(httpContextUser, componentName);
             return result.To<HeaderViewComponentDto>();
+        }
+
+        public async Task<IEnumerable<CityChecklistItemDto>> GetCityChecklistItems(ClaimsPrincipal httpContextUser, IEnumerable<int> checkedCities)
+        {
+            var result = await DalServices.GetCityChecklistItemsAsync(httpContextUser, checkedCities);
+            return result.To<IEnumerable<CityChecklistItemDto>>();
+        }
+
+        public async Task<IEnumerable<PlaceCategoryChecklistItemDto>> GetPlaceCategoriesChecklistItems(ClaimsPrincipal httpContextUser, IEnumerable<int> checkedCategories)
+        {
+            var result = await DalServices.GetPlaceCategoriesChecklistItemsAsync(httpContextUser, checkedCategories);
+            return result.To<IEnumerable<PlaceCategoryChecklistItemDto>>();
+        }
+
+        public async Task<IEnumerable<PlaceListItemDto>> GetPlacesListAsync(ClaimsPrincipal httpContextUser, IEnumerable<int> placesIds)
+        {
+            var result = await DalServices.GetPlacesListAsync(httpContextUser, placesIds);
+            return result.To<IEnumerable<PlaceListItemDto>>();
+        }
+
+        public async Task<PaginationDto> GetPlacesPaginationAsync(int placesCount, int currentPage)
+        {
+            var placesPerPage = await CommonServices.GetPlacesPerPageCountAsync();
+            var totalPages = (int) Math.Ceiling(placesCount / (double)placesPerPage);
+            var result = new PaginationDto
+            {
+                HasNextPage = currentPage < totalPages,
+                HasPreviousPage = currentPage > 1,
+                TotalPagesCount = totalPages
+            };
+            return result;
+        }
+
+        public async Task<PlaceHeaderComponentDto> GetPlaceHeaderAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetPlaceHeaderAsync(httpContextUser, placeId);
+            return result.To<PlaceHeaderComponentDto>();
+        }
+
+        public async Task<PlaceLocationComponentDto> GetPlaceLocationAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceLocationAsync(placeId);
+            return result.To<PlaceLocationComponentDto>();
+        }
+
+        public async Task<PlaceReviewComponentDto> GetPlaceReviewAsync(int reviewId)
+        {
+            var result = await DalServices.GetPlaceReviewAsync(reviewId);
+            return result.To<PlaceReviewComponentDto>();
+        }
+
+        public async Task<PlaceMenuComponentDto> GetPlaceMenusAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceMenusAsync(placeId);
+            return result.To<PlaceMenuComponentDto>();
+        }
+
+        public async Task<PlaceOverviewComponentDto> GetPlaceOverviewAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetPlaceOverviewAsync(httpContextUser, placeId);
+            return result.To<PlaceOverviewComponentDto>();
+        }
+
+        public async Task<PlaceReviewsComponentDto> GetPlaceReviewsAsync(int placeId)
+        {
+            var result = await DalServices.GetPlaceReviewsAsync(placeId);
+            return result.To<PlaceReviewsComponentDto>();
+        }
+
+        public async Task<YouMayAlsoLikeComponentDto> GetYouMayAlsoLikeAsync(ClaimsPrincipal httpContextUser, int placeId)
+        {
+            var result = await DalServices.GetYouMayAlsoLikeAsync(httpContextUser, placeId);
+            return result.To<YouMayAlsoLikeComponentDto>();
+        }
+
+        public async Task<PaginationDto> GetBlogsPaginationAsync(int blogsCount, int currentPage)
+        {
+            var blogsPerPage = await CommonServices.GetBlogsPerPageCountAsync();
+            var totalPages = (int)Math.Ceiling(blogsCount / (double)blogsPerPage);
+            var result = new PaginationDto
+            {
+                HasNextPage = currentPage < totalPages,
+                HasPreviousPage = currentPage > 1,
+                TotalPagesCount = totalPages
+            };
+            return result;
+        }
+
+        public async Task<BlogsFeedComponentDto> GetBlogsFeedAsync(ClaimsPrincipal user, IEnumerable<int> tags, IEnumerable<int> categories, string input)
+        {
+            var blogsDto = await DalServices.GetBlogsFeedPopularBlogsAsync();
+            var tagsDto = await DalServices.GetBlogsFeedTags(user, tags, input);
+            var categoriesDto = await DalServices.GetBlogsFeedCategories(user, categories, input);
+            var latestBlogsDto = await DalServices.GetBlogsFeedLatestBlogs();
+            var result = new BlogsFeedComponentDto
+            {
+                Blogs = blogsDto.To<IEnumerable<BlogsFeedComponentPopularBlogDto>>(),
+                Categories = categoriesDto.To<IEnumerable<BlogsFeedComponentCategoryDto>>(),
+                Tags = tagsDto.To<IEnumerable<BlogsFeedComponentTagDto>>(),
+                LatestBlogs = latestBlogsDto.To<IEnumerable<BlogsFeedComponentLatestBlogDto>>()
+            };
+            return result;
         }
     }
 }

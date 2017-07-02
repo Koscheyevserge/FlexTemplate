@@ -1,25 +1,14 @@
-﻿@model FlexTemplate.ViewModels.HomeController.ThisPlaceReviewViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceReview.ViewModel
 <li class="clearfix">
 
     <div class="review-man">
 
         <div class="image">
 
-            <img src="../../Resources/User/@(Model.Review.User != null ? Model.Review.User.Id : string.Empty).jpg" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" alt="images" />
+            <img src="@Model.UserPhotoPath" onerror="this.onerror = null; this.src = '../../Resources/Defaults/user.jpg';" alt="images" />
 
         </div>
-        @{
-            var userName = "Гість";
-            if (Model.Review.User != null)
-            {
-                userName = Model.Review.User.Name + " " + Model.Review.User.Surname;
-                if (string.IsNullOrEmpty(userName.Trim()))
-                {
-                    userName = Model.Review.User.UserName;
-                }
-            }
-        }
-        <h6>@userName</h6> 
+        <h6>@Model.UserName</h6> 
 
     </div>
 
@@ -36,39 +25,20 @@
                     <div class="progress-radial-inner">
                         <div class="caption">
 
-                            <p class="number">@Model.Review.Star</p>
+                            <p class="number">@Model.Stars</p>
 
                         </div>
                     </div>
                 </div>
             </div>
 
-            @Model.Review.CreatedOn
+            @Model.CreatedOn
 
         </div>
 
         <div class="review-entry">
-            <p>@Model.Review.Text</p>
+            <p>@Model.Text</p>
         </div>
-
-        <!--<div class="meta-bottom">
-
-            <ul class="review-score-list clearfix">
-                <li>Food: 7</li>
-                <li>Service: 6</li>
-                <li>Recommend: 8</li>
-                <li>Worth: 9</li>
-            </ul>
-
-            <ul class="review-useful clearfix">
-                <li><span>Was this review helpful? </span></li>
-                <li class="the-label rated"><a href="#"><i class="fa fa-thumbs-up"></i></a> 2</li>
-                <li class="the-label"><a href="#"><i class="fa fa-thumbs-down"></i></a> 0</li>
-                <li class="for-report"><a href="#"><i class="fa fa-flag"></i></a></li>
-            </ul>
-
-
-        </div>-->
 
     </div>
 

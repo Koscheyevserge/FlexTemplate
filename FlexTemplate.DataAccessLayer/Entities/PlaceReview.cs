@@ -18,5 +18,6 @@
         /// Место, к которому оставили отзыв
         /// </summary>
         public Place Place { get; set; }
+        public bool IsModerated { get; set; }
     }
 }
