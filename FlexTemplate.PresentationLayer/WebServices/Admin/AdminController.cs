@@ -16,7 +16,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Admin
 {
     public class AdminController : FlexController
     {
-        private FlexContext _context;
+        private readonly FlexContext _context;
         public AdminController(ControllerServices services, FlexContext context) : base(services)
         {
             _context = context;

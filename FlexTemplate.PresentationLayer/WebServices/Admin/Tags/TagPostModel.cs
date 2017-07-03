@@ -7,5 +7,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Admin.Tags
 {
     public class TagPostModel
     {
+        public string Name { get; set; }
     }
 }

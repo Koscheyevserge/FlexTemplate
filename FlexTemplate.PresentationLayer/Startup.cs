@@ -76,6 +76,7 @@ namespace FlexTemplate.PresentationLayer
             {
                 razorOptions.ViewLocationExpanders.Add(new FlexViewLocator());
             });
+            services.AddReact();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddTransient<BusinessLogicLayer.Services.ControllerServices>();
