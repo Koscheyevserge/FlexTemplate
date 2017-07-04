@@ -17,14 +17,17 @@ namespace FlexTemplate.PresentationLayer.WebServices.Admin
     public class AdminController : FlexController
     {
         private readonly FlexContext _context;
+
         public AdminController(ControllerServices services, FlexContext context) : base(services)
         {
             _context = context;
         }
+
         public IActionResult Tags()
         {
             return View();
         }
+
         [HttpGet]
         public async Task<List<TagViewModel>> Get()
         {
