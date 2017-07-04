@@ -1,0 +1,29 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.CityPlaces.ViewModel
+@if (Model != null)
+{
+    <section class="c-this-city-places bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="section-title-02">
+                        <h3>@Model.TitleLabelCaption</h3>
+                        @Model.SubtitleLabelCaption
+                    </div>
+                </div>
+            </div>
+            <div class="restaurant-grid-wrapper mb-30">
+                <div class="GridLex-gap-30 GridLex-gap-20-mdd">
+                    <div class="GridLex-grid-noGutter-equalHeight GridLex-grid-center">
+                        @foreach (var placeId in Model.ThisCityPlaceIds)
+                        {
+                            @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.CityPlace.CityPlace), new { placeId = placeId});
+                        }
+                    </div>
+                    <div class="text-center">
+                        @Model.MorePlacesButtonCaption
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

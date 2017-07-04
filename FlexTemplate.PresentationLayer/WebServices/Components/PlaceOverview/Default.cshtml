@@ -1,0 +1,209 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceOverview.ViewModel
+@if (Model != null)
+{
+    <div class="detail-content-section clearfix">
+
+    <div class="section-title-02">
+        <h3><span>Overview</span></h3>
+    </div>
+
+    <p class="font500">@Model.Description</p>
+
+    <div class="row">
+
+    <div class="col-xs-12 @(Model.HasSchedule ? "col-sm-6" : "col-sm-12") mb-20">
+
+        <div class="contact-box">
+
+            <h5 class="text-primary">Contact Information</h5>
+
+            <ul class="contact-list">
+
+                <li>
+
+                    <div class="icon">
+                        <i class="ti-home"></i>
+                    </div>
+
+                    <div class="content mrg-content">
+                        <p class="mrg-content-address">@Model.Address</p>
+                    </div>
+
+                </li>
+               @if (!string.IsNullOrEmpty(Model.Phone))
+               {
+                   <li>
+
+                        <div class="icon">
+                            <i class="ti-mobile"></i>
+                        </div>
+
+                        <div class="content mrg-content">
+                            <p class="mrg-content-phone">@Model.Phone <br/> <br/>
+                            </p>
+                        </div>
+
+                    </li>
+                }
+                @if(!string.IsNullOrEmpty(Model.Email))
+                {
+                    <li>
+
+                       <div class="icon">
+                           <i class="ti-email"></i>
+                       </div>
+
+                       <div class="content mrg-content">
+                           <p class="mrg-content-email">@Model.Email<br/> <br/>
+                               </p>
+                       </div>
+
+                   </li>
+               }
+               @if (!string.IsNullOrEmpty(Model.Website))
+               {
+                   <li>
+
+                       <div class="icon">
+                           <i class="ti-email"></i>
+                       </div>
+                       <div class="content mrg-content">
+                           <p class="mrg-content-email"><a target="_blank" href="@(Model.Website)">@Model.Website</a><br/> <br/>
+                           </p>
+                       </div>
+
+                   </li>
+               }
+            </ul>
+
+            <a href="#detail-content-sticky-nav-04" class="btn btn-primary btn-sm anchor-alt">See map &amp; get route</a>
+        </div>
+
+    </div>
+    @if (Model.HasSchedule)
+    {
+        <div class="col-xs-12 col-sm-6">
+            <div class="open-time-box">
+                <h5 class="text-primary">Opening Time</h5>
+                <ul class="open-time-list">
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Понеділок
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.MondayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Вівторок
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.TuesdayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Середа
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.WednesdayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Четвер
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.ThursdayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    П’ятниця
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.FridayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Суббота
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.SaturdayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="day-close">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="day">
+                                    Неділя
+                                </span>
+                            </div>
+                            <div class="col-xs-6 col-sm-6">
+                                <span class="time text-uppercase font700 spacing-2">
+                                    @Model.Schedule.SundayOpenTime
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+    </div>
+    <h5 class="text-primary">Особливості:</h5>
+
+    <div class="row">
+        @foreach (var row in Model.RowsOfFeatures)
+        {
+            <div class="col-xss-12 col-xs-6 col-sm-6 col-md-3 mb-15">
+                <h6 class="mb-5">Колонка особливостей 1</h6>
+                <p>@row</p>
+            </div>
+        }
+        <div class="col-xss-12 col-xs-12 col-sm-12 col-md-12 mb-15">
+            <h6 class="mb-5">Кухні:</h6>
+            <p>- @Model.PlaceCategoriesEnumerated</p>
+        </div>
+
+    </div>
+    </div>
+}

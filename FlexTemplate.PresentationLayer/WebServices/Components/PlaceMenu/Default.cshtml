@@ -1,0 +1,68 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceMenu.ViewModel
+@if (Model != null && Model.Menus != null && Model.Menus.Any())
+{
+    <div id="detail-content-sticky-nav-01" class="detail-content-section clearfix">
+
+    <div class="section-title-02">
+        <h3><span>Меню</span></h3>
+    </div>
+
+    <div class="panel-group bootstarp-accordion pb-0 mt-0 pb-0 mb-0" id="accordion" role="tablist" aria-multiselectable="true">
+    @foreach (var menu in Model.Menus)
+    {
+        <div class="panel">
+            <div class="panel-heading" role="tab" id="heading-@menu.Id">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-@menu.Id" aria-expanded="false" aria-controls="collapse-@menu.Id">@menu.Name</a>
+                </h4>
+            </div>
+            <div id="collapse-@menu.Id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-@menu.Id">
+
+                <div class="panel-body">
+
+                    <div class="food-menu-wrapper">
+
+                        <div class="GridLex-gap-30">
+                            @foreach (var product in menu.Products)
+                            {
+                                <div class="GridLex-grid-noGutter-equalHeight">
+
+                                    <div class="GridLex-col-6_sm-12_xs-12_xss-12">
+
+                                        <div class="food-menu-item clearfix">
+
+                                            <div class="image">
+                                                <img src="@product.PhotoPath" onerror="this.onerror = null; this.src = '../../Resources/Defaults/product.jpg';" alt="image"/>
+                                            </div>
+
+                                            <div class="content">
+
+                                                <h6><span>@product.Title</span></h6>
+                                                <p>@product.Description</p>
+
+                                                <div class="price">
+                                                    @product.Price
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    </div>
+
+    </div>
+}

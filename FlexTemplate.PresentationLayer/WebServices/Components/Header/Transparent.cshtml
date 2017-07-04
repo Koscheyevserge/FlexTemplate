@@ -1,0 +1,94 @@
+﻿@using FlexTemplate.Entities
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model FlexTemplate.ViewModels.HeaderViewModel
+<!-- start Header -->
+<header id="header">
+    <!-- start Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="header-inner">
+            <div class="navbar-header">
+                <a class="navbar-brand hidden-xs" asp-controller="Home" asp-action="Index"><img src="../../images/logo.png" alt="Image" /></a>
+                <a class="navbar-brand visible-xs" asp-controller="Home" asp-action="Index"><img src="../../images/logo-xs.png" alt="Image" /></a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse navbar-arrow pull-left">
+                <ul class="nav navbar-nav" id="responsive-menu">
+                    <li>
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="Index">Головна</a></li>
+                            <li><a asp-controller="Home" asp-action="Places">Ресторани</a></li>
+                            <li><a asp-controller="Home" asp-action="Blogs">Блоги</a></li>
+                            <li><a asp-controller="Home" asp-action="NewPlace">Додати ресторан</a></li>
+                            <li>
+                                <a>Додати(Тест)</a>
+                                <ul style="display: none">
+                                    <li><a asp-controller="Home" asp-action="NewBlog">Блог</a></li>
+                                    <li><a asp-controller="Home" asp-action="NewPlace">Заклад</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a>Увійти(Тест)</a>
+                                <ul style="display: none">
+                                    <li><a asp-controller="Login" asp-action="LoginAsAdmin">Як адміністратор</a></li>
+                                    <li><a asp-controller="Login" asp-action="LoginAsGuest">Як користувач</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div><!--/.nav-collapse -->
+            <div class="pull-right">
+                <div class="navbar-mini">
+                    <ul class="clearfix">
+                        <li class="dropdown bt-dropdown-click">
+                            <a id="currency-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="ion-social-usd"></i> Долари
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="currency-dropdown">
+                                <li><a href="#"><i class="ion-social-usd"></i> Долари</a></li>
+                                <li><a href="#"><i class="ion-social-euro"></i> Євро</a></li>
+                                <li><a href="#"><i class="ion-social-yen"></i> Iєна</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown bt-dropdown-click">
+                            <a id="language-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="ion-android-globe"></i> @Model.CurrentLanguage.Name
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="language-dropdown">
+                                @foreach (FlexTemplate.Entities.Language lang in Model.Languages)
+                                {
+                                    <li><a href="@Url.Action("ChangeUserLanguage", "Home", new {redirect = Context.Request.Host + Context.Request.Path, languageId = lang.Id})">@lang.Name</a></li>
+                                }
+                            </ul>
+                        </li>
+                        @{
+                            var userName = string.Empty;
+                            if (Model.CurrentUser != null)
+                            {
+                                userName = Model.CurrentUser.Name + " " + Model.CurrentUser.Surname;
+                                if (string.IsNullOrEmpty(userName.Trim()))
+                                {
+                                    userName = Model.CurrentUser.UserName;
+                                }
+                            }
+                        }
+                        @if (!string.IsNullOrEmpty(userName))
+                        {
+                            <li>
+                                @userName
+                            </li>
+                        }
+                        <li class="user-action">
+                            <a href="javascript:void(0)" class="btn btn-primary btn-inverse btn-sm btn-ajax-login" data-toggle="modal">Зареєструватися/Увійти</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="slicknav-mobile"></div>
+    </nav>
+    <!-- end Navbar -->
+</header>
+<!-- end Header -->

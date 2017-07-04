@@ -1,0 +1,189 @@
+/*------------------------------------------------------------------
+Project:        Restaurant Finder
+Author:         Crenoveative
+URL:            http://crenoveative.com/
+Created:        24/10/2016
+-------------------------------------------------------------------*/
+
+
+/**
+ * Add your style in this file
+*/
+
+.section-title-02 {
+  overflow: visible;
+}
+
+.section-title-02 h3 {
+  overflow: hidden;
+}
+
+.subtitle {
+  position: relative;
+}
+
+.user-edit-icon {
+  content: '';
+  position: absolute !important;
+  top: 2px;
+  right: -25px;
+  cursor: pointer;
+  display: block;
+  width: 20px;
+  height: 20px;
+  opacity: .6;
+  background: url(../images/ico/user-edit-icon.png) no-repeat;
+  background-size: 100% 100%;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 99;
+}
+
+.user-edit-icon:after,
+.user-edit-icon:before {
+  display: none;
+}
+
+.user-edit-icon.active {
+  opacity: 1;
+}
+
+.user-edit-icon:hover {
+  opacity: 1;
+}
+
+.text-edit {
+  padding: 5px;
+  border: 1px solid #DB3944;
+}
+
+[contenteditable]:focus {
+  // padding: 2px;
+  outline: none;
+  // box-shadow: 0 0 3px -1px #DB3944;
+}
+
+.user-edit-button {
+	margin: 10px 0;
+	display: block;
+}
+
+.user-edit-textarea {
+	width: 100%;
+	height: auto;
+	max-width: 100%;
+	min-width: 100px;
+	min-height: 40px;
+}
+
+
+/* admin */
+
+.admin {
+  margin-bottom: 80px;
+}
+
+.admin h4 span {
+  width: 250px;
+  display: inline-block;
+}
+
+.admin h3 input,
+.admin h4 input {
+  display: inline-block;
+  width: 300px;
+  color: #3277C0;
+  vertical-align: middle;
+}
+
+.admin .buttons {
+  margin-top: 15px;
+  display: block;
+}
+
+.admin .alias {
+  margin-top: 10px;
+}
+
+.admin .admin-button-remove-category {
+  display: block;
+  margin-top: 10px;
+}
+
+.admin .buttons .admin-button {
+  margin-right: 10px;
+}
+
+.admin-button-add-category {
+  margin-top: 40px;
+}
+
+.admin .category {
+  margin-top: 40px;
+}
+
+.admin .fancy-select,
+.admin .alias input {
+  margin-right: 10px;
+  width: 200px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.admin-button-remove-component {
+  float: right;
+}
+
+.admin .container-components {
+  margin-bottom: 20px;
+}
+
+#draggablePanelList {
+  padding-left: 20px;
+  max-width: 780px;
+}
+
+#draggablePanelList li {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: move;
+  transition: background .3s ease-in-out;
+}
+
+#draggablePanelList li.ui-sortable-helper {
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  color: #8a6d3b;
+  transition: background .3s ease-in-out;
+}
+
+
+
+
+/* home pages */
+
+.search-margin-top {
+  margin-top: -25px;
+}
+
+.mrg-content {
+    display: inline-block;
+}
+
+.mrg-content-address {
+    margin-bottom: 10px;
+}
+
+.mrg-content-phone {
+    margin-top: 10px;
+}
+
+.mrg-content-email {
+    margin-top: 10px;
+}
+.ui-autocomplete{
+    background: #fff;
+    color: #555;
+    width: 100px;
+    border: 1px solid #ccc;
+}

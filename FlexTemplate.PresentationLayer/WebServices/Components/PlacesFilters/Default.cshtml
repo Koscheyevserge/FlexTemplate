@@ -1,0 +1,48 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.ViewModel
+<div class="col-sm-4 col-md-3">
+
+    <div class="section-title-02">
+        <h4><span>Фільтри</span></h4>
+    </div>
+
+    <!--<div class="sidebar-module">
+        <h5>Price Range</h5>
+        <div class="range-slider-wrapper">
+            <input id="price_range" />
+        </div>
+    </div>
+
+    <div class="sidebar-module">
+        <h5>Rating Range</h5>
+        <div class="range-slider-wrapper">
+            <input id="star_rating_range" />
+        </div>
+    </div>-->
+
+    <div class="sidebar-module">
+        <h5>Категорії</h5>
+        @foreach (var category in Model.AllCategories)
+        {
+            <div class="checkbox-block font-icon-checkbox">
+                <input id="filter_categories-@category.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { listType = Model.ListType, categories = category.CategoriesWithoutThisIds, cities = Model.Cities, input = Model.Input, isDescending = Model.IsDescending, orderBy = Model.OrderBy })'" type="checkbox" class="checkbox" checked="@category.Checked" />
+                <label for="filter_categories-@category.Id">@category.Name</label>
+            </div>
+        }
+    </div>
+
+    <div class="sidebar-module">
+        <h5>Міста</h5>
+        @foreach (var city in Model.AllCities)
+        {
+            <div class="checkbox-block font-icon-checkbox">
+                <input id="filter_cities-@city.Id" onchange="window.location.href = '@Url.Action("Places", "Home", new { listType = Model.ListType, categories = Model.Categories, cities = city.CitiesWithoutThisIds, input = Model.Input, isDescending = Model.IsDescending, orderBy = Model.OrderBy })'" type="checkbox" class="checkbox" checked="@city.Checked" />
+                <label for="filter_cities-@city.Id">@city.Name</label>
+            </div>
+        }
+    </div>
+
+    <!--<div class="sidebar-module">
+        <h5>Sidebar Text</h5>
+        <p>Attachment apartments in delightful by motionless it no. And now she burst sir learn total. Hearing hearted shewing own ask. Solicitude uncommonly use her motionless not collecting age. The properly servants required mistaken outlived bed and.</p>
+    </div>-->
+</div>

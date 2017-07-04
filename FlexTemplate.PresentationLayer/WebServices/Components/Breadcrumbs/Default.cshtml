@@ -1,0 +1,18 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.ViewModel
+<div class="breadcrumb-wrapper">
+
+    <ol class="breadcrumb">
+        @foreach (var breadcrumb in Model.Breadcrumbs)
+        {
+            if (breadcrumb.IsActive)
+            {
+                <li><a class="active">@breadcrumb.Name</a></li>
+            }
+            else
+            {
+                <li><a asp-controller="@breadcrumb.ControllerName" asp-action="@breadcrumb.ActionName">@breadcrumb.Name</a></li>
+            }
+        }
+    </ol>
+
+</div>

@@ -1,8 +1,0 @@
-﻿@model FlexTemplate.ViewModels.AdminController.NewPageContainerViewModel
-@if (Model != null)
-{
-    <li class="alert alert-info component clearfix" dataId="@Model.PageContainerTemplate.ContainerTemplateId">
-        <button class="btn btn-primary btn-form admin-button-remove-component">Remove</button>
-        <span>@Model.PageContainerTemplate.ContainerTemplate.Container.Name - @Model.PageContainerTemplate.ContainerTemplate.TemplateName</span>
-    </li>
-}

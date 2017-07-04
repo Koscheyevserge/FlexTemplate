@@ -1,0 +1,42 @@
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.PlaceReviews.ViewModel
+<div id="detail-content-sticky-nav-02" class="detail-content-section clearfix">
+
+    <div class="section-title-02">
+        <h3><span>Огляд</span></h3>
+    </div>
+
+    <div class="review-wrapper">
+        
+        <div class="review-item-wrapper">
+            
+            <ul class="review-item-list">
+                @foreach (var review in Model.Reviews)
+                {
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlaceReview.PlaceReview), new { reviewId = review });
+                }
+            </ul>
+            <h4>Додати коментар</h4>
+
+            <form method="post" id="contactForm" asp-controller="Home" asp-action="NewPlaceReview" asp-route-placeid="@Model.PlaceId" class="comment-form">
+
+                <div class="clear"></div>
+                <div class="row">
+                    <div class="col-md-12 mb-20">
+                        <div class="form-group">
+                            <label for="comment-message">Коментар</label>
+                            <textarea name="text" id="comment-message" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Відправити</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="clear mb-15"></div>
+
+</div>
