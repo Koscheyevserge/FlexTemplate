@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Html;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Home.Blog
+namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
-    public class ViewModel
+    public class BlogPageDto
     {
         public int Id { get; set; }
-        public HtmlString Text { get; set; }
+        public string Text { get; set; }
         public string Name { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool IsAuthor { get; set; }
@@ -16,6 +15,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.Blog
         public string BannerPath { get; set; }
         public string AuthorDisplayName { get; set; }
         public string AuthorPhotoPath { get; set; }
-        public IEnumerable<TagViewModel> Tags { get; set; }
+        public IEnumerable<TagBlogPageDto> Tags { get; set; }
     }
 }

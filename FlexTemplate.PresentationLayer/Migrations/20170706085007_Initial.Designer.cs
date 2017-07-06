@@ -8,8 +8,8 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170628194132_1")]
-    partial class _1
+    [Migration("20170706085007_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,8 +154,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AuthorId");
-
                     b.Property<int>("BlogId");
 
                     b.Property<DateTime>("CreatedOn");
@@ -166,11 +164,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Text");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.HasIndex("BlogId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("BlogComments");
                 });
@@ -1059,14 +1059,14 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogComment", b =>
                 {
-                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
-
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
                         .WithMany("Comments")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>

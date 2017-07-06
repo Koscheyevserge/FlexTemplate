@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.DataTransferObjects;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
@@ -30,16 +34,13 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
         
         public async Task<IActionResult> Places(int[] cities, int[]categories, string input, int currentPage = 1, int listType = 1, int orderBy = 1, bool isDescending = false)
         {
-            var hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName);
-            var canEdit = await BllServices.CanEditVisualsAsync(HttpContext.User);
-            var placesOnPageIds = await BllServices.GetPlacesAsync(HttpContext.User, cities, categories, input, currentPage, orderBy, isDescending);
-            var placesTotal = await BllServices.GetPlacesCountAsync(cities, categories, input);
             var model = new Places.ViewModel
             {
-                Hierarchy = hierarchy,
-                CanEditVisuals = canEdit,
-                PlacesOnPageIds = placesOnPageIds,
-                PlacesTotal = placesTotal
+                Hierarchy = await BllServices.GetPageContainersHierarchyAsync(ControllerContext.ActionDescriptor.ActionName),
+                CanEditVisuals = await BllServices.CanEditVisualsAsync(HttpContext.User),
+                PlacesOnPageIds = await BllServices.GetPlacesAsync(HttpContext.User, cities, categories, input, currentPage, orderBy, isDescending),
+                PlacesTotal = await BllServices.GetPlacesCountAsync(cities, categories, input),
+                BannerPhotoPath = ""
             };
             return View(model);
         }
@@ -61,175 +62,66 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
         
         public async Task<IActionResult> Blogs(int[] tags, int[] categories, string input, int currentPage = 1)
         {
-            var getBlogsAsync = await BllServices.GetBlogsAsync(tags, categories, input, currentPage);
+            var getBlogsAsync = await BllServices.GetBlogsAsync(HttpContext.User, tags, categories, input, currentPage);
             return View(getBlogsAsync.To<Blogs.ViewModel>());
         }
-        /*
+        
         public async Task<IActionResult> Blog(int id)
         {
             if (id == 0)
             {
                 return NotFound();
             }
-            var model = new Blog.ViewModel
+            var model = await BllServices.GetBlogAsync(HttpContext.User, id);
+            if (model == null)
             {
-                
-            };
-            return View(model);
+                return NotFound();
+            }
+            return View(model.To<Blog.ViewModel>());
         }
 
-        public IActionResult NewBlog()
+        public async Task<IActionResult> NewPlace()
         {
-            return View();
+            var model = await BllServices.GetNewPlaceDtoAsync(HttpContext.User);
+            return View(model.To<NewPlace.ViewModel>());
         }
 
+        public async Task<IActionResult> NewBlog()
+        {
+            var model = await BllServices.GetNewBlogDtoAsync();
+            return View(model.To<NewBlog.ViewModel>());
+        }
+        
         [HttpPost]
-        public async Task<IActionResult> NewBlog(NewBlogViewModel model)
+        public async Task<IActionResult> NewBlog(NewBlog.PostModel model)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var inputTags = model.Tags != null && model.Tags.Any() ? model.Tags.Split(',').Select(tag => tag.Trim()).ToList() : new List<string>{""};
-            var tags =
-                context.Tags.Where(
-                    tag =>
-                        inputTags.Contains(tag.Name) || inputTags.Intersect(tag.TagAliases.Select(ta => ta.Text)).Any())
-                            .Select(tag => new BlogTag {Tag = tag}).ToList();
-            var newBlog = new Blog {Caption = model.Name, Preamble = model.Preamble, Text = model.Text, Author = user, BlogTags = tags, CreatedOn = DateTime.Now};
-            context.Blogs.Add(newBlog);
-            await context.SaveChangesAsync();
-            FilesProvider.MoveFolder($@"wwwroot\Resources\Blogs\{model.Guid}\", $@"wwwroot\Resources\Blogs\{newBlog.Id}\");
-            return RedirectToAction("Blog", "Home", new {id = newBlog.Id});
+            var newBlogId = await BllServices.CreateBlog(HttpContext.User, model.To<CreateBlogDto>());
+            return RedirectToAction("Blog", "Home", new {id = newBlogId});
         }
-
+        
         [HttpPost]
-        public async Task<IActionResult> NewBlogComment(NewBlogCommentViewModel model)
+        public async Task<IActionResult> NewBlogComment(Blog.NewBlogCommentPostModel model)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var newBlogComment = new BlogComment { BlogId = model.BlogId, Author = user, CreatedOn = DateTime.Now, Text = model.Text };
-            context.BlogComments.Add(newBlogComment);
-            await context.SaveChangesAsync();
-            return RedirectToAction("Blog", new {id = model.BlogId});
+            //TODO сделать вызов через Ajax без перезагрузки страницы
+            var result = await BllServices.AddComment(HttpContext.User, model.To<NewBlogCommentDto>());
+            return RedirectToAction("Blog", new { id = model.BlogId});
         }
-
+        
         [HttpPost]
-        public async Task<IActionResult> NewPlaceReview(NewPlaceReviewViewModel model)
+        public async Task<IActionResult> NewPlaceReview(Place.NewPlaceReviewPostModel model)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var newPlaceReview = new PlaceReview { PlaceId = model.PlaceId, User = user, CreatedOn = DateTime.Now, Text = model.Text };
-            context.PlaceReviews.Add(newPlaceReview);
-            await context.SaveChangesAsync();
+            //TODO сделать вызов через Ajax без перезагрузки страницы
+            var result = await BllServices.AddReview(HttpContext.User, model.To<NewPlaceReviewDto>());
             return RedirectToAction("Place", new { id = model.PlaceId });
         }
-
-        public IActionResult NewPlace()
-        {
-            return View(context.Categories.AsNoTracking().AsEnumerable());
-        }
-
+        
         [HttpPost]
-        public IActionResult NewPlace(NewPlacePostViewModel item)
+        public IActionResult NewPlace(NewPlace.PostModel model)
         {
-            var possibleCities =
-                context.Cities.Where(
-                    c => c.Name.Contains(item.City) || c.Aliases.Any(a => a.Text.Contains(item.City)));
-            var chosenCity = possibleCities.Any()
-                ? possibleCities.FirstOrDefault()
-                : new City { Name = item.City, Country = context.Countries.FirstOrDefault()};
-            var possibleStreets =
-                context.Streets.Where(
-                    s => s.Name.Contains(item.Street) || s.Aliases.Any(a => a.Text.Contains(item.Street)));
-            var chosenStreet = possibleStreets.Any()
-                ? possibleStreets.FirstOrDefault()
-                : new Street {Name = item.Street, City = chosenCity };
-            var placeCategories = context.Categories.Where(c => item.Categories.Contains(c.Id)).Select(c => new PlaceCategory { Category = c }).ToList();
-            var placeFeatures = new List<PlaceFeature>();
-            for (var i = 0; i < item.Features.Length; i++)
-            {
-                for (var j = 0; j < item.Features[i].Length; j++)
-                {
-                    if (!string.IsNullOrEmpty(item.Features[i][j]))
-                    {
-                        placeFeatures.Add(new PlaceFeature {Name = item.Features[i][j], Row = i + 1, Column = j + 1});
-                    }
-                }
-            }
-            var newPlace = new Place
-            {
-                Address = item.Address,
-                Description = item.Description,
-                Name = item.Name,
-                Email = item.Email,
-                Website = item.Website,
-                Phone = item.Phone,
-                Latitude = double.Parse(item.Latitude ?? "50.5", CultureInfo.InvariantCulture),
-                Longitude = double.Parse(item.Longitude ?? "30.5", CultureInfo.InvariantCulture),
-                Street = chosenStreet,
-                PlaceCategories = placeCategories,
-                PlaceFeatures = placeFeatures
-            };
-            if (!(item.MondayFrom == TimeSpan.Zero && item.MondayTo == TimeSpan.Zero
-                && item.TuesdayFrom == TimeSpan.Zero && item.TuesdayTo == TimeSpan.Zero
-                && item.WednesdayFrom == TimeSpan.Zero && item.WednesdayTo == TimeSpan.Zero
-                && item.ThurstdayFrom == TimeSpan.Zero && item.ThurstdayTo == TimeSpan.Zero
-                && item.FridayFrom == TimeSpan.Zero && item.FridayTo == TimeSpan.Zero
-                && item.SaturdayFrom == TimeSpan.Zero && item.SaturdayTo == TimeSpan.Zero
-                && item.SundayFrom == TimeSpan.Zero && item.SundayTo == TimeSpan.Zero)
-                && item.MondayFrom <= item.MondayTo && item.TuesdayFrom <= item.TuesdayTo
-                && item.WednesdayFrom <= item.WednesdayTo && item.ThurstdayFrom <= item.ThurstdayTo
-                && item.FridayFrom <= item.FridayTo && item.SaturdayFrom <= item.SaturdayTo && item.SundayFrom <= item.SundayTo)
-            {
-                newPlace.Schedule = new Schedule
-                {
-                    MondayFrom = item.MondayFrom,
-                    MondayTo = item.MondayTo,
-                    TuesdayFrom = item.TuesdayFrom,
-                    TuesdayTo = item.TuesdayTo,
-                    WednesdayFrom = item.WednesdayFrom,
-                    WednesdayTo = item.WednesdayTo,
-                    ThurstdayFrom = item.ThurstdayFrom,
-                    ThurstdayTo = item.ThurstdayTo,
-                    FridayFrom = item.FridayFrom,
-                    FridayTo = item.FridayTo,
-                    SaturdayFrom = item.SaturdayFrom,
-                    SaturdayTo = item.SaturdayTo,
-                    SundayFrom = item.SundayFrom,
-                    SundayTo = item.SundayTo
-                };
-            }
-            newPlace.Menus = item.Menus
-                .Where(m => m.Products.Any(p => p.Price > 0 && !string.IsNullOrEmpty(p.Name)))
-                .Select(menu => 
-                new Menu
-                {
-                    Name = menu.Name,
-                    Products = menu.Products
-                    .Where(p => p.Price > 0 && !string.IsNullOrEmpty(p.Name))
-                    .Select(product =>
-                    new Product
-                    {
-                        Description = product.Description,
-                        Price = product.Price,
-                        Title = product.Name
-                    }).ToList()
-                }).ToList();
-            context.Places.Add(newPlace);
-            context.SaveChanges();
-            foreach (var menu in newPlace.Menus)
-            {
-                foreach (var product in menu.Products)
-                {
-                    var entity = item.Menus.Where(m => m.Name == menu.Name).SelectMany(m => m.Products)
-                        .FirstOrDefault(p => p.Description == product.Description && Math.Abs(p.Price - product.Price) < 0.1 && p.Name == product.Title);
-                    var uid = entity?.Guid;
-                    if (uid != null)
-                    {
-                        FilesProvider.MoveFile($@"wwwroot\Resources\Products\{uid}.tmp", $@"wwwroot\Resources\Products\{product.Id}.jpg");
-                    }
-                }
-            }
-            FilesProvider.MoveFolder($@"wwwroot\Resources\Places\{item.Uid}\", $@"wwwroot\Resources\Places\{newPlace.Id}\");
-            return RedirectToAction("Place", new {id = newPlace.Id});
+            //TODO var newPlaceId = await BllServices.CreatePlace(HttpContext.User, model.To<NewPlaceDto>());
+            return RedirectToAction("Place", new {id = 1});
         }
-
+        /*
         public async Task<IActionResult> EditBlog(int id)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);

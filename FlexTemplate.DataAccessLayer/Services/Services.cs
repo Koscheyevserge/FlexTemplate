@@ -15,11 +15,13 @@ namespace FlexTemplate.DataAccessLayer.Services
     {
         private FlexContext Context { get; }
         private UserManager<User> UserManager { get; }
+        private SignInManager<User> SignInManager { get; }
 
-        public Services(FlexContext context, UserManager<User> userManager)
+        public Services(FlexContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             Context = context;
             UserManager = userManager;
+            SignInManager = signInManager;
         }
 
         public async Task<IEnumerable<CityChecklistItemDao>> GetCityChecklistItemsAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCities)
@@ -36,15 +38,16 @@ namespace FlexTemplate.DataAccessLayer.Services
                     GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
                 );
             }
+            var checkedCitiesList = checkedCities.ToList();
             var result = Context.Cities.Select(c => 
                 new CityChecklistItemDao
                 {
                     Id = c.Id,
                     Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
-                    Checked = checkedCities.Contains(c.Id),
-                    CitiesWithoutThisIds = checkedCities.Contains(c.Id) 
-                        ? checkedCities.Where(checkedCity => checkedCity != c.Id) 
-                        : checkedCities.Concat(new List<int>{c.Id})
+                    Checked = checkedCitiesList.Contains(c.Id),
+                    CitiesWithoutThisIds = checkedCitiesList.Contains(c.Id) 
+                        ? checkedCitiesList.Where(checkedCity => checkedCity != c.Id) 
+                        : checkedCitiesList.Concat(new List<int>{c.Id})
                 });
             return result;
         }
@@ -63,12 +66,13 @@ namespace FlexTemplate.DataAccessLayer.Services
                     GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
                 );
             }
+            var checkedCategoriesList = checkedCategories.ToList();
             var result = Context.PlaceCategories.Select(c => new PlaceCategoryChecklistItemDao
             {
                 Id = c.Id,
                 Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
-                Checked = checkedCategories.Contains(c.Id),
-                CategoriesWithoutThisIds = checkedCategories.Contains(c.Id) ? checkedCategories.Where(checkedCategory => checkedCategory != c.Id) : checkedCategories.Concat(new List<int>{c.Id})
+                Checked = checkedCategoriesList.Contains(c.Id),
+                CategoriesWithoutThisIds = checkedCategoriesList.Contains(c.Id) ? checkedCategoriesList.Where(checkedCategory => checkedCategory != c.Id) : checkedCategoriesList.Concat(new List<int>{c.Id})
             });
             return result;
         }
@@ -157,6 +161,36 @@ namespace FlexTemplate.DataAccessLayer.Services
             return strings;
         }
 
+        public async Task<BlogPageDao> GetBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            var user = await UserManager.GetUserAsync(claims);
+            var userLanguage = await GetUserLanguageAsync(claims);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            var isAuthor = await IsAuthorAsync<Blog>(claims, id);
+            var tags = await Context.BlogTags.Include(bt => bt.Tag).ThenInclude(t => t.TagAliases)
+                .Where(bt => bt.BlogId == id).Select(bt =>
+                new TagBlogPageDao
+                {
+                    Id = bt.TagId,
+                    Name = GetProperAlias(bt.Tag.TagAliases, bt.Tag.Name, defaultLanguage, userLanguage)
+                }).ToListAsync();
+            return await Context.Blogs.Select(b =>
+                new BlogPageDao
+                {
+                    AuthorDisplayName = GetUsername(user),
+                    AuthorPhotoPath = "",//TODO реализовать получение фотографии
+                    BannerPath = "",//TODO реализовать получение фотографии
+                    CreatedOn = b.CreatedOn,
+                    Id = b.Id,
+                    IsAuthor = isAuthor,
+                    IsModerated = b.IsModerated,
+                    IsModeratedText = "",//TODO добавить текст модерации
+                    Name = b.Caption,
+                    Tags = tags,
+                    Text = b.Text
+                }).SingleOrDefaultAsync(b => b.Id == id && (b.IsModerated || isAuthor));            
+        }
+
         private async Task<Language> GetUserLanguageAsync(ClaimsPrincipal claimsPrincipal)
         {
             var user = await UserManager.GetUserAsync(claimsPrincipal);
@@ -164,6 +198,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                 return null;
             var claims = await UserManager.GetClaimsAsync(user);
             var languageClaim = claims.FirstOrDefault(c => c.Type == "language");
+            if (languageClaim == null)
+                return null;
             var userLanguage = Context.Languages.SingleOrDefault(l => l.ShortName == languageClaim.Value);
             return userLanguage;
         }
@@ -177,16 +213,8 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<HeaderViewComponentDao> GetHeaderViewComponentDaoAsync(ClaimsPrincipal httpContextUser, string componentName)
         {
             var user = await UserManager.GetUserAsync(httpContextUser);
-            Language userLanguage = null;
-            if (user != null)
-            {
-                var claims = await UserManager.GetClaimsAsync(user);
-                var languageClaim = claims.FirstOrDefault(c => c.Type == "language");
-                userLanguage = Context.Languages.SingleOrDefault(l => l.ShortName == languageClaim.Value);
-            }
-            var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
-            var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
             var languages = Context.Languages.Select(l => new KeyValuePair<int, string>(l.Id, l.Name));
             var isLogined = user != null;
             var userName = isLogined ? GetUsername(user) : string.Empty;
@@ -424,6 +452,18 @@ namespace FlexTemplate.DataAccessLayer.Services
             return user != null && Context.GetSet<T>().Any(p => p.User == user && p.Id == placeId);
         }
 
+        public async Task<bool> IsUserAdmin(ClaimsPrincipal httpContextUser)
+        {
+            var user = await UserManager.GetUserAsync(httpContextUser);
+            return user != null && await UserManager.IsInRoleAsync(user, "Supervisor");
+        }
+
+        public async Task<bool> IsUserModerator(ClaimsPrincipal httpContextUser)
+        {
+            var user = await UserManager.GetUserAsync(httpContextUser);
+            return user != null && await UserManager.IsInRoleAsync(user, "Moderator");
+        }
+
         public async Task<UserDao> GetUserAsync(ClaimsPrincipal httpContextUser)
         {
             var user = await UserManager.GetUserAsync(httpContextUser);
@@ -613,9 +653,10 @@ namespace FlexTemplate.DataAccessLayer.Services
             return result;
         }
 
-        public Task<int> GetBlogsCountAsync(int[] tags, int[] categories, string input)
+        public Task<int> GetBlogsCountAsync(ClaimsPrincipal claims, int[] tags, int[] categories, string input)
         {
-            var blogs = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories).AsQueryable();
+            var blogs = Context.Blogs.Include(b => b.BlogTags)
+                .Include(b => b.BlogBlogCategories).Where(b => b.IsModerated);
             if (tags != null && tags.Any())
             {
                 blogs = blogs.Where(b => b.BlogTags.Select(bt => bt.TagId).Intersect(tags).Any());
@@ -634,9 +675,11 @@ namespace FlexTemplate.DataAccessLayer.Services
             return blogs.CountAsync();
         }
 
-        public Task<List<CachedBlogItemDao>> GetBlogsAsync(int[] tags, int[] categories, string input, int page, int blogsPerPage)
+        public async Task<List<CachedBlogItemDao>> GetBlogsAsync(ClaimsPrincipal claims, int[] tags, int[] categories, string input, int page, int blogsPerPage)
         {
-            var result = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories).AsQueryable();
+            var userIsAdmin = await IsUserAdmin(claims);
+            var result = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories)
+                .Where(b => b.IsModerated || userIsAdmin);
             if (tags != null && tags.Any())
             {
                 result = result.Where(b => b.BlogTags.Select(bt => bt.TagId).Intersect(tags).Any());
@@ -652,7 +695,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 result = result.Where(b => b.Caption.ToUpperInvariant().Contains(inputNormalized) 
                     || b.Text.ToUpperInvariant().Contains(inputNormalized));
             }
-            return result.Select(b =>
+            return await result.Select(b =>
                 new CachedBlogItemDao
                 {
                     Id = b.Id,
@@ -680,6 +723,7 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<List<BlogsFeedComponentTagDao>> GetBlogsFeedTags(ClaimsPrincipal httpContextUser, IEnumerable<int> tags, string input)
         {
+            var tagsList = tags.ToList();
             var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = await Context.Tags.Include(t => t.TagAliases)
@@ -687,13 +731,16 @@ namespace FlexTemplate.DataAccessLayer.Services
                     new BlogsFeedComponentTagDao
                     {
                         Name = GetProperAlias(t.TagAliases, t.Name, defaultLanguage, userLanguage),
-                        WithoutThisIds = tags.Contains(t.Id) ? tags.Where(tag => tag != t.Id) : tags.Concat(new List<int>{t.Id})
+                        WithoutThisIds = tagsList.Contains(t.Id) 
+                            ? tagsList.Where(tag => tag != t.Id) 
+                            : tagsList.Concat(new List<int>{t.Id})
                     }).ToListAsync();
             return result;
         }
 
         public async Task<List<BlogsFeedComponentCategoryDao>> GetBlogsFeedCategories(ClaimsPrincipal httpContextUser, IEnumerable<int> categories, string input)
         {
+            var categoriesList = categories.ToList();
             var userLanguage = await GetUserLanguageAsync(httpContextUser);
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = await Context.BlogCategories.Include(bc => bc.Aliases)
@@ -702,7 +749,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     {
                         Caption = GetProperAlias(bc.Aliases, bc.Name, defaultLanguage, userLanguage),
                         BlogsCount = bc.BlogBlogCategories.Count,
-                        WithoutThisIds = categories.Contains(bc.Id) ? categories.Where(tag => tag != bc.Id) : categories.Concat(new List<int> { bc.Id })
+                        WithoutThisIds = categoriesList.Contains(bc.Id) ? categoriesList.Where(tag => tag != bc.Id) : categoriesList.Concat(new List<int> { bc.Id })
                     }).ToListAsync();
             return result;
         }
@@ -720,9 +767,154 @@ namespace FlexTemplate.DataAccessLayer.Services
                     }).Take(4).ToListAsync();
         }
 
+        public async Task<BlogCommentsComponentDao> GetBlogCommentsAsync(ClaimsPrincipal claims, int blogId)
+        {
+            return new BlogCommentsComponentDao
+            {
+                CommentsCount = await Context.BlogComments.Where(bc => bc.BlogId == blogId).CountAsync(),
+                Comments = await Context.BlogComments.Where(bc => bc.BlogId == blogId).Select(bc =>
+                    new BlogCommentsComponentCommentDao
+                    {
+                        AuthorPhotoPath = "",//TODO получить фото
+                        AuthorUsername = GetUsername(bc.User),
+                        CreatedOn = bc.CreatedOn,
+                        Text = bc.Text
+                    }).ToListAsync()
+            };
+        }
+
+        public async Task<NewPlacePageDao> GetNewPlaceDaoAsync(ClaimsPrincipal httpContextUser)
+        {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
+            return new NewPlacePageDao
+            {
+                BannerPhotoPath = "",//TODO получить фото
+                NewPlaceGuid = Guid.NewGuid(),
+                Categories = Context.PlaceCategories.Include(pc => pc.Aliases).Select(pc => 
+                    new NewPlacePageCategoryDao
+                    {
+                        Id = pc.Id,
+                        Name = GetProperAlias(pc.Aliases, pc.Name, defaultLanguage, userLanguage)
+                    })
+            };
+        }
+
+        public async Task<NewBlogPageDao> GetNewBlogDaoAsync()
+        {
+            return new NewBlogPageDao
+            {
+                BannerPhotoPath = "",//TODO получить фото
+                NewBlogGuid = Guid.NewGuid()
+            };
+        }
+
+        public async Task<int> CreateBlog(ClaimsPrincipal claims, CreateBlogDao blogDao)
+        {
+            var tagsNormalized = blogDao.Tags
+                .Select(bdt => bdt.Trim().ToUpperInvariant()).ToList();
+            var user = await UserManager.GetUserAsync(claims);
+            var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant())
+                || tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
+                    .Select(t => new BlogTag { Tag = t }).ToList();
+            var blog = new Blog
+            {
+                Text = blogDao.Text,
+                Caption = blogDao.Name,
+                CreatedOn = DateTime.Now,
+                User = user,
+                BlogTags = tags,
+                //TODO BlogBlogCategories = ,
+                ModifiedOn = DateTime.Now,
+                ViewsCount = 0,
+                IsModerated = false
+            };
+            Context.Blogs.Add(blog);
+            Context.SaveChanges();
+            return blog.Id;
+        }
+
+        public async Task<bool> AddComment(ClaimsPrincipal claims, NewBlogCommentDao model)
+        {
+            try
+            {
+                var user = await UserManager.GetUserAsync(claims);
+                if (user == null)
+                {
+                    return false;
+                }
+                user = Context.Users.Single(u => u.UserName == user.UserName);
+                var blog = new BlogComment
+                {
+                    User = user,
+                    Text = model.Text,
+                    BlogId = model.BlogId,
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    IsModerated = true
+                };
+                Context.BlogComments.Add(blog);
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> AddReview(ClaimsPrincipal claims, NewPlaceReviewDao model)
+        {
+            try
+            {
+                var user = await UserManager.GetUserAsync(claims);
+                if (user == null)
+                {
+                    return false;
+                }
+                user = Context.Users.Single(u => u.UserName == user.UserName);
+                var review = new PlaceReview
+                {
+                    User = user,
+                    Text = model.Text,
+                    PlaceId = model.PlaceId,
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    IsModerated = true
+                };
+                Context.PlaceReviews.Add(review);
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public Task Logout()
+        {
+            return SignInManager.SignOutAsync();
+        }
+
+        public async Task<bool> Login(string username, string password, bool remember, bool lockOnFailure)
+        {
+            var guest = await Context.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            await SignInManager.SignOutAsync();
+            if (guest == null)
+            {
+                return false;
+            }
+            var result = await SignInManager.PasswordSignInAsync(guest, password, remember, lockOnFailure);
+            return result.Succeeded;
+        }
+
         public int GetPlaceStars(IEnumerable<PlaceReview> reviews)
         {
-            return reviews != null && reviews.Any() ? (int) Math.Ceiling(reviews.Average(r => r.Star)) : 0;
+            var reviewsList = reviews.ToList();
+            return reviews != null && reviewsList.Any() ? (int) Math.Ceiling(reviewsList.Average(r => r.Star)) : 0;
         }
 
         public string GetAddress(string cityName, string streetName, string address)
@@ -759,10 +951,11 @@ namespace FlexTemplate.DataAccessLayer.Services
         private IEnumerable<string> GetProperAliases<T>(IEnumerable<T> aliases, int defaultLanguageId, int userLanguageId) where T : BaseAlias
         {
             var result = new List<string>();
-            result.AddRange(aliases.Where(a => a.LanguageId == userLanguageId).Select(a => a.Text));
+            var aliasesList = aliases.ToList();
+            result.AddRange(aliasesList.Where(a => a.LanguageId == userLanguageId).Select(a => a.Text));
             if (!result.Any())
             {
-                result.AddRange(aliases.Where(a => a.LanguageId == defaultLanguageId).Select(a => a.Text));
+                result.AddRange(aliasesList.Where(a => a.LanguageId == defaultLanguageId).Select(a => a.Text));
             }
             return result;
         }

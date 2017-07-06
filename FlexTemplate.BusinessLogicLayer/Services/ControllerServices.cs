@@ -8,6 +8,7 @@ using FlexTemplate.BusinessLogicLayer.DataTransferObjects;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.DataAccessLayer.Entities;
 using FlexTemplate.BusinessLogicLayer.Enums;
+using FlexTemplate.DataAccessLayer.DataAccessObjects;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlexTemplate.BusinessLogicLayer.Services
@@ -145,6 +146,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return places.Select(p => p.Id);
         }
 
+        public async Task<BlogPageDto> GetBlogAsync(ClaimsPrincipal user, int id)
+        {
+            var result = await DalServices.GetBlogAsync(user, id);
+            return result.To<BlogPageDto>();
+        }
+
         public async Task<int> GetPlacesCountAsync(int[] cities, int[] categories, string input)
         {
             var inputNormalized = input?.Trim().ToUpper();
@@ -181,16 +188,61 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return isPlaceAuthorTask;
         }
 
-        public async Task<CachedBlogDto> GetBlogsAsync(int[] tags, int[] categories, string input, int currentPage = 1)
+        public async Task<CachedBlogDto> GetBlogsAsync(ClaimsPrincipal httpContextUser, int[] tags, int[] categories, string input, int currentPage = 1)
         {
-            var blogs = await DalServices.GetBlogsAsync(tags, categories, input, currentPage, await CommonServices.GetBlogsPerPageCountAsync());
+            var blogs = await DalServices.GetBlogsAsync(httpContextUser, tags, categories, input, currentPage, await CommonServices.GetBlogsPerPageCountAsync());
             var result = new CachedBlogDto
             {
-                HeaderPhotoPath = "",
-                BlogsCount = await DalServices.GetBlogsCountAsync(tags, categories, input),
+                HeaderPhotoPath = "",//TODO получить фото
+                BlogsCount = await DalServices.GetBlogsCountAsync(httpContextUser, tags, categories, input),
                 Blogs = blogs.To<IEnumerable<CachedBlogItemDto>>()
             };
             return result;
+        }
+
+        public async Task<NewPlacePageDto> GetNewPlaceDtoAsync(ClaimsPrincipal httpContextUser)
+        {
+            var result = await DalServices.GetNewPlaceDaoAsync(httpContextUser);
+            return result.To<NewPlacePageDto>();
+        }
+
+        public async Task<NewBlogPageDto> GetNewBlogDtoAsync()
+        {
+            var result = await DalServices.GetNewBlogDaoAsync();
+            return result.To<NewBlogPageDto>();
+        }
+
+        public async Task<int> CreateBlog(ClaimsPrincipal claims, CreateBlogDto blogDto)
+        {
+            var blogDao = new CreateBlogDao
+            {
+                Name = blogDto.Name,
+                Text = blogDto.Text,
+                Tags = blogDto.Tags != null && blogDto.Tags.Any() 
+                    ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
+                    : new List<string> {""}
+            };
+            return await DalServices.CreateBlog(claims, blogDao);
+        }
+
+        public Task<bool> AddComment(ClaimsPrincipal claims, NewBlogCommentDto model)
+        {
+            return DalServices.AddComment(claims, model.To<NewBlogCommentDao>());
+        }
+
+        public Task<bool> Login(string username, string password, bool remember, bool lockOnFailure)
+        {
+            return DalServices.Login(username, password, remember, lockOnFailure);
+        }
+
+        public Task Logout()
+        {
+            return DalServices.Logout();
+        }
+
+        public Task<bool> AddReview(ClaimsPrincipal claims, NewPlaceReviewDto model)
+        {
+            return DalServices.AddReview(claims, model.To<NewPlaceReviewDao>());
         }
     }
 }
