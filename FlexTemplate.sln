@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTemplate.PresentationLayer", "FlexTemplate.PresentationLayer\FlexTemplate.PresentationLayer.csproj", "{5F8C68E1-9AF1-462C-971A-D0EE82D9CE10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexTemplate.PresentationLayer", "FlexTemplate.PresentationLayer\FlexTemplate.PresentationLayer.csproj", "{5F8C68E1-9AF1-462C-971A-D0EE82D9CE10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTemplate.BusinessLogicLayer", "FlexTemplate.BusinessLogicLayer\FlexTemplate.BusinessLogicLayer.csproj", "{E0DB55AE-B4A8-4A1B-8E15-C9321B989CB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexTemplate.BusinessLogicLayer", "FlexTemplate.BusinessLogicLayer\FlexTemplate.BusinessLogicLayer.csproj", "{E0DB55AE-B4A8-4A1B-8E15-C9321B989CB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTemplate.DataAccessLayer", "FlexTemplate.DataAccessLayer\FlexTemplate.DataAccessLayer.csproj", "{FD9EA101-A434-437B-9806-2A785648190D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlexTemplate.DataAccessLayer", "FlexTemplate.DataAccessLayer\FlexTemplate.DataAccessLayer.csproj", "{FD9EA101-A434-437B-9806-2A785648190D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexTemplate.BlobAccessLayer", "FlexTemplate.BlobAccessLayer\FlexTemplate.BlobAccessLayer.csproj", "{EF8577F8-FA32-40FD-B995-3E857875B601}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{FD9EA101-A434-437B-9806-2A785648190D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9EA101-A434-437B-9806-2A785648190D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9EA101-A434-437B-9806-2A785648190D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8577F8-FA32-40FD-B995-3E857875B601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8577F8-FA32-40FD-B995-3E857875B601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8577F8-FA32-40FD-B995-3E857875B601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8577F8-FA32-40FD-B995-3E857875B601}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

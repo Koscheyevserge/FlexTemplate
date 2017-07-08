@@ -8,6 +8,7 @@ using FlexTemplate.BusinessLogicLayer.DataTransferObjects;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.DataAccessLayer.Entities;
 using FlexTemplate.BusinessLogicLayer.Enums;
+using FlexTemplate.DataAccessLayer.DataAccessObjects;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace FlexTemplate.BusinessLogicLayer.Services
@@ -37,11 +38,10 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             var placesPerPageCount = await CommonServices.GetPlacesPerPageCountAsync();
             var inputNormalized = input?.Trim().ToUpper();
-            var userDao = await DalServices.GetUserAsync(httpContextUser);
-            if (!_memoryCache.TryGetValue(PlacesCacheKey, out IEnumerable<CachedPlaceDto> places) || places == null)
+            if (!_memoryCache.TryGetValue(PlacesCacheKey, out List<CachedPlaceDto> places) || places == null)
             {
                 var placesDao = await DalServices.GetPlacesAsync();
-                places = placesDao.To<IEnumerable<CachedPlaceDto>>();
+                places = placesDao.To<List<CachedPlaceDto>>();
                 _memoryCache.Set(PlacesCacheKey, places, TimeSpan.FromMinutes(1));
             }
             if (cities.Any())
@@ -57,18 +57,17 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             {
                 places = places.Where(p => p.Names.Any(a => a.Name.ToUpper().Contains(inputNormalized))).ToList();
             }
-            var user = userDao.To<UserDto>();
-            var userLanguage = user?.UserLanguageId ?? -1;
-            var defaultLanguage = user?.DefaultLanguageId ?? -1;
+            var userLanguage = await DalServices.GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await DalServices.GetDefaultLanguageAsync();
             foreach (var place in places)
             {
                 var placesCityNames = place.City.Names
-                    .Where(n => n.LanguageId == userLanguage)
+                    .Where(n => n.LanguageId == userLanguage.Id)
                     .ToList();
                 if (!placesCityNames.Any())
                 {
                     placesCityNames.AddRange(place.City.Names
-                        .Where(n => n.LanguageId == defaultLanguage));
+                        .Where(n => n.LanguageId == defaultLanguage.Id));
                 }
                 if (!placesCityNames.Any())
                 {
@@ -77,12 +76,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 place.City.Names = placesCityNames;
 
                 var placesNames = place.Names
-                    .Where(n => n.LanguageId == userLanguage)
+                    .Where(n => n.LanguageId == userLanguage.Id)
                     .ToList();
                 if (!placesNames.Any())
                 {
                     placesNames.AddRange(place.Names
-                        .Where(n => n.LanguageId == defaultLanguage));
+                        .Where(n => n.LanguageId == defaultLanguage.Id));
                 }
                 if (!placesNames.Any())
                 {
@@ -93,12 +92,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 foreach (var category in place.Categories)
                 {
                     var categoryNames = category.Names
-                        .Where(n => n.LanguageId == userLanguage)
+                        .Where(n => n.LanguageId == userLanguage.Id)
                         .ToList();
                     if (!categoryNames.Any())
                     {
                         categoryNames.AddRange(category.Names
-                            .Where(n => n.LanguageId == defaultLanguage));
+                            .Where(n => n.LanguageId == defaultLanguage.Id));
                     }
                     if (!categoryNames.Any())
                     {
@@ -145,6 +144,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return places.Select(p => p.Id);
         }
 
+        public async Task<BlogPageDto> GetBlogAsync(ClaimsPrincipal user, int id)
+        {
+            var result = await DalServices.GetBlogAsync(user, id);
+            return result.To<BlogPageDto>();
+        }
+
         public async Task<int> GetPlacesCountAsync(int[] cities, int[] categories, string input)
         {
             var inputNormalized = input?.Trim().ToUpper();
@@ -181,16 +186,95 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return isPlaceAuthorTask;
         }
 
-        public async Task<CachedBlogDto> GetBlogsAsync(int[] tags, int[] categories, string input, int currentPage = 1)
+        public async Task<CachedBlogDto> GetBlogsAsync(ClaimsPrincipal httpContextUser, int[] tags, int[] categories, string input, int currentPage = 1)
         {
-            var blogs = await DalServices.GetBlogsAsync(tags, categories, input, currentPage, await CommonServices.GetBlogsPerPageCountAsync());
+            var blogs = await DalServices.GetBlogsAsync(httpContextUser, tags, categories, input, currentPage, await CommonServices.GetBlogsPerPageCountAsync());
             var result = new CachedBlogDto
             {
-                HeaderPhotoPath = "",
-                BlogsCount = await DalServices.GetBlogsCountAsync(tags, categories, input),
+                HeaderPhotoPath = "",//TODO получить фото
+                BlogsCount = await DalServices.GetBlogsCountAsync(httpContextUser, tags, categories, input),
                 Blogs = blogs.To<IEnumerable<CachedBlogItemDto>>()
             };
             return result;
+        }
+
+        public async Task<NewPlacePageDto> GetNewPlaceDtoAsync(ClaimsPrincipal httpContextUser)
+        {
+            var result = await DalServices.GetNewPlaceDaoAsync(httpContextUser);
+            return result.To<NewPlacePageDto>();
+        }
+
+        public async Task<NewBlogPageDto> GetNewBlogDtoAsync()
+        {
+            var result = await DalServices.GetNewBlogDaoAsync();
+            return result.To<NewBlogPageDto>();
+        }
+
+        public async Task<int> CreateBlogAsync(ClaimsPrincipal claims, CreateBlogDto blogDto)
+        {
+            var blogDao = new CreateBlogDao
+            {
+                Name = blogDto.Name,
+                Text = blogDto.Text,
+                Tags = blogDto.Tags != null && blogDto.Tags.Any() 
+                    ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
+                    : new List<string> {""}
+            };
+            return await DalServices.CreateBlogAsync(claims, blogDao);
+        }
+
+        public Task<bool> AddCommentAsync(ClaimsPrincipal claims, NewBlogCommentDto model)
+        {
+            return DalServices.AddCommentAsync(claims, model.To<NewBlogCommentDao>());
+        }
+
+        public Task<bool> LoginAsync(string username, string password, bool remember, bool lockOnFailure)
+        {
+            return DalServices.LoginAsync(username, password, remember, lockOnFailure);
+        }
+
+        public Task LogoutAsync()
+        {
+            return DalServices.LogoutAsync();
+        }
+
+        public Task<bool> AddReviewAsync(ClaimsPrincipal claims, NewPlaceReviewDto model)
+        {
+            return DalServices.AddReviewAsync(claims, model.To<NewPlaceReviewDao>());
+        }
+
+        public Task<int> CreatePlaceAsync(ClaimsPrincipal claims, NewPlaceDto model)
+        {
+            model.City = string.IsNullOrEmpty(model.City) 
+                ? model.City.Trim().ToUpperInvariant() 
+                : string.Empty;
+            model.Street = string.IsNullOrEmpty(model.Street) 
+                ? model.Street.Trim().ToUpperInvariant() 
+                : string.Empty;
+            model.Categories = model.Categories ?? new List<int>();
+            return DalServices.CreatePlaceAsync(claims, model.To<NewPlaceDao>());
+        }
+
+        public async Task<EditBlogPageDao> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
+        {
+            var result = await DalServices.GetEditBlogAsync(httpContextUser, id);
+            return result.To<EditBlogPageDao>();
+        }
+
+        public Task<bool> EditBlogAsync(EditBlogDto model)
+        {
+            return DalServices.EditBlogAsync(model.To<EditBlogDao>());
+        }
+
+        public async Task<EditPlacePageDto> GetEditPlaceAsync(ClaimsPrincipal claims, int id)
+        {
+            var result = await DalServices.GetEditPlaceAsync(claims, id);
+            return result.To<EditPlacePageDto>();
+        }
+
+        public Task<bool> EditPlaceAsync(EditPlaceDto model)
+        {
+            return DalServices.EditPlaceAsync(model.To<EditPlaceDao>());
         }
     }
 }

@@ -1,80 +1,50 @@
-﻿@model FlexTemplate.ViewModels.HomeController.EditBlogViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Home.EditBlog.ViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
     <!-- start hero-header -->
-    <div class="hero hero-breadcrumb" style="background-image: url('../../resources/pages/newblog.jpg');">
+    <div class="hero hero-breadcrumb" style="background-image: url('@Model.BannerPhotoPath');">
         <div class="container">
-            <h1>Додати блог</h1>
-            <p>Додати блог</p>
+            <h1>@Model.Name</h1>
+            <p>Правити блог</p>
         </div>
     </div>
     <div class="container pt-10 pb-30">
-        <div class="breadcrumb-wrapper">
-            <ol class="breadcrumb">
-                <li><a asp-action="Index">Головна</a></li>
-                <li class="active">Додати блог</li>
-            </ol>
-        </div>
+        @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.Breadcrumbs))
         <div class="row mt-40 mb-30">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
                 <div class="submite-list-wrapper">
                     <form method="post" enctype="multipart/form-data" id="new-blog-form">
-                        <!--Main info-->
                         <div class="submite-list-box">
                             <div class="row ga-20">
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group form-group-lg">
-                                        <label>Назва блогу:</label>
+                                        <label>Назва:</label>
                                         <input type="text" class="form-control required" name="Name" value="@Model.Name"/>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group bootstrap3-wysihtml5-wrapper">
-                                        <label>Текст 1</label>
-                                        <textarea name="Preamble" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;" value="@Model.Preamble"></textarea>
+                                        <label>Текст:</label>
+                                        <textarea name="Text" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;">@Model.Text</textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--End Main info-->
-                        <!--Фотографії-->
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="section-title-02 mb-20">
-                                    <h3><span>Фотографії</span></h3>
-                                    <p>Підніміть свої проекти на якісно новий рівень.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="Guid" value="@Model.Id" />
+                        <input name="Id" type="hidden" value="@Model.Id" />
                         <div class="submite-list-box">
                             <div id="blog-head-update" class="dropzone">
                                 <input type="file">
                                 <input class="file_descriptor" type="hidden" value="@Model.Id" />
                                 <div class="dz-default dz-message"><span>Головна фотографія</span></div>
                             </div>
-                            <div id="blog-banner-update" class="dropzone">
-                                <input type="file">
-                                <input class="file_descriptor" type="hidden" value="@Model.Id" />
-                                <div class="dz-default dz-message"><span>Баннер</span></div>
-                            </div>
-                        </div>
-                        <!--End Фотографії-->
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="form-group bootstrap3-wysihtml5-wrapper">
-                                <label>Текст 2:</label>
-                                <textarea name="Text" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;"></textarea>
-                            </div>
                         </div>
                         <div class="col-xs-12 col-sm-12">
                             <div class="form-group">
                                 <label>Tags</label>
-                                <input type="text" class="form-control" id="autocompleteTagging" value="" name="Tags" placeholder="Теги.." />
+                                <input type="text" class="form-control" id="autocompleteTagging" value="@Model.Tags" name="Tags" placeholder="Теги.." />
                             </div>
                         </div>
-                        <!--Submit-->
                         <input type="submit" class="btn btn-primary mt-15" value="Відправити" />
-                        <!--End Submit-->
                     </form>
                 </div>
             </div>

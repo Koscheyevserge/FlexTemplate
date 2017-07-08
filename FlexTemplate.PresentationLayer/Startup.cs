@@ -21,6 +21,9 @@ namespace FlexTemplate.PresentationLayer
 {
     public class Startup
     {
+        public IHostingEnvironment Environment { get; set; }
+        public IConfigurationRoot Configuration { get; }
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -28,7 +31,7 @@ namespace FlexTemplate.PresentationLayer
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-            if (env.IsDevelopment())
+            if (env.IsEnvironment("Development"))
             {
                 //builder.AddUserSecrets<Startup>();
             }
@@ -37,23 +40,28 @@ namespace FlexTemplate.PresentationLayer
             Configuration = builder.Build();
             Environment = env;
         }
-
-        public IHostingEnvironment Environment { get; set; }
-        public IConfigurationRoot Configuration { get; }
         
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = null;
-            if (Environment.IsDevelopment())
+            var databaseConnectionString = string.Empty;
+            var blobConnectionString = string.Empty;
+            if (Environment.IsEnvironment("Development"))
             {
-                connectionString = Configuration.GetConnectionString("Dev");
+                databaseConnectionString = Configuration.GetConnectionString("DatabaseDevelopment");
+                blobConnectionString = Configuration.GetConnectionString("BlobTest");
             }
-            else
+            if (Environment.IsEnvironment("Test"))
             {
-                connectionString = Configuration.GetConnectionString("Test");
+                databaseConnectionString = Configuration.GetConnectionString("DatabaseTest");
+                blobConnectionString = Configuration.GetConnectionString("BlobTest");
+            }
+            if (Environment.IsEnvironment("Production"))
+            {
+                databaseConnectionString = Configuration.GetConnectionString("DatabaseProduction");
+                blobConnectionString = Configuration.GetConnectionString("BlobProduction");
             }
             services.AddEntityFrameworkSqlServer()
-                .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(connectionString));
+                .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(databaseConnectionString));
             services.AddIdentity<User, IdentityRole>(o => 
             {
                 o.Password.RequireDigit = false;
@@ -83,6 +91,7 @@ namespace FlexTemplate.PresentationLayer
             services.AddTransient<BusinessLogicLayer.Services.ComponentsServices>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
+            services.AddTransient<BlobAccessLayer.Services.ImagesServices>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
             services.AddMemoryCache();
         }
@@ -92,17 +101,21 @@ namespace FlexTemplate.PresentationLayer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (Environment.IsDevelopment())
+            if (Environment.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
-            else
+            if (Environment.IsEnvironment("Test"))
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+            }
+            if (Environment.IsEnvironment("Production"))
+            {
+                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseReact(config => { });

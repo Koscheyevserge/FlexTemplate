@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
-using FlexTemplate.PresentationLayer.WebServices.Home.Places;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination
 {
-    public class BlogsPagination : FlexViewComponent
+    public class PlacesPagination : FlexViewComponent
     {
         private ComponentsServices ComponentsServices { get; }
 
-        public BlogsPagination(ComponentsServices componentsServices)
+        public PlacesPagination(ComponentsServices componentsServices)
         {
             ComponentsServices = componentsServices;
         }
