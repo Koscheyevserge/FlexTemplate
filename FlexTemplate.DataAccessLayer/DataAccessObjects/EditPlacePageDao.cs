@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
-    public class ViewModel
+    public class EditPlacePageDao
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -32,9 +30,9 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
         public string SaturdayTo { get; set; }
         public string SundayFrom { get; set; }
         public string SundayTo { get; set; }
-        public List<MenuViewModel> Menus { get; set; }
+        public List<EditPlacePageMenuDao> Menus { get; set; }
         public string BannerPhotoPath { get; set; }
-        public IEnumerable<CategoryViewModel> Categories { get; set; }
+        public IEnumerable<EditPlacePageCategoryDao> Categories { get; set; }
         public bool HasNoMenus { get; set; }
     }
 }

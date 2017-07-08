@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
+namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
-    public class PostModel
+    public class EditPlaceDto
     {
+        public int Id { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string Address { get; set; }
@@ -30,7 +31,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
         public string[][] Features { get; set; }
-        public IEnumerable<MenuPostModel> Menus { get; set; }
+        public IEnumerable<EditPlaceMenuDto> Menus { get; set; }
         public IEnumerable<int> Categories { get; set; }
     }
 }

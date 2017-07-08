@@ -38,11 +38,10 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             var placesPerPageCount = await CommonServices.GetPlacesPerPageCountAsync();
             var inputNormalized = input?.Trim().ToUpper();
-            var userDao = await DalServices.GetUserAsync(httpContextUser);
-            if (!_memoryCache.TryGetValue(PlacesCacheKey, out IEnumerable<CachedPlaceDto> places) || places == null)
+            if (!_memoryCache.TryGetValue(PlacesCacheKey, out List<CachedPlaceDto> places) || places == null)
             {
                 var placesDao = await DalServices.GetPlacesAsync();
-                places = placesDao.To<IEnumerable<CachedPlaceDto>>();
+                places = placesDao.To<List<CachedPlaceDto>>();
                 _memoryCache.Set(PlacesCacheKey, places, TimeSpan.FromMinutes(1));
             }
             if (cities.Any())
@@ -58,18 +57,17 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             {
                 places = places.Where(p => p.Names.Any(a => a.Name.ToUpper().Contains(inputNormalized))).ToList();
             }
-            var user = userDao.To<UserDto>();
-            var userLanguage = user?.UserLanguageId ?? -1;
-            var defaultLanguage = user?.DefaultLanguageId ?? -1;
+            var userLanguage = await DalServices.GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await DalServices.GetDefaultLanguageAsync();
             foreach (var place in places)
             {
                 var placesCityNames = place.City.Names
-                    .Where(n => n.LanguageId == userLanguage)
+                    .Where(n => n.LanguageId == userLanguage.Id)
                     .ToList();
                 if (!placesCityNames.Any())
                 {
                     placesCityNames.AddRange(place.City.Names
-                        .Where(n => n.LanguageId == defaultLanguage));
+                        .Where(n => n.LanguageId == defaultLanguage.Id));
                 }
                 if (!placesCityNames.Any())
                 {
@@ -78,12 +76,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 place.City.Names = placesCityNames;
 
                 var placesNames = place.Names
-                    .Where(n => n.LanguageId == userLanguage)
+                    .Where(n => n.LanguageId == userLanguage.Id)
                     .ToList();
                 if (!placesNames.Any())
                 {
                     placesNames.AddRange(place.Names
-                        .Where(n => n.LanguageId == defaultLanguage));
+                        .Where(n => n.LanguageId == defaultLanguage.Id));
                 }
                 if (!placesNames.Any())
                 {
@@ -94,12 +92,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 foreach (var category in place.Categories)
                 {
                     var categoryNames = category.Names
-                        .Where(n => n.LanguageId == userLanguage)
+                        .Where(n => n.LanguageId == userLanguage.Id)
                         .ToList();
                     if (!categoryNames.Any())
                     {
                         categoryNames.AddRange(category.Names
-                            .Where(n => n.LanguageId == defaultLanguage));
+                            .Where(n => n.LanguageId == defaultLanguage.Id));
                     }
                     if (!categoryNames.Any())
                     {
@@ -212,7 +210,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return result.To<NewBlogPageDto>();
         }
 
-        public async Task<int> CreateBlog(ClaimsPrincipal claims, CreateBlogDto blogDto)
+        public async Task<int> CreateBlogAsync(ClaimsPrincipal claims, CreateBlogDto blogDto)
         {
             var blogDao = new CreateBlogDao
             {
@@ -222,27 +220,61 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                     ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
                     : new List<string> {""}
             };
-            return await DalServices.CreateBlog(claims, blogDao);
+            return await DalServices.CreateBlogAsync(claims, blogDao);
         }
 
-        public Task<bool> AddComment(ClaimsPrincipal claims, NewBlogCommentDto model)
+        public Task<bool> AddCommentAsync(ClaimsPrincipal claims, NewBlogCommentDto model)
         {
-            return DalServices.AddComment(claims, model.To<NewBlogCommentDao>());
+            return DalServices.AddCommentAsync(claims, model.To<NewBlogCommentDao>());
         }
 
-        public Task<bool> Login(string username, string password, bool remember, bool lockOnFailure)
+        public Task<bool> LoginAsync(string username, string password, bool remember, bool lockOnFailure)
         {
-            return DalServices.Login(username, password, remember, lockOnFailure);
+            return DalServices.LoginAsync(username, password, remember, lockOnFailure);
         }
 
-        public Task Logout()
+        public Task LogoutAsync()
         {
-            return DalServices.Logout();
+            return DalServices.LogoutAsync();
         }
 
-        public Task<bool> AddReview(ClaimsPrincipal claims, NewPlaceReviewDto model)
+        public Task<bool> AddReviewAsync(ClaimsPrincipal claims, NewPlaceReviewDto model)
         {
-            return DalServices.AddReview(claims, model.To<NewPlaceReviewDao>());
+            return DalServices.AddReviewAsync(claims, model.To<NewPlaceReviewDao>());
+        }
+
+        public Task<int> CreatePlaceAsync(ClaimsPrincipal claims, NewPlaceDto model)
+        {
+            model.City = string.IsNullOrEmpty(model.City) 
+                ? model.City.Trim().ToUpperInvariant() 
+                : string.Empty;
+            model.Street = string.IsNullOrEmpty(model.Street) 
+                ? model.Street.Trim().ToUpperInvariant() 
+                : string.Empty;
+            model.Categories = model.Categories ?? new List<int>();
+            return DalServices.CreatePlaceAsync(claims, model.To<NewPlaceDao>());
+        }
+
+        public async Task<EditBlogPageDao> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
+        {
+            var result = await DalServices.GetEditBlogAsync(httpContextUser, id);
+            return result.To<EditBlogPageDao>();
+        }
+
+        public Task<bool> EditBlogAsync(EditBlogDto model)
+        {
+            return DalServices.EditBlogAsync(model.To<EditBlogDao>());
+        }
+
+        public async Task<EditPlacePageDto> GetEditPlaceAsync(ClaimsPrincipal claims, int id)
+        {
+            var result = await DalServices.GetEditPlaceAsync(claims, id);
+            return result.To<EditPlacePageDto>();
+        }
+
+        public Task<bool> EditPlaceAsync(EditPlaceDto model)
+        {
+            return DalServices.EditPlaceAsync(model.To<EditPlaceDao>());
         }
     }
 }

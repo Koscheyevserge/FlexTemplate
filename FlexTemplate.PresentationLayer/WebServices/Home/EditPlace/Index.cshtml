@@ -1,21 +1,15 @@
-﻿@using FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
-@model FlexTemplate.PresentationLayer.WebServices.Home.EditPlace.EditPlaceViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Home.EditPlace.ViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
     <!-- start hero-header -->
-    <div class="hero hero-breadcrumb" style="background-image:url('../../images/hero-header/03.jpg');">
+    <div class="hero hero-breadcrumb" style="background-image:url('@Model.BannerPhotoPath');">
         <div class="container">
             <h1>Додати ресторан</h1>
             <p>Додати ресторан</p>
         </div>
     </div>
     <div class="container pt-10 pb-30">
-        <div class="breadcrumb-wrapper">
-            <ol class="breadcrumb">
-                <li><a asp-action="Index">Головна</a></li>
-                <li class="active">Додати ресторан</li>
-            </ol>
-        </div>
+        @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.Breadcrumbs))
         <div class="row mt-40 mb-30">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
                 <!--<div class="notify-box">
@@ -25,7 +19,7 @@
                     </div>
                 </div>-->
                 <div class="submite-list-wrapper">
-                    <form method="post" asp-controller="Home" asp-action="EditPlacePost" enctype="multipart/form-data" id="new-place-form">
+                    <form method="post" enctype="multipart/form-data" id="new-place-form">
                         <!--Main info-->
                         <div class="row">
                             <div class="col-md-8">
@@ -120,11 +114,11 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <label class="block">Категорії</label>
                                 </div>
-                                @foreach (FlexTemplate.Entities.Category category in Model.AllCategories)
+                                @foreach (var category in Model.Categories)
                                 {
                                     <div class="col-xs-12 col-sm-4">
                                         <div class="checkbox-block font-icon-checkbox">
-                                            <input id="filter_cuisine-@category.Id" checked="@(Model.CurrentCategories != null && Model.CurrentCategories.Any() ? Model.CurrentCategories.Select(c => c.Id).Contains(category.Id) : false)" type="checkbox" class="checkbox" name="Categories[]" value="@category.Id" />
+                                            <input id="filter_cuisine-@category.Id" checked="@category.Checked" type="checkbox" class="checkbox" name="Categories[]" value="@category.Id" />
                                             <label for="filter_cuisine-@category.Id">@category.Name</label>
                                         </div>
                                     </div>
@@ -191,7 +185,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="MondayFrom" value="@(Model.MondayFrom == TimeSpan.Zero ? string.Empty : $"{Model.MondayFrom.Hours:00}:{Model.MondayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="MondayFrom" value="@Model.MondayFrom">
                                                     </div>
 
                                                 </div>
@@ -200,7 +194,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="MondayTo" value="@(Model.MondayTo == TimeSpan.Zero ? string.Empty : $"{Model.MondayTo.Hours:00}:{Model.MondayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="MondayTo" value="@Model.MondayTo">
                                                     </div>
 
                                                 </div>
@@ -219,7 +213,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="TuesdayFrom" value="@(Model.TuesdayFrom == TimeSpan.Zero ? string.Empty : $"{Model.TuesdayFrom.Hours:00}:{Model.TuesdayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="TuesdayFrom" value="@Model.TuesdayFrom">
                                                     </div>
 
                                                 </div>
@@ -228,7 +222,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="TuesdayTo" value="@(Model.TuesdayTo == TimeSpan.Zero ? string.Empty : $"{Model.TuesdayTo.Hours:00}:{Model.TuesdayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="TuesdayTo" value="@Model.TuesdayTo">
                                                     </div>
 
                                                 </div>
@@ -247,7 +241,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="WednesdayFrom" value="@(Model.WednesdayFrom == TimeSpan.Zero ? string.Empty : $"{Model.WednesdayFrom.Hours:00}:{Model.WednesdayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="WednesdayFrom" value="@Model.WednesdayFrom">
                                                     </div>
 
                                                 </div>
@@ -256,7 +250,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="WednesdayTo" value="@(Model.WednesdayTo == TimeSpan.Zero ? string.Empty : $"{Model.WednesdayTo.Hours:00}:{Model.WednesdayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="WednesdayTo" value="@Model.WednesdayTo">
                                                     </div>
 
                                                 </div>
@@ -275,7 +269,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="ThurstdayFrom" value="@(Model.ThurstdayFrom == TimeSpan.Zero ? string.Empty : $"{Model.ThurstdayFrom.Hours:00}:{Model.ThurstdayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="ThurstdayFrom" value="@Model.ThursdayFrom">
                                                     </div>
 
                                                 </div>
@@ -284,7 +278,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="ThurstdayTo" value="@(Model.ThurstdayTo == TimeSpan.Zero ? string.Empty : $"{Model.ThurstdayTo.Hours:00}:{Model.ThurstdayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="ThurstdayTo" value="@Model.ThursdayTo">
                                                     </div>
 
                                                 </div>
@@ -303,7 +297,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="FridayFrom" value="@(Model.FridayFrom == TimeSpan.Zero ? string.Empty : $"{Model.FridayFrom.Hours:00}:{Model.FridayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="FridayFrom" value="@Model.FridayFrom">
                                                     </div>
 
                                                 </div>
@@ -312,7 +306,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="FridayTo" value="@(Model.FridayTo == TimeSpan.Zero ? string.Empty : $"{Model.FridayTo.Hours:00}:{Model.FridayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="FridayTo" value="@Model.FridayTo">
                                                     </div>
 
                                                 </div>
@@ -331,7 +325,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="SaturdayFrom" value="@(Model.SaturdayFrom == TimeSpan.Zero ? string.Empty : $"{Model.SaturdayFrom.Hours:00}:{Model.SaturdayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="SaturdayFrom" value="@Model.SaturdayFrom">
                                                     </div>
 
                                                 </div>
@@ -340,7 +334,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="SaturdayTo" value="@(Model.SaturdayTo == TimeSpan.Zero ? string.Empty : $"{Model.SaturdayTo.Hours:00}:{Model.SaturdayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="SaturdayTo" value="@Model.SaturdayTo">
                                                     </div>
 
                                                 </div>
@@ -359,7 +353,7 @@
 
                                                     <div class="input-group from mb-15">
                                                         <span class="input-group-addon">from</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="SundayFrom" value="@(Model.SundayFrom == TimeSpan.Zero ? string.Empty : $"{Model.SundayFrom.Hours:00}:{Model.SundayFrom.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="SundayFrom" value="@Model.SundayFrom">
                                                     </div>
 
                                                 </div>
@@ -368,7 +362,7 @@
 
                                                     <div class="input-group to mb-15">
                                                         <span class="input-group-addon">to</span>
-                                                        <input class="oh-timepicker form-control" type="text" name="SundayTo" value="@(Model.SundayTo == TimeSpan.Zero ? string.Empty : $"{Model.SundayTo.Hours:00}:{Model.SundayTo.Minutes:00}")">
+                                                        <input class="oh-timepicker form-control" type="text" name="SundayTo" value="@Model.SundayTo">
                                                     </div>
 
                                                 </div>
@@ -404,7 +398,7 @@
                         <div class="submite-list-box">
 
                             <div class="food-menu-form-wrapper">
-                                @if (Model.Menus.Count == 0)
+                                @if (Model.HasNoMenus)
                                 {
                                     <h6 class="text-primary text-uppercase">Menu Category #1</h6>
 

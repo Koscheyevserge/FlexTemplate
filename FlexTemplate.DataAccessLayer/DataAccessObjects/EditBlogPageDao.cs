@@ -1,6 +1,6 @@
-﻿namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
+﻿namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
-    public class ViewModel
+    public class EditBlogPageDao
     {
         public int Id { get; set; }
         public string Text { get; set; }

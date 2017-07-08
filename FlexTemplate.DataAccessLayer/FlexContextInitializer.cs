@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.DataAccessLayer.Entities;
+using FlexTemplate.DataAccessLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -405,10 +406,10 @@ namespace FlexTemplate.DataAccessLayer
                     kharkivStreet10
                 );
                 //CommunicationTypes
-                var emailCommunication = new CommunicationType {Name = "Email"};
-                var phoneCommunication = new CommunicationType {Name = "Телефон"};
-                var facebookCommunication = new CommunicationType {Name = "Facebook"};
-                var siteCommunication = new CommunicationType {Name = "Сайт"};
+                var emailCommunication = (int)CommunicationType.Email;
+                var phoneCommunication = (int)CommunicationType.Phone;
+                var facebookCommunication = (int)CommunicationType.Facebook;
+                var siteCommunication = (int)CommunicationType.Website;
                 //PlaceCategories
                 var ukrainianCuisine = new PlaceCategory {Name = "Українська"};
                 var asianCuisine = new PlaceCategory {Name = "Азіатська"};

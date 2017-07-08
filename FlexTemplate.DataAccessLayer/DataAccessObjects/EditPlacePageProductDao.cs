@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
-    public class ProductViewModel
+    public class EditPlacePageProductDao
     {
         public int Id { get; set; }
         public bool HasPhoto { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
+﻿namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
-    public class ViewModel
+    public class EditBlogPageDto
     {
         public int Id { get; set; }
         public string Text { get; set; }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
-    public class PostModel
+    public class EditPlaceDao
     {
+        public int Id { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string Address { get; set; }
@@ -13,8 +14,8 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
         public string Email { get; set; }
         public string Website { get; set; }
         public string Phone { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public TimeSpan MondayFrom { get; set; }
         public TimeSpan MondayTo { get; set; }
         public TimeSpan TuesdayFrom { get; set; }
@@ -30,7 +31,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
         public string[][] Features { get; set; }
-        public IEnumerable<MenuPostModel> Menus { get; set; }
+        public IEnumerable<EditPlacePageMenuDao> Menus { get; set; }
         public IEnumerable<int> Categories { get; set; }
     }
 }

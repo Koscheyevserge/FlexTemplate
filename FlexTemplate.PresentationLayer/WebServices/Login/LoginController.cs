@@ -15,13 +15,13 @@ namespace FlexTemplate.PresentationLayer.WebServices.Login
 
         public async Task<IActionResult> LoginAsGuest()
         {
-            await BllServices.Login("savchuk89", "password", true, false);
+            await BllServices.LoginAsync("savchuk89", "password", true, false);
             return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> LoginAsAdmin()
         {
-            await BllServices.Login("Supervisor", "Supervisor", true, false);
+            await BllServices.LoginAsync("Supervisor", "Supervisor", true, false);
             return RedirectToAction("Index", "Home");
         }
 
@@ -29,7 +29,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Login
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
-            await BllServices.Logout();
+            await BllServices.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
     }
