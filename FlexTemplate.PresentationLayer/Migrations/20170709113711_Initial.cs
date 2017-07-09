@@ -25,21 +25,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CommunicationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommunicationType", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Containers",
                 columns: table => new
                 {
@@ -850,7 +835,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommunicationTypeId = table.Column<int>(nullable: false),
+                    CommunicationType = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Number = table.Column<string>(nullable: true),
@@ -859,12 +844,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlaceCommunications", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlaceCommunications_CommunicationType_CommunicationTypeId",
-                        column: x => x.CommunicationTypeId,
-                        principalTable: "CommunicationType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlaceCommunications_Places_PlaceId",
                         column: x => x.PlaceId,
@@ -1187,11 +1166,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "PlaceCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlaceCommunications_CommunicationTypeId",
-                table: "PlaceCommunications",
-                column: "CommunicationTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PlaceCommunications_PlaceId",
                 table: "PlaceCommunications",
                 column: "PlaceId");
@@ -1391,9 +1365,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pages");
-
-            migrationBuilder.DropTable(
-                name: "CommunicationType");
 
             migrationBuilder.DropTable(
                 name: "PlaceFeatureColumn");
