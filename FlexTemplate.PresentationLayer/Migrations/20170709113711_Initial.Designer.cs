@@ -8,7 +8,7 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    [Migration("20170706085007_Initial")]
+    [Migration("20170709113711_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -239,22 +239,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("CityAliases");
-                });
-
-            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.CommunicationType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CommunicationType");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Container", b =>
@@ -549,7 +533,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CommunicationTypeId");
+                    b.Property<int>("CommunicationType");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -560,8 +544,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("PlaceId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CommunicationTypeId");
 
                     b.HasIndex("PlaceId");
 
@@ -1198,11 +1180,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCommunication", b =>
                 {
-                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.CommunicationType", "CommunicationType")
-                        .WithMany()
-                        .HasForeignKey("CommunicationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
                         .WithMany("Communications")
                         .HasForeignKey("PlaceId")
