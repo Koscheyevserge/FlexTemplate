@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.DataAccessLayer.DataAccessObjects;
@@ -622,10 +623,12 @@ namespace FlexTemplate.DataAccessLayer.Services
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = await Context.Places
                 .Include(p => p.Communications)
-                .ThenInclude(pc => pc.CommunicationType)
                 .Include(p => p.PlacePlaceCategories)
-                .ThenInclude(ppc => ppc.PlaceCategory)
-                .ThenInclude(pc => pc.Aliases)
+                    .ThenInclude(ppc => ppc.PlaceCategory)
+                        .ThenInclude(pc => pc.Aliases)
+                .Include(p => p.FeatureColumns)
+                    .ThenInclude(fc => fc.Features)
+                .Include(p => p.Schedule)
                 .Where(p => p.Id == placeId)
                 .Select(p =>
                     new PlaceOverviewComponentDao
@@ -644,30 +647,33 @@ namespace FlexTemplate.DataAccessLayer.Services
                                 SundayOpenTime = $"{p.Schedule.SundayFrom:hh\\:mm} - {p.Schedule.SundayTo:hh\\:mm}"
                             }
                             : null,
-                        Email = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Email)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Email).Number
-                            : null,
+                        Email = GetCommunicationNumber(p.Communications, CommunicationType.Email),
                         HasSchedule = p.Schedule != null &&
-                                      !(p.Schedule.MondayFrom == TimeSpan.Zero && p.Schedule.MondayTo == TimeSpan.Zero &&
-                                        p.Schedule.TuesdayFrom == TimeSpan.Zero && p.Schedule.TuesdayTo == TimeSpan.Zero &&
-                                        p.Schedule.WednesdayFrom == TimeSpan.Zero && p.Schedule.WednesdayTo == TimeSpan.Zero &&
-                                        p.Schedule.ThursdayFrom == TimeSpan.Zero && p.Schedule.ThursdayTo == TimeSpan.Zero &&
-                                        p.Schedule.FridayFrom == TimeSpan.Zero && p.Schedule.FridayTo == TimeSpan.Zero &&
-                                        p.Schedule.SaturdayFrom == TimeSpan.Zero && p.Schedule.SaturdayTo == TimeSpan.Zero &&
-                                        p.Schedule.SundayFrom == TimeSpan.Zero && p.Schedule.SundayTo == TimeSpan.Zero),
-                        Phone = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Phone)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Phone).Number
-                            : null,
+                            !(p.Schedule.MondayFrom == TimeSpan.Zero && 
+                            p.Schedule.MondayTo == TimeSpan.Zero &&
+                            p.Schedule.TuesdayFrom == TimeSpan.Zero && 
+                            p.Schedule.TuesdayTo == TimeSpan.Zero &&
+                            p.Schedule.WednesdayFrom == TimeSpan.Zero && 
+                            p.Schedule.WednesdayTo == TimeSpan.Zero &&
+                            p.Schedule.ThursdayFrom == TimeSpan.Zero && 
+                            p.Schedule.ThursdayTo == TimeSpan.Zero &&
+                            p.Schedule.FridayFrom == TimeSpan.Zero && 
+                            p.Schedule.FridayTo == TimeSpan.Zero &&
+                            p.Schedule.SaturdayFrom == TimeSpan.Zero && 
+                            p.Schedule.SaturdayTo == TimeSpan.Zero &&
+                            p.Schedule.SundayFrom == TimeSpan.Zero && 
+                            p.Schedule.SundayTo == TimeSpan.Zero),
+                        Phone = GetCommunicationNumber(p.Communications, CommunicationType.Phone),
                         PlaceCategoriesEnumerated = string.Join(",", p.PlacePlaceCategories
                             .Select(ppc =>
                                 GetProperAlias(ppc.PlaceCategory.Aliases,
                                     ppc.PlaceCategory.Name,
                                     defaultLanguage,
                                     userLanguage))),
-                        RowsOfFeatures = p.FeatureColumns.OrderBy(fc => fc.Position).Select(fc => string.Join(",", fc.Features.OrderBy(f => f.Row).Select(f => f.Name))).ToArray(),
-                        Website = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Website)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Website).Number
-                            : null
+                        RowsOfFeatures = p.FeatureColumns.OrderBy(fc => fc.Position)
+                            .Select(fc => string.Join(",", fc.Features.OrderBy(f => f.Row).Select(f => f.Name)))
+                            .ToArray(),
+                        Website = GetCommunicationNumber(p.Communications, CommunicationType.Website)
                     }).SingleOrDefaultAsync();
             return result;
         }
@@ -1089,7 +1095,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                      && (s.Name.Trim().ToUpperInvariant().Contains(model.Street)
                      || s.Aliases.Select(a => a.Text.Trim().ToUpperInvariant()).Any(a => a.Contains(model.Street))));
                 var communications = new List<PlaceCommunication>();
-                if (string.IsNullOrEmpty(model.Website))
+                if (!string.IsNullOrEmpty(model.Website))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1097,7 +1103,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Number = model.Website
                     });
                 }
-                if (string.IsNullOrEmpty(model.Email))
+                city = city ?? new City{ Name = model.City };
+                if (!string.IsNullOrEmpty(model.Email))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1105,7 +1112,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Number = model.Email
                     });
                 }
-                if (string.IsNullOrEmpty(model.Phone))
+                if (!string.IsNullOrEmpty(model.Phone))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1145,6 +1152,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     }
                     columns.Add(column);
                 }
+                street = street ?? new Street { Name = model.Street, City = city };
                 var place = new Place
                 {
                     User = user,
@@ -1213,6 +1221,12 @@ namespace FlexTemplate.DataAccessLayer.Services
         #endregion
 
         #region Common Services
+
+        public string GetCommunicationNumber(List<PlaceCommunication> communications, CommunicationType type)
+        {
+            var comm = communications.FirstOrDefault(c => c.CommunicationType == (int)type);
+            return comm?.Number;
+        }
 
         public async Task<User> GetUserAsync(ClaimsPrincipal claims)
         {

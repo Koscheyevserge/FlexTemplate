@@ -19,7 +19,7 @@ namespace FlexTemplate.BusinessLogicLayer.Extentions
                 {
                     cfg.RecognizePostfixes("Dto", "Dao", "ViewModel", "VM", "PostModel");
                     cfg.CreateMap<string, HtmlString>().ConvertUsing(s => new HtmlString(s));
-                    cfg.CreateMap<string, double>().ConvertUsing(s => double.Parse(s, NumberStyles.Number));
+                    cfg.CreateMap<string, double>().ConvertUsing(s => double.Parse(s, CultureInfo.InvariantCulture));
                     cfg.CreateMissingTypeMaps = true;
                 });
                 Initialized = true;
