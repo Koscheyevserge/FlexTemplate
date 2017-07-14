@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.DataAccessLayer.DataAccessObjects;
@@ -146,6 +145,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Checked = placeCategories.Contains(pc.Id)
                 }).ToListAsync();
             var placeHasSchedule = await Context.PlaceSchedules.AnyAsync(ps => ps.PlaceId == id);
+            const string zero = "00:00";
             return await Context.Places
                 .Include(p => p.Aliases)
                 .Include(p => p.Schedule)
@@ -153,6 +153,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
                 .Include(p => p.FeatureColumns).ThenInclude(fc => fc.Features)
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Include(p => p.Communications)
                 .Where(p => p.Id == id)
                 .Select(p => 
                 new EditPlacePageDao
@@ -161,60 +162,54 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Name = p.Name,
                     Features = p.FeatureColumns.OrderBy(fc => fc.Position)
                         .Select(fc => fc.Features.OrderBy(f => f.Row).Select(f => f.Name).ToArray()).ToArray(),
-                    Phone = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Phone) 
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Phone).Number 
-                        : null,
-                    Email = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Email)
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Email).Number
-                        : null,
-                    Website = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Website)
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Website).Number
-                        : null,
+                    Phone = GetCommunicationNumber(p.Communications, CommunicationType.Phone),
+                    Email = GetCommunicationNumber(p.Communications, CommunicationType.Email),
+                    Website = GetCommunicationNumber(p.Communications, CommunicationType.Website),
                     City = GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
                     Categories = categories,
                     Description = p.Description,
                     MondayFrom = placeHasSchedule 
-                        ? p.Schedule.MondayFrom.ToString(@"hh:mm") 
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.MondayFrom.ToString(@"hh\:mm") 
+                        : zero,
                     MondayTo = placeHasSchedule
-                        ? p.Schedule.MondayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.MondayTo.ToString(@"hh\:mm")
+                        : zero,
                     TuesdayFrom = placeHasSchedule
-                        ? p.Schedule.TuesdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.TuesdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     TuesdayTo = placeHasSchedule
-                        ? p.Schedule.TuesdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.TuesdayTo.ToString(@"hh\:mm")
+                        : zero,
                     WednesdayFrom = placeHasSchedule
-                        ? p.Schedule.WednesdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.WednesdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     WednesdayTo = placeHasSchedule
-                        ? p.Schedule.WednesdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.WednesdayTo.ToString(@"hh\:mm")
+                        : zero,
                     ThursdayFrom = placeHasSchedule
-                        ? p.Schedule.ThursdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.ThursdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     ThursdayTo = placeHasSchedule
-                        ? p.Schedule.ThursdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.ThursdayTo.ToString(@"hh\:mm")
+                        : zero,
                     FridayFrom = placeHasSchedule
-                        ? p.Schedule.FridayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.FridayFrom.ToString(@"hh\:mm")
+                        : zero,
                     FridayTo = placeHasSchedule
-                        ? p.Schedule.FridayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.FridayTo.ToString(@"hh\:mm")
+                        : zero,
                     SaturdayFrom = placeHasSchedule
-                        ? p.Schedule.SaturdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SaturdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     SaturdayTo = placeHasSchedule
-                        ? p.Schedule.SaturdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SaturdayTo.ToString(@"hh\:mm")
+                        : zero,
                     SundayFrom = placeHasSchedule
-                        ? p.Schedule.SundayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SundayFrom.ToString(@"hh\:mm")
+                        : zero,
                     SundayTo = placeHasSchedule
-                        ? p.Schedule.SundayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SundayTo.ToString(@"hh\:mm")
+                        : zero,
                     Menus = p.Menus.Select(m => 
                     new EditPlacePageMenuDao
                     {
@@ -231,8 +226,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         }).ToList()
                     }).ToList(),
                     Street = GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
-                    Longitude = p.Longitude.ToString("##.00000000"),
-                    Latitude = p.Longitude.ToString("##.00000000"),
+                    Longitude = p.Longitude.ToString("R"),
+                    Latitude = p.Latitude.ToString("R"),
                     Address = p.Address
                 }).SingleOrDefaultAsync();
         }
