@@ -2,14 +2,14 @@
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
     <!-- start hero-header -->
-    <div class="hero hero-sm" style="background-image:url('');">
+    <div class="hero hero-sm" style="background-image:url('@Model.BannerPhotoPath');">
         <div class="container">
             <div class="home-search-form">
                 <form asp-controller="Home" asp-action="Places">
                     <div class="form-group location-form">
                         <input id="placesSearchTextbox" name="input" type="text" class="form-control">
                     </div>
-                    <button onclick="this.form.submit()" class="btn btn-primary btn-form">Знайти</button>
+                    <button onclick="this.form.submit" class="btn btn-primary btn-form">Знайти</button>
                 </form>
             </div>
         </div>
@@ -28,7 +28,7 @@
             @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.PlacesFilters))
             <div class="col-sm-8 col-md-9">
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesSorting.PlacesSorting))
-                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.PlacesList))
+                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.PlacesList), new { placesIds = Model.PlacesOnPageIds})
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination.PlacesPagination), new {placesCount = Model.PlacesTotal})
             </div>
         </div>

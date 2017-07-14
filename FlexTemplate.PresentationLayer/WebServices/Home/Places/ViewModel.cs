@@ -7,5 +7,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.Places
     {
         public IEnumerable<int> PlacesOnPageIds { get; set; }
         public int PlacesTotal { get; set; }
+        public string BannerPhotoPath { get; set; }
     }
 }

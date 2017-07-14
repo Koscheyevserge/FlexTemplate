@@ -18,11 +18,16 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             DalServices = dalServices;
         }
 
-        public PageContainersHierarchyDto GetPageContainersHierarchy(int pageContainerTemplateId)
+        public async Task<PageContainersHierarchyDto> GetPageContainersHierarchyAsync(int pageContainerTemplateId)
         {
-            var result =
-                DalServices.GetPageContainersHierarchyAsync(pageContainerTemplateId).To<PageContainersHierarchyDto>();
-            return result;
+            var result = await DalServices.GetPageContainersHierarchyAsync(pageContainerTemplateId);
+            return result.To<PageContainersHierarchyDto>();
+        }
+
+        public async Task<BlogCommentsComponentDto> GetBlogCommentsAsync(ClaimsPrincipal claims, int blogId)
+        {
+            var result = await DalServices.GetBlogCommentsAsync(claims, blogId);
+            return result.To<BlogCommentsComponentDto>();
         }
 
         public async Task<SearchViewComponentDto> GetSearchViewComponentDtoAsync(ClaimsPrincipal httpContextUser, string componentName)

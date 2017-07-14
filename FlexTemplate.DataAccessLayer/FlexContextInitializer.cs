@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FlexTemplate.DataAccessLayer.Entities;
+using FlexTemplate.DataAccessLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -70,10 +71,11 @@ namespace FlexTemplate.DataAccessLayer
             var supervisor = new User { UserName = "Supervisor" };
             if (supervisorRole.Succeeded)
             {
-                var result = await UserManager.CreateAsync(supervisor);
+                var result = await UserManager.CreateAsync(supervisor, "Supervisor");
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRolesAsync(supervisor, new[] { "Supervisor", "Moderator", "User" });
+                    await UserManager.AddClaimAsync(supervisor, new Claim("language", ukrainian.ShortName));
                 }
             }
             var moderator = new User { UserName = "Moderator" };
@@ -83,6 +85,7 @@ namespace FlexTemplate.DataAccessLayer
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRolesAsync(moderator, new[] { "Moderator", "User" });
+                    await UserManager.AddClaimAsync(moderator, new Claim("language", ukrainian.ShortName));
                 }
             }
             var tasks = new List<Task>();
@@ -93,14 +96,14 @@ namespace FlexTemplate.DataAccessLayer
                 var user3 = new User { Name = "Олег", Surname = "Савчук", UserName = "savchuk89" };
                 var user4 = new User { Name = "Ірина", Surname = "Шевченко", UserName = "iryna.shevchenko" };
                 var user5 = new User { Name = "Антон", Surname = "Книш", UserName = "knysh" };
-                var user6 = new User { Name = "Сергій", Surname = "Антонович", UserName = "santon" };
-                var user7 = new User { Name = "Олена", Surname = "Андріївна", UserName = "oand12" };
-                var user8 = new User { Name = "Олег", Surname = "Савчук", UserName = "savchuk89" };
-                var user9 = new User { Name = "Ірина", Surname = "Шевченко", UserName = "iryna.shevchenko" };
-                var user10 = new User { Name = "Антон", Surname = "Книш", UserName = "knysh" };
+                var user6 = new User { Name = "Сергій", Surname = "Антонович", UserName = "santon2" };
+                var user7 = new User { Name = "Олена", Surname = "Андріївна", UserName = "oand122" };
+                var user8 = new User { Name = "Олег", Surname = "Савчук", UserName = "savchuk892" };
+                var user9 = new User { Name = "Ірина", Surname = "Шевченко", UserName = "iryna.shevchenko2" };
+                var user10 = new User { Name = "Антон", Surname = "Книш", UserName = "knysh2" };
                 async Task RegisterUser(User user)
                 {
-                    var result = await UserManager.CreateAsync(user);
+                    var result = await UserManager.CreateAsync(user, "password");
                     if (result.Succeeded)
                     {
                         await UserManager.AddClaimAsync(user, new Claim("language", ukrainian.ShortName));
@@ -403,10 +406,10 @@ namespace FlexTemplate.DataAccessLayer
                     kharkivStreet10
                 );
                 //CommunicationTypes
-                var emailCommunication = new CommunicationType {Name = "Email"};
-                var phoneCommunication = new CommunicationType {Name = "Телефон"};
-                var facebookCommunication = new CommunicationType {Name = "Facebook"};
-                var siteCommunication = new CommunicationType {Name = "Сайт"};
+                var emailCommunication = (int)CommunicationType.Email;
+                var phoneCommunication = (int)CommunicationType.Phone;
+                var facebookCommunication = (int)CommunicationType.Facebook;
+                var siteCommunication = (int)CommunicationType.Website;
                 //PlaceCategories
                 var ukrainianCuisine = new PlaceCategory {Name = "Українська"};
                 var asianCuisine = new PlaceCategory {Name = "Азіатська"};
@@ -2341,6 +2344,7 @@ namespace FlexTemplate.DataAccessLayer
                 (
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2357,10 +2361,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2368,6 +2372,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2384,10 +2389,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2395,6 +2400,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2411,10 +2417,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2422,6 +2428,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2438,10 +2445,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2449,6 +2456,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2465,10 +2473,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2476,6 +2484,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2492,10 +2501,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2503,6 +2512,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2519,10 +2529,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2530,6 +2540,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2546,10 +2557,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2557,6 +2568,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2573,10 +2585,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2584,6 +2596,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2600,10 +2613,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2611,6 +2624,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2627,10 +2641,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2638,6 +2652,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2654,10 +2669,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,
@@ -2665,6 +2680,7 @@ namespace FlexTemplate.DataAccessLayer
                     },
                     new Blog
                     {
+                        IsModerated = true,
                         CreatedOn = DateTime.Now,
                         BlogBlogCategories = new List<BlogBlogCategory>
                         {
@@ -2681,10 +2697,10 @@ namespace FlexTemplate.DataAccessLayer
                         Caption = "Назва тестової статті",
                         Comments = new List<BlogComment>
                         {
-                            new BlogComment {Author = user1, Text = "тестовий коментар"},
-                            new BlogComment {Author = user2, Text = "тестовий коментар"},
-                            new BlogComment {Author = user3, Text = "тестовий коментар"},
-                            new BlogComment {Author = user4, Text = "тестовий коментар"}
+                            new BlogComment {User = user1, Text = "тестовий коментар"},
+                            new BlogComment {User = user2, Text = "тестовий коментар"},
+                            new BlogComment {User = user3, Text = "тестовий коментар"},
+                            new BlogComment {User = user4, Text = "тестовий коментар"}
                         },
                         Text = "тестова стаття",
                         User = supervisor,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
@@ -8,10 +9,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int[] Categories { get; set; }
         public string[][] Features { get; set; }
-        //public IEnumerable<Category> CurrentCategories { get; set; }
-        //public IEnumerable<Category> AllCategories { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
         public string Address { get; set; }
@@ -20,20 +18,23 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.EditPlace
         public string Website { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
-        public TimeSpan MondayFrom { get; set; }
-        public TimeSpan MondayTo { get; set; }
-        public TimeSpan TuesdayFrom { get; set; }
-        public TimeSpan TuesdayTo { get; set; }
-        public TimeSpan WednesdayFrom { get; set; }
-        public TimeSpan WednesdayTo { get; set; }
-        public TimeSpan ThurstdayFrom { get; set; }
-        public TimeSpan ThurstdayTo { get; set; }
-        public TimeSpan FridayFrom { get; set; }
-        public TimeSpan FridayTo { get; set; }
-        public TimeSpan SaturdayFrom { get; set; }
-        public TimeSpan SaturdayTo { get; set; }
-        public TimeSpan SundayFrom { get; set; }
-        public TimeSpan SundayTo { get; set; }
+        public string MondayFrom { get; set; }
+        public string MondayTo { get; set; }
+        public string TuesdayFrom { get; set; }
+        public string TuesdayTo { get; set; }
+        public string WednesdayFrom { get; set; }
+        public string WednesdayTo { get; set; }
+        public string ThursdayFrom { get; set; }
+        public string ThursdayTo { get; set; }
+        public string FridayFrom { get; set; }
+        public string FridayTo { get; set; }
+        public string SaturdayFrom { get; set; }
+        public string SaturdayTo { get; set; }
+        public string SundayFrom { get; set; }
+        public string SundayTo { get; set; }
         public List<MenuViewModel> Menus { get; set; }
+        public string BannerPhotoPath { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
+        public bool HasNoMenus { get; set; }
     }
 }

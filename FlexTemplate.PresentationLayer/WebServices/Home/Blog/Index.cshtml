@@ -1,37 +1,19 @@
 ﻿@model FlexTemplate.PresentationLayer.WebServices.Home.Blog.ViewModel
 <!-- start Main Wrapper -->
 <div class="main-wrapper scrollspy-container">
-
     <!-- start hero-header -->
     <div class="hero hero-breadcrumb" style="background-image: url('@Model.BannerPath');">
-
         <div class="container">
-                        
         </div>
-
     </div>
-
     <div class="container pt-10 pb-60">
-
-        <div class="breadcrumb-wrapper">
-            <ol class="breadcrumb">
-                <li><a asp-controller="Home" asp-action="Blogs">Блоги</a></li>
-                <li class="active">@Model.Name</li>
-            </ol>
-        </div>
-
+        @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.Breadcrumbs.Breadcrumbs))
         <div class="mt-40">
-
             <div class="row">
-
                 <div class="col-sm-8 col-md-9 col-xs-12 mb-50-xs">
-
                     <div class="blog-single-wrapper">
-
                         <div class="heading">
-
                             <h3>@Model.Name</h3>
-                            
                             <div class="meta clearfix">
                                 <div class="date-posted">@Model.CreatedOn</div>
                                 <div>by: @Model.AuthorDisplayName</div>
@@ -42,32 +24,27 @@
                             </div>
                             @if (Model.IsAuthor)
                             {
-                            <span class="btn-holder">
-                                <a asp-controller="Home" asp-action="EditBlog" asp-route-id="@Model.Id" class="btn btn-primary anchor-alt">Правити статтю</a>
-                            </span>
+                                <span class="btn-holder">
+                                    <a asp-controller="Home" asp-action="EditBlog" asp-route-id="@Model.Id" class="btn btn-primary anchor-alt">Правити статтю</a>
+                                </span>
                             }
                         </div>
                         <div class="content blog-entry">
-                            <p>@Html.Raw(Model.Preamble)</p>
-                            <img src="../../Resources/Blogs/@(Model.Blog.Id)/head.jpg" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
-                            <p>@Html.Raw(Model.Text)</p>
+                            <p>@Model.Text</p>
                         </div>
-
                         <div class="blog-extra">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-7 xs-mb">
                                     <div class="tag-cloud clearfix mt-0">
                                         <span><i class="fa fa-tags"></i> Теги: </span>
-                                        @foreach (Tag tag in Model.Blog.BlogTags.Select(t => t.Tag))
+                                        @foreach (var tag in Model.Tags)
                                         {
-                                            <a href="#" class="tag-item">@tag.Name</a>
+                                            <a asp-controller="Home" asp-action="Blogs" asp-route-tags="@tag.Id" class="tag-item">@tag.Name</a>
                                         }
                                     </div>
                                 </div>
-
                                 @*<div class="col-xs-12 col-sm-6 col-md-5 xs-mb">
                                         <ul class="social-share-sm mt-5 pull-right pull-left-xs mt-20-xs">
-
                                             <li><span><i class="fa fa-share-square"></i> share</span></li>
                                             <li class="the-label"><a href="#">Facebook</a></li>
                                             <li class="the-label"><a href="#">Twitter</a></li>
@@ -78,11 +55,10 @@
                                     <div class="clear"></div>*@
                             </div>
                         </div>
-
                         <h4>Автор</h4>
                         <div class="blog-author clearfix">
                             <div class="author-label">
-                                <img src="@Model.AuthorPhotoPath" />
+                                <img src="@Model.AuthorPhotoPath" alt="Автор"/>
                             </div>
                             <div class="author-details">
                                 <h6><a class="inverse">@Model.AuthorDisplayName</a></h6>
@@ -97,21 +73,13 @@
                                     </div>
                                 *@
                             </div>
-
                         </div>
-
                     </div>
-
                     <div class="clear mb-40"></div>
-                    
-                    @await Component.InvokeAsync("BlogComments", new {blogId = Model.Id})
-
+                    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.BlogComments.BlogComments))
                     <!-- End Comment -->
-
                     <div class="clear mb-40"></div>
-
                     <h4>Додати комментар</h4>
-
                     <form method="post" id="contactForm" asp-controller="Home" asp-action="NewBlogComment" asp-route-blogid="@Model.Id" class="comment-form">
                         @*<div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -143,12 +111,9 @@
                         </div>
                     </form>
                 </div>
-                @await Component.InvokeAsync("BlogsFeed")
+                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.BlogsFeed.BlogsFeed))
             </div>
-
         </div>
-
     </div>
-
 </div>
 <!-- end Main Wrapper -->

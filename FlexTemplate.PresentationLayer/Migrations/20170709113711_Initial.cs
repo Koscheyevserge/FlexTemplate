@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlexTemplate.PresentationLayer.Migrations
 {
-    public partial class _1 : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,21 +22,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlogCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CommunicationType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommunicationType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -678,28 +663,28 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AuthorId = table.Column<string>(nullable: true),
                     BlogId = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
+                    Text = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlogComments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BlogComments_AspNetUsers_AuthorId",
-                        column: x => x.AuthorId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BlogComments_Blogs_BlogId",
                         column: x => x.BlogId,
                         principalTable: "Blogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlogComments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -850,7 +835,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CommunicationTypeId = table.Column<int>(nullable: false),
+                    CommunicationType = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     Number = table.Column<string>(nullable: true),
@@ -859,12 +844,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlaceCommunications", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlaceCommunications_CommunicationType_CommunicationTypeId",
-                        column: x => x.CommunicationTypeId,
-                        principalTable: "CommunicationType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PlaceCommunications_Places_PlaceId",
                         column: x => x.PlaceId,
@@ -1082,14 +1061,14 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BlogComments_AuthorId",
-                table: "BlogComments",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BlogComments_BlogId",
                 table: "BlogComments",
                 column: "BlogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogComments_UserId",
+                table: "BlogComments",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogTags_BlogId",
@@ -1185,11 +1164,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "IX_PlaceCategoryAliases_PlaceCategoryId",
                 table: "PlaceCategoryAliases",
                 column: "PlaceCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlaceCommunications_CommunicationTypeId",
-                table: "PlaceCommunications",
-                column: "CommunicationTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlaceCommunications_PlaceId",
@@ -1391,9 +1365,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pages");
-
-            migrationBuilder.DropTable(
-                name: "CommunicationType");
 
             migrationBuilder.DropTable(
                 name: "PlaceFeatureColumn");

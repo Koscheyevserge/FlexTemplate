@@ -4,9 +4,9 @@ using System.Text;
 
 namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
-    public class UserDto
+    public abstract class BaseCachedNameDto
     {
-        public int DefaultLanguageId { get; set; }
-        public int UserLanguageId { get; set; }
+        public int LanguageId { get; set; }
+        public string Name { get; set; }
     }
 }
