@@ -1,8 +1,7 @@
 ﻿namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
-    public class CachedCityNameDto
+    public class CachedCityNameDto : BaseCachedNameDto
     {
-        public int LanguageId { get; set; }
-        public string Name { get; set; }
+
     }
 }

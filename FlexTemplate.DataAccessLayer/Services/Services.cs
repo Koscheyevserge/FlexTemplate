@@ -25,7 +25,8 @@ namespace FlexTemplate.DataAccessLayer.Services
             SignInManager = signInManager;
         }
 
-        public async Task<IEnumerable<CityChecklistItemDao>> GetCityChecklistItemsAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCities)
+        public async Task<IEnumerable<CityChecklistItemDao>> GetCityChecklistItemsAsync(
+            ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCities)
         {
             var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
             var defaultLanguage = await GetDefaultLanguageAsync();
@@ -53,7 +54,8 @@ namespace FlexTemplate.DataAccessLayer.Services
             return result;
         }
 
-        public async Task<IEnumerable<PlaceCategoryChecklistItemDao>> GetPlaceCategoriesChecklistItemsAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCategories)
+        public async Task<IEnumerable<PlaceCategoryChecklistItemDao>> GetPlaceCategoriesChecklistItemsAsync(
+            ClaimsPrincipal claimsPrincipal, IEnumerable<int> checkedCategories)
         {
             var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
             var defaultLanguage = await GetDefaultLanguageAsync();
@@ -73,93 +75,57 @@ namespace FlexTemplate.DataAccessLayer.Services
                 Id = c.Id,
                 Name = aliases.Where(a => a.Key == c.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? c.Name,
                 Checked = checkedCategoriesList.Contains(c.Id),
-                CategoriesWithoutThisIds = checkedCategoriesList.Contains(c.Id) ? checkedCategoriesList.Where(checkedCategory => checkedCategory != c.Id) : checkedCategoriesList.Concat(new List<int>{c.Id})
+                CategoriesWithoutThisIds = checkedCategoriesList.Contains(c.Id) 
+                    ? checkedCategoriesList.Where(checkedCategory => checkedCategory != c.Id) 
+                    : checkedCategoriesList.Concat(new List<int>{c.Id})
             });
             return result;
         }
 
-        public async Task<IEnumerable<PlaceListItemDao>> GetPlacesListAsync(ClaimsPrincipal claimsPrincipal, IEnumerable<int> placesIds)
+        public async Task<IEnumerable<PlaceListItemDao>> GetPlacesListAsync(ClaimsPrincipal claimsPrincipal, 
+            IEnumerable<int> placesIds)
         {
             var userLanguage = await GetUserLanguageAsync(claimsPrincipal);
             var defaultLanguage = await GetDefaultLanguageAsync();
-            var aliasesGroups = Context.PlaceAliases.GroupBy(ca => ca.PlaceId);
-            var aliases = new List<KeyValuePair<int, string>>();
-            foreach (var aliasesGroup in aliasesGroups)
-            {
-                aliases.Add(new KeyValuePair<int, string>
-                (
-                    aliasesGroup.Key,
-                    GetProperAlias(aliasesGroup.Select(ag => ag), defaultLanguage, userLanguage))
-                );
-            }
-            var categories = Context.Places
-                .Include(p => p.PlacePlaceCategories)
-                .ThenInclude(ppc => ppc.PlaceCategory)
-                .ThenInclude(pc => pc.Aliases)
-                .ThenInclude(a => a.Language)
-                .Select(p => 
-                    new KeyValuePair<int, IEnumerable<KeyValuePair<int, string>>>
-                    (
-                        p.Id, 
-                        p.PlacePlaceCategories.Select
-                        (
-                            ppc => 
-                            new KeyValuePair<int, string>
-                            (
-                                ppc.PlaceCategoryId,
-                                GetProperAlias(ppc.PlaceCategory.Aliases, ppc.PlaceCategory.Name, defaultLanguage, userLanguage)
-                            )
-                        )
-                    )
-                );
-            var addresses = Context.Places
-                .Include(p => p.Street)
-                .ThenInclude(p => p.City)
-                .ThenInclude(c => c.Aliases)
-                .Include(p => p.Street)
-                .ThenInclude(s => s.Aliases)
-                .Select(p => 
-                    new KeyValuePair<int, string>
-                    (
-                        p.Id,
-                        GetAddress(
-                            GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage), 
-                            GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage), 
-                            p.Address)
-                    )
-                );
-            var result = Context.Places
+            return await Context.Places
+                .Include(p => p.Aliases)
                 .Include(p => p.Reviews)
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
+                .ThenInclude(pc => pc.Aliases)
+                .Include(p => p.Street).ThenInclude(p => p.City).ThenInclude(c => c.Aliases)
+                .Include(p => p.Street).ThenInclude(s => s.Aliases)
+                .Where(p => placesIds.Contains(p.Id))
                 .Select(p => 
                 new PlaceListItemDao
                 {
                     Id = p.Id,
-                    Name = aliases.Where(a => a.Key == p.Id).Select(kvp => kvp.Value).FirstOrDefault() ?? p.Name,
-                    Categories = categories.Any() 
-                        ? categories.SingleOrDefault(a => a.Key == p.Id).Value
-                        : new List<KeyValuePair<int, string>>(),
+                    Name = GetProperAlias(p.Aliases, p.Name, defaultLanguage, userLanguage),
+                    Categories = p.PlacePlaceCategories.Select(ppc => new KeyValuePair<int, string> 
+                        (ppc.PlaceCategoryId, GetProperAlias(ppc.PlaceCategory.Aliases, ppc.PlaceCategory.Name, 
+                            defaultLanguage, userLanguage))),
                     Stars = GetPlaceStars(p.Reviews),
                     ReviewsCount = p.Reviews.Count,
-                    //TODO Address = addresses.Single(a => a.Key == p.Id).Value,
+                    Address = GetAddress(GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, 
+                        userLanguage), GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage), p.Address),
                     HeadPhoto = "",//TODO получить фото
                     AveragePrice = p.Menus.Any() 
                         ? p.Menus.Where(m => m.Products.Any()).Average(m => m.Products.Average(prod => prod.Price)) 
                         : 0,
                     Description = p.Description
-                });
-            return result;
+                }).ToListAsync();
         }
 
-        private IQueryable<ContainerLocalizableString> GetLocalizableStrings(Container container, Language defaultLanguage, Language userLanguage)
+        private IQueryable<ContainerLocalizableString> GetLocalizableStrings(Container container, 
+            Language defaultLanguage, Language userLanguage)
         {
-            var strings = Context.ContainerLocalizableStrings
-                .Where(cls => cls.Container == container && (cls.Language == defaultLanguage || (userLanguage != null && cls.Language == userLanguage)))
+            return Context.ContainerLocalizableStrings
+                .Where(cls => cls.Container == container && (cls.Language == defaultLanguage || 
+                    (userLanguage != null && cls.Language == userLanguage)))
                 .GroupBy(cls => cls.Tag)
                 .Select(cls => userLanguage != null && cls.Any(c => c.Language == userLanguage) 
                     ? cls.FirstOrDefault(c => c.Language == userLanguage) 
                     : cls.FirstOrDefault(c => c.Language == defaultLanguage));
-            return strings;
         }
 
         #region Views
@@ -179,6 +145,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Checked = placeCategories.Contains(pc.Id)
                 }).ToListAsync();
             var placeHasSchedule = await Context.PlaceSchedules.AnyAsync(ps => ps.PlaceId == id);
+            const string zero = "00:00";
             return await Context.Places
                 .Include(p => p.Aliases)
                 .Include(p => p.Schedule)
@@ -186,6 +153,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
                 .Include(p => p.FeatureColumns).ThenInclude(fc => fc.Features)
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
+                .Include(p => p.Communications)
                 .Where(p => p.Id == id)
                 .Select(p => 
                 new EditPlacePageDao
@@ -194,60 +162,54 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Name = p.Name,
                     Features = p.FeatureColumns.OrderBy(fc => fc.Position)
                         .Select(fc => fc.Features.OrderBy(f => f.Row).Select(f => f.Name).ToArray()).ToArray(),
-                    Phone = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Phone) 
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Phone).Number 
-                        : null,
-                    Email = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Email)
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Email).Number
-                        : null,
-                    Website = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Website)
-                        ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Website).Number
-                        : null,
+                    Phone = GetCommunicationNumber(p.Communications, CommunicationType.Phone),
+                    Email = GetCommunicationNumber(p.Communications, CommunicationType.Email),
+                    Website = GetCommunicationNumber(p.Communications, CommunicationType.Website),
                     City = GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
                     Categories = categories,
                     Description = p.Description,
                     MondayFrom = placeHasSchedule 
-                        ? p.Schedule.MondayFrom.ToString(@"hh:mm") 
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.MondayFrom.ToString(@"hh\:mm") 
+                        : zero,
                     MondayTo = placeHasSchedule
-                        ? p.Schedule.MondayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.MondayTo.ToString(@"hh\:mm")
+                        : zero,
                     TuesdayFrom = placeHasSchedule
-                        ? p.Schedule.TuesdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.TuesdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     TuesdayTo = placeHasSchedule
-                        ? p.Schedule.TuesdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.TuesdayTo.ToString(@"hh\:mm")
+                        : zero,
                     WednesdayFrom = placeHasSchedule
-                        ? p.Schedule.WednesdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.WednesdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     WednesdayTo = placeHasSchedule
-                        ? p.Schedule.WednesdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.WednesdayTo.ToString(@"hh\:mm")
+                        : zero,
                     ThursdayFrom = placeHasSchedule
-                        ? p.Schedule.ThursdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.ThursdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     ThursdayTo = placeHasSchedule
-                        ? p.Schedule.ThursdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.ThursdayTo.ToString(@"hh\:mm")
+                        : zero,
                     FridayFrom = placeHasSchedule
-                        ? p.Schedule.FridayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.FridayFrom.ToString(@"hh\:mm")
+                        : zero,
                     FridayTo = placeHasSchedule
-                        ? p.Schedule.FridayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.FridayTo.ToString(@"hh\:mm")
+                        : zero,
                     SaturdayFrom = placeHasSchedule
-                        ? p.Schedule.SaturdayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SaturdayFrom.ToString(@"hh\:mm")
+                        : zero,
                     SaturdayTo = placeHasSchedule
-                        ? p.Schedule.SaturdayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SaturdayTo.ToString(@"hh\:mm")
+                        : zero,
                     SundayFrom = placeHasSchedule
-                        ? p.Schedule.SundayFrom.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SundayFrom.ToString(@"hh\:mm")
+                        : zero,
                     SundayTo = placeHasSchedule
-                        ? p.Schedule.SundayTo.ToString(@"hh:mm")
-                        : TimeSpan.Zero.ToString(@"hh:mm"),
+                        ? p.Schedule.SundayTo.ToString(@"hh\:mm")
+                        : zero,
                     Menus = p.Menus.Select(m => 
                     new EditPlacePageMenuDao
                     {
@@ -264,8 +226,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         }).ToList()
                     }).ToList(),
                     Street = GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
-                    Longitude = p.Longitude.ToString("##.00000000"),
-                    Latitude = p.Longitude.ToString("##.00000000"),
+                    Longitude = p.Longitude.ToString("R"),
+                    Latitude = p.Latitude.ToString("R"),
                     Address = p.Address
                 }).SingleOrDefaultAsync();
         }
@@ -656,10 +618,12 @@ namespace FlexTemplate.DataAccessLayer.Services
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = await Context.Places
                 .Include(p => p.Communications)
-                .ThenInclude(pc => pc.CommunicationType)
                 .Include(p => p.PlacePlaceCategories)
-                .ThenInclude(ppc => ppc.PlaceCategory)
-                .ThenInclude(pc => pc.Aliases)
+                    .ThenInclude(ppc => ppc.PlaceCategory)
+                        .ThenInclude(pc => pc.Aliases)
+                .Include(p => p.FeatureColumns)
+                    .ThenInclude(fc => fc.Features)
+                .Include(p => p.Schedule)
                 .Where(p => p.Id == placeId)
                 .Select(p =>
                     new PlaceOverviewComponentDao
@@ -678,30 +642,33 @@ namespace FlexTemplate.DataAccessLayer.Services
                                 SundayOpenTime = $"{p.Schedule.SundayFrom:hh\\:mm} - {p.Schedule.SundayTo:hh\\:mm}"
                             }
                             : null,
-                        Email = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Email)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Email).Number
-                            : null,
+                        Email = GetCommunicationNumber(p.Communications, CommunicationType.Email),
                         HasSchedule = p.Schedule != null &&
-                                      !(p.Schedule.MondayFrom == TimeSpan.Zero && p.Schedule.MondayTo == TimeSpan.Zero &&
-                                        p.Schedule.TuesdayFrom == TimeSpan.Zero && p.Schedule.TuesdayTo == TimeSpan.Zero &&
-                                        p.Schedule.WednesdayFrom == TimeSpan.Zero && p.Schedule.WednesdayTo == TimeSpan.Zero &&
-                                        p.Schedule.ThursdayFrom == TimeSpan.Zero && p.Schedule.ThursdayTo == TimeSpan.Zero &&
-                                        p.Schedule.FridayFrom == TimeSpan.Zero && p.Schedule.FridayTo == TimeSpan.Zero &&
-                                        p.Schedule.SaturdayFrom == TimeSpan.Zero && p.Schedule.SaturdayTo == TimeSpan.Zero &&
-                                        p.Schedule.SundayFrom == TimeSpan.Zero && p.Schedule.SundayTo == TimeSpan.Zero),
-                        Phone = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Phone)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Phone).Number
-                            : null,
+                            !(p.Schedule.MondayFrom == TimeSpan.Zero && 
+                            p.Schedule.MondayTo == TimeSpan.Zero &&
+                            p.Schedule.TuesdayFrom == TimeSpan.Zero && 
+                            p.Schedule.TuesdayTo == TimeSpan.Zero &&
+                            p.Schedule.WednesdayFrom == TimeSpan.Zero && 
+                            p.Schedule.WednesdayTo == TimeSpan.Zero &&
+                            p.Schedule.ThursdayFrom == TimeSpan.Zero && 
+                            p.Schedule.ThursdayTo == TimeSpan.Zero &&
+                            p.Schedule.FridayFrom == TimeSpan.Zero && 
+                            p.Schedule.FridayTo == TimeSpan.Zero &&
+                            p.Schedule.SaturdayFrom == TimeSpan.Zero && 
+                            p.Schedule.SaturdayTo == TimeSpan.Zero &&
+                            p.Schedule.SundayFrom == TimeSpan.Zero && 
+                            p.Schedule.SundayTo == TimeSpan.Zero),
+                        Phone = GetCommunicationNumber(p.Communications, CommunicationType.Phone),
                         PlaceCategoriesEnumerated = string.Join(",", p.PlacePlaceCategories
                             .Select(ppc =>
                                 GetProperAlias(ppc.PlaceCategory.Aliases,
                                     ppc.PlaceCategory.Name,
                                     defaultLanguage,
                                     userLanguage))),
-                        RowsOfFeatures = p.FeatureColumns.OrderBy(fc => fc.Position).Select(fc => string.Join(",", fc.Features.OrderBy(f => f.Row).Select(f => f.Name))).ToArray(),
-                        Website = p.Communications.Any(c => c.CommunicationType == (int)CommunicationType.Website)
-                            ? p.Communications.First(c => c.CommunicationType == (int)CommunicationType.Website).Number
-                            : null
+                        RowsOfFeatures = p.FeatureColumns.OrderBy(fc => fc.Position)
+                            .Select(fc => string.Join(",", fc.Features.OrderBy(f => f.Row).Select(f => f.Name)))
+                            .ToArray(),
+                        Website = GetCommunicationNumber(p.Communications, CommunicationType.Website)
                     }).SingleOrDefaultAsync();
             return result;
         }
@@ -732,8 +699,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
                         ParentId = pct.ParentId
                     }).ToListAsync();
-            var hierarchy = new PageContainersHierarchyDao { Containers = containers };
-            return hierarchy;
+            return new PageContainersHierarchyDao { Containers = containers };
         }
 
         public async Task<PageContainersHierarchyDao> GetPageContainersHierarchy(string pageName)
@@ -749,8 +715,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
                         ParentId = pct.ParentId
                     }).ToListAsync();
-            var hierarchy = new PageContainersHierarchyDao {Containers = containers};
-            return hierarchy;
+            return new PageContainersHierarchyDao {Containers = containers};
         }
 
         public async Task<List<CachedPlaceDao>> GetPlacesAsync()
@@ -1125,7 +1090,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                      && (s.Name.Trim().ToUpperInvariant().Contains(model.Street)
                      || s.Aliases.Select(a => a.Text.Trim().ToUpperInvariant()).Any(a => a.Contains(model.Street))));
                 var communications = new List<PlaceCommunication>();
-                if (string.IsNullOrEmpty(model.Website))
+                if (!string.IsNullOrEmpty(model.Website))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1133,7 +1098,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Number = model.Website
                     });
                 }
-                if (string.IsNullOrEmpty(model.Email))
+                city = city ?? new City{ Name = model.City };
+                if (!string.IsNullOrEmpty(model.Email))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1141,7 +1107,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Number = model.Email
                     });
                 }
-                if (string.IsNullOrEmpty(model.Phone))
+                if (!string.IsNullOrEmpty(model.Phone))
                 {
                     communications.Add(new PlaceCommunication
                     {
@@ -1181,6 +1147,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     }
                     columns.Add(column);
                 }
+                street = street ?? new Street { Name = model.Street, City = city };
                 var place = new Place
                 {
                     User = user,
@@ -1249,6 +1216,12 @@ namespace FlexTemplate.DataAccessLayer.Services
         #endregion
 
         #region Common Services
+
+        public string GetCommunicationNumber(List<PlaceCommunication> communications, CommunicationType type)
+        {
+            var comm = communications.FirstOrDefault(c => c.CommunicationType == (int)type);
+            return comm?.Number;
+        }
 
         public async Task<User> GetUserAsync(ClaimsPrincipal claims)
         {

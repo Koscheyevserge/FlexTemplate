@@ -28,7 +28,7 @@
             @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesFilters.PlacesFilters))
             <div class="col-sm-8 col-md-9">
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesSorting.PlacesSorting))
-                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.PlacesList))
+                @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesList.PlacesList), new { placesIds = Model.PlacesOnPageIds})
                 @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.PlacesPagination.PlacesPagination), new {placesCount = Model.PlacesTotal})
             </div>
         </div>
