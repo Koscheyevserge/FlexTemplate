@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Resources
 {
@@ -11,8 +12,8 @@ namespace FlexTemplate.PresentationLayer.WebServices.Resources
         public ResourcesController(ControllerServices services) : base(services)
         {
         }
-        /*
-        [Route("api/resources/photo-detail/{id}")]
+        
+        /*[Route("api/resources/photo-detail/{id}")]
         public IEnumerable<string> PhotoDetail(int id)
         {
             var path = $@"wwwroot\Resources\Places\{id}\";
@@ -32,7 +33,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Resources
         public IEnumerable<string> GetTags()
         {
             return context.Tags.Select(c => c.Name).Union(context.TagAliases.Select(ca => ca.Text));
-        }
-        */
+        }*/
     }
 }

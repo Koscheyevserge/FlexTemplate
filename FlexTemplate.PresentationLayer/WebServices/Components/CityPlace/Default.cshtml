@@ -5,7 +5,7 @@
         <div dataId="@Model.PlaceId" class="restaurant-grid-item">
             <a asp-action="Place" asp-controller="Home" asp-route-id="@Model.PlaceId">
                 <div class="image">
-                    <img src="@Model.PhotoPath" alt="Image" />
+                    <img src="@Model.PhotoPath" alt="Image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/place.jpg';"/>
                 </div>
             </a>
             <div class="content">

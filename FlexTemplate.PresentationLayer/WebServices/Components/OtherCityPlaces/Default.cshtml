@@ -3,7 +3,7 @@
     <div class="destination-grid-item-02">
         <a asp-controller="Home" asp-action="Places" asp-route-cities="@Model.CityId">
             <div class="image">
-                <img src=@Model.PhotoPath alt="Hot Item">
+                <img src="@Model.PhotoPath" alt="Hot Item" onerror="this.onerror = null; this.src = '../../Resources/Defaults/city.jpg';" >
             </div>
             <div class="content">
                 <h4><span>@Model.CityName</span></h4>

@@ -168,9 +168,9 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return result.To<NewPlacePageDto>();
         }
 
-        public async Task<NewBlogPageDto> GetNewBlogDtoAsync()
+        public NewBlogPageDto GetNewBlogDto()
         {
-            var result = await DalServices.GetNewBlogDaoAsync();
+            var result = DalServices.GetNewBlogDao();
             return result.To<NewBlogPageDto>();
         }
 
