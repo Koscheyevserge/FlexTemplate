@@ -1,6 +1,6 @@
 ﻿@model FlexTemplate.PresentationLayer.WebServices.Home.Index.ViewModel
 <div class="main-wrapper scrollspy-container">
-  @foreach(var container in Model.Hierarchy.Containers)
+  @foreach(var container in Model.Hierarchy.Containers.OrderBy(c => c.Position))
   {
     @await Component.InvokeAsync(container.ContainerName, new { templateName = container.ContainerTemplateName})
   }

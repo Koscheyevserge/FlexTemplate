@@ -395,7 +395,7 @@ function initSlider() {
  * User edit text-box
  */
 
-	$('body').on('focus', '[contenteditable]', function(event) {
+	/*$('body').on('focus', '[contenteditable]', function(event) {
     if (!$(this).hasClass('active')) {
       $(this).addClass('active');
       let id = $(this).attr('dataId');
@@ -414,7 +414,7 @@ function initSlider() {
         var cnt = $(".text-edit").contents();
         $(".text-edit").replaceWith(cnt);
         $(this).removeClass('active');
-	});
+	});*/
 
   const URL_DOMAIN = window.location.origin;
   const localizableStrings = '/api/localizablestrings/update/';
@@ -572,7 +572,7 @@ function initSlider() {
   * CKEditor config
   */
 
-  CKEDITOR.config.height = 150;
+  /*CKEDITOR.config.height = 150;
   CKEDITOR.config.width = 'auto';
 
   var initCKEditor = function(id) {
@@ -611,6 +611,6 @@ function initSlider() {
 
       return !!CKEDITOR.plugins.get( 'wysiwygarea' );
     }
-  };
+  };*/
 }
 

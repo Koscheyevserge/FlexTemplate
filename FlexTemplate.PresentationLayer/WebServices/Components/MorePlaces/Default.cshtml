@@ -1,5 +1,5 @@
-﻿@model FlexTemplate.ViewModels.HomeController.LoadMorePlacesViewModel
+﻿@model FlexTemplate.PresentationLayer.WebServices.Components.MorePlaces.ViewModel
 @foreach(var placeId in Model.LoadedPlacesIds)
 {
-    @await Component.InvokeAsync("ThisCityPlace", new { id = placeId });
+    @await Component.InvokeAsync(typeof(FlexTemplate.PresentationLayer.WebServices.Components.CityPlace.CityPlace), new { placeId = placeId });
 }

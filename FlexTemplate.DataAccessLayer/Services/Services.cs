@@ -515,6 +515,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             var result = Context.Places
                 .Include(p => p.Reviews)
                 .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
+                .Where(p => p.Id == placeId)
                 .Select(p => 
                 new CityPlaceViewComponentDao
                 {
@@ -522,12 +523,12 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Address = p.Address,
                     PlaceId = placeId,
                     ReviewsCount = p.Reviews.Count,
-                    Stars = Math.Ceiling(p.Reviews.Average(r => r.Star)),
+                    Stars = Math.Ceiling(p.Reviews.Any() ? p.Reviews.Average(r => r.Star) : 0),
                     Categories = p.PlacePlaceCategories.Select(ppc => 
                         new KeyValuePair<int, string>(ppc.PlaceCategory.Id, ppc.PlaceCategory.Name))
                 })
                 //TODO понять почему не работает SingleOrDefault()
-                .FirstOrDefault(p => p.PlaceId == placeId);
+                .FirstOrDefault();
             var reviewsDescriptor = strings.SingleOrDefault(s => s.Tag == "ReviewsDescriptor")?.Text;
             result.ReviewsDescriptor = reviewsDescriptor;
             //TODO реализовать получение фотографии
@@ -633,13 +634,27 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Schedule = p.Schedule != null
                             ? new PlaceOverviewComponentScheduleDao
                             {
-                                MondayOpenTime = $"{p.Schedule.MondayFrom:hh\\:mm} - {p.Schedule.MondayTo:hh\\:mm}",
-                                TuesdayOpenTime = $"{p.Schedule.TuesdayFrom:hh\\:mm} - {p.Schedule.TuesdayTo:hh\\:mm}",
-                                WednesdayOpenTime = $"{p.Schedule.WednesdayFrom:hh\\:mm} - {p.Schedule.WednesdayTo:hh\\:mm}",
-                                ThursdayOpenTime = $"{p.Schedule.ThursdayFrom:hh\\:mm} - {p.Schedule.ThursdayTo:hh\\:mm}",
-                                FridayOpenTime = $"{p.Schedule.FridayFrom:hh\\:mm} - {p.Schedule.FridayTo:hh\\:mm}",
-                                SaturdayOpenTime = $"{p.Schedule.SaturdayFrom:hh\\:mm} - {p.Schedule.SaturdayTo:hh\\:mm}",
-                                SundayOpenTime = $"{p.Schedule.SundayFrom:hh\\:mm} - {p.Schedule.SundayTo:hh\\:mm}"
+                                MondayOpenTime =
+                                p.Schedule.MondayFrom == TimeSpan.Zero && p.Schedule.MondayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.MondayFrom:hh\\:mm} - {p.Schedule.MondayTo:hh\\:mm}",
+                                TuesdayOpenTime =
+                                p.Schedule.TuesdayFrom == TimeSpan.Zero && p.Schedule.TuesdayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.TuesdayFrom:hh\\:mm} - {p.Schedule.TuesdayTo:hh\\:mm}",
+                                WednesdayOpenTime =
+                                p.Schedule.WednesdayFrom == TimeSpan.Zero && p.Schedule.WednesdayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.WednesdayFrom:hh\\:mm} - {p.Schedule.WednesdayTo:hh\\:mm}",
+                                ThursdayOpenTime =
+                                p.Schedule.ThursdayFrom == TimeSpan.Zero && p.Schedule.ThursdayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.ThursdayFrom:hh\\:mm} - {p.Schedule.ThursdayTo:hh\\:mm}",
+                                FridayOpenTime =
+                                p.Schedule.FridayFrom == TimeSpan.Zero && p.Schedule.FridayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.FridayFrom:hh\\:mm} - {p.Schedule.FridayTo:hh\\:mm}",
+                                SaturdayOpenTime =
+                                p.Schedule.SaturdayFrom == TimeSpan.Zero && p.Schedule.SaturdayTo == TimeSpan.Zero
+                                ? "Вихідний" : $"{p.Schedule.SaturdayFrom:hh\\:mm} - {p.Schedule.SaturdayTo:hh\\:mm}",
+                                SundayOpenTime = 
+                                p.Schedule.SundayFrom == TimeSpan.Zero && p.Schedule.SundayTo == TimeSpan.Zero 
+                                ? "Вихідний" : $"{p.Schedule.SundayFrom:hh\\:mm} - {p.Schedule.SundayTo:hh\\:mm}"
                             }
                             : null,
                         Email = GetCommunicationNumber(p.Communications, CommunicationType.Email),
@@ -659,7 +674,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                             p.Schedule.SundayFrom == TimeSpan.Zero && 
                             p.Schedule.SundayTo == TimeSpan.Zero),
                         Phone = GetCommunicationNumber(p.Communications, CommunicationType.Phone),
-                        PlaceCategoriesEnumerated = string.Join(",", p.PlacePlaceCategories
+                        PlaceCategoriesEnumerated = string.Join(", ", p.PlacePlaceCategories
                             .Select(ppc =>
                                 GetProperAlias(ppc.PlaceCategory.Aliases,
                                     ppc.PlaceCategory.Name,
@@ -682,6 +697,36 @@ namespace FlexTemplate.DataAccessLayer.Services
                     {
                         Reviews = p.Reviews.OrderBy(r => r.CreatedOn).Select(r => r.Id)
                     }).SingleOrDefaultAsync();
+        }
+
+        public async Task<MorePlacesViewComponentDao> GetMorePlacesAsync(IEnumerable<int> loadedPlacesIds)
+        {
+            return new MorePlacesViewComponentDao
+            {
+                LoadedPlacesIds = await Context.Places.Where(p => !loadedPlacesIds.Contains(p.Id))
+                    .Select(p => p.Id).Take(8).ToListAsync()
+            };
+        }
+
+        public NewPlaceProductComponentDao GetNewPlaceProduct(int position, int menu)
+        {
+            return new NewPlaceProductComponentDao
+            {
+                Position = position,
+                Menu = menu,
+                Guid = Guid.NewGuid(),
+                Name = (position + 1).ToString()
+            };
+        }
+
+        public NewPlaceMenuComponentDao GetNewPlaceMenu(int position)
+        {
+            return new NewPlaceMenuComponentDao
+            {
+                Position = position,
+                Guid = Guid.NewGuid(),
+                Name = (position + 1).ToString()
+            };
         }
 
         #endregion
@@ -713,7 +758,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Id = pct.Id,
                         ContainerName = pct.ContainerTemplate.Container.Name,
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
-                        ParentId = pct.ParentId
+                        ParentId = pct.ParentId,
+                        Position = pct.Position
                     }).ToListAsync();
             return new PageContainersHierarchyDao {Containers = containers};
         }
@@ -838,7 +884,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             };
         }
 
-        public async Task<NewBlogPageDao> GetNewBlogDaoAsync()
+        public NewBlogPageDao GetNewBlogDao()
         {
             return new NewBlogPageDao
             {
@@ -853,21 +899,29 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             try
             {
-                var blog = await Context.Blogs.SingleOrDefaultAsync(b => b.Id == model.Id);
-                var tagsNormalized = model.Tags.Select(t => t.Trim().ToUpperInvariant()).ToList();
-                var tags = await Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant())
-                    || tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
-                    .Select(t => new BlogTag { Tag = t }).ToListAsync();
+                var blog = Context.Blogs.Include(b => b.BlogTags).SingleOrDefault(b => b.Id == model.Id);
                 if (blog == null)
                 {
                     return false;
                 }
+                var tagsNormalized = model.Tags.Where(t => t != null )
+                    .Select(t => t.Trim().ToUpperInvariant()).ToList();
+                var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant()) ||
+                    tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
+                    .Select(t => new BlogTag { Tag = t }).Distinct().ToList();
                 blog.Caption = model.Name;
                 blog.Text = model.Text;
-                blog.BlogTags = tags;
+                foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.TagId).Contains(bt.TagId)))
+                {
+                    Context.BlogTags.Remove(blogTag);
+                }
+                foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.TagId)))
+                {
+                    blog.BlogTags.Add(blogTag);
+                }
                 using (var transaction = Context.Database.BeginTransaction())
                 {
-                    Context.SaveChanges();
+                    await Context.SaveChangesAsync();
                     transaction.Commit();
                 }
                 return true;
