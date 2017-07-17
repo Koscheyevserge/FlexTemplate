@@ -731,6 +731,20 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         #endregion
 
+        public async Task<IEnumerable<string>> GetCitiesAsync()
+        {
+            var result = Context.Cities.Select(c => c.Name);
+            result = result.Concat(Context.CityAliases.Select(ca => ca.Text));
+            return await result.ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetTagsAsync()
+        {
+            var result = Context.Tags.Select(c => c.Name);
+            result = result.Concat(Context.TagAliases.Select(ca => ca.Text));
+            return await result.ToListAsync();
+        }
+
         public async Task<PageContainersHierarchyDao> GetPageContainersHierarchyAsync(int pageContainerTemplateId)
         {
             var containers = await Context.PageContainerTemplates
@@ -864,7 +878,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     HeadPhotoPath = "",//TODO получить фото
                     IsModerated = b.IsModerated,
                     Preable = ""//TODO извлечь преамбулу
-                }).Skip((page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
+                }).Skip((page == 0 ? 0 : page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
         }
 
         public async Task<NewPlacePageDao> GetNewPlaceDaoAsync(ClaimsPrincipal httpContextUser)
@@ -904,18 +918,18 @@ namespace FlexTemplate.DataAccessLayer.Services
                 {
                     return false;
                 }
-                var tagsNormalized = model.Tags.Where(t => t != null )
-                    .Select(t => t.Trim().ToUpperInvariant()).ToList();
+                var tagsNormalized = model.Tags.Where(t => t != null).SelectMany(t => t.Split(',')
+                    .Select(ts => ts.Trim().ToUpperInvariant())).ToList();
                 var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant()) ||
                     tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
                     .Select(t => new BlogTag { Tag = t }).Distinct().ToList();
                 blog.Caption = model.Name;
                 blog.Text = model.Text;
-                foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.TagId).Contains(bt.TagId)))
+                foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.Tag.Id).Contains(bt.TagId)))
                 {
                     Context.BlogTags.Remove(blogTag);
                 }
-                foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.TagId)))
+                foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.Tag.Id)))
                 {
                     blog.BlogTags.Add(blogTag);
                 }

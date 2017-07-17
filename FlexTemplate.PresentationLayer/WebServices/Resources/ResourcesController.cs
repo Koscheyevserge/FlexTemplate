@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +22,18 @@ namespace FlexTemplate.PresentationLayer.WebServices.Resources
                 Directory.CreateDirectory(path);
             var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" , $@"wwwroot\Resources\Places\{id}\banner.jpg" });
             return result;
-        }
+        }*/
 
         [Route("api/resources/cities")]
-        public IEnumerable<string> GetCities()
+        public async Task<IEnumerable<string>> GetCities()
         {
-            return context.Cities.Select(c => c.Name).Union(context.CityAliases.Select(ca => ca.Text));
+            return await BllServices.GetCitiesAsync();
         }
 
         [Route("api/resources/tags")]
-        public IEnumerable<string> GetTags()
+        public async Task<IEnumerable<string>> GetTags()
         {
-            return context.Tags.Select(c => c.Name).Union(context.TagAliases.Select(ca => ca.Text));
-        }*/
+            return await BllServices.GetTagsAsync();
+        }
     }
 }

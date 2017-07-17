@@ -240,5 +240,17 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         {
             return DalServices.EditPlaceAsync(model.To<EditPlaceDao>());
         }
+
+        public async Task<IEnumerable<string>> GetCitiesAsync()
+        {
+            var result = await DalServices.GetCitiesAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetTagsAsync()
+        {
+            var result = await DalServices.GetTagsAsync();
+            return result;
+        }
     }
 }
