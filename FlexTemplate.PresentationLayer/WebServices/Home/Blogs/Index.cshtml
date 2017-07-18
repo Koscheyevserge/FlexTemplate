@@ -33,9 +33,9 @@
                                                 <div class="recent-post-meta clearfix">
                                                     <div class="date-posted">@blog.CreatedOn</div>
                                                     <div>by: @blog.AuthorName </div>
-                                                    @if (blog.IsModerated)
+                                                    @if (!blog.IsModerated)
                                                     {
-                                                        <div>in: Review Trip</div>
+                                                        <div>На модерації</div>
                                                     }
                                                 </div>
                                             </div>

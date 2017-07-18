@@ -139,7 +139,27 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             }
             return RedirectToAction("Blog", "Home", new { id = item.Id });
         }
-        
+
+        public async Task<IActionResult> DeclineBlog(int id)
+        {
+            var result = await BllServices.DeclineBlogAsync(HttpContext.User, id);
+            if (!result)
+            {
+                return RedirectToAction("Blog", "Home", new { id = id });
+            }
+            return RedirectToAction("Blogs", "Home");
+        }
+
+        public async Task<IActionResult> AcceptBlog(int id)
+        {
+            var result = await BllServices.AcceptBlogAsync(HttpContext.User, id);
+            if (!result)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Blog", "Home", new { id = id });
+        }
+
         public async Task<IActionResult> EditPlace(int id)
         {
             var model = await BllServices.GetEditPlaceAsync(HttpContext.User, id);

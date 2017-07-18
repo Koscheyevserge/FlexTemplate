@@ -252,10 +252,10 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<BlogPageDao> GetBlogAsync(ClaimsPrincipal claims, int id)
         {
-            var user = await UserManager.GetUserAsync(claims);
             var userLanguage = await GetUserLanguageAsync(claims);
             var defaultLanguage = await GetDefaultLanguageAsync();
             var isAuthor = await IsAuthorAsync<Blog>(claims, id);
+            var isAdmin = await IsUserAdmin(claims);
             var tags = await Context.BlogTags.Include(bt => bt.Tag).ThenInclude(t => t.TagAliases)
                 .Where(bt => bt.BlogId == id).Select(bt =>
                     new TagBlogPageDao
@@ -263,21 +263,24 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Id = bt.TagId,
                         Name = GetProperAlias(bt.Tag.TagAliases, bt.Tag.Name, defaultLanguage, userLanguage)
                     }).ToListAsync();
-            return await Context.Blogs.Select(b =>
+            return await Context.Blogs.Include(b => b.User).Select(b =>
                 new BlogPageDao
                 {
-                    AuthorDisplayName = GetUsername(user),
+                    AuthorDisplayName = GetUsername(b.User),
                     AuthorPhotoPath = "",//TODO реализовать получение фотографии
                     BannerPath = "",//TODO реализовать получение фотографии
                     CreatedOn = b.CreatedOn,
                     Id = b.Id,
                     IsAuthor = isAuthor,
+                    IsAdmin = isAdmin,
                     IsModerated = b.IsModerated,
-                    IsModeratedText = "",//TODO добавить текст модерации
+                    IsModeratedText = "На модерації",//TODO добавить текст модерации
                     Name = b.Caption,
                     Tags = tags,
-                    Text = b.Text
-                }).SingleOrDefaultAsync(b => b.Id == id && (b.IsModerated || isAuthor));
+                    Text = b.Text,
+                    AcceptText = "Затвердити",//TODO добавить текст
+                    DeclineText = "Відхилити"//TODO добавить текст
+                }).SingleOrDefaultAsync(b => b.Id == id && (b.IsModerated || isAuthor || isAdmin));
         }
 
         #endregion
@@ -905,6 +908,46 @@ namespace FlexTemplate.DataAccessLayer.Services
                 BannerPhotoPath = "",//TODO получить фото
                 NewBlogGuid = Guid.NewGuid()
             };
+        }
+
+        public async Task<bool> DeclineBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            try
+            {
+                var isAdmin = await IsUserAdmin(claims);
+                if (!isAdmin)
+                {
+                    return false;
+                }
+                var blog = Context.Blogs.SingleOrDefault(s => s.Id == id);
+                Context.Blogs.Remove(blog);
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AcceptBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            try
+            {
+                var isAdmin = await IsUserAdmin(claims);
+                if (!isAdmin)
+                {
+                    return false;
+                }
+                var blog = Context.Blogs.SingleOrDefault(s => s.Id == id);
+                blog.IsModerated = true;
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #region Update Services

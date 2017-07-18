@@ -16,7 +16,7 @@
                             <h3>@Model.Name</h3>
                             <div class="meta clearfix">
                                 <div class="date-posted">@Model.CreatedOn</div>
-                                <div>by: @Model.AuthorDisplayName</div>
+                                <div>автор: @Model.AuthorDisplayName</div>
                                 @if (!Model.IsModerated)
                                 {
                                     <div>@Model.IsModeratedText</div>
@@ -26,6 +26,15 @@
                             {
                                 <span class="btn-holder">
                                     <a asp-controller="Home" asp-action="EditBlog" asp-route-id="@Model.Id" class="btn btn-primary anchor-alt">Правити статтю</a>
+                                </span>
+                            }
+                            @if (Model.IsAdmin && !Model.IsModerated)
+                            {
+                                <span class="btn-holder">
+                                    <a asp-controller="Home" asp-action="DeclineBlog" asp-route-id="@Model.Id" class="btn btn-primary anchor-alt">@Model.DeclineText</a>
+                                </span>
+                                <span class="btn-holder">
+                                    <a asp-controller="Home" asp-action="AcceptBlog" asp-route-id="@Model.Id" class="btn btn-primary anchor-alt">@Model.AcceptText</a>
                                 </span>
                             }
                         </div>
