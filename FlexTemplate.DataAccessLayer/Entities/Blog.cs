@@ -10,5 +10,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public bool IsModerated { get; set; }
         public virtual List<BlogTag> BlogTags { get; set; }
         public virtual List<BlogBlogCategory> BlogBlogCategories { get; set; }
+        public virtual List<BlogPhoto> Headers { get; set; }
     }
 }

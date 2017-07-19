@@ -51,5 +51,11 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Фичи заведения
         /// </summary>
         public virtual List<PlaceFeatureColumn> FeatureColumns { get; set; }
+
+        public virtual List<PlaceHeaderPhoto> Headers { get; set; }
+
+        public virtual List<PlaceGalleryPhoto> Gallery { get; set; }
+
+        public virtual List<PlaceBannerPhoto> Banners { get; set; }
     }
 }
