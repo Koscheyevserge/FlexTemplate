@@ -20,5 +20,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public string Surname { get; set; }
         public virtual List<Blog> Blogs { get; set; }
         public virtual List<Place> Places { get; set; }
+        public virtual List<UserPhoto> Headers { get; set; }
     }
 }

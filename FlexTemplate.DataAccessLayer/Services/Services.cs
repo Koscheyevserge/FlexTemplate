@@ -252,10 +252,10 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<BlogPageDao> GetBlogAsync(ClaimsPrincipal claims, int id)
         {
-            var user = await UserManager.GetUserAsync(claims);
             var userLanguage = await GetUserLanguageAsync(claims);
             var defaultLanguage = await GetDefaultLanguageAsync();
             var isAuthor = await IsAuthorAsync<Blog>(claims, id);
+            var isAdmin = await IsUserAdmin(claims);
             var tags = await Context.BlogTags.Include(bt => bt.Tag).ThenInclude(t => t.TagAliases)
                 .Where(bt => bt.BlogId == id).Select(bt =>
                     new TagBlogPageDao
@@ -263,21 +263,24 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Id = bt.TagId,
                         Name = GetProperAlias(bt.Tag.TagAliases, bt.Tag.Name, defaultLanguage, userLanguage)
                     }).ToListAsync();
-            return await Context.Blogs.Select(b =>
+            return await Context.Blogs.Include(b => b.User).Select(b =>
                 new BlogPageDao
                 {
-                    AuthorDisplayName = GetUsername(user),
+                    AuthorDisplayName = GetUsername(b.User),
                     AuthorPhotoPath = "",//TODO реализовать получение фотографии
                     BannerPath = "",//TODO реализовать получение фотографии
                     CreatedOn = b.CreatedOn,
                     Id = b.Id,
                     IsAuthor = isAuthor,
+                    IsAdmin = isAdmin,
                     IsModerated = b.IsModerated,
-                    IsModeratedText = "",//TODO добавить текст модерации
+                    IsModeratedText = "На модерації",//TODO добавить текст модерации
                     Name = b.Caption,
                     Tags = tags,
-                    Text = b.Text
-                }).SingleOrDefaultAsync(b => b.Id == id && (b.IsModerated || isAuthor));
+                    Text = b.Text,
+                    AcceptText = "Затвердити",//TODO добавить текст
+                    DeclineText = "Відхилити"//TODO добавить текст
+                }).SingleOrDefaultAsync(b => b.Id == id && (b.IsModerated || isAuthor || isAdmin));
         }
 
         #endregion
@@ -731,6 +734,20 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         #endregion
 
+        public async Task<IEnumerable<string>> GetCitiesAsync()
+        {
+            var result = Context.Cities.Select(c => c.Name);
+            result = result.Concat(Context.CityAliases.Select(ca => ca.Text));
+            return await result.ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetTagsAsync()
+        {
+            var result = Context.Tags.Select(c => c.Name);
+            result = result.Concat(Context.TagAliases.Select(ca => ca.Text));
+            return await result.ToListAsync();
+        }
+
         public async Task<PageContainersHierarchyDao> GetPageContainersHierarchyAsync(int pageContainerTemplateId)
         {
             var containers = await Context.PageContainerTemplates
@@ -864,7 +881,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     HeadPhotoPath = "",//TODO получить фото
                     IsModerated = b.IsModerated,
                     Preable = ""//TODO извлечь преамбулу
-                }).Skip((page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
+                }).Skip((page == 0 ? 0 : page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
         }
 
         public async Task<NewPlacePageDao> GetNewPlaceDaoAsync(ClaimsPrincipal httpContextUser)
@@ -893,6 +910,46 @@ namespace FlexTemplate.DataAccessLayer.Services
             };
         }
 
+        public async Task<bool> DeclineBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            try
+            {
+                var isAdmin = await IsUserAdmin(claims);
+                if (!isAdmin)
+                {
+                    return false;
+                }
+                var blog = Context.Blogs.SingleOrDefault(s => s.Id == id);
+                Context.Blogs.Remove(blog);
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> AcceptBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            try
+            {
+                var isAdmin = await IsUserAdmin(claims);
+                if (!isAdmin)
+                {
+                    return false;
+                }
+                var blog = Context.Blogs.SingleOrDefault(s => s.Id == id);
+                blog.IsModerated = true;
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #region Update Services
 
         public async Task<bool> EditBlogAsync(EditBlogDao model)
@@ -904,18 +961,18 @@ namespace FlexTemplate.DataAccessLayer.Services
                 {
                     return false;
                 }
-                var tagsNormalized = model.Tags.Where(t => t != null )
-                    .Select(t => t.Trim().ToUpperInvariant()).ToList();
+                var tagsNormalized = model.Tags.Where(t => t != null).SelectMany(t => t.Split(',')
+                    .Select(ts => ts.Trim().ToUpperInvariant())).ToList();
                 var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant()) ||
                     tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
                     .Select(t => new BlogTag { Tag = t }).Distinct().ToList();
                 blog.Caption = model.Name;
                 blog.Text = model.Text;
-                foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.TagId).Contains(bt.TagId)))
+                foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.Tag.Id).Contains(bt.TagId)))
                 {
                     Context.BlogTags.Remove(blogTag);
                 }
-                foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.TagId)))
+                foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.Tag.Id)))
                 {
                     blog.BlogTags.Add(blogTag);
                 }
