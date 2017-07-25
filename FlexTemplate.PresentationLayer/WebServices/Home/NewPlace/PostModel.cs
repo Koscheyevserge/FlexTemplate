@@ -32,5 +32,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.NewPlace
         public string[][] Features { get; set; }
         public IEnumerable<MenuPostModel> Menus { get; set; }
         public IEnumerable<int> Categories { get; set; }
+        public Guid BlobKey { get; set; }
     }
 }

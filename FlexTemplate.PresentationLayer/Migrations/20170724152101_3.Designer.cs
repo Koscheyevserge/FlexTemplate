@@ -8,9 +8,10 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    partial class FlexTemplateContextModelSnapshot : ModelSnapshot
+    [Migration("20170724152101_3")]
+    partial class _3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -462,7 +463,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<Guid>("BlobKey");
+                    b.Property<Guid>("BlobBannersKey");
+
+                    b.Property<Guid>("BlobGalleryKey");
+
+                    b.Property<Guid>("BlobHeadersKey");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -536,7 +541,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceBannerPhotos");
+                    b.ToTable("PlaceBannerPhoto");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategory", b =>
@@ -664,7 +669,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceGalleryPhotos");
+                    b.ToTable("PlaceGalleryPhoto");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
@@ -688,7 +693,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("PlaceHeaderPhotos");
+                    b.ToTable("PlaceHeaderPhoto");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>

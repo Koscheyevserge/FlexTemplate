@@ -14,7 +14,7 @@ namespace FlexTemplate.ThumbnailWebJob
         public static void CreateThumbnail([BlobTrigger("images/{name}.{ext}")] Stream input,
             [Blob("thumbnails/{name}.{ext}", FileAccess.Write)] Stream output)
         {
-            ResizeImage(input, output, 800);
+            ResizeImage(input, output, 160);
         }
 
         private static void ResizeImage(Stream input, Stream output, int width)

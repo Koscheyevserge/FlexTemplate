@@ -32,5 +32,6 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
         public string[][] Features { get; set; }
         public IEnumerable<NewPlaceMenuDao> Menus { get; set; }
         public IEnumerable<int> Categories { get; set; }
+        public Guid BlobKey { get; set; }
     }
 }

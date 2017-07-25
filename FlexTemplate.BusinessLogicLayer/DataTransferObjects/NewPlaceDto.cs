@@ -32,5 +32,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
         public string[][] Features { get; set; }
         public IEnumerable<NewPlaceMenuDto> Menus { get; set; }
         public IEnumerable<int> Categories { get; set; }
+        public Guid BlobKey { get; set; }
     }
 }

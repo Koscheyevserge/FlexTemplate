@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
@@ -10,6 +11,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public bool IsModerated { get; set; }
         public virtual List<BlogTag> BlogTags { get; set; }
         public virtual List<BlogBlogCategory> BlogBlogCategories { get; set; }
+        public Guid BlobKey { get; set; }
         public virtual List<BlogPhoto> Headers { get; set; }
     }
 }

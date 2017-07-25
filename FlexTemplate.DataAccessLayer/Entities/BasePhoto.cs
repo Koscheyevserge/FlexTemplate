@@ -6,6 +6,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
 {
     public class BasePhoto : BaseEntity
     {
+        public Guid BlobKey { get; set; }
         /// <summary>
         /// Адрес
         /// </summary>

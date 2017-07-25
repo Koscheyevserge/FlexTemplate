@@ -1122,7 +1122,9 @@ namespace FlexTemplate.DataAccessLayer.Services
                 //TODO BlogBlogCategories = ,
                 ModifiedOn = DateTime.Now,
                 ViewsCount = 0,
-                IsModerated = false
+                IsModerated = false,
+                BlobKey = blogDao.BannersKey,
+                Headers = await Context.BlogPhotos.Where(bp => bp.BlobKey == blogDao.BannersKey).ToListAsync()
             };
             Context.Blogs.Add(blog);
             using (var transaction = Context.Database.BeginTransaction())
@@ -1261,6 +1263,10 @@ namespace FlexTemplate.DataAccessLayer.Services
                 street = street ?? new Street { Name = model.Street, City = city };
                 var place = new Place
                 {
+                    BlobKey = model.BlobKey,
+                    Banners = await Context.PlaceBannerPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
+                    Headers = await Context.PlaceHeaderPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
+                    Gallery = await Context.PlaceGalleryPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
                     User = user,
                     Address = model.Address,
                     Aliases = new List<PlaceAlias>(),
