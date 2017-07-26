@@ -8,7 +8,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
     [Table("BlogPhotos")]
     public class BlogPhoto : BasePhoto
     {
-        public int BlogId { get; set; }
-        public Blog Blog { get; set; }
+        public int? BlogId { get; set; }
+        public virtual Blog Blog { get; set; }
     }
 }

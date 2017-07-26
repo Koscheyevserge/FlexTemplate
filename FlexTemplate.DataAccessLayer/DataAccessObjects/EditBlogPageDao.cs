@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.DataAccessLayer.DataAccessObjects
+﻿using System;
+
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
     public class EditBlogPageDao
     {
@@ -7,5 +9,6 @@
         public string Name { get; set; }
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
+        public Guid BlobKey { get; set; }
     }
 }

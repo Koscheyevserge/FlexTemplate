@@ -17,7 +17,7 @@ namespace FlexTemplate.PresentationLayer.Core
 
         public async Task<Uri> SaveFileAsync(IFormFile file, string folder, string filename)
         {
-            return await Images.UploadBlob(file, folder, filename);
+            return await Images.UploadBlobAsync(file, folder, filename);
         }
     }
 }

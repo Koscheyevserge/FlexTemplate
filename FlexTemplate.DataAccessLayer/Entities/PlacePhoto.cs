@@ -7,7 +7,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
 {
     public class PlacePhoto : BasePhoto
     {
-        public int PlaceId { get; set; }
-        public Place Place { get; set; }
+        public int? PlaceId { get; set; }
+        public virtual Place Place { get; set; }
     }
 }

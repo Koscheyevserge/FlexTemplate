@@ -54,17 +54,32 @@ namespace FlexTemplate.BlobAccessLayer.Services
             return blobItems;
         }
 
-        public async Task<Uri> UploadBlob(IFormFile file, string directoryName, string fileName)
+        public async Task<Uri> UploadBlobAsync(IFormFile file, string directoryName, string fileName)
         {
-            var memoryStream = new System.IO.MemoryStream();
-            await file.CopyToAsync(memoryStream);
+            if (file == null)
+            {
+                return null;
+            }
+            var headers = file.ContentType.Split('/');
+            if (!headers.Any())
+            {
+                return null;
+            }
+            if (headers[0] != "image")
+            {
+                return null;
+            }
+            fileName += $".{headers[1]}";
             var container = BlobClient.GetContainerReference(Options.ImagesContainerName);
             await container.CreateIfNotExistsAsync();
-            var permisson = new BlobContainerPermissions {PublicAccess = BlobContainerPublicAccessType.Blob};
+            var permisson = new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob };
             await container.SetPermissionsAsync(permisson);
             var directory = container.GetDirectoryReference(directoryName);
             var blockBlob = directory.GetBlockBlobReference(fileName);
-            await blockBlob.UploadFromStreamAsync(memoryStream);
+            using (var stream = file.OpenReadStream())
+            {
+                await blockBlob.UploadFromStreamAsync(stream);                
+            }
             return blockBlob.Uri;
         }
     }

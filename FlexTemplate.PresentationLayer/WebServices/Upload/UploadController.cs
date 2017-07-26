@@ -181,29 +181,36 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
             {
                 return null;
             }
-            var filename = Guid.NewGuid();
-            var uri = await FilesProvider
-                .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"blogs\{blogId}\heads", filename.ToString());
-            var photo = new BlogPhoto
+            try
             {
-                BlobKey = filename,
-                CreatedOn = DateTime.Now,
-                IsActive = true,
-                Uri = uri.ToString()
-            };
-            var blog = await Context.Blogs.Include(p => p.Headers)
-                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());            
-            if (blog != null)
-            {
-                blog.Headers.ForEach(h => h.IsActive = false);
-                blog.Headers.Add(photo);
+                var filename = Guid.NewGuid();
+                var uri = await FilesProvider
+                    .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"blogs\{blogId}\heads", filename.ToString());
+                var photo = new BlogPhoto
+                {
+                    BlobKey = Guid.Parse(blogId),
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                    Uri = uri.ToString()
+                };
+                var blog = await Context.Blogs.Include(p => p.Headers)
+                    .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
+                if (blog != null)
+                {
+                    blog.Headers.ForEach(h => h.IsActive = false);
+                    blog.Headers.Add(photo);
+                }
+                else
+                {
+                    Context.BlogPhotos.Add(photo);
+                }
+                await Context.SaveChangesAsync();
+                return filename.ToString();
             }
-            else
+            catch (Exception ex)
             {
-                Context.BlogPhotos.Add(photo);
-            }
-            await Context.SaveChangesAsync();
-            return filename.ToString();
+                return null;
+            }            
         }
         [HttpDelete]
         [Route("/api/upload/bloghead/{blogId}")]
@@ -211,7 +218,16 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         {
             var blog = await Context.Blogs.Include(p => p.Headers)
                 .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
-            blog.Headers.ForEach(h => h.IsActive = false);
+            if (blog != null)
+            {
+                blog.Headers.ForEach(h => h.IsActive = false);
+            }
+            else
+            {
+                Context.BlogPhotos
+                    .Where(bp => bp.BlobKey == Guid.Parse(blogId)).ToList()
+                    .ForEach(h => h.IsActive = false);
+            }
             await Context.SaveChangesAsync();
         }
         #endregion
