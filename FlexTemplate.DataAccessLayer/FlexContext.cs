@@ -45,6 +45,11 @@ namespace FlexTemplate.DataAccessLayer
         public DbSet<TagAlias> TagAliases { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<PlaceCommunication> PlaceCommunications { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
+        public DbSet<PlaceHeaderPhoto> PlaceHeaderPhotos { get; set; }
+        public DbSet<PlaceGalleryPhoto> PlaceGalleryPhotos { get; set; }
+        public DbSet<PlaceBannerPhoto> PlaceBannerPhotos { get; set; }
+        public DbSet<BlogPhoto> BlogPhotos { get; set; }
 
         public FlexContext(DbContextOptions options) : base(options)
         {

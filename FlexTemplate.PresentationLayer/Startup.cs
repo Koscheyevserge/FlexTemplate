@@ -45,6 +45,7 @@ namespace FlexTemplate.PresentationLayer
         
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             if (Environment.IsEnvironment("Development"))
             {
                 services.AddEntityFrameworkSqlServer()
@@ -96,6 +97,8 @@ namespace FlexTemplate.PresentationLayer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
             services.AddTransient<BlobAccessLayer.Services.ImagesServices>();
+            services.AddTransient<FilesProvider>();
+            services.AddSingleton<StorageAccountOptions>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
             services.AddMemoryCache();
         }

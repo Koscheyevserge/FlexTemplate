@@ -8,9 +8,10 @@ using FlexTemplate.PresentationLayer.Core;
 namespace FlexTemplate.PresentationLayer.Migrations
 {
     [DbContext(typeof(FlexTemplateContext))]
-    partial class FlexTemplateContextModelSnapshot : ModelSnapshot
+    [Migration("20170725093719_4")]
+    partial class _4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -183,7 +184,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<Guid>("BlobKey");
 
-                    b.Property<int?>("BlogId");
+                    b.Property<int>("BlogId");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -528,7 +529,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
-                    b.Property<int?>("PlaceId");
+                    b.Property<int>("PlaceId");
 
                     b.Property<string>("Uri");
 
@@ -656,7 +657,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
-                    b.Property<int?>("PlaceId");
+                    b.Property<int>("PlaceId");
 
                     b.Property<string>("Uri");
 
@@ -680,7 +681,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
-                    b.Property<int?>("PlaceId");
+                    b.Property<int>("PlaceId");
 
                     b.Property<string>("Uri");
 
@@ -827,7 +828,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<DateTime>("ModifiedOn");
 
-                    b.Property<int?>("ProductId");
+                    b.Property<int>("ProductId");
 
                     b.Property<string>("Uri");
 
@@ -1015,7 +1016,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Uri");
 
-                    b.Property<int?>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("UserId1");
 
@@ -1208,7 +1209,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
                         .WithMany("Headers")
-                        .HasForeignKey("BlogId");
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>
@@ -1329,7 +1331,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
                         .WithMany("Banners")
-                        .HasForeignKey("PlaceId");
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategoryAlias", b =>
@@ -1373,14 +1376,16 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
                         .WithMany("Gallery")
-                        .HasForeignKey("PlaceId");
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
                         .WithMany("Headers")
-                        .HasForeignKey("PlaceId");
+                        .HasForeignKey("PlaceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
@@ -1428,7 +1433,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Product", "Product")
                         .WithMany("Headers")
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Street", b =>

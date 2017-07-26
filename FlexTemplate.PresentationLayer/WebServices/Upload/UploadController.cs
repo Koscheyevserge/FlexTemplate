@@ -4,26 +4,34 @@ using System.Threading.Tasks;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using FlexTemplate.DataAccessLayer.Entities;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Upload
 {
     public class UploadController : FlexController
     {
-        public UploadController(ControllerServices services) : base(services)
+        private FilesProvider FilesProvider { get; set; }
+        private FlexTemplateContext Context { get; set; }
+
+        public UploadController(ControllerServices services, FilesProvider filesProvider, FlexTemplateContext context) : base(services)
         {
+            FilesProvider = filesProvider;
+            Context = context;
         }
 
         #region Page
-        [HttpPost]
+        /*[HttpPost]
         [Route("/api/upload/pagephoto/{pageName}")]
-        public async Task UploadPagePhoto(string pageName)
+        public async Task UploadPagePhotoAsync(string pageName)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Pages\", $"{pageName}.jpg");
-        }
+            var filename = Guid.NewGuid().ToString();
+            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"pages\{pageName}\heads", filename);
+        }*/
         #endregion
 
         #region Place
@@ -31,67 +39,134 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         #region PlaceHead
         [HttpPost]
         [Route("/api/upload/placehead/{placeId}")]
-        public async Task UploadPlaceHeadPhoto(string placeId)
+        public async Task<string> UploadPlaceHeadPhotoAsync(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
-                return;
+                return null;
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "head.jpg");
+            var filename = Guid.NewGuid();
+            var uri = await FilesProvider
+                .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\heads", filename.ToString());
+            var head = new PlaceHeaderPhoto
+            {
+                BlobKey = filename,
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                Uri = uri.ToString()
+            };
+            var place = await Context.Places.Include(p => p.Headers)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
+            if (place != null)
+            {
+                place.Headers.ForEach(h => h.IsActive = false);
+                place.Headers.Add(head);
+            }
+            else
+            {
+                Context.PlaceHeaderPhotos.Add(head);
+            }
+            await Context.SaveChangesAsync();
+            return filename.ToString();
         }
         [HttpDelete]
         [Route("/api/upload/placehead/{placeId}")]
-        public void DeletePlaceHeadPhoto(string placeId)
+        public async Task DeletePlaceHeadPhotoAsync(string placeId)
         {
-            var path = $@"wwwroot\Resources\Places\{placeId}\head.jpg";
-            FilesProvider.DeleteFile(path);
+            var place = await Context.Places.Include(p => p.Headers)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
+            place.Headers.ForEach(h => h.IsActive = false);
+            await Context.SaveChangesAsync();
         }
         #endregion
 
         #region PlaceBanner
         [HttpPost]
         [Route("/api/upload/placebanner/{placeId}")]
-        public async Task UploadBannerPhoto(string placeId)
+        public async Task UploadBannerPhotoAsync(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return;
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", "banner.jpg");
+            var filename = Guid.NewGuid();
+            var uri = await FilesProvider
+                .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\banners", filename.ToString());
+            var banner = new PlaceBannerPhoto
+            {
+                BlobKey = filename,
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                Uri = uri.ToString()
+            };
+            var place = await Context.Places.Include(p => p.Banners)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
+            if (place != null)
+            {
+                place.Banners.ForEach(h => h.IsActive = false);
+                place.Banners.Add(banner);
+            }
+            else
+            {
+                Context.PlaceBannerPhotos.Add(banner);
+            }
+            await Context.SaveChangesAsync();
         }
         [HttpDelete]
         [Route("/api/upload/placebanner/{placeId}")]
-        public void DeleteBannerPhoto(string placeId)
+        public async Task DeleteBannerPhotoAsync(string placeId)
         {
-            var path = $@"wwwroot\Resources\Places\{placeId}\banner.jpg";
-            FilesProvider.DeleteFile(path);
+            var place = await Context.Places.Include(p => p.Banners)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
+            place.Banners.ForEach(h => h.IsActive = false);
+            await Context.SaveChangesAsync();
         }
         #endregion
 
         #region PlaceGallery
         [HttpPost]
         [Route("/api/upload/newplace/{placeId}")]
-        public async Task<string> UploadNewPlacePhoto(string placeId)
+        public async Task<string> UploadNewPlacePhotoAsync(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
                 return null;
             }
-            var filename = Guid.NewGuid().ToString();
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Places\{placeId}\", filename + ".jpg");
-            return filename;
+            var filename = Guid.NewGuid();
+            var uri = await FilesProvider
+                .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\gallery", filename.ToString());
+            var photo = new PlaceGalleryPhoto
+            {
+                BlobKey = filename,
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                Uri = uri.ToString()
+            };
+            var place = await Context.Places.Include(p => p.Gallery)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());            
+            if (place != null)
+            {
+                place.Gallery.ForEach(h => h.IsActive = false);
+                place.Gallery.Add(photo);
+            }
+            else
+            {
+                Context.PlaceGalleryPhotos.Add(photo);
+            }
+            await Context.SaveChangesAsync();
+            return filename.ToString();
         }
         [HttpDelete]
         [Route("/api/upload/newplace/{placeId}/{fileDescriptor}")]
-        public void DeletePlacePhoto(string placeId, string fileDescriptor)
+        public async Task DeletePlacePhotoAsync(string placeId, string fileDescriptor)
         {
-            var path = $@"wwwroot\Resources\Places\{placeId}\{fileDescriptor}.jpg";
-            FilesProvider.DeleteFile(path);
-            path = $@"wwwroot\Resources\Places\{placeId}\{fileDescriptor}.tmp";
-            FilesProvider.DeleteFile(path);
+            var place = await Context.Places.Include(p => p.Banners)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
+            place.Banners
+                .SingleOrDefault(b => b.BlobKey.ToString().ToUpperInvariant() == fileDescriptor.ToUpperInvariant());
+            await Context.SaveChangesAsync();
         }
         #endregion
-
 
         #endregion
 
@@ -100,40 +175,60 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         #region BlogHead
         [HttpPost]
         [Route("/api/upload/bloghead/{blogId}")]
-        public async Task UploadBlogHeadPhoto(string blogId)
+        public async Task<string> UploadBlogHeadPhotoAsync(string blogId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
-                return;
+                return null;
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "head.jpg");
+            try
+            {
+                var filename = Guid.NewGuid();
+                var uri = await FilesProvider
+                    .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"blogs\{blogId}\heads", filename.ToString());
+                var photo = new BlogPhoto
+                {
+                    BlobKey = Guid.Parse(blogId),
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                    Uri = uri.ToString()
+                };
+                var blog = await Context.Blogs.Include(p => p.Headers)
+                    .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
+                if (blog != null)
+                {
+                    blog.Headers.ForEach(h => h.IsActive = false);
+                    blog.Headers.Add(photo);
+                }
+                else
+                {
+                    Context.BlogPhotos.Add(photo);
+                }
+                await Context.SaveChangesAsync();
+                return filename.ToString();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }            
         }
         [HttpDelete]
         [Route("/api/upload/bloghead/{blogId}")]
-        public void DeleteBlogHeadPhoto(string blogId)
+        public async Task DeleteBlogHeadPhotoAsync(string blogId)
         {
-            var path = $@"wwwroot\Resources\Blogs\{blogId}\head.jpg";
-            FilesProvider.DeleteFile(path);
-        }
-        #endregion
-
-        #region BlogBanner
-        [HttpPost]
-        [Route("/api/upload/blogbanner/{blogId}")]
-        public async Task UploadBlogBannerPhoto(string blogId)
-        {
-            if (!HttpContext.Request.Form.Files.Any())
+            var blog = await Context.Blogs.Include(p => p.Headers)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
+            if (blog != null)
             {
-                return;
+                blog.Headers.ForEach(h => h.IsActive = false);
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"wwwroot\Resources\Blogs\{blogId}\", "banner.jpg");
-        }
-        [HttpDelete]
-        [Route("/api/upload/blogbanner/{blogId}")]
-        public void DeleteBlogBannerPhoto(string blogId)
-        {
-            var path = $@"wwwroot\Resources\Blogs\{blogId}\banner.jpg";
-            FilesProvider.DeleteFile(path);
+            else
+            {
+                Context.BlogPhotos
+                    .Where(bp => bp.BlobKey == Guid.Parse(blogId)).ToList()
+                    .ForEach(h => h.IsActive = false);
+            }
+            await Context.SaveChangesAsync();
         }
         #endregion
 
@@ -144,22 +239,43 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         #region ProductHead
         [HttpPost]
         [Route("/api/upload/producthead/{fileDescriptor}")]
-        public async Task UploadProductHeadPhoto(string fileDescriptor)
+        public async Task<string> UploadProductHeadPhoto(string fileDescriptor)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
-                return;
+                return null;
             }
-            await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], @"wwwroot\Resources\Products\", $"{fileDescriptor}.tmp");
+            var filename = Guid.NewGuid();
+            var uri = await FilesProvider.SaveFileAsync(HttpContext.Request.Form.Files[0], $@"products\{fileDescriptor}\heads", filename.ToString());
+            var photo = new ProductPhoto
+            {
+                BlobKey = filename,
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                Uri = uri.ToString()
+            };            
+            var product = await Context.Products.Include(p => p.Headers)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == fileDescriptor.ToUpperInvariant());
+            if (product != null)
+            {
+                product.Headers.ForEach(h => h.IsActive = false);
+                product.Headers.Add(photo);
+            }
+            else
+            {
+                Context.ProductPhotos.Add(photo);
+            }
+            await Context.SaveChangesAsync();
+            return filename.ToString();
         }
         [HttpDelete]
         [Route("/api/upload/producthead/{fileDescriptor}")]
-        public void DeleteProductHead(string fileDescriptor)
+        public async Task DeleteProductHeadAsync(string fileDescriptor)
         {
-            var path = $@"wwwroot\Resources\Products\{fileDescriptor}.jpg";
-            FilesProvider.DeleteFile(path);
-            path = $@"wwwroot\Resources\Products\{fileDescriptor}.tmp";
-            FilesProvider.DeleteFile(path);
+            var products = await Context.ProductPhotos
+                .Where(p => p.BlobKey.ToString().ToUpperInvariant() == fileDescriptor.ToUpperInvariant()).ToListAsync();
+            products.ForEach(h => h.IsActive = false);
+            await Context.SaveChangesAsync();
         }
         #endregion
 

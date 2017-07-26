@@ -1,4 +1,6 @@
-﻿namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
+﻿using System;
+
+namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
 {
     public class ViewModel
     {
@@ -7,5 +9,6 @@
         public string Name { get; set; }
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
+        public Guid BlobKey { get; set; }
     }
 }

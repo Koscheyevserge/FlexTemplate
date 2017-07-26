@@ -182,7 +182,8 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 Text = blogDto.Text,
                 Tags = blogDto.Tags != null && blogDto.Tags.Any() 
                     ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
-                    : new List<string> {""}
+                    : new List<string> {""},
+                BannersKey = blogDto.BannersKey
             };
             return await DalServices.CreateBlogAsync(claims, blogDao);
         }
@@ -219,10 +220,10 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return DalServices.CreatePlaceAsync(claims, model.To<NewPlaceDao>());
         }
 
-        public async Task<EditBlogPageDao> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
+        public async Task<EditBlogPageDto> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
         {
             var result = await DalServices.GetEditBlogAsync(httpContextUser, id);
-            return result.To<EditBlogPageDao>();
+            return result.To<EditBlogPageDto>();
         }
 
         public Task<bool> EditBlogAsync(EditBlogDto model)

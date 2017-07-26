@@ -36,7 +36,13 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="Guid" value="@Model.NewBlogGuid" />
+                        <div class="submite-list-box">
+                            <div id="blog-head-update" class="dropzone">
+                                <input type="file">
+                                <input class="file_descriptor" name="BannersKey" type="hidden" value="@Model.NewBlogGuid" />
+                                <div class="dz-default dz-message"><span>Головна фотографія</span></div>
+                            </div>
+                        </div>
                         <input type="submit" class="btn btn-primary mt-15" value="Відправити" />
                     </form>
                 </div>

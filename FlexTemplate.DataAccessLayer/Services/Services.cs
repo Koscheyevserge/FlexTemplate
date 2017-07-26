@@ -9,6 +9,7 @@ using FlexTemplate.DataAccessLayer.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Z.EntityFramework.Plus;
+using FlexTemplate.BlobAccessLayer.Services;
 
 namespace FlexTemplate.DataAccessLayer.Services
 {
@@ -17,12 +18,14 @@ namespace FlexTemplate.DataAccessLayer.Services
         private FlexContext Context { get; }
         private UserManager<User> UserManager { get; }
         private SignInManager<User> SignInManager { get; }
+        private ImagesServices Images { get; set; }
 
-        public Services(FlexContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        public Services(FlexContext context, UserManager<User> userManager, SignInManager<User> signInManager, ImagesServices images)
         {
             Context = context;
             UserManager = userManager;
             SignInManager = signInManager;
+            Images = images;
         }
 
         public async Task<IEnumerable<CityChecklistItemDao>> GetCityChecklistItemsAsync(
@@ -238,9 +241,10 @@ namespace FlexTemplate.DataAccessLayer.Services
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = await Context.Blogs
                 .Include(b => b.BlogTags).ThenInclude(bt => bt.Tag).ThenInclude(t => t.TagAliases)
-                .Where(b => b.Id == id).Select(b => 
+                .Where(b => b.Id == id).Select(b =>
                 new EditBlogPageDao
                 {
+                    BlobKey = b.BlobKey,
                     BannerPhotoPath = "",
                     Name = b.Caption,
                     Text = b.Text,
@@ -263,12 +267,13 @@ namespace FlexTemplate.DataAccessLayer.Services
                         Id = bt.TagId,
                         Name = GetProperAlias(bt.Tag.TagAliases, bt.Tag.Name, defaultLanguage, userLanguage)
                     }).ToListAsync();
-            return await Context.Blogs.Include(b => b.User).Select(b =>
+            return await Context.Blogs.Include(b => b.User).ThenInclude(u => u.Headers)
+                .Include(b => b.Headers).Select(b =>
                 new BlogPageDao
                 {
                     AuthorDisplayName = GetUsername(b.User),
-                    AuthorPhotoPath = "",//TODO реализовать получение фотографии
-                    BannerPath = "",//TODO реализовать получение фотографии
+                    AuthorPhotoPath = GetFirstActiveBlobPath(b.User.Headers),
+                    BannerPath = GetFirstActiveBlobPath(b.Headers),
                     CreatedOn = b.CreatedOn,
                     Id = b.Id,
                     IsAuthor = isAuthor,
@@ -1122,7 +1127,9 @@ namespace FlexTemplate.DataAccessLayer.Services
                 //TODO BlogBlogCategories = ,
                 ModifiedOn = DateTime.Now,
                 ViewsCount = 0,
-                IsModerated = false
+                IsModerated = false,
+                BlobKey = blogDao.BannersKey,
+                Headers = await Context.BlogPhotos.Where(bp => bp.BlobKey == blogDao.BannersKey).ToListAsync()
             };
             Context.Blogs.Add(blog);
             using (var transaction = Context.Database.BeginTransaction())
@@ -1261,6 +1268,10 @@ namespace FlexTemplate.DataAccessLayer.Services
                 street = street ?? new Street { Name = model.Street, City = city };
                 var place = new Place
                 {
+                    BlobKey = model.BlobKey,
+                    Banners = await Context.PlaceBannerPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
+                    Headers = await Context.PlaceHeaderPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
+                    Gallery = await Context.PlaceGalleryPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
                     User = user,
                     Address = model.Address,
                     Aliases = new List<PlaceAlias>(),
@@ -1327,6 +1338,12 @@ namespace FlexTemplate.DataAccessLayer.Services
         #endregion
 
         #region Common Services
+
+        public string GetFirstActiveBlobPath<T>(List<T> photos) where T : BasePhoto
+        {
+            var photo = photos.FirstOrDefault(p => p.IsActive);
+            return photo?.Uri;
+        }
 
         public string GetCommunicationNumber(List<PlaceCommunication> communications, CommunicationType type)
         {
