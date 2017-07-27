@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
 {
@@ -10,5 +11,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
         public Guid BlobKey { get; set; }
+        public List<CategoryViewModel> Categories { get; set; }
     }
 }

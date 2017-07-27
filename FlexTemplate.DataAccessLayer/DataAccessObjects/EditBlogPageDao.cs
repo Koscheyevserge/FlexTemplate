@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
@@ -10,5 +11,6 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
         public Guid BlobKey { get; set; }
+        public List<EditBlogPageCategoryDao> Categories { get; set; }
     }
 }

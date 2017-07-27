@@ -239,11 +239,20 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             var userLanguage = await GetUserLanguageAsync(claims);
             var defaultLanguage = await GetDefaultLanguageAsync();
-            var result = await Context.Blogs
-                .Include(b => b.BlogTags).ThenInclude(bt => bt.Tag).ThenInclude(t => t.TagAliases)
-                .Where(b => b.Id == id).Select(b =>
+            var blogCategoriesIds = await Context.BlogBlogCategories
+                .Where(bbc => bbc.BlogId == id).Select(bbc => bbc.BlogCategoryId).ToListAsync();
+            var categories = await Context.BlogCategories.Include(bc => bc.Aliases).Select(bc => 
+                new EditBlogPageCategoryDao
+                {
+                    Id = bc.Id,
+                    Name = GetProperAlias(bc.Aliases, bc.Name, defaultLanguage, userLanguage),
+                    IsChecked = blogCategoriesIds.Contains(bc.Id)
+                }).ToListAsync();        
+            var result = await Context.Blogs.Include(b => b.BlogTags).ThenInclude(bt => bt.Tag)
+                .ThenInclude(t => t.TagAliases).Where(b => b.Id == id).Select(b =>
                 new EditBlogPageDao
                 {
+                    Categories = categories,
                     BlobKey = b.BlobKey,
                     BannerPhotoPath = "",
                     Name = b.Caption,
@@ -555,6 +564,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             var defaultLanguage = await GetDefaultLanguageAsync();
             var result = Context.Places
                 .Include(p => p.Reviews)
+                .Include(p => p.Banners)
                 .Where(p => p.Id == placeId)
                 .Select(p => new PlaceHeaderComponentDao
                 {
@@ -566,35 +576,39 @@ namespace FlexTemplate.DataAccessLayer.Services
                         GetProperAlias(p.Street.City.Aliases, p.Street.City.Name, defaultLanguage, userLanguage),
                         GetProperAlias(p.Street.Aliases, p.Street.Name, defaultLanguage, userLanguage),
                         p.Address),
-                    PlaceBannerPath = "",//TODO получить фото
+                    PlaceBannerPath = GetFirstActiveBlobPath(p.Banners),
                     CanEdit = canEdit
                 }).SingleOrDefault();
             return result;
         }
 
-        public Task<PlaceLocationComponentDao> GetPlaceLocationAsync(int placeId)
+        public async Task<PlaceLocationComponentDao> GetPlaceLocationAsync(int placeId)
         {
-            return Context.Places.Where(p => p.Id == placeId).Select(p =>
+            var result = await Context.Places.Where(p => p.Id == placeId).Select(p =>
                 new PlaceLocationComponentDao
                 {
                     Latitude = p.Latitude,
                     Longitude = p.Longitude
                 }).SingleOrDefaultAsync();
+            return result;
         }
 
-        public Task<PlaceReviewComponentDao> GetPlaceReviewAsync(int reviewId)
+        public async Task<PlaceReviewComponentDao> GetPlaceReviewAsync(int reviewId)
         {
-            return Context.PlaceReviews
+            var result = await Context.PlaceReviews
+                .Include(pr => pr.User)
+                .ThenInclude(u => u.Headers)
                 .Where(pr => pr.Id == reviewId)
                 .Select(pr =>
                     new PlaceReviewComponentDao
                     {
-                        UserPhotoPath = "",//TODO получить фото
+                        UserPhotoPath = GetFirstActiveBlobPath(pr.User.Headers),
                         Text = pr.Text,
                         Stars = pr.Star,
                         UserName = GetUsername(pr.User),
                         CreatedOn = pr.CreatedOn
                     }).SingleOrDefaultAsync();
+            return result;
         }
 
         public Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
@@ -859,7 +873,8 @@ namespace FlexTemplate.DataAccessLayer.Services
         public async Task<List<CachedBlogItemDao>> GetBlogsAsync(ClaimsPrincipal claims, int[] tags, int[] categories, string input, int page, int blogsPerPage)
         {
             var userIsAdmin = await IsUserAdmin(claims);
-            var result = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories)
+            var result = Context.Blogs
+                .Include(b => b.BlogTags).Include(b => b.Headers).Include(b => b.BlogBlogCategories)
                 .Where(b => b.IsModerated || userIsAdmin);
             if (tags != null && tags.Any())
             {
@@ -876,14 +891,14 @@ namespace FlexTemplate.DataAccessLayer.Services
                 result = result.Where(b => b.Caption.ToUpperInvariant().Contains(inputNormalized) 
                     || b.Text.ToUpperInvariant().Contains(inputNormalized));
             }
-            return await result.Select(b =>
+            return await result.OrderByDescending(c => c.CreatedOn).Select(b =>
                 new CachedBlogItemDao
                 {
                     Id = b.Id,
                     Caption = b.Caption,
                     CreatedOn = b.CreatedOn,
                     AuthorName = GetUsername(b.User),
-                    HeadPhotoPath = "",//TODO получить фото
+                    HeadPhotoPath = GetFirstActiveBlobPath(b.Headers),
                     IsModerated = b.IsModerated,
                     Preable = ""//TODO извлечь преамбулу
                 }).Skip((page == 0 ? 0 : page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
@@ -906,12 +921,20 @@ namespace FlexTemplate.DataAccessLayer.Services
             };
         }
 
-        public NewBlogPageDao GetNewBlogDao()
+        public async Task<NewBlogPageDao> GetNewBlogDaoAsync(ClaimsPrincipal httpContextUser)
         {
+            var userLanguage = await GetUserLanguageAsync(httpContextUser);
+            var defaultLanguage = await GetDefaultLanguageAsync();
             return new NewBlogPageDao
             {
                 BannerPhotoPath = "",//TODO получить фото
-                NewBlogGuid = Guid.NewGuid()
+                NewBlogGuid = Guid.NewGuid(),
+                Categories = await Context.BlogCategories.Include(bc => bc.Aliases).Select(bc => 
+                new NewBlogPageCategoryDao
+                {
+                    Id = bc.Id,
+                    Name = GetProperAlias(bc.Aliases, bc.Name, defaultLanguage, userLanguage)
+                }).ToListAsync()
             };
         }
 
@@ -961,7 +984,8 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             try
             {
-                var blog = Context.Blogs.Include(b => b.BlogTags).SingleOrDefault(b => b.Id == model.Id);
+                var blog = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories)
+                    .SingleOrDefault(b => b.Id == model.Id);
                 if (blog == null)
                 {
                     return false;
@@ -971,6 +995,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                 var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant()) ||
                     tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
                     .Select(t => new BlogTag { Tag = t }).Distinct().ToList();
+                var categories = Context.BlogCategories.Where(bc => model.Categories.Contains(bc.Id))
+                    .Select(c => new BlogBlogCategory { BlogCategory = c }).Distinct().ToList();
                 blog.Caption = model.Name;
                 blog.Text = model.Text;
                 foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.Tag.Id).Contains(bt.TagId)))
@@ -980,6 +1006,16 @@ namespace FlexTemplate.DataAccessLayer.Services
                 foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.Tag.Id)))
                 {
                     blog.BlogTags.Add(blogTag);
+                }
+                foreach (var blogCategory in blog.BlogBlogCategories
+                    .Where(bc => !categories.Select(t => t.BlogCategory.Id).Contains(bc.BlogCategoryId)))
+                {
+                    Context.BlogBlogCategories.Remove(blogCategory);
+                }
+                foreach (var blogCategory in categories
+                    .Where(c => !blog.BlogBlogCategories.Select(bc => bc.BlogCategoryId).Contains(c.BlogCategory.Id)))
+                {
+                    blog.BlogBlogCategories.Add(blogCategory);
                 }
                 using (var transaction = Context.Database.BeginTransaction())
                 {
@@ -1087,9 +1123,18 @@ namespace FlexTemplate.DataAccessLayer.Services
                     }).ToList();
                 place.ModifiedOn = DateTime.Now;
                 place.Name = model.Name;
-                place.PlacePlaceCategories = await Context.PlaceCategories
-                    .Where(pc => model.Categories.Contains(pc.Id))
-                    .Select(pc => new PlacePlaceCategory {PlaceCategory = pc}).ToListAsync();
+                var categories = Context.PlaceCategories.Where(bc => model.Categories.Contains(bc.Id))
+                    .Select(c => new PlacePlaceCategory { PlaceCategory = c }).Distinct().ToList();
+                foreach (var placeCategory in place.PlacePlaceCategories
+                    .Where(bc => !categories.Select(t => t.PlaceCategory.Id).Contains(bc.PlaceCategoryId)))
+                {
+                    Context.PlacePlaceCategories.Remove(placeCategory);
+                }
+                foreach (var placeCategory in categories.Where(c => !place.PlacePlaceCategories
+                    .Select(bc => bc.PlaceCategoryId).Contains(c.PlaceCategory.Id)))
+                {
+                    place.PlacePlaceCategories.Add(placeCategory);
+                }
                 place.Schedule = schedule;
                 place.Street = street;
                 Context.Places.Add(place);
@@ -1117,6 +1162,15 @@ namespace FlexTemplate.DataAccessLayer.Services
             var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant())
                 || tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
                     .Select(t => new BlogTag { Tag = t }).ToList();
+            var categories = Context.BlogCategories
+                .Where(bc => blogDao.Categories.Contains(bc.Id))
+                .Select(bc => 
+                new BlogBlogCategory
+                {
+                    CreatedOn = DateTime.Now,
+                    ModifiedOn = DateTime.Now,
+                    BlogCategory = bc
+                }).ToList();
             var blog = new Blog
             {
                 Text = blogDao.Text,
@@ -1124,7 +1178,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 CreatedOn = DateTime.Now,
                 User = await GetUserAsync(claims),
                 BlogTags = tags,
-                //TODO BlogBlogCategories = ,
+                BlogBlogCategories = categories,
                 ModifiedOn = DateTime.Now,
                 ViewsCount = 0,
                 IsModerated = false,
@@ -1132,11 +1186,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 Headers = await Context.BlogPhotos.Where(bp => bp.BlobKey == blogDao.BannersKey).ToListAsync()
             };
             Context.Blogs.Add(blog);
-            using (var transaction = Context.Database.BeginTransaction())
-            {
-                Context.SaveChanges();
-                transaction.Commit();
-            }
+            Context.SaveChanges();
             return blog.Id;
         }
 
@@ -1342,7 +1392,7 @@ namespace FlexTemplate.DataAccessLayer.Services
         public string GetFirstActiveBlobPath<T>(List<T> photos) where T : BasePhoto
         {
             var photo = photos.FirstOrDefault(p => p.IsActive);
-            return photo?.Uri;
+            return photo == null ? string.Empty : photo.Uri;
         }
 
         public string GetCommunicationNumber(List<PlaceCommunication> communications, CommunicationType type)

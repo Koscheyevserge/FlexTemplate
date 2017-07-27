@@ -168,9 +168,9 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return result.To<NewPlacePageDto>();
         }
 
-        public NewBlogPageDto GetNewBlogDto()
+        public async Task<NewBlogPageDto> GetNewBlogDtoAsync(ClaimsPrincipal httpContextUser)
         {
-            var result = DalServices.GetNewBlogDao();
+            var result = await DalServices.GetNewBlogDaoAsync(httpContextUser);
             return result.To<NewBlogPageDto>();
         }
 
@@ -183,7 +183,8 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 Tags = blogDto.Tags != null && blogDto.Tags.Any() 
                     ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
                     : new List<string> {""},
-                BannersKey = blogDto.BannersKey
+                BannersKey = blogDto.BannersKey,
+                Categories = blogDto.Categories
             };
             return await DalServices.CreateBlogAsync(claims, blogDao);
         }
