@@ -83,9 +83,9 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             return View(model.To<NewPlace.ViewModel>());
         }
 
-        public IActionResult NewBlog()
+        public async Task<IActionResult> NewBlog()
         {
-            var model = BllServices.GetNewBlogDto();
+            var model = await BllServices.GetNewBlogDtoAsync(HttpContext.User);
             return View(model.To<NewBlog.ViewModel>());
         }
         

@@ -181,36 +181,29 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
             {
                 return null;
             }
-            try
+            var filename = Guid.NewGuid();
+            var uri = await FilesProvider
+                .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"blogs\{blogId}\heads", filename.ToString());
+            var photo = new BlogPhoto
             {
-                var filename = Guid.NewGuid();
-                var uri = await FilesProvider
-                    .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"blogs\{blogId}\heads", filename.ToString());
-                var photo = new BlogPhoto
-                {
-                    BlobKey = Guid.Parse(blogId),
-                    CreatedOn = DateTime.Now,
-                    IsActive = true,
-                    Uri = uri.ToString()
-                };
-                var blog = await Context.Blogs.Include(p => p.Headers)
-                    .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
-                if (blog != null)
-                {
-                    blog.Headers.ForEach(h => h.IsActive = false);
-                    blog.Headers.Add(photo);
-                }
-                else
-                {
-                    Context.BlogPhotos.Add(photo);
-                }
-                await Context.SaveChangesAsync();
-                return filename.ToString();
+                BlobKey = Guid.Parse(blogId),
+                CreatedOn = DateTime.Now,
+                IsActive = true,
+                Uri = uri.ToString()
+            };
+            var blog = await Context.Blogs.Include(p => p.Headers)
+                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
+            if (blog != null)
+            {
+                blog.Headers.ForEach(h => h.IsActive = false);
+                blog.Headers.Add(photo);
             }
-            catch (Exception ex)
+            else
             {
-                return null;
-            }            
+                Context.BlogPhotos.Add(photo);
+            }
+            await Context.SaveChangesAsync();
+            return filename.ToString();          
         }
         [HttpDelete]
         [Route("/api/upload/bloghead/{blogId}")]
