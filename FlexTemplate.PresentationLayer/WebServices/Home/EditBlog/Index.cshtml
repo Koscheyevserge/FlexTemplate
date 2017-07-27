@@ -28,6 +28,20 @@
                                         <textarea name="Text" class="bootstrap3-wysihtml5 form-control" placeholder="Введіть текст ..." style="height: 200px;">@Model.Text</textarea>
                                     </div>
                                 </div>
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="block">Категорії</label>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <div class="col-xs-12 col-sm-2">
+                                                <div class="checkbox-block font-icon-checkbox">
+                                                    <input id="filter_cuisine-@category.Id" type="checkbox" class="checkbox" name="Categories[]" value="@category.Id" checked="@category.IsChecked"/>
+                                                    <label for="filter_cuisine-@category.Id">@category.Name</label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <input name="Id" type="hidden" value="@Model.Id" />

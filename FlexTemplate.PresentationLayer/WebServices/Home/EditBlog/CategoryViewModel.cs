@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Home.EditBlog
 {
-    public class PostModel
+    public class CategoryViewModel
     {
         public int Id { get; set; }
-        public string[] Tags { get; set; }
         public string Name { get; set; }
-        public string Text { get; set; }
-        public int[] Categories { get; set; }
+        public bool IsChecked { get; set; }
     }
 }

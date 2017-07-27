@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
@@ -10,5 +11,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
         public Guid BlobKey { get; set; }
+        public List<EditBlogPageCategoryDto> Categories { get; set; }
     }
 }

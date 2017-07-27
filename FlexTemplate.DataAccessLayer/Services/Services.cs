@@ -239,11 +239,20 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             var userLanguage = await GetUserLanguageAsync(claims);
             var defaultLanguage = await GetDefaultLanguageAsync();
-            var result = await Context.Blogs
-                .Include(b => b.BlogTags).ThenInclude(bt => bt.Tag).ThenInclude(t => t.TagAliases)
-                .Where(b => b.Id == id).Select(b =>
+            var blogCategoriesIds = await Context.BlogBlogCategories
+                .Where(bbc => bbc.BlogId == id).Select(bbc => bbc.BlogCategoryId).ToListAsync();
+            var categories = await Context.BlogCategories.Include(bc => bc.Aliases).Select(bc => 
+                new EditBlogPageCategoryDao
+                {
+                    Id = bc.Id,
+                    Name = GetProperAlias(bc.Aliases, bc.Name, defaultLanguage, userLanguage),
+                    IsChecked = blogCategoriesIds.Contains(bc.Id)
+                }).ToListAsync();        
+            var result = await Context.Blogs.Include(b => b.BlogTags).ThenInclude(bt => bt.Tag)
+                .ThenInclude(t => t.TagAliases).Where(b => b.Id == id).Select(b =>
                 new EditBlogPageDao
                 {
+                    Categories = categories,
                     BlobKey = b.BlobKey,
                     BannerPhotoPath = "",
                     Name = b.Caption,
@@ -975,7 +984,8 @@ namespace FlexTemplate.DataAccessLayer.Services
         {
             try
             {
-                var blog = Context.Blogs.Include(b => b.BlogTags).SingleOrDefault(b => b.Id == model.Id);
+                var blog = Context.Blogs.Include(b => b.BlogTags).Include(b => b.BlogBlogCategories)
+                    .SingleOrDefault(b => b.Id == model.Id);
                 if (blog == null)
                 {
                     return false;
@@ -985,6 +995,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                 var tags = Context.Tags.Where(t => tagsNormalized.Contains(t.Name.Trim().ToUpperInvariant()) ||
                     tagsNormalized.Intersect(t.TagAliases.Select(ta => ta.Text.Trim().ToUpperInvariant())).Any())
                     .Select(t => new BlogTag { Tag = t }).Distinct().ToList();
+                var categories = Context.BlogCategories.Where(bc => model.Categories.Contains(bc.Id))
+                    .Select(c => new BlogBlogCategory { BlogCategory = c }).Distinct().ToList();
                 blog.Caption = model.Name;
                 blog.Text = model.Text;
                 foreach (var blogTag in blog.BlogTags.Where(bt => !tags.Select(t => t.Tag.Id).Contains(bt.TagId)))
@@ -994,6 +1006,16 @@ namespace FlexTemplate.DataAccessLayer.Services
                 foreach (var blogTag in tags.Where(t => !blog.BlogTags.Select(bt => bt.TagId).Contains(t.Tag.Id)))
                 {
                     blog.BlogTags.Add(blogTag);
+                }
+                foreach (var blogCategory in blog.BlogBlogCategories
+                    .Where(bc => !categories.Select(t => t.BlogCategory.Id).Contains(bc.BlogCategoryId)))
+                {
+                    Context.BlogBlogCategories.Remove(blogCategory);
+                }
+                foreach (var blogCategory in categories
+                    .Where(c => !blog.BlogBlogCategories.Select(bc => bc.BlogCategoryId).Contains(c.BlogCategory.Id)))
+                {
+                    blog.BlogBlogCategories.Add(blogCategory);
                 }
                 using (var transaction = Context.Database.BeginTransaction())
                 {
@@ -1101,9 +1123,18 @@ namespace FlexTemplate.DataAccessLayer.Services
                     }).ToList();
                 place.ModifiedOn = DateTime.Now;
                 place.Name = model.Name;
-                place.PlacePlaceCategories = await Context.PlaceCategories
-                    .Where(pc => model.Categories.Contains(pc.Id))
-                    .Select(pc => new PlacePlaceCategory {PlaceCategory = pc}).ToListAsync();
+                var categories = Context.PlaceCategories.Where(bc => model.Categories.Contains(bc.Id))
+                    .Select(c => new PlacePlaceCategory { PlaceCategory = c }).Distinct().ToList();
+                foreach (var placeCategory in place.PlacePlaceCategories
+                    .Where(bc => !categories.Select(t => t.PlaceCategory.Id).Contains(bc.PlaceCategoryId)))
+                {
+                    Context.PlacePlaceCategories.Remove(placeCategory);
+                }
+                foreach (var placeCategory in categories.Where(c => !place.PlacePlaceCategories
+                    .Select(bc => bc.PlaceCategoryId).Contains(c.PlaceCategory.Id)))
+                {
+                    place.PlacePlaceCategories.Add(placeCategory);
+                }
                 place.Schedule = schedule;
                 place.Street = street;
                 Context.Places.Add(place);
