@@ -16,6 +16,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
     {
         private readonly IMemoryCache _memoryCache;
         private DataAccessLayer.Services.Services DalServices { get; }
+
         private const string PlacesCacheKey = "PLACES_CACHE";
         private const string BlogsCacheKey = "BLOGS_CACHE";
 
@@ -168,9 +169,9 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return result.To<NewPlacePageDto>();
         }
 
-        public async Task<NewBlogPageDto> GetNewBlogDtoAsync()
+        public async Task<NewBlogPageDto> GetNewBlogDtoAsync(ClaimsPrincipal httpContextUser)
         {
-            var result = await DalServices.GetNewBlogDaoAsync();
+            var result = await DalServices.GetNewBlogDaoAsync(httpContextUser);
             return result.To<NewBlogPageDto>();
         }
 
@@ -182,7 +183,9 @@ namespace FlexTemplate.BusinessLogicLayer.Services
                 Text = blogDto.Text,
                 Tags = blogDto.Tags != null && blogDto.Tags.Any() 
                     ? blogDto.Tags.Split(',').Select(tag => tag.Trim()).ToList()
-                    : new List<string> {""}
+                    : new List<string> {""},
+                BannersKey = blogDto.BannersKey,
+                Categories = blogDto.Categories
             };
             return await DalServices.CreateBlogAsync(claims, blogDao);
         }
@@ -219,10 +222,10 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return DalServices.CreatePlaceAsync(claims, model.To<NewPlaceDao>());
         }
 
-        public async Task<EditBlogPageDao> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
+        public async Task<EditBlogPageDto> GetEditBlogAsync(ClaimsPrincipal httpContextUser, int id)
         {
             var result = await DalServices.GetEditBlogAsync(httpContextUser, id);
-            return result.To<EditBlogPageDao>();
+            return result.To<EditBlogPageDto>();
         }
 
         public Task<bool> EditBlogAsync(EditBlogDto model)
@@ -239,6 +242,36 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         public Task<bool> EditPlaceAsync(EditPlaceDto model)
         {
             return DalServices.EditPlaceAsync(model.To<EditPlaceDao>());
+        }
+
+        public async Task<IEnumerable<string>> GetCitiesAsync()
+        {
+            var result = await DalServices.GetCitiesAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetTagsAsync()
+        {
+            var result = await DalServices.GetTagsAsync();
+            return result;
+        }
+
+        public async Task<bool> DeclineBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            var result = await DalServices.DeclineBlogAsync(claims, id);
+            return result;
+        }
+
+        public async Task<bool> AcceptBlogAsync(ClaimsPrincipal claims, int id)
+        {
+            var result = await DalServices.AcceptBlogAsync(claims, id);
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetPhotoDetailAsync(int id)
+        {
+            var result = await DalServices.GetPhotoDetailAsync(id);
+            return result;
         }
     }
 }

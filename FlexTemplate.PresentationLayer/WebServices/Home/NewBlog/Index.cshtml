@@ -30,13 +30,33 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-12">
                                     <div class="form-group">
+                                        <label class="block">Категорії</label>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <div class="col-xs-12 col-sm-2">
+                                                <div class="checkbox-block font-icon-checkbox">
+                                                    <input id="filter_cuisine-@category.Id" type="checkbox" class="checkbox" name="Categories[]" value="@category.Id" />
+                                                    <label for="filter_cuisine-@category.Id">@category.Name</label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>                                    
+                                </div>
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="form-group">
                                         <label>Теги:</label>
                                         <input type="text" class="form-control" id="autocompleteTagging" value="" name="Tags" placeholder="Теги.." />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="Guid" value="@Model.NewBlogGuid" />
+                        <div class="submite-list-box">
+                            <div id="blog-head-update" class="dropzone">
+                                <input type="file">
+                                <input class="file_descriptor" name="BannersKey" type="hidden" value="@Model.NewBlogGuid" />
+                                <div class="dz-default dz-message"><span>Головна фотографія</span></div>
+                            </div>
+                        </div>
                         <input type="submit" class="btn btn-primary mt-15" value="Відправити" />
                     </form>
                 </div>

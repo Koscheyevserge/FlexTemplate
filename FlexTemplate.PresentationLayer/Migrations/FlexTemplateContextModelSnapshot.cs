@@ -65,6 +65,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("BlobKey");
+
                     b.Property<string>("Caption");
 
                     b.Property<DateTime>("CreatedOn");
@@ -172,6 +174,30 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BlogComments");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<int?>("BlogId");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogPhotos");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>
@@ -436,6 +462,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<Guid>("BlobKey");
+
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Description");
@@ -485,6 +513,30 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.HasIndex("PlaceId");
 
                     b.ToTable("PlaceAliases");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceBannerPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceBannerPhotos");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategory", b =>
@@ -591,6 +643,54 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.ToTable("PlaceFeatureColumn");
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceGalleryPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceGalleryPhotos");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceHeaderPhotos");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -693,6 +793,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("BlobKey");
+
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Description");
@@ -710,6 +812,30 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.HasIndex("MenuId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductPhotos");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Setting", b =>
@@ -825,6 +951,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
+                    b.Property<Guid>("BlobKey");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -870,6 +998,32 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.UserPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<DateTime>("ModifiedOn");
+
+                    b.Property<string>("Uri");
+
+                    b.Property<int?>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserPhotos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -1050,6 +1204,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
+                        .WithMany("Headers")
+                        .HasForeignKey("BlogId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
@@ -1164,6 +1325,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceBannerPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany("Banners")
+                        .HasForeignKey("PlaceId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategoryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Language", "Language")
@@ -1199,6 +1367,20 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .WithMany("FeatureColumns")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceGalleryPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany("Gallery")
+                        .HasForeignKey("PlaceId");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany("Headers")
+                        .HasForeignKey("PlaceId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
@@ -1242,6 +1424,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.ProductPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Product", "Product")
+                        .WithMany("Headers")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Street", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.City", "City")
@@ -1274,6 +1463,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .WithMany("TagAliases")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.UserPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
+                        .WithMany("Headers")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

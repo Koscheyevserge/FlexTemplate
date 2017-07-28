@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
@@ -20,5 +21,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public string Surname { get; set; }
         public virtual List<Blog> Blogs { get; set; }
         public virtual List<Place> Places { get; set; }
+        public Guid BlobKey { get; set; }
+        public virtual List<UserPhoto> Headers { get; set; }
     }
 }

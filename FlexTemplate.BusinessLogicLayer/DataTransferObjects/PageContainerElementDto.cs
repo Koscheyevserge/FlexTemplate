@@ -9,5 +9,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
         public string ContainerTemplateName { get; set; }
         public IEnumerable<PageContainerElementDto> NestedContainers { get; set; }
         public PageContainerElementDto ParentContainer { get; set; }
+        public int Position { get; set; }
     }
 }

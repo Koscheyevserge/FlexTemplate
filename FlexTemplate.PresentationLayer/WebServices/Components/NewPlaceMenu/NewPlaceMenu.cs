@@ -1,12 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
+using FlexTemplate.PresentationLayer.Core;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.NewPlaceMenu
 {
-    public class NewPlaceMenu : ViewComponent
+    public class NewPlaceMenu : FlexViewComponent
     {
-        public IViewComponentResult Invoke()
+        private ComponentsServices ComponentsServices { get; }
+
+        public NewPlaceMenu(ComponentsServices componentsServices)
         {
-            return View();
+            ComponentsServices = componentsServices;
+        }
+
+        public IViewComponentResult Invoke(int position)
+        {
+            var model = ComponentsServices.GetNewPlaceMenu(position);
+            return View(model.To<ViewModel>());
         }
     }
 }

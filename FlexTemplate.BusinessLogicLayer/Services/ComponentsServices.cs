@@ -167,5 +167,23 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             };
             return result;
         }
+
+        public async Task<MorePlacesViewComponentDto> GetMorePlacesAsync(IEnumerable<int> loadedPlacesIds)
+        {
+            var result = await DalServices.GetMorePlacesAsync(loadedPlacesIds);
+            return result.To<MorePlacesViewComponentDto>();
+        }
+
+        public NewPlaceProductComponentDto GetNewPlaceProduct(int position, int menu)
+        {
+            var result = DalServices.GetNewPlaceProduct(position, menu);
+            return result.To<NewPlaceProductComponentDto>();
+        }
+
+        public NewPlaceMenuComponentDto GetNewPlaceMenu(int position)
+        {
+            var result = DalServices.GetNewPlaceMenu(position);
+            return result.To<NewPlaceMenuComponentDto>();
+        }
     }
 }
