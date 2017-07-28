@@ -54,6 +54,12 @@ namespace FlexTemplate.BlobAccessLayer.Services
             return blobItems;
         }
 
+        public async Task<bool> BlobExistsAsync(Uri uri)
+        {
+            var blob = await BlobClient.GetBlobReferenceFromServerAsync(uri);
+            return await blob.ExistsAsync();
+        }
+
         public async Task<Uri> UploadBlobAsync(IFormFile file, string directoryName, string fileName)
         {
             if (file == null)

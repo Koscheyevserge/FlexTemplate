@@ -16,6 +16,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
     {
         private readonly IMemoryCache _memoryCache;
         private DataAccessLayer.Services.Services DalServices { get; }
+
         private const string PlacesCacheKey = "PLACES_CACHE";
         private const string BlogsCacheKey = "BLOGS_CACHE";
 
@@ -264,6 +265,12 @@ namespace FlexTemplate.BusinessLogicLayer.Services
         public async Task<bool> AcceptBlogAsync(ClaimsPrincipal claims, int id)
         {
             var result = await DalServices.AcceptBlogAsync(claims, id);
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> GetPhotoDetailAsync(int id)
+        {
+            var result = await DalServices.GetPhotoDetailAsync(id);
             return result;
         }
     }

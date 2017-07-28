@@ -978,6 +978,24 @@ namespace FlexTemplate.DataAccessLayer.Services
             }
         }
 
+        public async Task<IEnumerable<string>> GetPhotoDetailAsync(int id)
+        {
+            var place = await Context.Places.Include(p => p.Gallery).SingleOrDefaultAsync(p => p.Id == id);
+            if (place == null)
+            {
+                return new List<string>();
+            }
+            var returnCollection = new List<string>();
+            foreach (var uri in place.Gallery.Where(p => p.IsActive).Select(p => p.Uri))
+            {
+                if (await Images.BlobExistsAsync(new Uri(uri)))
+                {
+                    returnCollection.Add(uri);
+                }
+            }
+            return returnCollection;
+        }
+
         #region Update Services
 
         public async Task<bool> EditBlogAsync(EditBlogDao model)
