@@ -14,7 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="wwwroot\Resources\Defaults\blog - Copy.jpg">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\Resources\Defaults\city.jpg" />
   </ItemGroup>
   <ItemGroup>
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0-msbuild2-final" />

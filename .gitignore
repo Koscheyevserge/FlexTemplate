@@ -246,9 +246,7 @@ FlexTemplate.PresentationLayer/clientApp/.idea/clientApp.iml
 FlexTemplate.PresentationLayer/clientApp/.idea/misc.xml
 FlexTemplate.PresentationLayer/clientApp/.idea/workspace.xml
 FlexTemplate.PresentationLayer/clientApp/.idea/modules.xml
-FlexTemplate.PresentationLayer/wwwroot/js/bundle.js
 *.sln
-FlexTemplate.PresentationLayer/wwwroot/js/devBundle.js
 FlexTemplate.PresentationLayer/wwwroot/js/devBundle.js.map
 FlexTemplate.PresentationLayer/.bower1rc
 FlexTemplate.sln

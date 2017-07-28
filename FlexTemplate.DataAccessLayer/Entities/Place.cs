@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
@@ -51,5 +52,9 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Фичи заведения
         /// </summary>
         public virtual List<PlaceFeatureColumn> FeatureColumns { get; set; }
+        public Guid BlobKey { get; set; }
+        public virtual List<PlaceHeaderPhoto> Headers { get; set; }
+        public virtual List<PlaceGalleryPhoto> Gallery { get; set; }
+        public virtual List<PlaceBannerPhoto> Banners { get; set; }
     }
 }

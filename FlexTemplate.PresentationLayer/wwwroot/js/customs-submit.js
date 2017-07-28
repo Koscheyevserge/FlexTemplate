@@ -182,7 +182,7 @@ jQuery(function($) {
 	            }
 	        });
 	        $("#place-banner-update").dropzone({
-	            url: "/api/upload/placebanner/" + $("#place-banner-update").find(".file_descriptor").val(),
+                url: "/api/upload/bloghead/" + $("#place-banner-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
@@ -210,7 +210,7 @@ jQuery(function($) {
 	            }
 	        });
 	        $("#blog-banner-update").dropzone({
-	            url: "/api/upload/blogbanner/" + $("#blog-banner-update").find(".file_descriptor").val(),
+                url: "/api/upload/bloghead/" + $("#blog-banner-update").find(".file_descriptor").val(),
 	            addRemoveLinks: true,
 	            maxFiles: 1,
 	            init: function () {
@@ -218,7 +218,7 @@ jQuery(function($) {
 	            removedfile: function (file) {
 	                $.ajax({
 	                    type: 'DELETE',
-	                    url: window.location.origin + '/api/upload/blogbanner/' + $("#blog-banner-update").find(".file_descriptor").val(),
+                        url: window.location.origin + '/api/upload/bloghead/' + $("#blog-banner-update").find(".file_descriptor").val(),
 	                    data: "",
 	                    dataType: 'text'
 	                });

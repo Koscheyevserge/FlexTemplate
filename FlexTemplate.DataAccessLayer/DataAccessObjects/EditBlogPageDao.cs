@@ -1,4 +1,7 @@
-﻿namespace FlexTemplate.DataAccessLayer.DataAccessObjects
+﻿using System;
+using System.Collections.Generic;
+
+namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
     public class EditBlogPageDao
     {
@@ -7,5 +10,7 @@
         public string Name { get; set; }
         public string BannerPhotoPath { get; set; }
         public string Tags { get; set; }
+        public Guid BlobKey { get; set; }
+        public List<EditBlogPageCategoryDao> Categories { get; set; }
     }
 }

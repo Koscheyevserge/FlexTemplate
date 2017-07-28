@@ -10,5 +10,6 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
         public IEnumerable<PageContainerElementDao> NestedContainers { get; set; }
         public int ParentId { get; set; }
         public PageContainerElementDao ParentContainer { get; set; }
+        public int Position { get; set; }
     }
 }
