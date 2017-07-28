@@ -14,26 +14,25 @@ namespace FlexTemplate.PresentationLayer.WebServices.Resources
         {
         }
         
-        /*[Route("api/resources/photo-detail/{id}")]
-        public IEnumerable<string> PhotoDetail(int id)
+        [Route("api/resources/photo-detail/{id}")]
+        public async Task<IEnumerable<string>> PhotoDetail(int id)
         {
-            var path = $@"wwwroot\Resources\Places\{id}\";
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            var result = Directory.GetFiles(path).Except(new [] { $@"wwwroot\Resources\Places\{id}\head.jpg" , $@"wwwroot\Resources\Places\{id}\banner.jpg" });
+            var result = await BllServices.GetPhotoDetailAsync(id);
             return result;
-        }*/
+        }
 
         [Route("api/resources/cities")]
         public async Task<IEnumerable<string>> GetCities()
         {
-            return await BllServices.GetCitiesAsync();
+            var result = await BllServices.GetCitiesAsync();
+            return result;
         }
 
         [Route("api/resources/tags")]
         public async Task<IEnumerable<string>> GetTags()
         {
-            return await BllServices.GetTagsAsync();
+            var result = await BllServices.GetTagsAsync();
+            return result;
         }
     }
 }
