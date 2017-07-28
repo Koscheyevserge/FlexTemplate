@@ -22,7 +22,11 @@
                                             <div class="image">
                                                 <div class="overlay-box">
                                                     <a asp-controller="Home" asp-action="Blog" asp-route-id="@blog.Id">
-                                                        <img src="@blog.HeadPhotoPath" alt="image" onerror="this.onerror = null; this.src = '../../Resources/Defaults/blog.jpg';" />
+                                                        <div class="hero hero-breadcrumb" style="background-image: url('@blog.HeadPhotoPath'); min-height: 450px;">
+                                                            <div class="container">
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="image-overlay">
                                                             <div class="overlay-content">
                                                                 <div class="overlay-icon"><i class="pe-7s-link"></i></div>
