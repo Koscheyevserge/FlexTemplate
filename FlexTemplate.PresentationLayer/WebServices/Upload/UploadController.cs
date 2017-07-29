@@ -54,12 +54,12 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
                 IsActive = true,
                 Uri = uri.ToString()
             };
-            var place = await Context.Places.Include(p => p.Headers)
+            var place = await Context.Places.Include(p => p.Photos)
                 .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
             if (place != null)
             {
-                place.Headers.ForEach(h => h.IsActive = false);
-                place.Headers.Add(head);
+                place.Photos.ForEach(h => h.IsActive = false);
+                place.Photos.Add(head);
             }
             else
             {
