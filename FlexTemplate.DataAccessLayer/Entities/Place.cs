@@ -7,8 +7,8 @@ namespace FlexTemplate.DataAccessLayer.Entities
     /// <summary>
     /// Заведение
     /// </summary>
-    public class Place : IViewable, IAuthorfull, IAuditable, ICommentable<PlaceReview>, IModerateable, 
-        IPhotofull<PlaceGalleryPhoto>, IPhotofull<PlaceBannerPhoto>, IPhotofull<PlaceHeaderPhoto>, IAliasfull<PlaceAlias>
+    public class Place : IViewable, IAuthorfull, IAuditable, ICommentable<PlaceReview>, 
+        IModerateable, IPhotofull<PlaceHeaderPhoto>, IAliasfull<PlaceAlias>
     {
         /// <summary>
         /// Название заведения
@@ -55,14 +55,9 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public bool IsModerated { get; set; }
         public List<PlaceAlias> Aliases { get; set; }
         public Guid BlobKey { get; set; }
-        [NotMapped]
-        public List<PlaceHeaderPhoto> Headers { get; set; }
-        List<PlaceHeaderPhoto> IPhotofull<PlaceHeaderPhoto>.Photos { get { return Headers; } set { Headers = value; } }
-        [NotMapped]
-        public List<PlaceBannerPhoto> Banners { get; set; }
-        List<PlaceBannerPhoto> IPhotofull<PlaceBannerPhoto>.Photos { get { return Banners; } set { Banners = value; } }
-        [NotMapped]
-        public List<PlaceGalleryPhoto> Gallery { get; set; }
-        List<PlaceGalleryPhoto> IPhotofull<PlaceGalleryPhoto>.Photos { get { return Gallery; } set { Gallery = value; } }
+        
+        public virtual List<PlaceHeaderPhoto> Photos { get; set; }
+        public virtual List<PlaceBannerPhoto> Banners { get; set; }
+        public virtual List<PlaceGalleryPhoto> Gallery { get; set; }
     }
 }

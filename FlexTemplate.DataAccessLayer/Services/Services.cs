@@ -366,7 +366,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     .ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
                     .Include(p => p.Comments).Include(p => p.Street).ThenInclude(s => s.Aliases)
                     .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
-                    .Include(p => p.Headers)
+                    .Include(p => p.Photos)
                     .Where(p => p.Id != placeId)//TODO сделать фильтр выбора заведений "вам может быть интересно"
                     .Select(p =>
                         new YouMayAlsoLikeComponentPlaceDao
@@ -382,7 +382,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                                     Name = GetProperAlias(ppc.PlaceCategory, defaultLanguage, userLanguage)
                                 }),
                             ReviewsCount = p.Comments.Count,
-                            PhotoPath = GetFirstActiveBlobPath(p.Headers)
+                            PhotoPath = GetFirstActiveBlobPath(p.Photos)
                         }).Take(4)
             };
             return result;
@@ -510,7 +510,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
             var descriptor = strings.SingleOrDefault(s => s.Tag == "ReviewsDescriptor")?.Text;
             var result = Context.Places
-                .Include(p => p.Comments)
+                .Include(p => p.Comments).Include(p => p.Photos)
                 .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
                 .Where(p => p.Id == placeId)
                 .Select(p => 
@@ -523,7 +523,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Stars = GetRating(p.Comments),
                     Categories = p.PlacePlaceCategories.Select(ppc => 
                         new KeyValuePair<int, string>(ppc.PlaceCategory.Id, ppc.PlaceCategory.Name)),
-                    PhotoPath = GetFirstActiveBlobPath(p.Headers),
+                    PhotoPath = GetFirstActiveBlobPath(p.Photos),
                     ReviewsDescriptor = descriptor
                 })
                 //TODO понять почему не работает SingleOrDefault()
@@ -1310,7 +1310,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 {
                     BlobKey = model.BlobKey,
                     Banners = await Context.PlaceBannerPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
-                    Headers = await Context.PlaceHeaderPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
+                    Photos = await Context.PlaceHeaderPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
                     Gallery = await Context.PlaceGalleryPhotos.Where(pbp => pbp.BlobKey == model.BlobKey).ToListAsync(),
                     User = user,
                     Address = model.Address,
