@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Расширения для страницы
     /// </summary>
-    public class Page : BaseEntity
+    public class Page : IEntity
     {
         /// <summary>
         /// Название страницы
@@ -19,5 +20,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Контейнеры на странице
         /// </summary>
         public virtual List<PageContainerTemplate> Containers { get; set; }
+        public int Id { get; set; }
     }
 }

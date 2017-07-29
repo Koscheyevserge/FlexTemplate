@@ -11,6 +11,7 @@ namespace FlexTemplate.DataAccessLayer
 {
     public abstract class FlexContext : IdentityDbContext<User>
     {
+        public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<PlaceCategory> PlaceCategories { get; set; }
@@ -30,7 +31,6 @@ namespace FlexTemplate.DataAccessLayer
         public DbSet<StreetAlias> StreetAliases { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<Container> Containers { get; set; }
-        public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; }
         public DbSet<ContainerTemplate> ContainerTemplates { get; set; }
         public DbSet<PlaceReview> PlaceReviews { get; set; }
         public DbSet<PageContainerTemplate> PageContainerTemplates { get; set; }

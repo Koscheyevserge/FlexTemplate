@@ -1,6 +1,8 @@
-﻿namespace FlexTemplate.DataAccessLayer.Entities
+﻿using System;
+
+namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class BlogTag : BaseEntity
+    public class BlogTag : IEntity
     {
         /// <summary>
         /// Идентификатор блога
@@ -19,5 +21,6 @@
         /// Тэг
         /// </summary>
         public virtual Tag Tag { get; set; }
+        public int Id { get; set; }
     }
 }

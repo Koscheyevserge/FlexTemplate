@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Улица
     /// </summary>
-    public class Street : BaseEntity
+    public class Street : IAliasfull<StreetAlias>
     {
         /// <summary>
         /// Название улицы
@@ -23,5 +24,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Город
         /// </summary>
         public virtual City City { get; set; }
+        public int Id { get; set; }
     }
 }

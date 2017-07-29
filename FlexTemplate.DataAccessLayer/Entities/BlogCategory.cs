@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class BlogCategory : BaseEntity
+    public class BlogCategory : IAliasfull<BlogCategoryAlias>
     {
         public string Name { get; set; }
         public virtual List<BlogBlogCategory> BlogBlogCategories { get; set; }
@@ -12,5 +12,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Алиасы
         /// </summary>
         public virtual List<BlogCategoryAlias> Aliases { get; set; }
+        public int Id { get; set; }
     }
 }

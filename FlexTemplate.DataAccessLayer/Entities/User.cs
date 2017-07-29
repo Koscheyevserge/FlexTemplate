@@ -22,6 +22,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public virtual List<Blog> Blogs { get; set; }
         public virtual List<Place> Places { get; set; }
         public Guid BlobKey { get; set; }
-        public virtual List<UserPhoto> Headers { get; set; }
+        public virtual List<UserPhoto> Photos { get; set; }
     }
 }

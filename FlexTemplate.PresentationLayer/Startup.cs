@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using React.AspNet;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace FlexTemplate.PresentationLayer
 {
@@ -132,6 +135,20 @@ namespace FlexTemplate.PresentationLayer
             app.UseMiddleware<FlexContextInitializer>();
 
             app.UseIdentity();
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("ru-RU"),
+                new CultureInfo("ru"),
+                new CultureInfo("uk-UA"),
+                new CultureInfo("uk")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("uk-UA"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseMvc(routes =>
             {

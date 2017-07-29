@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Город
     /// </summary>
-    public class City : BaseEntity
+    public class City : IAliasfull<CityAlias>
     {
         /// <summary>
         /// Название города
@@ -26,6 +27,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<CityAlias> Aliases { get; set; } 
+        public virtual List<CityAlias> Aliases { get; set; }
+        public int Id { get; set; }
     }
 }

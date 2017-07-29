@@ -5,7 +5,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
     /// <summary>
     /// Расписание заведения
     /// </summary>
-    public class PlaceSchedule : BaseEntity
+    public class PlaceSchedule : IEntity
     {
         public int PlaceId { get; set; }
         public Place Place { get; set; }
@@ -23,5 +23,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public TimeSpan SaturdayTo { get; set; }
         public TimeSpan SundayFrom { get; set; }
         public TimeSpan SundayTo { get; set; }
+        public int Id { get; set; }
     }
 }

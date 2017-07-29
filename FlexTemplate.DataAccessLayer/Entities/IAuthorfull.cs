@@ -9,8 +9,8 @@ namespace FlexTemplate.DataAccessLayer.Entities
     /// <summary>
     /// Сущность с автором
     /// </summary>
-    public class BaseAuthorfullEntity : BaseEntity
+    public interface IAuthorfull : IEntity
     {
-        public User User { get; set; }
+        User User { get; set; }
     }
 }
