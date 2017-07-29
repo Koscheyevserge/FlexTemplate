@@ -4,6 +4,6 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
 {
     public class PageContainersHierarchyDao
     {
-        public IEnumerable<PageContainerElementDao> Containers { get; set; }
+        public List<PageContainerElementDao> Containers { get; set; }
     }
 }

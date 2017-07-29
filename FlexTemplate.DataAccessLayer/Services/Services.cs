@@ -344,14 +344,15 @@ namespace FlexTemplate.DataAccessLayer.Services
             return new BlogCommentsComponentDao
             {
                 CommentsCount = await Context.BlogComments.Where(bc => bc.BlogId == blogId).CountAsync(),
-                Comments = await Context.BlogComments.Where(bc => bc.BlogId == blogId).Select(bc =>
+                Comments = await Context.BlogComments.Include(bc => bc.User).ThenInclude(u => u.Photos)
+                    .Where(bc => bc.BlogId == blogId).Select(bc =>
                     new BlogCommentsComponentCommentDao
                     {
-                        AuthorPhotoPath = "",//TODO получить фото
+                        AuthorPhotoPath = GetFirstActiveBlobPath(bc.User.Photos),
                         AuthorUsername = GetUsername(bc.User),
                         CreatedOn = bc.CreatedOn,
                         Text = bc.Text
-                    }).ToListAsync()
+                    }).OrderByDescending(bc => bc.CreatedOn).ToListAsync()
             };
         }
 
@@ -365,6 +366,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     .ThenInclude(ppc => ppc.PlaceCategory).ThenInclude(pc => pc.Aliases)
                     .Include(p => p.Comments).Include(p => p.Street).ThenInclude(s => s.Aliases)
                     .Include(p => p.Street).ThenInclude(s => s.City).ThenInclude(c => c.Aliases)
+                    .Include(p => p.Headers)
                     .Where(p => p.Id != placeId)//TODO сделать фильтр выбора заведений "вам может быть интересно"
                     .Select(p =>
                         new YouMayAlsoLikeComponentPlaceDao
@@ -380,7 +382,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                                     Name = GetProperAlias(ppc.PlaceCategory, defaultLanguage, userLanguage)
                                 }),
                             ReviewsCount = p.Comments.Count,
-                            PhotoPath = ""//TODO получить фото
+                            PhotoPath = GetFirstActiveBlobPath(p.Headers)
                         }).Take(4)
             };
             return result;
@@ -506,6 +508,7 @@ namespace FlexTemplate.DataAccessLayer.Services
             var container = Context.Containers.SingleOrDefault(c => c.Name == componentName);
             var defaultLanguage = Context.Languages.Single(l => l.IsDefault);
             var strings = GetLocalizableStrings(container, defaultLanguage, userLanguage);
+            var descriptor = strings.SingleOrDefault(s => s.Tag == "ReviewsDescriptor")?.Text;
             var result = Context.Places
                 .Include(p => p.Comments)
                 .Include(p => p.PlacePlaceCategories).ThenInclude(ppc => ppc.PlaceCategory)
@@ -519,14 +522,12 @@ namespace FlexTemplate.DataAccessLayer.Services
                     ReviewsCount = p.Comments.Count,
                     Stars = GetRating(p.Comments),
                     Categories = p.PlacePlaceCategories.Select(ppc => 
-                        new KeyValuePair<int, string>(ppc.PlaceCategory.Id, ppc.PlaceCategory.Name))
+                        new KeyValuePair<int, string>(ppc.PlaceCategory.Id, ppc.PlaceCategory.Name)),
+                    PhotoPath = GetFirstActiveBlobPath(p.Headers),
+                    ReviewsDescriptor = descriptor
                 })
                 //TODO понять почему не работает SingleOrDefault()
                 .FirstOrDefault();
-            var reviewsDescriptor = strings.SingleOrDefault(s => s.Tag == "ReviewsDescriptor")?.Text;
-            result.ReviewsDescriptor = reviewsDescriptor;
-            //TODO реализовать получение фотографии
-            result.PhotoPath = "";
             return result;
         }
 
@@ -756,7 +757,9 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         public async Task<PageContainersHierarchyDao> GetPageContainersHierarchy(string pageName)
         {
-            var containers = await Context.PageContainerTemplates
+            return new PageContainersHierarchyDao
+            {
+                Containers = await Context.PageContainerTemplates
                 .Include(pct => pct.ContainerTemplate).ThenInclude(ct => ct.Container).Include(pct => pct.Page)
                 .Where(pct => pct.Page.Name == pageName && pct.ParentId == 0).OrderBy(pct => pct.Position)
                 .Select(pct =>
@@ -767,8 +770,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                         ContainerTemplateName = pct.ContainerTemplate.TemplateName,
                         ParentId = pct.ParentId,
                         Position = pct.Position
-                    }).ToListAsync();
-            return new PageContainersHierarchyDao {Containers = containers};
+                    }).ToListAsync()
+            };
         }
 
         public async Task<List<CachedPlaceDao>> GetPlacesAsync()

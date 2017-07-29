@@ -8,6 +8,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.BlogComments
     public class ViewModel
     {
         public int CommentsCount { get; set; }
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
     }
 }

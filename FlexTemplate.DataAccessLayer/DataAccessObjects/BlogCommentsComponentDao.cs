@@ -5,6 +5,6 @@ namespace FlexTemplate.DataAccessLayer.DataAccessObjects
     public class BlogCommentsComponentDao
     {
         public int CommentsCount { get; set; }
-        public IEnumerable<BlogCommentsComponentCommentDao> Comments { get; set; }
+        public List<BlogCommentsComponentCommentDao> Comments { get; set; }
     }
 }
