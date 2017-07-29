@@ -4,6 +4,9 @@ using FlexTemplate.BusinessLogicLayer.Extentions;
 using FlexTemplate.BusinessLogicLayer.Services;
 using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Home
 {
@@ -180,10 +183,14 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home
             }
             return RedirectToAction("Blog", "Home", new { id = item.Id });
         }
-        /*
-        public IActionResult ChangeUserLanguage(string redirect, int languageId)
+
+        public IActionResult ChangeUserLanguage(string redirect, string culture)
         {
-            return Redirect(redirect);
-        }*/
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(redirect);
+        }
     }
 }

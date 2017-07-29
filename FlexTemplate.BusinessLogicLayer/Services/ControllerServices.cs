@@ -145,7 +145,7 @@ namespace FlexTemplate.BusinessLogicLayer.Services
             return canEditVisualsTask;
         }
 
-        public async Task<bool> IsAuthorAsync<T>(ClaimsPrincipal httpContextUser, int placeId) where T : BaseAuthorfullEntity
+        public async Task<bool> IsAuthorAsync<T>(ClaimsPrincipal httpContextUser, int placeId) where T : class, IAuthorfull
         {
             var isPlaceAuthorTask = await DalServices.IsAuthorAsync<T>(httpContextUser, placeId);
             return isPlaceAuthorTask;

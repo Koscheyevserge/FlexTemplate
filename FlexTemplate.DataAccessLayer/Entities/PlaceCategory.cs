@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Категория
     /// </summary>
-    public class PlaceCategory : BaseEntity
+    public class PlaceCategory : IAliasfull<PlaceCategoryAlias>
     {
         /// <summary>
         /// Название категории
@@ -18,6 +19,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<PlaceCategoryAlias> Aliases { get; set; } 
+        public virtual List<PlaceCategoryAlias> Aliases { get; set; }
+        public int Id { get; set; }
     }
 }

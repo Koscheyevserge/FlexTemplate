@@ -5,9 +5,13 @@ using System.Text;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class PlacePhoto : BasePhoto
+    public abstract class PlacePhoto : IPhoto
     {
         public int? PlaceId { get; set; }
         public virtual Place Place { get; set; }
+        public Guid BlobKey { get; set; }
+        public string Uri { get; set; }
+        public bool IsActive { get; set; }
+        public int Id { get; set; }
     }
 }

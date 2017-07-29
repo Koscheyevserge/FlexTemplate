@@ -4,8 +4,8 @@ using System.Text;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class BaseAuthorfullViewableEntity : BaseAuthorfullEntity
+    public interface ICommentable<TEntity> : IEntity where TEntity : IComment
     {
-        public int ViewsCount { get; set; }
+        List<TEntity> Comments { get; set; }
     }
 }

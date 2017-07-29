@@ -50,8 +50,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
                 .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\heads", filename.ToString());
             var head = new PlaceHeaderPhoto
             {
-                BlobKey = filename,
-                CreatedOn = DateTime.Now,
+                BlobKey = Guid.Parse(placeId),
                 IsActive = true,
                 Uri = uri.ToString()
             };
@@ -73,9 +72,9 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         [Route("/api/upload/placehead/{placeId}")]
         public async Task DeletePlaceHeadPhotoAsync(string placeId)
         {
-            var place = await Context.Places.Include(p => p.Headers)
-                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
-            place.Headers.ForEach(h => h.IsActive = false);
+            var placeGallery = await Context.PlaceHeaderPhotos
+                .Where(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant()).ToListAsync();
+            placeGallery.ForEach(h => h.IsActive = false);
             await Context.SaveChangesAsync();
         }
         #endregion
@@ -94,8 +93,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
                 .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\banners", filename.ToString());
             var banner = new PlaceBannerPhoto
             {
-                BlobKey = filename,
-                CreatedOn = DateTime.Now,
+                BlobKey = Guid.Parse(placeId),
                 IsActive = true,
                 Uri = uri.ToString()
             };
@@ -116,9 +114,9 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         [Route("/api/upload/placebanner/{placeId}")]
         public async Task DeleteBannerPhotoAsync(string placeId)
         {
-            var place = await Context.Places.Include(p => p.Banners)
-                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
-            place.Banners.ForEach(h => h.IsActive = false);
+            var placeBanners = await Context.PlaceBannerPhotos
+                .Where(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant()).ToListAsync();
+            placeBanners.ForEach(h => h.IsActive = false);
             await Context.SaveChangesAsync();
         }
         #endregion
@@ -126,7 +124,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         #region PlaceGallery
         [HttpPost]
         [Route("/api/upload/newplace/{placeId}")]
-        public async Task<string> UploadNewPlacePhotoAsync(string placeId)
+        public async Task<string> UploadPlaceGalleryPhotoAsync(string placeId)
         {
             if (!HttpContext.Request.Form.Files.Any())
             {
@@ -137,8 +135,7 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
                 .SaveFileAsync(HttpContext.Request.Form.Files[0], $@"places\{placeId}\gallery", filename.ToString());
             var photo = new PlaceGalleryPhoto
             {
-                BlobKey = filename,
-                CreatedOn = DateTime.Now,
+                BlobKey = Guid.Parse(placeId),
                 IsActive = true,
                 Uri = uri.ToString()
             };
@@ -157,13 +154,12 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
             return filename.ToString();
         }
         [HttpDelete]
-        [Route("/api/upload/newplace/{placeId}/{fileDescriptor}")]
-        public async Task DeletePlacePhotoAsync(string placeId, string fileDescriptor)
+        [Route("/api/upload/newplace/{fileDescriptor}")]
+        public async Task DeletePlacePhotoAsync(string fileDescriptor)
         {
-            var place = await Context.Places.Include(p => p.Banners)
-                .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == placeId.ToUpperInvariant());
-            place.Banners
-                .SingleOrDefault(b => b.BlobKey.ToString().ToUpperInvariant() == fileDescriptor.ToUpperInvariant());
+            var placeGallery = await Context.PlaceGalleryPhotos
+                .Where(p => p.Uri.ToString().ToUpperInvariant().Contains(fileDescriptor.ToUpperInvariant())).ToListAsync();
+            placeGallery.ForEach(h => h.IsActive = false);
             await Context.SaveChangesAsync();
         }
         #endregion
@@ -187,16 +183,15 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
             var photo = new BlogPhoto
             {
                 BlobKey = Guid.Parse(blogId),
-                CreatedOn = DateTime.Now,
                 IsActive = true,
                 Uri = uri.ToString()
             };
-            var blog = await Context.Blogs.Include(p => p.Headers)
+            var blog = await Context.Blogs.Include(p => p.Photos)
                 .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
             if (blog != null)
             {
-                blog.Headers.ForEach(h => h.IsActive = false);
-                blog.Headers.Add(photo);
+                blog.Photos.ForEach(h => h.IsActive = false);
+                blog.Photos.Add(photo);
             }
             else
             {
@@ -209,11 +204,11 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
         [Route("/api/upload/bloghead/{blogId}")]
         public async Task DeleteBlogHeadPhotoAsync(string blogId)
         {
-            var blog = await Context.Blogs.Include(p => p.Headers)
+            var blog = await Context.Blogs.Include(p => p.Photos)
                 .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == blogId.ToUpperInvariant());
             if (blog != null)
             {
-                blog.Headers.ForEach(h => h.IsActive = false);
+                blog.Photos.ForEach(h => h.IsActive = false);
             }
             else
             {
@@ -243,16 +238,15 @@ namespace FlexTemplate.PresentationLayer.WebServices.Upload
             var photo = new ProductPhoto
             {
                 BlobKey = filename,
-                CreatedOn = DateTime.Now,
                 IsActive = true,
                 Uri = uri.ToString()
             };            
-            var product = await Context.Products.Include(p => p.Headers)
+            var product = await Context.Products.Include(p => p.Photos)
                 .SingleOrDefaultAsync(p => p.BlobKey.ToString().ToUpperInvariant() == fileDescriptor.ToUpperInvariant());
             if (product != null)
             {
-                product.Headers.ForEach(h => h.IsActive = false);
-                product.Headers.Add(photo);
+                product.Photos.ForEach(h => h.IsActive = false);
+                product.Photos.Add(photo);
             }
             else
             {

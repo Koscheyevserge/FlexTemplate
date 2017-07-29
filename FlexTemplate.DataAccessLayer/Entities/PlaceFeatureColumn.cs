@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class PlaceFeatureColumn : BaseEntity
+    public class PlaceFeatureColumn : IEntity
     {
         /// <summary>
         /// Заведение
@@ -14,5 +15,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         public int Position { get; set; }
 
         public virtual List<PlaceFeature> Features { get; set; }
+        public int Id { get; set; }
     }
 }

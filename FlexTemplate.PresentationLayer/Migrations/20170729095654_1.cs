@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FlexTemplate.PresentationLayer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -30,8 +28,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -45,8 +41,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -60,12 +54,10 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDefault = table.Column<bool>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    ShortName = table.Column<string>(maxLength: 2, nullable: true)
+                    TwoLetterISOLanguageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,8 +70,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
@@ -94,8 +84,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -111,9 +99,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BoolValue = table.Column<bool>(nullable: false),
                     Code = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     IntValue = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     StringValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -127,8 +113,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -142,6 +126,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    BlobKey = table.Column<Guid>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -198,8 +183,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     TemplateName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -220,8 +203,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CountryId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -242,9 +223,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BlogCategoryId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -271,9 +250,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Tag = table.Column<string>(nullable: true),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -301,9 +278,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CountryId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -330,8 +305,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -358,8 +331,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PageId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -385,9 +356,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceCategoryId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -414,9 +383,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     TagId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -443,6 +410,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
                     Caption = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     IsModerated = table.Column<bool>(nullable: false),
@@ -457,6 +425,29 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     table.ForeignKey(
                         name: "FK_Blogs_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Uri = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
+                    UserId1 = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPhotos_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -555,8 +546,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ContainerTemplateId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PageId = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false)
@@ -585,9 +574,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CityId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -614,8 +601,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CityId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -636,9 +621,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BlogCategoryId = table.Column<int>(nullable: false),
-                    BlogId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false)
+                    BlogId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -688,14 +671,34 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    BlogId = table.Column<int>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogPhotos_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlogTags",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BlogId = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     TagId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -722,8 +725,10 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Address = table.Column<string>(nullable: true),
+                    BlobKey = table.Column<Guid>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
+                    IsModerated = table.Column<bool>(nullable: false),
                     Latitude = table.Column<double>(nullable: false),
                     Longitude = table.Column<double>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
@@ -755,9 +760,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     StreetId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -784,8 +787,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PlaceId = table.Column<int>(nullable: false)
                 },
@@ -806,9 +807,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -830,14 +829,34 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlaceBannerPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    PlaceId = table.Column<int>(nullable: true),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaceBannerPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaceBannerPhotos_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlaceCommunications",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CommunicationType = table.Column<int>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Number = table.Column<string>(nullable: true),
                     PlaceId = table.Column<int>(nullable: false)
                 },
@@ -858,8 +877,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false)
                 },
@@ -875,13 +892,55 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlaceGalleryPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    PlaceId = table.Column<int>(nullable: true),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaceGalleryPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaceGalleryPhotos_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlaceHeaderPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    PlaceId = table.Column<int>(nullable: true),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlaceHeaderPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlaceHeaderPhotos_Places_PlaceId",
+                        column: x => x.PlaceId,
+                        principalTable: "Places",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlacePlaceCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceCategoryId = table.Column<int>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false)
                 },
@@ -912,7 +971,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     IsModerated = table.Column<bool>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
-                    Star = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: true),
                     Text = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -939,10 +998,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     FridayFrom = table.Column<TimeSpan>(nullable: false),
                     FridayTo = table.Column<TimeSpan>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     MondayFrom = table.Column<TimeSpan>(nullable: false),
                     MondayTo = table.Column<TimeSpan>(nullable: false),
                     PlaceId = table.Column<int>(nullable: false),
@@ -974,10 +1031,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    BlobKey = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     MenuId = table.Column<int>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Title = table.Column<string>(nullable: true)
                 },
@@ -998,8 +1054,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     PlaceFeatureColumnId = table.Column<int>(nullable: false),
                     Row = table.Column<int>(nullable: false)
@@ -1013,6 +1067,28 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         principalTable: "PlaceFeatureColumn",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BlobKey = table.Column<Guid>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    ProductId = table.Column<int>(nullable: true),
+                    Uri = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductPhotos_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -1069,6 +1145,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "IX_BlogComments_UserId",
                 table: "BlogComments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogPhotos_BlogId",
+                table: "BlogPhotos",
+                column: "BlogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogTags_BlogId",
@@ -1156,6 +1237,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlaceBannerPhotos_PlaceId",
+                table: "PlaceBannerPhotos",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlaceCategoryAliases_LanguageId",
                 table: "PlaceCategoryAliases",
                 column: "LanguageId");
@@ -1178,6 +1264,16 @@ namespace FlexTemplate.PresentationLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PlaceFeatureColumn_PlaceId",
                 table: "PlaceFeatureColumn",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlaceGalleryPhotos_PlaceId",
+                table: "PlaceGalleryPhotos",
+                column: "PlaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlaceHeaderPhotos_PlaceId",
+                table: "PlaceHeaderPhotos",
                 column: "PlaceId");
 
             migrationBuilder.CreateIndex(
@@ -1210,6 +1306,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "IX_Products_MenuId",
                 table: "Products",
                 column: "MenuId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductPhotos_ProductId",
+                table: "ProductPhotos",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Streets_CityId",
@@ -1246,6 +1347,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPhotos_UserId1",
+                table: "UserPhotos",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
@@ -1292,6 +1398,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "BlogComments");
 
             migrationBuilder.DropTable(
+                name: "BlogPhotos");
+
+            migrationBuilder.DropTable(
                 name: "BlogTags");
 
             migrationBuilder.DropTable(
@@ -1310,6 +1419,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "PlaceAliases");
 
             migrationBuilder.DropTable(
+                name: "PlaceBannerPhotos");
+
+            migrationBuilder.DropTable(
                 name: "PlaceCategoryAliases");
 
             migrationBuilder.DropTable(
@@ -1317,6 +1429,12 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlaceFeatures");
+
+            migrationBuilder.DropTable(
+                name: "PlaceGalleryPhotos");
+
+            migrationBuilder.DropTable(
+                name: "PlaceHeaderPhotos");
 
             migrationBuilder.DropTable(
                 name: "PlacePlaceCategories");
@@ -1328,7 +1446,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "PlaceSchedules");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductPhotos");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -1338,6 +1456,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "TagAliases");
+
+            migrationBuilder.DropTable(
+                name: "UserPhotos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -1373,7 +1494,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 name: "PlaceCategories");
 
             migrationBuilder.DropTable(
-                name: "Menus");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Languages");
@@ -1386,6 +1507,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Containers");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "Places");

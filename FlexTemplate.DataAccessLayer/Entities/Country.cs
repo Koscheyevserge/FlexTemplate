@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Страна
     /// </summary>
-    public class Country : BaseEntity
+    public class Country : IAliasfull<CountryAlias>
     {
         /// <summary>
         /// Название страны
@@ -18,6 +19,7 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// <summary>
         /// Алиасы
         /// </summary>
-        public virtual List<CountryAlias> Aliases { get; set; } 
+        public virtual List<CountryAlias> Aliases { get; set; }
+        public int Id { get; set; }
     }
 }

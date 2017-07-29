@@ -1,11 +1,12 @@
-﻿namespace FlexTemplate.DataAccessLayer.Entities
+﻿using System;
+
+namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Фичи заведения
     /// </summary>
-    public class PlaceFeature : BaseEntity
+    public class PlaceFeature : IEntity
     {
-
         /// <summary>
         /// Название фичи
         /// </summary>
@@ -19,5 +20,6 @@
         /// </summary>
         public int PlaceFeatureColumnId { get; set; }
         public PlaceFeatureColumn Column { get; set; }
+        public int Id { get; set; }
     }
 }
