@@ -4,6 +4,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
 {
     public class PageContainersHierarchyDto
     {
-        public IEnumerable<PageContainerElementDto> Containers { get; set; }
+        public List<PageContainerElementDto> Containers { get; set; }
     }
 }

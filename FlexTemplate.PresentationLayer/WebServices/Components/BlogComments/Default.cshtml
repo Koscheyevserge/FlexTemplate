@@ -3,7 +3,7 @@
 {
     <h4>@Model.CommentsCount Комментарів</h4>
     <ul class="comment-item">
-        @foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedOn))
+        @foreach (var comment in Model.Comments)
         {
             <li class="clearfix">
                 <div class="comment-avatar">
