@@ -9,5 +9,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Components.PlaceMenu
     public class ViewModel
     {
         public IEnumerable<MenuViewModel> Menus { get; set; }
+        public bool HasMenus { get; set; }
     }
 }
