@@ -587,9 +587,9 @@ namespace FlexTemplate.DataAccessLayer.Services
             return result;
         }
 
-        public Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
+        public async Task<PlaceMenuComponentDao> GetPlaceMenusAsync(int placeId)
         {
-            return Context.Places
+            var result = await Context.Places
                 .Include(p => p.Menus).ThenInclude(m => m.Products)
                 .Where(p => p.Id == placeId).Select(p =>
                     new PlaceMenuComponentDao
@@ -607,8 +607,10 @@ namespace FlexTemplate.DataAccessLayer.Services
                                         PhotoPath = "",//TODO получить фото
                                         Title = prod.Title
                                     })
-                            })
+                            }),
+                        HasMenus = p.Menus.Any()
                     }).SingleOrDefaultAsync();
+            return result;
         }
 
         public async Task<PlaceOverviewComponentDao> GetPlaceOverviewAsync(ClaimsPrincipal httpContextUser, int placeId)
