@@ -9,5 +9,6 @@ namespace FlexTemplate.PresentationLayer.WebServices.Home.NewBlog
     {
         public Guid NewBlogGuid { get; set; }
         public string BannerPhotoPath { get; set; }
+        public List<CategoryViewModel> Categories { get; set; }
     }
 }

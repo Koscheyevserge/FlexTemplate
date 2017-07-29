@@ -11,6 +11,7 @@ namespace FlexTemplate.DataAccessLayer
 {
     public abstract class FlexContext : IdentityDbContext<User>
     {
+        public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogComment> BlogComments { get; set; }
         public DbSet<PlaceCategory> PlaceCategories { get; set; }
@@ -30,7 +31,6 @@ namespace FlexTemplate.DataAccessLayer
         public DbSet<StreetAlias> StreetAliases { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<Container> Containers { get; set; }
-        public DbSet<ContainerLocalizableString> ContainerLocalizableStrings { get; set; }
         public DbSet<ContainerTemplate> ContainerTemplates { get; set; }
         public DbSet<PlaceReview> PlaceReviews { get; set; }
         public DbSet<PageContainerTemplate> PageContainerTemplates { get; set; }
@@ -45,6 +45,11 @@ namespace FlexTemplate.DataAccessLayer
         public DbSet<TagAlias> TagAliases { get; set; }
         public DbSet<Setting> Settings { get; set; }
         public DbSet<PlaceCommunication> PlaceCommunications { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
+        public DbSet<PlaceHeaderPhoto> PlaceHeaderPhotos { get; set; }
+        public DbSet<PlaceGalleryPhoto> PlaceGalleryPhotos { get; set; }
+        public DbSet<PlaceBannerPhoto> PlaceBannerPhotos { get; set; }
+        public DbSet<BlogPhoto> BlogPhotos { get; set; }
 
         public FlexContext(DbContextOptions options) : base(options)
         {

@@ -23,10 +23,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("ContainerId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<int>("PageId");
 
                     b.HasKey("Id");
@@ -45,10 +41,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("ContainerId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<int>("PageId");
 
                     b.HasKey("Id");
@@ -64,6 +56,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
 
                     b.Property<string>("Caption");
 
@@ -95,10 +89,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("BlogId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BlogCategoryId");
@@ -112,10 +102,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Name");
 
@@ -131,11 +117,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("BlogCategoryId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Text");
 
@@ -174,16 +156,32 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.ToTable("BlogComments");
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<int?>("BlogId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogPhotos");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("BlogId");
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("TagId");
 
@@ -203,10 +201,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("CountryId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -223,11 +217,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("CityId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Text");
 
@@ -245,10 +235,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -263,11 +249,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("ContainerId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Tag");
 
@@ -289,10 +271,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("ContainerId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("TemplateName");
 
                     b.HasKey("Id");
@@ -306,10 +284,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Name");
 
@@ -325,11 +299,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("CountryId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Text");
 
@@ -347,18 +317,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDefault");
 
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
-                    b.Property<string>("ShortName")
-                        .HasMaxLength(2);
+                    b.Property<string>("TwoLetterISOLanguageName");
 
                     b.HasKey("Id");
 
@@ -369,10 +334,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Name");
 
@@ -390,10 +351,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("Title");
@@ -409,10 +366,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("ContainerTemplateId");
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("PageId");
 
@@ -436,9 +389,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<Guid>("BlobKey");
+
                     b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsModerated");
 
                     b.Property<double>("Latitude");
 
@@ -468,11 +425,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("PlaceId");
 
@@ -487,14 +440,30 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.ToTable("PlaceAliases");
                 });
 
-            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategory", b =>
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceBannerPhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<Guid>("BlobKey");
 
-                    b.Property<DateTime>("ModifiedOn");
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceBannerPhotos");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
@@ -508,11 +477,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("PlaceCategoryId");
 
@@ -534,10 +499,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("CommunicationType");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Number");
 
                     b.Property<int>("PlaceId");
@@ -553,10 +514,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Name");
 
@@ -576,10 +533,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<int>("PlaceId");
 
                     b.Property<int>("Position");
@@ -591,14 +544,50 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.ToTable("PlaceFeatureColumn");
                 });
 
-            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceGalleryPhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<Guid>("BlobKey");
 
-                    b.Property<DateTime>("ModifiedOn");
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceGalleryPhotos");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int?>("PlaceId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlaceId");
+
+                    b.ToTable("PlaceHeaderPhotos");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("PlaceCategoryId");
 
@@ -626,7 +615,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("PlaceId");
 
-                    b.Property<int>("Star");
+                    b.Property<int?>("Rating");
 
                     b.Property<string>("Text");
 
@@ -646,13 +635,9 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<TimeSpan>("FridayFrom");
 
                     b.Property<TimeSpan>("FridayTo");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<TimeSpan>("MondayFrom");
 
@@ -693,13 +678,11 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
+                    b.Property<Guid>("BlobKey");
 
                     b.Property<string>("Description");
 
                     b.Property<int>("MenuId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<double>("Price");
 
@@ -712,6 +695,26 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<string>("Uri");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductPhotos");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Setting", b =>
                 {
                     b.Property<int>("Id")
@@ -721,11 +724,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<string>("Code");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("IntValue");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("StringValue");
 
@@ -741,10 +740,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
 
                     b.Property<int>("CityId");
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -759,11 +754,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("StreetId");
 
@@ -783,10 +774,6 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<DateTime>("ModifiedOn");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -799,11 +786,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<int>("LanguageId");
-
-                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<int>("TagId");
 
@@ -824,6 +807,8 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<Guid>("BlobKey");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -870,6 +855,28 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.UserPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BlobKey");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Uri");
+
+                    b.Property<int?>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserPhotos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -1050,6 +1057,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
+                        .WithMany("Photos")
+                        .HasForeignKey("BlogId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.BlogTag", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Blog", "Blog")
@@ -1164,6 +1178,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceBannerPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceCategoryAlias", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Language", "Language")
@@ -1201,6 +1222,20 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceGalleryPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId");
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceHeaderPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
+                        .WithMany()
+                        .HasForeignKey("PlaceId");
+                });
+
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlacePlaceCategory", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.PlaceCategory", "PlaceCategory")
@@ -1217,7 +1252,7 @@ namespace FlexTemplate.PresentationLayer.Migrations
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.PlaceReview", b =>
                 {
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Place", "Place")
-                        .WithMany("Reviews")
+                        .WithMany("Comments")
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -1240,6 +1275,13 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .WithMany("Products")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.ProductPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.Product", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.Street", b =>
@@ -1271,9 +1313,16 @@ namespace FlexTemplate.PresentationLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("FlexTemplate.DataAccessLayer.Entities.Tag", "Tag")
-                        .WithMany("TagAliases")
+                        .WithMany("Aliases")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FlexTemplate.DataAccessLayer.Entities.UserPhoto", b =>
+                {
+                    b.HasOne("FlexTemplate.DataAccessLayer.Entities.User", "User")
+                        .WithMany("Photos")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

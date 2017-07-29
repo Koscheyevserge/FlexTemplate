@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class Container : BaseEntity
+    public class Container : IEntity
     {
         /// <summary>
         /// Имя компонента
@@ -16,5 +17,6 @@ namespace FlexTemplate.DataAccessLayer.Entities
         /// Шаблоны компонента
         /// </summary>
         public virtual List<ContainerTemplate> ContainerTemplates { get; set; }
+        public int Id { get; set; }
     }
 }

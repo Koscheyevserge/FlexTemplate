@@ -1,17 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using FlexTemplate.BusinessLogicLayer.Extentions;
+using FlexTemplate.BusinessLogicLayer.Services;
+using FlexTemplate.PresentationLayer.Core;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlexTemplate.PresentationLayer.WebServices.Components.MorePlaces
 {
-    public class MorePlaces : ViewComponent
+    public class MorePlaces : FlexViewComponent
     {
-        public IViewComponentResult Invoke(IEnumerable<int> loadedPlacesIds)
+        private ComponentsServices ComponentsServices { get; }
+
+        public MorePlaces(ComponentsServices componentsServices)
         {
-            return View();
-            //var ids = _context.Places.Where(p => !loadedPlacesIds.Contains(p.Id)).Select(p => p.Id).Except(loadedPlacesIds ?? new int[] { }).Take(8);
-            //var model = new LoadMorePlacesViewModel{ LoadedPlacesIds = ids};
-            //return View(model);
+            ComponentsServices = componentsServices;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(IEnumerable<int> loadedPlacesIds)
+        {
+            var model = await ComponentsServices.GetMorePlacesAsync(loadedPlacesIds);
+            return View(model.To<ViewModel>());
         }
     }
 }

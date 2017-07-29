@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace FlexTemplate.DataAccessLayer
 {
@@ -51,8 +52,10 @@ namespace FlexTemplate.DataAccessLayer
                 (
                     isInitialized
                 );
-                var ukrainian = new Language {IsDefault = true, Name = "Українська", ShortName = "UA", IsActive = true};
-                var english = new Language {Name = "English", ShortName = "EN", IsActive = true};
+                var uk = new CultureInfo("uk");
+                var en = new CultureInfo("en");
+                var ukrainian = new Language {IsDefault = true, Culture = uk, IsActive = true};
+                var english = new Language {Culture = en, IsActive = true}; 
                 FlexContext.AddRange(ukrainian, english);
                 FlexContext.SaveChanges();
                 transaction.Commit();
@@ -62,7 +65,7 @@ namespace FlexTemplate.DataAccessLayer
 
         private async Task SeedUsers()
         {
-            var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "UA");
+            var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.Culture.TwoLetterISOLanguageName == "uk");
             //UserRoles
             var supervisorRole = await RoleManager.CreateAsync(new IdentityRole("Supervisor"));
             var moderatorRole = await RoleManager.CreateAsync(new IdentityRole("Moderator"));
@@ -75,7 +78,7 @@ namespace FlexTemplate.DataAccessLayer
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRolesAsync(supervisor, new[] { "Supervisor", "Moderator", "User" });
-                    await UserManager.AddClaimAsync(supervisor, new Claim("language", ukrainian.ShortName));
+                    await UserManager.AddClaimAsync(supervisor, new Claim("language", ukrainian.Culture.TwoLetterISOLanguageName));
                 }
             }
             var moderator = new User { UserName = "Moderator" };
@@ -85,7 +88,7 @@ namespace FlexTemplate.DataAccessLayer
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRolesAsync(moderator, new[] { "Moderator", "User" });
-                    await UserManager.AddClaimAsync(moderator, new Claim("language", ukrainian.ShortName));
+                    await UserManager.AddClaimAsync(moderator, new Claim("language", ukrainian.Culture.TwoLetterISOLanguageName));
                 }
             }
             var tasks = new List<Task>();
@@ -106,7 +109,7 @@ namespace FlexTemplate.DataAccessLayer
                     var result = await UserManager.CreateAsync(user, "password");
                     if (result.Succeeded)
                     {
-                        await UserManager.AddClaimAsync(user, new Claim("language", ukrainian.ShortName));
+                        await UserManager.AddClaimAsync(user, new Claim("language", ukrainian.Culture.TwoLetterISOLanguageName));
                         await UserManager.AddToRolesAsync(user, new[] { "User" });
                     }
                 }
@@ -129,8 +132,8 @@ namespace FlexTemplate.DataAccessLayer
         {
             using (var transaction = FlexContext.Database.BeginTransaction())
             {
-                var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "UA");
-                var english = FlexContext.Languages.SingleOrDefault(l => l.ShortName == "EN");
+                var ukrainian = FlexContext.Languages.SingleOrDefault(l => l.Culture.TwoLetterISOLanguageName == "uk");
+                var english = FlexContext.Languages.SingleOrDefault(l => l.Culture.TwoLetterISOLanguageName == "en");
                 //Components&ComponentTemplates
                 var blogComments = new Container {Name = "BlogComments"};
                 var blogCommentsDefault = new ContainerTemplate {Container = blogComments, TemplateName = "Default"};
@@ -454,13 +457,13 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
                                 Text =
                                     "Спасибо за хороший вечер. Зашли случайно. Согрели, накормили. И цена приемлимая. Будем если в этом районе обязательно зайдем еще раз)",
-                                Star = 4,
+                                Rating = 4,
                                 User = supervisor
                             }
                         },
@@ -558,13 +561,13 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Іль моліно"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
                                 Text =
                                     "Решили отметить день рождения с молодым человеком в данном ресторане. Я забронировала столик за неделю, при этом указав, что у спутника праздник. Поздравления с днем рождения устраивают многие заведения, начиная от простых кафе и заканчивая ресторанами класса люкс",
-                                Star = 5,
+                                Rating = 5,
                                 User = supervisor
                             }
                         },
@@ -617,13 +620,13 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Банка"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
                                 Text =
                                     "В январе с друзьями посетили этот ресторан. В Трипе по отзывам искали лучшее место. Придя в 'Банку' несколько не разочаровались.",
-                                Star = 4,
+                                Rating = 4,
                                 User = supervisor
                             }
                         },
@@ -676,13 +679,13 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Боржомі"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
                                 Text =
                                     "Вкусно, красиво и спокойно. Мясо действительно очень вкусное и хорошо приготовлено. Рекомендую. Цены конечно высокие, но и ресторан не для каждого дня.",
-                                Star = 5,
+                                Rating = 5,
                                 User = supervisor
                             }
                         },
@@ -735,13 +738,13 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Ройо Ойо"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
                                 Text =
                                     "Обслуживание по форме предупредительное, при этом очень неторопливое. Если пришли на обед, имейте в виду, что вряд ли за час управитесь....",
-                                Star = 3,
+                                Rating = 3,
                                 User = supervisor
                             }
                         },
@@ -794,25 +797,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "КФс"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user10,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -867,25 +870,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Суші Я"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -940,25 +943,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Цаград"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1013,25 +1016,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Будка бар"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1086,25 +1089,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "МАФІЯ"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1155,25 +1158,25 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1228,25 +1231,25 @@ namespace FlexTemplate.DataAccessLayer
                         {
                             new PlaceAlias {Language = ukrainian, Text = "Біф"}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1297,25 +1300,25 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
@@ -1366,39 +1369,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Настоящий ресторан в Харькове. Новый современный интерьер. Цены выше среднего. Официанты вышколены. Обслуживание супер. Стильно, дорого, вкусно. Есть деньги - советую, нет денег, тогда только бизнес-ланч около 150 грн."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Был в Харькове у родственников в ноябре, решили провести вечер в этом ресторане. Я там ни разу до этого не был, а они мне расхвалили место, заинтриговав. Порадовало, что заведение находится в самом центре."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "Обстановка замечательная: интерьер новый, музыка приятная, зал просторный. Цены, к слову, не заоблачные, а средние ресторанные. За такой сервис от меня 5 баллов ресторану! Всё очень понравилось, особенно еда и тёплый приём."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "В Харькове была во многих местах, всё как-то однообразно. В Никасе совсем другие ощущения. Была первый раз с мужем в этом ресторане на событии 'Weekend в Nikas' 03.12. Приехали на такси в 17 часов, дорога к нему не загруженная."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Замечательный ресторан в центре Харькова. Гостей встречает приятная, комфортная обстановка. Внутри очень чисто и красиво. Здесь вкусно готовят морепродукты, особенно мне понравился тунец. Цены не выше чем у других."
@@ -1449,39 +1452,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1532,39 +1535,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1615,39 +1618,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1698,39 +1701,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1781,39 +1784,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1864,39 +1867,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -1947,39 +1950,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -2030,39 +2033,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -2113,39 +2116,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user6,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user7,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user8,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user9,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -2196,39 +2199,39 @@ namespace FlexTemplate.DataAccessLayer
                             new PlacePlaceCategory {PlaceCategory = italianCuisine},
                             new PlacePlaceCategory {PlaceCategory = asianCuisine}
                         },
-                        Reviews = new List<PlaceReview>
+                        Comments = new List<PlaceReview>
                         {
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user1,
                                 Text =
                                     "Были в ресторане в начале ноября 2016 года,как я поняла открытие было недавно.Интерьер очень стильный ,официанты приветливые,обслуживающего персонала очень много,места тоже.Есть огромный бар. Охраняемая парковка ,за которой действительно наблюдает охранная служба. При входе гардероб,далее стойка менеджера."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user2,
                                 Text =
                                     "Очень красивый интерьер, наверное самый стильный в Харькове, отличное обслуживание и музыка. Да здесь дорого и красиво, когда заходишь, присаживаешься за столик заказываешь очень не дешевое блюдо - уже завышенные ожидания, что тебе принесут что-то подстать интерьеру, что-то из фьюжн кухни.... но тебе приносят обычное ничем ни примечательное блюдо."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user3,
                                 Text =
                                     "На днях провели прекрасный вечер в этом ресторане. Там нет никакой суеты, можно отдохнуть и вкусно покушать. Кухня полностью оправдала наши ожидания."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user4,
                                 Text =
                                     "Очень хороший ресторан. Вкусная кухня, приятный и отзывчивый персонал, быстрое обслуживание.  Есть зал для курящих."
                             },
                             new PlaceReview
                             {
-                                Star = 4,
+                                Rating = 4,
                                 User = user5,
                                 Text =
                                     "Интерьер прост и не замысловат, но вполне приличен. Меню, приемлемо и съедобно, но в оформлении 'бомжа', простые помятые листики бумаги без фото или хоть чего-то, ни какой расшифровки продуктов, многого хотите! Обслуживание хорошее, нареканий нет."
@@ -2262,11 +2265,9 @@ namespace FlexTemplate.DataAccessLayer
                         new BlogCategoryAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "Recipes"
                         }
-                    },
-                    CreatedOn = DateTime.Now
+                    }
                 };
                 var blogCategory2 = new BlogCategory
                 {
@@ -2276,11 +2277,9 @@ namespace FlexTemplate.DataAccessLayer
                         new BlogCategoryAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "Actions"
                         }
                     },
-                    CreatedOn = DateTime.Now
                 };
                 var blogCategory3 = new BlogCategory
                 {
@@ -2290,51 +2289,43 @@ namespace FlexTemplate.DataAccessLayer
                         new BlogCategoryAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "News"
                         }
                     },
-                    CreatedOn = DateTime.Now
                 };
                 //BlogTags
                 var blogTag1 = new Tag
                 {
-                    CreatedOn = DateTime.Now,
                     Name = "Знижки",
-                    TagAliases = new List<TagAlias>
+                    Aliases = new List<TagAlias>
                     {
                         new TagAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "Discounts"
                         }
                     }
                 };
                 var blogTag2 = new Tag
                 {
-                    CreatedOn = DateTime.Now,
                     Name = "Українська кухня",
-                    TagAliases = new List<TagAlias>
+                    Aliases = new List<TagAlias>
                     {
                         new TagAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "Ukrainian cuisine"
                         }
                     }
                 };
                 var blogTag3 = new Tag
                 {
-                    CreatedOn = DateTime.Now,
                     Name = "Італійська кухня",
-                    TagAliases = new List<TagAlias>
+                    Aliases = new List<TagAlias>
                     {
                         new TagAlias
                         {
                             Language = english,
-                            CreatedOn = DateTime.Now,
                             Text = "Italian cuisine"
                         }
                     }

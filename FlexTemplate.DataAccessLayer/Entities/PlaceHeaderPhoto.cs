@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace FlexTemplate.DataAccessLayer.Entities
 {
-    public class BaseAuthorfullViewableEntity : BaseAuthorfullEntity
+    [Table("PlaceHeaderPhotos")]
+    public class PlaceHeaderPhoto : PlacePhoto
     {
-        public int ViewsCount { get; set; }
     }
 }

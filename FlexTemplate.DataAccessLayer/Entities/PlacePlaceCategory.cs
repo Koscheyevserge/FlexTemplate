@@ -1,9 +1,11 @@
-﻿namespace FlexTemplate.DataAccessLayer.Entities
+﻿using System;
+
+namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Категория заведения
     /// </summary>
-    public class PlacePlaceCategory : BaseEntity
+    public class PlacePlaceCategory : IEntity
     {
         /// <summary>
         /// Идентификатор заведения
@@ -22,5 +24,6 @@
         /// Категория
         /// </summary>
         public PlaceCategory PlaceCategory { get; set; }
+        public int Id { get; set; }
     }
 }

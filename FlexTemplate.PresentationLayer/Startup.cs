@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FlexTemplate.BlobAccessLayer;
 using FlexTemplate.DataAccessLayer;
 using FlexTemplate.DataAccessLayer.Entities;
 using FlexTemplate.PresentationLayer.Core;
@@ -14,8 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using FlexTemplate.PresentationLayer.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.WindowsAzure.Storage;
 using Newtonsoft.Json;
 using React.AspNet;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace FlexTemplate.PresentationLayer
 {
@@ -43,25 +48,28 @@ namespace FlexTemplate.PresentationLayer
         
         public void ConfigureServices(IServiceCollection services)
         {
-            var databaseConnectionString = string.Empty;
-            var blobConnectionString = string.Empty;
+            services.AddOptions();
             if (Environment.IsEnvironment("Development"))
             {
-                databaseConnectionString = Configuration.GetConnectionString("DatabaseDevelopment");
-                blobConnectionString = Configuration.GetConnectionString("BlobTest");
+                services.AddEntityFrameworkSqlServer()
+                    .AddDbContext<FlexTemplateContext>(options => options
+                        .UseSqlServer(Configuration.GetConnectionString("DatabaseDevelopment")));
+                services.Configure<StorageAccountOptions>(Configuration.GetSection("TestStorageAccount"));
             }
             if (Environment.IsEnvironment("Test"))
             {
-                databaseConnectionString = Configuration.GetConnectionString("DatabaseTest");
-                blobConnectionString = Configuration.GetConnectionString("BlobTest");
+                services.AddEntityFrameworkSqlServer()
+                    .AddDbContext<FlexTemplateContext>(options => options
+                        .UseSqlServer(Configuration.GetConnectionString("DatabaseTest")));
+                services.Configure<StorageAccountOptions>(Configuration.GetSection("TestStorageAccount"));
             }
             if (Environment.IsEnvironment("Production"))
             {
-                databaseConnectionString = Configuration.GetConnectionString("DatabaseProduction");
-                blobConnectionString = Configuration.GetConnectionString("BlobProduction");
+                services.AddEntityFrameworkSqlServer()
+                    .AddDbContext<FlexTemplateContext>(options => options
+                        .UseSqlServer(Configuration.GetConnectionString("DatabaseProduction")));
+                services.Configure<StorageAccountOptions>(Configuration.GetSection("StorageAccount"));
             }
-            services.AddEntityFrameworkSqlServer()
-                .AddDbContext<FlexTemplateContext>(options => options.UseSqlServer(databaseConnectionString));
             services.AddIdentity<User, IdentityRole>(o => 
             {
                 o.Password.RequireDigit = false;
@@ -92,6 +100,8 @@ namespace FlexTemplate.PresentationLayer
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<DataAccessLayer.Services.Services>();
             services.AddTransient<BlobAccessLayer.Services.ImagesServices>();
+            services.AddTransient<FilesProvider>();
+            services.AddSingleton<StorageAccountOptions>();
             services.AddScoped<FlexContext, FlexTemplateContext>();
             services.AddMemoryCache();
         }
@@ -125,6 +135,20 @@ namespace FlexTemplate.PresentationLayer
             app.UseMiddleware<FlexContextInitializer>();
 
             app.UseIdentity();
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("ru-RU"),
+                new CultureInfo("ru"),
+                new CultureInfo("uk-UA"),
+                new CultureInfo("uk")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("uk-UA"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseMvc(routes =>
             {

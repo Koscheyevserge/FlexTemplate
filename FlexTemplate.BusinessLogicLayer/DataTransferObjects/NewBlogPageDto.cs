@@ -7,5 +7,6 @@ namespace FlexTemplate.BusinessLogicLayer.DataTransferObjects
     {
         public Guid NewBlogGuid { get; set; }
         public string BannerPhotoPath { get; set; }
+        public List<NewBlogPageCategoryDto> Categories { get; set; }
     }
 }

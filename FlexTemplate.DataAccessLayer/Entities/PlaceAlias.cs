@@ -1,9 +1,11 @@
-﻿namespace FlexTemplate.DataAccessLayer.Entities
+﻿using System;
+
+namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
     /// Альтернативные названия заведения
     /// </summary>
-    public class PlaceAlias : BaseAlias
+    public class PlaceAlias : IAlias
     {
         /// <summary>
         /// Идентификатор заведения
@@ -13,5 +15,9 @@
         /// Заведение
         /// </summary>
         public virtual Place Place { get; set; }
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public int LanguageId { get; set; }
+        public Language Language { get; set; }
     }
 }

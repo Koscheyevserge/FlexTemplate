@@ -1,21 +1,21 @@
 ﻿namespace FlexTemplate.DataAccessLayer.Entities
 {
     /// <summary>
-    /// Локализируемые строки
+    /// Алиас
     /// </summary>
-    public abstract class BaseAlias : BaseEntity
+    public interface IAlias : IEntity
     {
         /// <summary>
         /// Текст локализируемой строки
         /// </summary>
-        public string Text { get; set; }
+        string Text { get; set; }
         /// <summary>
         /// Идентификатор языка локализируемой строки
         /// </summary>
-        public int LanguageId { get; set; }
+        int LanguageId { get; set; }
         /// <summary>
         /// Язык локализируемой строки
         /// </summary>
-        public virtual Language Language { get; set; }
+        Language Language { get; set; }
     }
 }
