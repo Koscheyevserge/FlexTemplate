@@ -260,8 +260,8 @@ namespace FlexTemplate.DataAccessLayer.Services
                 new BlogPageDao
                 {
                     AuthorDisplayName = GetUsername(b.User),
-                    AuthorPhotoPath = GetFirstActiveBlobPath(b.User.Photos),
-                    BannerPath = GetFirstActiveBlobPath(b.Photos),
+                    AuthorPhotoPath = GetFirstActiveThumbnailPath(b.User.Photos),
+                    BannerPath = GetFirstActivePhotoPath(b.Photos),
                     CreatedOn = b.CreatedOn,
                     Id = b.Id,
                     IsAuthor = isAuthor,
@@ -348,7 +348,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     .Where(bc => bc.BlogId == blogId).Select(bc =>
                     new BlogCommentsComponentCommentDao
                     {
-                        AuthorPhotoPath = GetFirstActiveBlobPath(bc.User.Photos),
+                        AuthorPhotoPath = GetFirstActiveThumbnailPath(bc.User.Photos),
                         AuthorUsername = GetUsername(bc.User),
                         CreatedOn = bc.CreatedOn,
                         Text = bc.Text
@@ -382,7 +382,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                                     Name = GetProperAlias(ppc.PlaceCategory, defaultLanguage, userLanguage)
                                 }),
                             ReviewsCount = p.Comments.Count,
-                            PhotoPath = GetFirstActiveBlobPath(p.Photos)
+                            PhotoPath = GetFirstActiveThumbnailPath(p.Photos)
                         }).Take(4)
             };
             return result;
@@ -523,7 +523,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Stars = GetRating(p.Comments),
                     Categories = p.PlacePlaceCategories.Select(ppc => 
                         new KeyValuePair<int, string>(ppc.PlaceCategory.Id, ppc.PlaceCategory.Name)),
-                    PhotoPath = GetFirstActiveBlobPath(p.Photos),
+                    PhotoPath = GetFirstActiveThumbnailPath(p.Photos),
                     ReviewsDescriptor = descriptor
                 })
                 //TODO понять почему не работает SingleOrDefault()
@@ -552,7 +552,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     PlaceName = GetProperAlias(p, defaultLanguage, userLanguage),
                     PlaceLocation = GetAddress(GetProperAlias(p.Street.City, defaultLanguage, userLanguage),
                         GetProperAlias(p.Street, defaultLanguage, userLanguage), p.Address),
-                    PlaceBannerPath = GetFirstActiveBlobPath(p.Banners),
+                    PlaceBannerPath = GetFirstActiveThumbnailPath(p.Banners),
                     CanEdit = canEdit
                 }).SingleOrDefault();
             return result;
@@ -578,7 +578,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                 .Select(pr =>
                     new PlaceReviewComponentDao
                     {
-                        UserPhotoPath = GetFirstActiveBlobPath(pr.User.Photos),
+                        UserPhotoPath = GetFirstActiveThumbnailPath(pr.User.Photos),
                         Text = pr.Text,
                         Stars = pr.Rating ?? 0,
                         UserName = GetUsername(pr.User),
@@ -874,7 +874,7 @@ namespace FlexTemplate.DataAccessLayer.Services
                     Caption = b.Caption,
                     CreatedOn = b.CreatedOn,
                     AuthorName = GetUsername(b.User),
-                    HeadPhotoPath = GetFirstActiveBlobPath(b.Photos),
+                    HeadPhotoPath = GetFirstActiveThumbnailPath(b.Photos),
                     IsModerated = b.IsModerated,
                     Preable = ""//TODO извлечь преамбулу
                 }).Skip((page == 0 ? 0 : page - 1) * blogsPerPage).Take(blogsPerPage).ToListAsync();
@@ -1377,10 +1377,18 @@ namespace FlexTemplate.DataAccessLayer.Services
 
         #region Common Services
 
-        public string GetFirstActiveBlobPath<T>(List<T> photos) where T : IPhoto
+        public string GetFirstActiveThumbnailPath<T>(List<T> photos) where T : IPhoto
         {
-            var photo = photos.FirstOrDefault(p => p.IsActive);
-            return photo == null ? string.Empty : photo.Uri;
+            var uris = photos.Where(p => p.IsActive).Select(p => Images.GetThumbnailUri(p.Uri));
+            var photo = uris.FirstOrDefault();
+            return photo == null ? string.Empty : photo;
+        }
+
+        public string GetFirstActivePhotoPath<T>(List<T> photos) where T : IPhoto
+        {
+            var uris = photos.Where(p => p.IsActive).Select(p => p.Uri);
+            var photo = uris.FirstOrDefault();
+            return photo == null ? string.Empty : photo;
         }
 
         public string GetCommunicationNumber(List<PlaceCommunication> communications, CommunicationType type)

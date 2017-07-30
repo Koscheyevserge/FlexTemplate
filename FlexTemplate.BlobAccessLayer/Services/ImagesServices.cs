@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.Extensions.Options;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace FlexTemplate.BlobAccessLayer.Services
 {
@@ -22,6 +26,16 @@ namespace FlexTemplate.BlobAccessLayer.Services
             var cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
             BlobClient = cloudStorageAccount.CreateCloudBlobClient();
             Options = options.Value;
+        }
+
+        public string GetThumbnailUri(string uri)
+        {
+            return uri.Replace(Options.ImagesContainerName, Options.ThumbnailContainerName);
+        }
+
+        public Uri GetThumbnailUri(Uri uri)
+        {
+            return GetThumbnailUri(new Uri(uri.ToString()));
         }
 
         public async Task<Uri> GetBlob(string directoryName, string blobName)
@@ -60,6 +74,11 @@ namespace FlexTemplate.BlobAccessLayer.Services
             return await blob.ExistsAsync();
         }
 
+        public async Task<bool> BlobExistsAsync(string uri)
+        {
+            return await BlobExistsAsync(new Uri(uri));
+        }
+
         public async Task<Uri> UploadBlobAsync(IFormFile file, string directoryName, string fileName)
         {
             if (file == null)
@@ -86,7 +105,43 @@ namespace FlexTemplate.BlobAccessLayer.Services
             {
                 await blockBlob.UploadFromStreamAsync(stream);                
             }
+            var containerThumbnail = BlobClient.GetContainerReference(Options.ThumbnailContainerName);
+            await containerThumbnail.CreateIfNotExistsAsync();
+            var permissonThumbnail = new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob };
+            await containerThumbnail.SetPermissionsAsync(permissonThumbnail);
+            var directoryThumbnail = containerThumbnail.GetDirectoryReference(directoryName);
+            var blockBlobThumbnail = directoryThumbnail.GetBlockBlobReference(fileName);
+            using (var stream = Resize(file))
+            {
+                await blockBlobThumbnail.UploadFromStreamAsync(stream);
+            }
             return blockBlob.Uri;
+        }
+
+        public static Stream Resize(IFormFile file)
+        {
+            const int size = 200;
+            using (var image = new Bitmap(Image.FromStream(file.OpenReadStream())))
+            {
+                int width, height;
+                if (image.Width > image.Height)
+                {
+                    width = size;
+                    height = Convert.ToInt32(image.Height * size / (double)image.Width);
+                }
+                else
+                {
+                    width = Convert.ToInt32(image.Width * size / (double)image.Height);
+                    height = size;
+                }
+                var stream = new MemoryStream();
+                var encoderParameters = new EncoderParameters(1);
+                encoderParameters.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 75);
+                var codec = ImageCodecInfo.GetImageDecoders().FirstOrDefault(f => f.FormatID == ImageFormat.Jpeg.Guid);
+                image.GetThumbnailImage(width, height, null, IntPtr.Zero).Save(stream, codec, encoderParameters);
+                stream.Position = 0;
+                return stream;
+            }
         }
     }
 }
